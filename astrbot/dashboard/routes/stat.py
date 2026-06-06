@@ -553,7 +553,6 @@ class StatRoute(Route):
             return Response().error(f"Error: {e!s}").__dict__
 
     async def get_first_notice(self):
-        """读取项目根目录 FIRST_NOTICE.md 内容。"""
         try:
             locale = (request.args.get("locale") or "").strip()
             if not re.match(r"^[A-Za-z0-9_-]*$", locale):
@@ -565,14 +564,12 @@ class StatRoute(Route):
             if locale:
                 candidates.append(base_path / f"FIRST_NOTICE.{locale}.md")
                 if locale.lower().startswith("zh"):
-                    candidates.append(base_path / "FIRST_NOTICE.md")
                     candidates.append(base_path / "FIRST_NOTICE.zh-CN.md")
                 elif locale.lower().startswith("en"):
                     candidates.append(base_path / "FIRST_NOTICE.en-US.md")
 
             candidates.extend(
                 [
-                    base_path / "FIRST_NOTICE.md",
                     base_path / "FIRST_NOTICE.en-US.md",
                 ],
             )
