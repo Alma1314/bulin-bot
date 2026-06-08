@@ -5,12 +5,6 @@ from typing import Any
 
 import click
 
-from novabot.core.utils.auth_password import (
-    hash_dashboard_password,
-    hash_legacy_dashboard_password,
-    validate_dashboard_password,
-)
-
 from ..utils import check_novabot_root, get_novabot_root
 
 
@@ -21,33 +15,6 @@ def _validate_log_level(value: str) -> str:
         raise click.ClickException(
             "Log level must be one of DEBUG/INFO/WARNING/ERROR/CRITICAL",
         )
-    return value
-
-
-def _validate_dashboard_port(value: str) -> int:
-    """Validate Dashboard port"""
-    try:
-        port = int(value)
-        if port < 1 or port > 65535:
-            raise click.ClickException("Port must be in range 1-65535")
-        return port
-    except ValueError:
-        raise click.ClickException("Port must be a number")
-
-
-def _validate_dashboard_username(value: str) -> str:
-    """Validate Dashboard username"""
-    if not value:
-        raise click.ClickException("Username cannot be empty")
-    return value
-
-
-def _validate_dashboard_password(value: str) -> str:
-    """Validate Dashboard password"""
-    try:
-        validate_dashboard_password(value)
-    except ValueError as e:
-        raise click.ClickException(str(e))
     return value
 
 
@@ -75,9 +42,6 @@ def _validate_callback_api_base(value: str) -> str:
 CONFIG_VALIDATORS: dict[str, Callable[[str], Any]] = {
     "timezone": _validate_timezone,
     "log_level": _validate_log_level,
-    "dashboard.port": _validate_dashboard_port,
-    "dashboard.username": _validate_dashboard_username,
-    "dashboard.password": _validate_dashboard_password,
     "callback_api_base": _validate_callback_api_base,
 }
 
@@ -137,22 +101,6 @@ def _get_nested_item(obj: dict[str, Any], path: str) -> Any:
     return obj
 
 
-def _set_dashboard_password(config: dict[str, Any], raw_password: str) -> None:
-    """Set dashboard password hashes and clear password migration flags."""
-    _set_nested_item(
-        config,
-        "dashboard.pbkdf2_password",
-        hash_dashboard_password(raw_password),
-    )
-    _set_nested_item(
-        config,
-        "dashboard.password",
-        hash_legacy_dashboard_password(raw_password),
-    )
-    _set_nested_item(config, "dashboard.password_storage_upgraded", True)
-    _set_nested_item(config, "dashboard.password_change_required", False)
-
-
 @click.group(name="conf")
 def conf() -> None:
     """Configuration management commands
@@ -162,12 +110,6 @@ def conf() -> None:
     - timezone: Timezone setting (e.g. Asia/Shanghai)
 
     - log_level: Log level (DEBUG/INFO/WARNING/ERROR/CRITICAL)
-
-    - dashboard.port: Dashboard port
-
-    - dashboard.username: Dashboard username
-
-    - dashboard.password: Dashboard password
 
     - callback_api_base: Callback API base URL
     """
@@ -186,19 +128,12 @@ def set_config(key: str, value: str) -> None:
     try:
         old_value = _get_nested_item(config, key)
         validated_value = CONFIG_VALIDATORS[key](value)
-        if key == "dashboard.password":
-            _set_dashboard_password(config, validated_value)
-        else:
-            _set_nested_item(config, key, validated_value)
+        _set_nested_item(config, key, validated_value)
         _save_config(config)
 
         click.echo(f"Config updated: {key}")
-        if key == "dashboard.password":
-            click.echo("  Old value: ********")
-            click.echo("  New value: ********")
-        else:
-            click.echo(f"  Old value: {old_value}")
-            click.echo(f"  New value: {validated_value}")
+        click.echo(f"  Old value: {old_value}")
+        click.echo(f"  New value: {validated_value}")
 
     except KeyError:
         raise click.ClickException(f"Unknown config key: {key}")
@@ -218,8 +153,6 @@ def get_config(key: str | None = None) -> None:
 
         try:
             value = _get_nested_item(config, key)
-            if key == "dashboard.password":
-                value = "********"
             click.echo(f"{key}: {value}")
         except KeyError:
             raise click.ClickException(f"Unknown config key: {key}")
@@ -229,11 +162,7 @@ def get_config(key: str | None = None) -> None:
         click.echo("Current config:")
         for key in CONFIG_VALIDATORS:
             try:
-                value = (
-                    "********"
-                    if key == "dashboard.password"
-                    else _get_nested_item(config, key)
-                )
+                value = _get_nested_item(config, key)
                 click.echo(f"  {key}: {value}")
             except (KeyError, TypeError):
                 pass

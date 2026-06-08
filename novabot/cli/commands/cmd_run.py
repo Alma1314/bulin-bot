@@ -7,15 +7,13 @@ from pathlib import Path
 import click
 from filelock import FileLock, Timeout
 
-from ..utils import check_novabot_root, check_dashboard, get_novabot_root
+from ..utils import check_novabot_root, get_novabot_root
 
 
 async def run_novabot(novabot_root: Path) -> None:
     """Run NovaBot"""
     from novabot.core import LogBroker, LogManager, db_helper, logger
     from novabot.core.initial_loader import InitialLoader
-
-    await check_dashboard(novabot_root / "data")
 
     log_broker = LogBroker()
     LogManager.set_queue_handler(logger, log_broker)
@@ -27,9 +25,8 @@ async def run_novabot(novabot_root: Path) -> None:
 
 
 @click.option("--reload", "-r", is_flag=True, help="Auto-reload plugins")
-@click.option("--port", "-p", help="NovaBot Dashboard port", required=False, type=str)
 @click.command()
-def run(reload: bool, port: str) -> None:
+def run(reload: bool) -> None:
     """Run NovaBot"""
     try:
         os.environ["NOVABOT_CLI"] = "1"
@@ -42,9 +39,6 @@ def run(reload: bool, port: str) -> None:
 
         os.environ["NOVABOT_ROOT"] = str(novabot_root)
         sys.path.insert(0, str(novabot_root))
-
-        if port:
-            os.environ["DASHBOARD_PORT"] = port
 
         if reload:
             click.echo("Plugin auto-reload enabled")

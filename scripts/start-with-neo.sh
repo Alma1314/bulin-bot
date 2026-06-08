@@ -257,7 +257,6 @@ print_nova-bot_config_hint() {
         echo -e "  ${YELLOW}$BAY_API_KEY${NC}"
         echo ""
     fi
-    echo -e "  ${CYAN}NovaBot Dashboard 配置指引：${NC}"
     echo -e "  1. AI 配置 → Agent Computer Use"
     echo -e "     • Computer Use Runtime → ${YELLOW}沙箱${NC}"
     echo -e "     • 沙箱环境驱动器        → ${YELLOW}Shipyard Neo${NC}"

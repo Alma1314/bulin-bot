@@ -73,7 +73,6 @@ class Main(star.Star):
         await self.provider_c.provider(event, idx, idx2)
 
     @filter.permission_type(filter.PermissionType.ADMIN)
-    @filter.command("dashboard_update")
     async def update_dashboard(self, event: NovaMessageEvent) -> None:
         """Update NovaBot WebUI"""
         await self.admin_c.update_dashboard(event)

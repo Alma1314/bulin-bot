@@ -271,8 +271,6 @@ class NovaBotCoreLifecycle:
         # 根据配置实例化各个平台适配器
         await self.platform_manager.initialize()
 
-        # 初始化关闭控制面板的事件
-        self.dashboard_shutdown_event = asyncio.Event()
 
         asyncio.create_task(update_llm_metadata())
 
@@ -380,7 +378,7 @@ class NovaBotCoreLifecycle:
         await self.provider_manager.terminate()
         await self.platform_manager.terminate()
         await self.kb_manager.terminate()
-        self.dashboard_shutdown_event.set()
+        pass  # dashboard 已移除
 
         # 再次遍历curr_tasks等待每个任务真正结束
         for task in self.curr_tasks:
@@ -396,7 +394,7 @@ class NovaBotCoreLifecycle:
         await self.provider_manager.terminate()
         await self.platform_manager.terminate()
         await self.kb_manager.terminate()
-        self.dashboard_shutdown_event.set()
+        pass  # dashboard 已移除
         threading.Thread(
             target=self.novabot_updator._reboot,
             name="restart",

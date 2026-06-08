@@ -1,23 +1,10 @@
 import asyncio
-import os
 from pathlib import Path
 
 import click
 from filelock import FileLock, Timeout
 
-from ..utils import check_dashboard, get_novabot_root
-
-DASHBOARD_INITIAL_PASSWORD_ENV = "NOVABOT_DASHBOARD_INITIAL_PASSWORD"
-
-
-def _initialize_config_from_env(novabot_root: Path) -> None:
-    if DASHBOARD_INITIAL_PASSWORD_ENV not in os.environ:
-        return
-
-    from novabot.core.config.novabot_config import NovaBotConfig
-
-    NovaBotConfig(config_path=str(novabot_root / "data" / "cmd_config.json"))
-    click.echo("Initialized data/cmd_config.json with dashboard initial password.")
+from ..utils import get_novabot_root
 
 
 async def initialize_novabot(novabot_root: Path) -> None:
@@ -43,10 +30,6 @@ async def initialize_novabot(novabot_root: Path) -> None:
     for name, path in paths.items():
         path.mkdir(parents=True, exist_ok=True)
         click.echo(f"{'Created' if not path.exists() else 'Directory exists'}: {path}")
-
-    _initialize_config_from_env(novabot_root)
-
-    await check_dashboard(novabot_root / "data")
 
 
 @click.command()

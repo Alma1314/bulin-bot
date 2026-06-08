@@ -4,7 +4,6 @@ from novabot.api import star
 from novabot.api.event import NovaMessageEvent, MessageEventResult
 from novabot.core.config.default import VERSION
 from novabot.core.star import command_management
-from novabot.core.utils.io import get_dashboard_version
 
 
 class HelpCommand:
@@ -72,7 +71,6 @@ class HelpCommand:
         except BaseException:
             pass
 
-        dashboard_version = await get_dashboard_version()
         command_lines = await self._build_reserved_command_lines()
         commands_section = (
             "\n".join(command_lines)
@@ -81,7 +79,6 @@ class HelpCommand:
         )
 
         msg_parts = [
-            f"NovaBot v{VERSION}(WebUI: {dashboard_version})",
             commands_section,
         ]
         if notice:

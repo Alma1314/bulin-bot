@@ -18,8 +18,6 @@ permissions:
   contents: write
 
 jobs:
-  build-dashboard:
-    name: Build Dashboard
     if: github.repository == 'NovaBotDevs/NovaBot'
     runs-on: ubuntu-24.04
     env:
@@ -50,8 +48,6 @@ jobs:
           fi
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v6.0.8
         with:
           version: 10.28.2
 
@@ -59,29 +55,17 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: '24.13.0'
-          cache: "pnpm"
-          cache-dependency-path: dashboard/pnpm-lock.yaml
 
-      - name: Build dashboard dist
         shell: bash
-        working-directory: dashboard
         run: |
-          pnpm install --frozen-lockfile
-          pnpm run build
           echo "${{ steps.tag.outputs.tag }}" > dist/assets/version
-          zip -r "NovaBot-${{ steps.tag.outputs.tag }}-dashboard.zip" dist
 
-      - name: Upload dashboard artifact
         uses: actions/upload-artifact@v7
         with:
-          name: Dashboard-${{ steps.tag.outputs.tag }}
           if-no-files-found: error
-          path: dashboard/NovaBot-${{ steps.tag.outputs.tag }}-dashboard.zip
 
-      - name: Upload dashboard package to Cloudflare R2
         if: ${{ env.R2_ACCOUNT_ID != '' && env.R2_ACCESS_KEY_ID != '' && env.R2_SECRET_ACCESS_KEY != '' }}
         env:
-          R2_BUCKET_NAME: "bulinbot"
           R2_OBJECT_NAME: "bulinbot-webui-latest.zip"
           VERSION_TAG: ${{ steps.tag.outputs.tag }}
         shell: bash
@@ -98,17 +82,12 @@ jobs:
           endpoint = https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com
           EOF
 
-          cp "dashboard/NovaBot-${VERSION_TAG}-dashboard.zip" "dashboard/${R2_OBJECT_NAME}"
-          rclone copy "dashboard/${R2_OBJECT_NAME}" "r2:${R2_BUCKET_NAME}" --progress
-          cp "dashboard/NovaBot-${VERSION_TAG}-dashboard.zip" "dashboard/bulinbot-webui-${VERSION_TAG}.zip"
-          rclone copy "dashboard/bulinbot-webui-${VERSION_TAG}.zip" "r2:${R2_BUCKET_NAME}" --progress
 
   publish-release:
     name: Publish GitHub Release
     if: github.repository == 'NovaBotDevs/NovaBot'
     runs-on: ubuntu-24.04
     needs:
-      - build-dashboard
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -133,10 +112,8 @@ jobs:
           fi
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
 
-      - name: Download dashboard artifact
         uses: actions/download-artifact@v8
         with:
-          name: Dashboard-${{ steps.tag.outputs.tag }}
           path: release-assets
 
 
@@ -213,18 +190,11 @@ jobs:
           fi
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
 
-      - name: Download dashboard artifact
         uses: actions/download-artifact@v8
         with:
-          name: Dashboard-${{ steps.tag.outputs.tag }}
-          path: dashboard-artifact
 
-      - name: Unpack dashboard dist into package tree
         shell: bash
         run: |
-          mkdir -p novabot/dashboard/dist
-          unzip -q "dashboard-artifact/NovaBot-${{ steps.tag.outputs.tag }}-dashboard.zip" -d dashboard-artifact/unpacked
-          cp -r dashboard-artifact/unpacked/dist/. novabot/dashboard/dist/
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -237,8 +207,6 @@ jobs:
 
       - name: Build package
         shell: bash
-        # Dashboard assets are already in novabot/dashboard/dist/;
-        # NOVABOT_BUILD_DASHBOARD is intentionally unset so the hatch hook skips npm.
         run: uv build
 
       - name: Publish to PyPI

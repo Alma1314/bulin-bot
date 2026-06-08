@@ -10,22 +10,14 @@ import runtime_bootstrap
 runtime_bootstrap.initialize_runtime_bootstrap()
 
 from novabot.core import LogBroker, LogManager, db_helper, logger  # noqa: E402
-from novabot.core.config.default import VERSION  # noqa: E402
 from novabot.core.initial_loader import InitialLoader  # noqa: E402
 from novabot.core.utils.novabot_path import (  # noqa: E402
     get_novabot_config_path,
-    get_novabot_data_path,
     get_novabot_knowledge_base_path,
     get_novabot_plugin_path,
     get_novabot_root,
     get_novabot_site_packages_path,
     get_novabot_temp_path,
-)
-from novabot.core.utils.io import (  # noqa: E402
-    download_dashboard,
-    get_bundled_dashboard_dist_path,
-    get_dashboard_version,
-    should_use_bundled_dashboard_dist,
 )
 from novabot.core.utils.runtime_env import is_packaged_desktop_runtime  # noqa: E402
 
@@ -48,9 +40,6 @@ def check_env() -> None:
 
     site_packages_path = get_novabot_site_packages_path()
     if not is_packaged_desktop_runtime() and site_packages_path not in sys.path:
-        # Packaged desktop runtime keeps shared plugin dependencies out of the
-        # global import path so bundled core libraries don't mix with user-
-        # installed wheels from ~/.novabot/data/site-packages.
         sys.path.append(site_packages_path)
 
     os.makedirs(get_novabot_config_path(), exist_ok=True)
@@ -65,60 +54,8 @@ def check_env() -> None:
     mimetypes.add_type("application/json", ".json")
 
 
-async def check_dashboard_files(webui_dir: str | None = None):
-    """下载管理面板文件"""
-    # 指定webui目录
-    if webui_dir:
-        if os.path.exists(webui_dir):
-            logger.info("Using WebUI directory: %s", webui_dir)
-            return webui_dir
-        logger.warning("WebUI directory not found: %s. Using default.", webui_dir)
-
-    data_dist_path = os.path.join(get_novabot_data_path(), "dist")
-    if os.path.exists(data_dist_path):
-        v = await get_dashboard_version()
-        if should_use_bundled_dashboard_dist(data_dist_path, VERSION):
-            bundled_dist = get_bundled_dashboard_dist_path()
-            logger.info(
-                "Using bundled WebUI because data/dist is older than core version v%s.",
-                VERSION,
-            )
-            return str(bundled_dist)
-        if v is not None:
-            # 存在文件
-            if v == f"v{VERSION}":
-                logger.info("WebUI is up to date.")
-            else:
-                logger.warning(
-                    "WebUI version mismatch: %s, expected v%s.",
-                    v,
-                    VERSION,
-                )
-        return data_dist_path
-
-    logger.info(
-        "Downloading WebUI. If it fails, download dist.zip from https://github.com/NovaBotDevs/NovaBot/releases/latest and extract dist to data/.",
-    )
-
-    try:
-        await download_dashboard(version=f"v{VERSION}", latest=False)
-    except Exception as e:
-        logger.critical(f"下载管理面板文件失败: {e}。")
-        return None
-
-    logger.info("管理面板下载完成。")
-    return data_dist_path
-
-
-async def main_async(webui_dir_arg: str | None) -> None:
+async def main_async() -> None:
     """主异步入口"""
-    # 检查仪表板文件
-    webui_dir = await check_dashboard_files(webui_dir_arg)
-    if webui_dir is None:
-        logger.warning(
-            "管理面板文件检查失败，WebUI 功能将不可用。"
-            "请检查网络连接或手动指定 --webui-dir 参数。"
-        )
 
     db = db_helper
 
@@ -126,18 +63,11 @@ async def main_async(webui_dir_arg: str | None) -> None:
     logger.info(logo_tmpl)
 
     core_lifecycle = InitialLoader(db, log_broker)
-    core_lifecycle.webui_dir = webui_dir
     await core_lifecycle.start()
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="NovaBot")
-    parser.add_argument(
-        "--webui-dir",
-        type=str,
-        help="Specify the directory path for WebUI static files",
-        default=None,
-    )
     args = parser.parse_args()
 
     check_env()
@@ -147,4 +77,4 @@ if __name__ == "__main__":
     LogManager.set_queue_handler(logger, log_broker)
 
     # 只使用一次 asyncio.run()
-    asyncio.run(main_async(args.webui_dir))
+    asyncio.run(main_async())

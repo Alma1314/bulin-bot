@@ -9,7 +9,6 @@ PROFILE="neo"
 RUN_SYNC=true
 RUN_LINT=true
 RUN_SMOKE=true
-RUN_DASHBOARD=false
 
 usage() {
   cat <<'EOF'
@@ -18,8 +17,6 @@ Usage:
 
 Options:
   --profile <neo|full>  Test profile. Default: neo
-  --with-dashboard      Build dashboard before finishing checks
-  --no-dashboard        Disable dashboard build (even for full profile)
   --skip-sync           Skip `uv sync`
   --skip-lint           Skip `ruff format --check` and `ruff check`
   --skip-smoke          Skip startup smoke test
@@ -40,8 +37,6 @@ while (($# > 0)); do
       fi
       shift 2
       ;;
-    --with-dashboard)
-      RUN_DASHBOARD=true
       shift
       ;;
     --skip-sync)
@@ -56,8 +51,6 @@ while (($# > 0)); do
       RUN_SMOKE=false
       shift
       ;;
-    --no-dashboard)
-      RUN_DASHBOARD=false
       shift
       ;;
     -h | --help)
@@ -72,15 +65,12 @@ while (($# > 0)); do
   esac
 done
 
-if [[ "$PROFILE" == "full" && "$RUN_DASHBOARD" == false ]]; then
-  RUN_DASHBOARD=true
 fi
 
 echo "==> Profile: $PROFILE"
 echo "==> Sync dependencies: $RUN_SYNC"
 echo "==> Run lint: $RUN_LINT"
 echo "==> Run smoke test: $RUN_SMOKE"
-echo "==> Build dashboard: $RUN_DASHBOARD"
 
 if [[ "$RUN_SYNC" == true ]]; then
   echo "==> Syncing dependencies with uv"
@@ -106,7 +96,6 @@ if [[ "$PROFILE" == "neo" ]]; then
     "tests/test_neo_skill_tools.py"
     "tests/test_computer_skill_sync.py"
     "tests/test_skill_manager_sandbox_cache.py"
-    "tests/test_dashboard.py::test_neo_skills_routes"
   )
   uv run pytest -q "${NEO_TESTS[@]}" ${PYTEST_ARGS:-}
 else
@@ -158,14 +147,8 @@ if [[ "$RUN_SMOKE" == true ]]; then
   run_smoke_test
 fi
 
-if [[ "$RUN_DASHBOARD" == true ]]; then
-  if ! command -v pnpm >/dev/null 2>&1; then
-    echo "pnpm is required for dashboard build. Install it with: npm install -g pnpm" >&2
     exit 1
   fi
-  echo "==> Building dashboard"
-  pnpm --dir dashboard install --frozen-lockfile
-  pnpm --dir dashboard run build
 fi
 
 echo "==> PR checks completed successfully"

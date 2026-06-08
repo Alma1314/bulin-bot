@@ -1,8 +1,8 @@
-"""NovaBot 启动器，负责初始化和启动核心组件和仪表板服务器。
+"""NovaBot 启动器，负责初始化和启动核心组件。
 
 工作流程:
 1. 初始化核心生命周期, 传递数据库和日志代理实例到核心生命周期
-2. 运行核心生命周期任务和仪表板服务器
+2. 运行核心生命周期任务
 """
 
 import asyncio
@@ -11,17 +11,15 @@ import traceback
 from novabot.core import LogBroker, logger
 from novabot.core.core_lifecycle import NovaBotCoreLifecycle
 from novabot.core.db import BaseDatabase
-from novabot.dashboard.server import NovaBotDashboard
 
 
 class InitialLoader:
-    """NovaBot 启动器，负责初始化和启动核心组件和仪表板服务器。"""
+    """NovaBot 启动器，负责初始化和启动核心组件。"""
 
     def __init__(self, db: BaseDatabase, log_broker: LogBroker) -> None:
         self.db = db
         self.logger = logger
         self.log_broker = log_broker
-        self.webui_dir: str | None = None
 
     async def start(self) -> None:
         core_lifecycle = NovaBotCoreLifecycle(self.log_broker, self.db)
@@ -33,25 +31,8 @@ class InitialLoader:
             logger.critical(f"😭 初始化 NovaBot 失败：{e} !!!")
             return
 
-        core_task = core_lifecycle.start()
-
-        webui_dir = self.webui_dir
-
-        self.dashboard_server = NovaBotDashboard(
-            core_lifecycle,
-            self.db,
-            core_lifecycle.dashboard_shutdown_event,
-            webui_dir,
-        )
-
-        coro = self.dashboard_server.run()
-        if coro:
-            # 启动核心任务和仪表板服务器
-            task = asyncio.gather(core_task, coro)
-        else:
-            task = core_task
         try:
-            await task  # 整个NovaBot在这里运行
+            await core_lifecycle.start()
         except asyncio.CancelledError:
             logger.info("🌈 正在关闭 NovaBot...")
             await core_lifecycle.stop()

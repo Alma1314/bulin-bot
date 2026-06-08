@@ -8,7 +8,6 @@ import socket
 import ssl
 import time
 import uuid
-import zipfile
 from pathlib import Path
 
 import aiohttp
@@ -17,7 +16,6 @@ import psutil
 from PIL import Image
 
 from .novabot_path import get_novabot_data_path, get_novabot_path, get_novabot_temp_path
-from .version_comparator import VersionComparator
 
 logger = logging.getLogger("novabot")
 
@@ -327,134 +325,4 @@ def get_local_ip_addresses():
     return network_ips
 
 
-def _read_dashboard_dist_version(dist_dir: str | Path) -> str | None:
-    version_file = Path(dist_dir) / "assets" / "version"
-    if version_file.exists():
-        return version_file.read_text(encoding="utf-8").strip()
-    return None
-
-
-def get_bundled_dashboard_dist_path() -> Path:
-    return Path(get_novabot_path()) / "novabot" / "dashboard" / "dist"
-
-
-def _normalize_dashboard_version(version: str) -> str:
-    version = version.strip()
-    if version[:1].lower() == "v":
-        version = version[1:]
-    if not re.match(
-        r"^[0-9]+(?:\.[0-9]+)*"
-        r"(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?"
-        r"(?:\+.+)?$",
-        version,
-    ):
-        raise ValueError(f"invalid dashboard version: {version!r}")
-    return version
-
-
-def should_use_bundled_dashboard_dist(
-    user_dist: str | Path, current_version: str
-) -> bool:
-    user_version = _read_dashboard_dist_version(user_dist)
-    bundled_dist = get_bundled_dashboard_dist_path()
-    if user_version is None or not bundled_dist.exists():
-        return False
-    try:
-        return (
-            VersionComparator.compare_version(
-                _normalize_dashboard_version(current_version),
-                _normalize_dashboard_version(user_version),
-            )
-            > 0
-        )
-    except (TypeError, ValueError):
-        return False
-
-
-async def get_dashboard_version():
-    # First check user data directory (manually updated / downloaded dashboard).
-    dist_dir = os.path.join(get_novabot_data_path(), "dist")
-    if os.path.exists(dist_dir):
-        from novabot.core.config.default import VERSION
-
-        if should_use_bundled_dashboard_dist(dist_dir, VERSION):
-            bundled_version = _read_dashboard_dist_version(
-                get_bundled_dashboard_dist_path()
-            )
-            if bundled_version is not None:
-                return bundled_version
-        return _read_dashboard_dist_version(dist_dir)
-
-    bundled = get_bundled_dashboard_dist_path()
-    if bundled.exists():
-        return _read_dashboard_dist_version(bundled)
-    return None
-
-
-async def download_dashboard(
-    path: str | None = None,
-    extract_path: str = "data",
-    latest: bool = True,
-    version: str | None = None,
-    proxy: str | None = None,
-    progress_callback=None,
-) -> None:
-    """下载管理面板文件"""
-    if path is None:
-        zip_path = Path(get_novabot_data_path()).absolute() / "dashboard.zip"
-    else:
-        zip_path = Path(path).absolute()
-
-    if latest or len(str(version)) != 40:
-        ver_name = "latest" if latest else version
-        dashboard_release_url = f"https://novabot-registry.soulter.top/download/novabot-dashboard/{ver_name}/dist.zip"
-        logger.info(
-            f"Downloading NovaBot WebUI from {dashboard_release_url}",
-        )
-        try:
-            await download_file(
-                dashboard_release_url,
-                str(zip_path),
-                show_progress=True,
-                progress_callback=progress_callback,
-            )
-        except BaseException as _:
-            if latest:
-                # Resolve latest release tag from GitHub API to construct correct asset URL
-                ssl_context = ssl.create_default_context(cafile=certifi.where())
-                async with aiohttp.ClientSession(
-                    connector=aiohttp.TCPConnector(ssl=ssl_context),
-                    trust_env=True,
-                ) as session:
-                    async with session.get(
-                        "https://api.github.com/repos/NovaBotDevs/NovaBot/releases/latest",
-                        timeout=30,
-                        headers={"Accept": "application/vnd.github+json"},
-                    ) as api_resp:
-                        api_resp.raise_for_status()
-                        release_data = await api_resp.json()
-                        tag = release_data["tag_name"]
-            else:
-                tag = version
-            dashboard_release_url = f"https://github.com/NovaBotDevs/NovaBot/releases/download/{tag}/NovaBot-{tag}-dashboard.zip"
-            if proxy:
-                dashboard_release_url = f"{proxy}/{dashboard_release_url}"
-            await download_file(
-                dashboard_release_url,
-                str(zip_path),
-                show_progress=True,
-                progress_callback=progress_callback,
-            )
-    else:
-        url = f"https://github.com/NovaBotDevs/novabot-release-harbour/releases/download/release-{version}/dist.zip"
-        logger.info(f"Downloading NovaBot WebUI from {url}")
-        if proxy:
-            url = f"{proxy}/{url}"
-        await download_file(
-            url,
-            str(zip_path),
-            show_progress=True,
-            progress_callback=progress_callback,
-        )
-    with zipfile.ZipFile(zip_path, "r") as z:
-        z.extractall(extract_path)
+# Dashboard 模块已移除

@@ -114,19 +114,13 @@ pythonVersion = "3.12"
 reportMissingTypeStubs = false
 reportMissingImports = false
 include = ["novabot"]
-exclude = ["dashboard", "node_modules", "dist", "data", "tests"]
+exclude = ["node_modules", "dist", "data", "tests"]
 
 [tool.hatch.metadata]
 allow-direct-references = true
 
-# Include bundled dashboard dist even though it is not tracked by VCS.
 [tool.hatch.build.targets.wheel]
 packages = ["novabot"]
-artifacts = ["novabot/dashboard/dist/**"]
-
-# Custom build hook: builds the Vue dashboard and copies dist into the package.
-[tool.hatch.build.hooks.custom]
-path = "scripts/hatch_build.py"
 
 [build-system]
 requires = ["hatchling"]
