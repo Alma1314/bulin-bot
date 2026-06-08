@@ -39,11 +39,11 @@ from pydantic.dataclasses import dataclass
 
 from nova-bot.core.agent.run_context import ContextWrapper
 from nova-bot.core.agent.tool import FunctionTool, ToolExecResult
-from nova-bot.core.bulin_agent_context import BulinAgentContext
+from nova-bot.core.nova_agent_context import NovaAgentContext
 
 
 @dataclass
-class BilibiliTool(FunctionTool[BulinAgentContext]):
+class BilibiliTool(FunctionTool[NovaAgentContext]):
     name: str = "bilibili_videos"  # 工具名称
     description: str = "A tool to fetch Bilibili videos."  # 工具描述
     parameters: dict = Field(
@@ -60,7 +60,7 @@ class BilibiliTool(FunctionTool[BulinAgentContext]):
     )
 
     async def call(
-        self, context: ContextWrapper[BulinAgentContext], **kwargs
+        self, context: ContextWrapper[NovaAgentContext], **kwargs
     ) -> ToolExecResult:
         return "1. 视频标题：如何使用NovaBot\n视频链接：xxxxxx"
 ```
@@ -96,7 +96,7 @@ class MyPlugin(Star):
 
 ```py{3,4,5,6,7}
 @filter.llm_tool(name="get_weather") # 如果 name 不填，将使用函数名
-async def get_weather(self, event: BulinMessageEvent, location: str) -> MessageEventResult:
+async def get_weather(self, event: NovaMessageEvent, location: str) -> MessageEventResult:
     '''获取天气信息。
 
     Args:
@@ -149,7 +149,7 @@ Multi-Agent（多智能体）系统将复杂应用分解为多个专业化智能
 
 在下面的例子中，我们定义了一个主智能体（Main Agent），它负责根据用户查询将任务分配给不同的子智能体（Sub-Agents）。每个子智能体专注于特定任务，例如获取天气信息。
 
-![multi-agent-example-1](https://files.bulinbot.app/docs/zh/dev/star/guides/multi-agent-example-1.svg)
+![multi-agent-example-1](https://files.novabot.app/docs/zh/dev/star/guides/multi-agent-example-1.svg)
 
 定义 Tools:
 
@@ -160,10 +160,10 @@ from pydantic.dataclasses import dataclass
 from nova-bot.api import logger
 from nova-bot.core.agent.run_context import ContextWrapper
 from nova-bot.core.agent.tool import FunctionTool, ToolExecResult, ToolSet
-from nova-bot.core.bulin_agent_context import BulinAgentContext
+from nova-bot.core.nova_agent_context import NovaAgentContext
 
 @dataclass
-class AssignAgentTool(FunctionTool[BulinAgentContext]):
+class AssignAgentTool(FunctionTool[NovaAgentContext]):
     """Main agent uses this tool to decide which sub-agent to delegate a task to."""
 
     name: str = "assign_agent"
@@ -182,7 +182,7 @@ class AssignAgentTool(FunctionTool[BulinAgentContext]):
     )
 
     async def call(
-        self, context: ContextWrapper[BulinAgentContext], **kwargs
+        self, context: ContextWrapper[NovaAgentContext], **kwargs
     ) -> ToolExecResult:
         # Here you would implement the actual agent assignment logic.
         # For demonstration purposes, we'll return a dummy response.
@@ -190,7 +190,7 @@ class AssignAgentTool(FunctionTool[BulinAgentContext]):
 
 
 @dataclass
-class WeatherTool(FunctionTool[BulinAgentContext]):
+class WeatherTool(FunctionTool[NovaAgentContext]):
     """In this example, sub agent 1 uses this tool to get weather information."""
 
     name: str = "weather"
@@ -209,7 +209,7 @@ class WeatherTool(FunctionTool[BulinAgentContext]):
     )
 
     async def call(
-        self, context: ContextWrapper[BulinAgentContext], **kwargs
+        self, context: ContextWrapper[NovaAgentContext], **kwargs
     ) -> ToolExecResult:
         city = kwargs["city"]
         # Here you would implement the actual weather fetching logic.
@@ -218,7 +218,7 @@ class WeatherTool(FunctionTool[BulinAgentContext]):
 
 
 @dataclass
-class SubAgent1(FunctionTool[BulinAgentContext]):
+class SubAgent1(FunctionTool[NovaAgentContext]):
     """Define a sub-agent as a function tool."""
 
     name: str = "subagent1_name"
@@ -237,7 +237,7 @@ class SubAgent1(FunctionTool[BulinAgentContext]):
     )
 
     async def call(
-        self, context: ContextWrapper[BulinAgentContext], **kwargs
+        self, context: ContextWrapper[NovaAgentContext], **kwargs
     ) -> ToolExecResult:
         ctx = context.context.context
         event = context.context.event
@@ -255,7 +255,7 @@ class SubAgent1(FunctionTool[BulinAgentContext]):
 
 
 @dataclass
-class SubAgent2(FunctionTool[BulinAgentContext]):
+class SubAgent2(FunctionTool[NovaAgentContext]):
     """Define a sub-agent as a function tool."""
 
     name: str = "subagent2_name"
@@ -274,7 +274,7 @@ class SubAgent2(FunctionTool[BulinAgentContext]):
     )
 
     async def call(
-        self, context: ContextWrapper[BulinAgentContext], **kwargs
+        self, context: ContextWrapper[NovaAgentContext], **kwargs
     ) -> ToolExecResult:
         return "I am useless :(, you shouldn't call me :("
 ```
@@ -283,7 +283,7 @@ class SubAgent2(FunctionTool[BulinAgentContext]):
 
 ```py
 @filter.command("test")
-async def test(self, event: BulinMessageEvent):
+async def test(self, event: NovaMessageEvent):
     umo = event.unified_msg_origin
     prov_id = await self.context.get_current_chat_provider_id(umo)
     llm_resp = await self.context.tool_loop_agent(

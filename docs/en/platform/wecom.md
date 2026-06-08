@@ -39,7 +39,7 @@ A configuration dialog will appear. Keep it open and continue with the steps bel
 - If this is your first customer service bot, open `Development Configuration`, click `Start` next to internal access.
 - If you used it before, open `Callback Configuration` directly and click edit.
 
-![image](https://files.bulinbot.app/docs/source/images/wecom/8287fd9fec5823847e6b590dc3f0f545.png)
+![image](https://files.novabot.app/docs/source/images/wecom/8287fd9fec5823847e6b590dc3f0f545.png)
 
 5. Click random generation buttons to get `Token` and `EncodingAESKey`, then fill NovaBot `token` and `encoding_aes_key`.
 6. Keep `Unified Webhook Mode (unified_webhook_mode)` enabled, click `Save`, and wait for adapter reload.
@@ -49,7 +49,7 @@ For callback URL:
 - If unified mode is enabled, NovaBot generates a unique webhook callback URL after save. Copy it from logs or bot card in WebUI.
 - If unified mode is disabled, use `http://<your-public-server-ip>:6195/callback/command`.
 
-![unified_webhook](https://files.bulinbot.app/docs/source/images/use/unified-webhook.png)
+![unified_webhook](https://files.novabot.app/docs/source/images/use/unified-webhook.png)
 
 > If unified mode is enabled, forward external requests to NovaBot port `6185`; otherwise forward to configured adapter port (default `6195`).
 
@@ -66,7 +66,7 @@ Then open NovaBot `Console`, you should see logs asking you to open a WeChat sca
 Please open the following link and scan with WeChat ...
 ```
 
-![image](https://files.bulinbot.app/docs/source/images/wecom/image-13.png)
+![image](https://files.novabot.app/docs/source/images/wecom/image-13.png)
 
 Open the link, scan with WeChat, then send `help` in the customer service chat to test connectivity.
 
@@ -79,18 +79,18 @@ Open: <https://work.weixin.qq.com/wework_admin/frame#apps>
 > [!TIP]
 > For newly registered enterprises, `corp_id` may take time to become valid. See [#571](https://github.com/Alma1314/NovaBot/issues/571).
 
-![image](https://files.bulinbot.app/docs/source/images/wecom/image-5.png)
+![image](https://files.novabot.app/docs/source/images/wecom/image-5.png)
 
 2. Create a custom app (`Custom App`) and fill name/avatar/visibility scope.
 3. Open the app, copy `Secret`, and fill NovaBot `secret`.
 
-![image](https://files.bulinbot.app/docs/source/images/wecom/image-4.png)
+![image](https://files.novabot.app/docs/source/images/wecom/image-4.png)
 
 4. In app settings, find `Receive Messages`, click `Set API Receive`.
 
-![image](https://files.bulinbot.app/docs/source/images/wecom/image-6.png)
+![image](https://files.novabot.app/docs/source/images/wecom/image-6.png)
 
-![image](https://files.bulinbot.app/docs/source/images/wecom/image-9.png)
+![image](https://files.novabot.app/docs/source/images/wecom/image-9.png)
 
 5. Generate `Token` and `EncodingAESKey`, fill NovaBot `token` and `encoding_aes_key`.
 6. Keep `Unified Webhook Mode (unified_webhook_mode)` enabled (recommended), then click Save in NovaBot and wait for restart.
@@ -100,17 +100,17 @@ For callback URL:
 - If unified mode is enabled, use the generated unique callback URL from logs or bot card.
 - If unified mode is disabled, use `http://<your-public-server-ip>:6195/callback/command`.
 
-![unified_webhook](https://files.bulinbot.app/docs/source/images/use/unified-webhook.png)
+![unified_webhook](https://files.novabot.app/docs/source/images/use/unified-webhook.png)
 
 > If unified mode is enabled, forward to port `6185`; otherwise forward to configured adapter port (default `6195`).
 
 7. Configure trusted enterprise IP in WeCom.
 
-![image](https://files.bulinbot.app/docs/source/images/wecom/image-10.png)
+![image](https://files.novabot.app/docs/source/images/wecom/image-10.png)
 
 Add your public IP and confirm.
 
-![image](https://files.bulinbot.app/docs/source/images/wecom/image-12.png)
+![image](https://files.novabot.app/docs/source/images/wecom/image-12.png)
 
 After NovaBot restart, return to API receive page and click save. If you see callback verification errors, re-check all required fields.
 

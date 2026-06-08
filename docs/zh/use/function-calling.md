@@ -37,9 +37,9 @@ outline: deep
 
 下面是一些常见的工具调用 Demo：
 
-![image](https://files.bulinbot.app/docs/source/images/function-calling/image.png)
+![image](https://files.novabot.app/docs/source/images/function-calling/image.png)
 
-![image](https://files.bulinbot.app/docs/source/images/function-calling/image-1.png)
+![image](https://files.novabot.app/docs/source/images/function-calling/image-1.png)
 
 
 ## MCP

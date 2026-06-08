@@ -1457,7 +1457,7 @@ async def build_main_agent(
         _apply_local_env_tools(req, plugin_context)
 
     agent_runner = AgentRunner()
-    bulin_agent_ctx = NovaAgentContext(
+    nova_agent_ctx = NovaAgentContext(
         context=plugin_context,
         event=event,
     )
@@ -1524,7 +1524,7 @@ async def build_main_agent(
         provider=provider,
         request=req,
         run_context=AgentContextWrapper(
-            context=bulin_agent_ctx,
+            context=nova_agent_ctx,
             tool_call_timeout=config.tool_call_timeout,
         ),
         tool_executor=FunctionToolExecutor(),

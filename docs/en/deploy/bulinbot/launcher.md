@@ -47,7 +47,7 @@ After extraction, open the folder.
 
 Type `PowerShell` in the address bar and press Enter:
 
-![image](https://files.bulinbot.app/docs/source/images/windows/image-4.png)
+![image](https://files.novabot.app/docs/source/images/windows/image-4.png)
 
 Drag `launcher_nova-bot_en.bat` into the PowerShell window and press Enter.
 
@@ -81,15 +81,15 @@ If you still get this error after installing Python and restarting, your PATH is
 
 Search for Python in Windows and open its file location:
 
-![image](https://files.bulinbot.app/docs/source/images/windows/image.png)
+![image](https://files.novabot.app/docs/source/images/windows/image.png)
 
 Right-click the shortcut below and open file location:
 
-![alt text](https://files.bulinbot.app/docs/source/images/windows/image-1.png)
+![alt text](https://files.novabot.app/docs/source/images/windows/image-1.png)
 
 Copy the file path:
 
-![image](https://files.bulinbot.app/docs/source/images/windows/image-2.png)
+![image](https://files.novabot.app/docs/source/images/windows/image-2.png)
 
 Edit `launcher_nova-bot_en.bat` in Notepad, find `set PYTHON_CMD=python`, and replace `python` with your interpreter command/path. Keep quotes if your path contains spaces.
 

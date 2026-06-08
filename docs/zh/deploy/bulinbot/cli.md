@@ -20,7 +20,7 @@ cd NovaBot
 
 或者，直接从 GitHub 上下载源码解压：
 
-![image](https://files.bulinbot.app/docs/source/images/cli/image.png)
+![image](https://files.novabot.app/docs/source/images/cli/image.png)
 
 ## 安装依赖并运行
 
@@ -46,7 +46,7 @@ uv run --no-sync main.py
 在 NovaBot 源码目录下，使用终端运行以下命令：
 
 > 如果是 Windows，直接下载源码解压的，请打开解压的文件夹，在地址栏输入：
-> ![image](https://files.bulinbot.app/docs/source/images/cli/image-1.png)
+> ![image](https://files.novabot.app/docs/source/images/cli/image-1.png)
 
 ```bash
 python3 -m venv ./venv

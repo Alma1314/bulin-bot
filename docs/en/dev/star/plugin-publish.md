@@ -4,9 +4,9 @@ After completing your plugin development, you can choose to publish it to the No
 
 NovaBot uses GitHub to host plugins, so you'll need to push your plugin code to the GitHub plugin repository you created earlier.
 
-You can submit your plugin by visiting the [NovaBot Plugin Marketplace](https://plugins.bulinbot.app). Once on the website, click the `+` button in the bottom-right corner, fill in the basic information, author details, repository information, and other required fields. Then click the `Submit to GITHUB` button. You will be redirected to the NovaBot repository's Issue submission page. Please verify that all information is correct, then click the `Create` button to complete the plugin publication process.
+You can submit your plugin by visiting the [NovaBot Plugin Marketplace](https://plugins.novabot.app). Once on the website, click the `+` button in the bottom-right corner, fill in the basic information, author details, repository information, and other required fields. Then click the `Submit to GITHUB` button. You will be redirected to the NovaBot repository's Issue submission page. Please verify that all information is correct, then click the `Create` button to complete the plugin publication process.
 
-![fill out the form](https://files.bulinbot.app/docs/source/images/plugin-publish/image.png)
+![fill out the form](https://files.novabot.app/docs/source/images/plugin-publish/image.png)
 
 > ⚠️ **Size Limit**: The plugin zip package submitted to the marketplace **must not exceed 16MB**. If it exceeds this limit, the CI/CD pipeline will automatically reject the submission.
 >

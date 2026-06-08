@@ -71,7 +71,7 @@ def _make_req():
 def _import_apply_sandbox_tools():
     """Import _apply_sandbox_tools, skipping if circular-import fails."""
     try:
-        from novabot.core.bulin_main_agent import _apply_sandbox_tools
+        from novabot.core.nova_main_agent import _apply_sandbox_tools
 
         return _apply_sandbox_tools
     except ImportError:

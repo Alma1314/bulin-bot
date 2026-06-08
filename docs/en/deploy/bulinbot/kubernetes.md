@@ -138,13 +138,13 @@ kubectl apply -f k8s/nova-bot/02-deployment.yaml
 
 ### Image Mirror (for users in mainland China)
 
-If you have difficulty pulling the `alma1314/bulinbot:latest` or `mlikiowa/napcat-docker:latest` images, you can manually edit the corresponding `02-deployment.yaml` file and replace the `image` field with a domestic mirror address, for example:
+If you have difficulty pulling the `alma1314/nova-bot:latest` or `mlikiowa/napcat-docker:latest` images, you can manually edit the corresponding `02-deployment.yaml` file and replace the `image` field with a domestic mirror address, for example:
 
 ```yaml
 # Example:
-# image: alma1314/bulinbot:latest
+# image: alma1314/nova-bot:latest
 # Replace with:
-image: m.daocloud.io/docker.io/alma1314/bulinbot:latest
+image: m.daocloud.io/docker.io/alma1314/nova-bot:latest
 ```
 
 ### Enable Docker Sandbox Code Executor

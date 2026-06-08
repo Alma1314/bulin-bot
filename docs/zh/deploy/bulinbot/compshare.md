@@ -52,7 +52,7 @@ Both services started in the background.
 3. 通过 `ollama pull 模型名` 拉取模型，等待拉取成功。
 4. 在 NovaBot 面板的 服务提供商页面找到 `ollama_deepseek-r1`，点击编辑，更新模型名称，点击保存。
 
-![image](https://files.bulinbot.app/docs/source/images/compshare/image-1.png)
+![image](https://files.novabot.app/docs/source/images/compshare/image-1.png)
 
 ### 使用优云智算提供的模型 API
 
@@ -67,23 +67,23 @@ NovaBot 支持接入优云智算提供的模型 API。
 
 您可以直接聊天来测试模型是否正常。
 
-![image](https://files.bulinbot.app/docs/source/images/compshare/image-2.png)
+![image](https://files.novabot.app/docs/source/images/compshare/image-2.png)
 
 
 ## 接入到消息平台
 
-- 飞书：[接入到飞书](https://docs.bulinbot.app/deploy/platform/lark.html)
-- LINE：[接入到 LINE](https://docs.bulinbot.app/deploy/platform/line.html)
-- 钉钉：[接入到钉钉](https://docs.bulinbot.app/deploy/platform/dingtalk.html)
-- 企业微信：[接入到企业微信应用](https://docs.bulinbot.app/deploy/platform/wecom.html)
-- 微信客服：[接入到微信客服](https://docs.bulinbot.app/deploy/platform/wecom.html)
-- 微信公众平台：[接入到微信公众平台](https://docs.bulinbot.app/deploy/platform/weixin-official-account.html)
-- QQ 官方机器人平台：[接入到 QQ 机器人](https://docs.bulinbot.app/deploy/platform/qqofficial/webhook.html)
-- KOOK：[接入到 KOOK](https://docs.bulinbot.app/deploy/platform/kook.html)
-- Slack：[接入到 Slack](https://docs.bulinbot.app/deploy/platform/slack.html)
-- Discord：[接入到 Discord](https://docs.bulinbot.app/deploy/platform/discord.html)
-- 更多接入方式参考 [NovaBot 官方文档](https://docs.bulinbot.app/what-is-nova-bot.html)
+- 飞书：[接入到飞书](https://docs.novabot.app/deploy/platform/lark.html)
+- LINE：[接入到 LINE](https://docs.novabot.app/deploy/platform/line.html)
+- 钉钉：[接入到钉钉](https://docs.novabot.app/deploy/platform/dingtalk.html)
+- 企业微信：[接入到企业微信应用](https://docs.novabot.app/deploy/platform/wecom.html)
+- 微信客服：[接入到微信客服](https://docs.novabot.app/deploy/platform/wecom.html)
+- 微信公众平台：[接入到微信公众平台](https://docs.novabot.app/deploy/platform/weixin-official-account.html)
+- QQ 官方机器人平台：[接入到 QQ 机器人](https://docs.novabot.app/deploy/platform/qqofficial/webhook.html)
+- KOOK：[接入到 KOOK](https://docs.novabot.app/deploy/platform/kook.html)
+- Slack：[接入到 Slack](https://docs.novabot.app/deploy/platform/slack.html)
+- Discord：[接入到 Discord](https://docs.novabot.app/deploy/platform/discord.html)
+- 更多接入方式参考 [NovaBot 官方文档](https://docs.novabot.app/what-is-nova-bot.html)
 
 ## 更多功能
 
-更多功能请参考 [NovaBot 官方文档](https://docs.bulinbot.app)。
+更多功能请参考 [NovaBot 官方文档](https://docs.novabot.app)。

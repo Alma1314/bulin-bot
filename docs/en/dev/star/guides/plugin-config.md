@@ -62,9 +62,9 @@ Configuration `description`, `hint`, and select `labels` can follow the WebUI la
 
 When the code editor is enabled, it looks like this:
 
-![editor_mode](https://files.bulinbot.app/docs/source/images/plugin/image-6.png)
+![editor_mode](https://files.novabot.app/docs/source/images/plugin/image-6.png)
 
-![editor_mode_fullscreen](https://files.bulinbot.app/docs/source/images/plugin/image-7.png)
+![editor_mode_fullscreen](https://files.novabot.app/docs/source/images/plugin/image-7.png)
 
 The **_special** field is only available after v4.0.0. Common values include `select_provider`, `select_provider_tts`, `select_provider_stt`, `select_persona`, and `select_knowledgebase`, allowing users to quickly select model providers, personas, knowledge bases, and other data already configured in the WebUI.
 
@@ -76,7 +76,7 @@ The **_special** field is only available after v4.0.0. Common values include `se
 
 Using `select_provider` as an example, it will display as follows:
 
-![image](https://files.bulinbot.app/docs/source/images/plugin/image-select-provider.png)
+![image](https://files.novabot.app/docs/source/images/plugin/image-select-provider.png)
 
 ### `file` type schema
 

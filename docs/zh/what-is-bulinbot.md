@@ -29,7 +29,7 @@ NovaBot 是一个开源的一站式 Agentic 个人和群聊助手，可在 QQ、
 
 下面的拓扑图基本简述了 NovaBot 的架构。
 
-![Architecture](https://files.bulinbot.app/docs/source/images/what-is-nova-bot/image.png)
+![Architecture](https://files.novabot.app/docs/source/images/what-is-nova-bot/image.png)
 
 ## 说明
 

@@ -37,7 +37,7 @@ def test_smoke_critical_imports_in_fresh_interpreter() -> None:
         "import importlib;"
         "mods=["
         "'novabot.core.core_lifecycle',"
-        "'novabot.core.bulin_main_agent',"
+        "'novabot.core.nova_main_agent',"
         "'novabot.core.pipeline.scheduler',"
         "'novabot.core.pipeline.process_stage.method.agent_sub_stages.internal',"
         "'novabot.core.pipeline.process_stage.method.agent_sub_stages.third_party'"

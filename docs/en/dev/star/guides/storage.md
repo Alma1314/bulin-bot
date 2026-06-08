@@ -10,7 +10,7 @@ Plugins can use NovaBot's simple key-value store to persist configuration or tem
 ```py
 class Main(star.Star):
     @filter.command("hello")
-    async def hello(self, event: BulinMessageEvent):
+    async def hello(self, event: NovaMessageEvent):
         """Aloha!"""
         await self.put_kv_data("greeted", True)
         greeted = await self.get_kv_data("greeted", False)

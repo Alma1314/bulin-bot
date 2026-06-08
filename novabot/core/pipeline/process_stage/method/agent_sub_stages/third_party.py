@@ -41,7 +41,7 @@ from novabot.core.star.star_handler import EventType
 from novabot.core.utils.config_number import coerce_int_config
 from novabot.core.utils.metrics import Metric
 
-from .....bulin_agent_context import AgentContextWrapper, NovaAgentContext
+from .....nova_agent_context import AgentContextWrapper, NovaAgentContext
 from ....context import PipelineContext, call_event_hook
 
 AGENT_RUNNER_TYPE_KEY = {
@@ -344,7 +344,7 @@ class ThirdPartyAgentSubStage(Stage):
                 f"Unsupported third party agent runner type: {self.runner_type}",
             )
 
-        bulin_agent_ctx = NovaAgentContext(
+        nova_agent_ctx = NovaAgentContext(
             context=self.ctx.plugin_manager.context,
             event=event,
         )
@@ -380,7 +380,7 @@ class ThirdPartyAgentSubStage(Stage):
             await runner.reset(
                 request=req,
                 run_context=AgentContextWrapper(
-                    context=bulin_agent_ctx,
+                    context=nova_agent_ctx,
                     tool_call_timeout=120,
                 ),
                 agent_hooks=MAIN_AGENT_HOOKS,

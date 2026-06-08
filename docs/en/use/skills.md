@@ -14,7 +14,7 @@ Support for Anthropic Skills was introduced in NovaBot starting from v4.13.0, al
 
 Open the NovaBot admin panel, navigate to the `Plugins` page, and find `Skills`.
 
-![Skills](https://files.bulinbot.app/docs/source/images/skills/image.png)
+![Skills](https://files.novabot.app/docs/source/images/skills/image.png)
 
 You can upload Skills with the following requirements:
 

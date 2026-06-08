@@ -3,7 +3,7 @@
 The `main.py` file in the plugin template is a minimal plugin instance.
 
 ```python
-from nova-bot.api.event import filter, BulinMessageEvent, MessageEventResult
+from nova-bot.api.event import filter, NovaMessageEvent, MessageEventResult
 from nova-bot.api.star import Context, Star
 from nova-bot.api import logger # Use the logger interface provided by NovaBot
 
@@ -13,7 +13,7 @@ class MyPlugin(Star):
 
     # Decorator to register a command. The command name is "helloworld". Once registered, sending `/helloworld` will trigger this command and respond with `Hello, {user_name}!`
     @filter.command("helloworld")
-    async def helloworld(self, event: BulinMessageEvent):
+    async def helloworld(self, event: NovaMessageEvent):
         '''This is a hello world command''' # This is the handler's description, which will be parsed to help users understand the plugin's functionality. Highly recommended to provide.
         user_name = event.get_sender_name()
         message_str = event.message_str # Get the plain text content of the message
@@ -29,7 +29,7 @@ Explanation:
 - Plugins must inherit from the `Star` class.
 - The `Context` class is used for plugin interaction with NovaBot Core, allowing you to call various APIs provided by NovaBot Core.
 - Specific handler functions are defined within the plugin class, such as the `helloworld` function here.
-- `BulinMessageEvent` is NovaBot's message event object, which stores information about the message sender, message content, etc.
+- `NovaMessageEvent` is NovaBot's message event object, which stores information about the message sender, message content, etc.
 - `NovaBotMessage` is NovaBot's message object, which stores the specific content of messages delivered by the messaging platform. It can be accessed via `event.message_obj`.
 
 > [!TIP]

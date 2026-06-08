@@ -16,7 +16,7 @@ And other prompts with search intent to trigger the model to invoke the search t
 
 NovaBot currently supports 4 web search providers: `Tavily`, `BoCha`, `Baidu AI Search`, and `Brave`.
 
-![image](https://files.bulinbot.app/docs/source/images/websearch/image.png)
+![image](https://files.novabot.app/docs/source/images/websearch/image.png)
 
 Go to `Configuration`, scroll down to find Web Search, where you can select `Tavily`, `BoCha`, `Baidu AI Search`, or `Brave`.
 
@@ -38,4 +38,4 @@ Get an API Key from Brave Search, then fill it in the corresponding configuratio
 
 If you use Tavily as your web search source, you will get a better experience optimization on NovaBot ChatUI, including citation source display and more:
 
-![](https://files.bulinbot.app/docs/source/images/websearch/image1.png)
+![](https://files.novabot.app/docs/source/images/websearch/image1.png)

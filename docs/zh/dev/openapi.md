@@ -147,4 +147,4 @@ curl -N 'http://localhost:6185/api/v1/chat' \
 
 交互式 API 文档请查看：
 
-- https://docs.bulinbot.app/scalar.html
+- https://docs.novabot.app/scalar.html

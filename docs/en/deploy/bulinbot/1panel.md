@@ -14,7 +14,7 @@ If you haven't installed 1Panel yet, please refer to the [1Panel official websit
 
 Open the 1Panel panel, go to the 1Panel App Store, and search for `NovaBot`, as shown below.
 
-![image](https://files.bulinbot.app/docs/source/images/1panel/image.png)
+![image](https://files.novabot.app/docs/source/images/1panel/image.png)
 
 Click `Install` and wait for the installation to complete.
 

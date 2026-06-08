@@ -1,7 +1,5 @@
 from novabot.api import star
 from novabot.api.event import NovaMessageEvent, MessageChain
-from novabot.core.config.default import VERSION
-from novabot.core.utils.io import download_dashboard
 
 
 class AdminCommands:
@@ -9,7 +7,7 @@ class AdminCommands:
         self.context = context
 
     async def update_dashboard(self, event: NovaMessageEvent) -> None:
-        """更新管理面板"""
-        await event.send(MessageChain().message("⏳ Updating dashboard..."))
-        await download_dashboard(version=f"v{VERSION}", latest=False)
-        await event.send(MessageChain().message("✅ Dashboard updated successfully."))
+        """更新管理面板（此功能已移除）"""
+        await event.send(
+            MessageChain().message("此功能已移除，请手动更新管理面板。")
+        )

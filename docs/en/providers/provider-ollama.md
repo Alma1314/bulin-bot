@@ -22,7 +22,7 @@ Then use `ollama run <model_name>` to run the model.
 ## Configure NovaBot
 
 Open the NovaBot WebUI, locate Service Provider Management, click on Add Provider, find and click on `Ollama`.
-![image](https://files.bulinbot.app/docs/source/images/ollama/image.png)
+![image](https://files.novabot.app/docs/source/images/ollama/image.png)
 
 Save the configuration.
 

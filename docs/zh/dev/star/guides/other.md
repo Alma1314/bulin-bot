@@ -5,10 +5,10 @@
 > v3.4.34 后
 
 ```python
-from nova-bot.api.event import filter, BulinMessageEvent
+from nova-bot.api.event import filter, NovaMessageEvent
 
 @filter.command("test")
-async def test_(self, event: BulinMessageEvent):
+async def test_(self, event: NovaMessageEvent):
     from nova-bot.core.platform.sources.aiocqhttp.aiocqhttp_platform_adapter import AiocqhttpAdapter # 其他平台同理
     # >= v4.0.0 使用：
     platform_id = event.get_platform_id()
@@ -23,7 +23,7 @@ async def test_(self, event: BulinMessageEvent):
 
 ```py
 @filter.command("helloworld")
-async def helloworld(self, event: BulinMessageEvent):
+async def helloworld(self, event: NovaMessageEvent):
     if event.get_platform_name() == "aiocqhttp":
         # qq
         from nova-bot.core.platform.sources.aiocqhttp.aiocqhttp_message_event import AiocqhttpMessageEvent

@@ -6,7 +6,7 @@
 
 ```python
 @filter.command("helloworld")
-async def helloworld(self, event: BulinMessageEvent):
+async def helloworld(self, event: NovaMessageEvent):
     yield event.plain_result("Hello!")
     yield event.plain_result("你好！")
 
@@ -24,7 +24,7 @@ async def helloworld(self, event: BulinMessageEvent):
 from nova-bot.api.event import MessageChain
 
 @filter.command("helloworld")
-async def helloworld(self, event: BulinMessageEvent):
+async def helloworld(self, event: NovaMessageEvent):
     umo = event.unified_msg_origin
     message_chain = MessageChain().message("Hello!").file_image("path/to/image.jpg")
     await self.context.send_message(event.unified_msg_origin, message_chain)
@@ -44,7 +44,7 @@ NovaBot 支持发送富媒体消息，比如图片、语音、视频等。使用
 import nova-bot.api.message_components as Comp
 
 @filter.command("helloworld")
-async def helloworld(self, event: BulinMessageEvent):
+async def helloworld(self, event: NovaMessageEvent):
     chain = [
         Comp.At(qq=event.get_sender_id()), # At 消息发送者
         Comp.Plain("来看这个图："),
@@ -86,10 +86,10 @@ Comp.Video.fromURL(url="https://example.com/video.mp4")
 ## 发送视频消息
 
 ```python
-from nova-bot.api.event import filter, BulinMessageEvent
+from nova-bot.api.event import filter, NovaMessageEvent
 
 @filter.command("test")
-async def test(self, event: BulinMessageEvent):
+async def test(self, event: NovaMessageEvent):
     from nova-bot.api.message_components import Video
     # fromFileSystem 需要用户的协议端和机器人端处于一个系统中。
     video = Video.fromFileSystem(
@@ -102,7 +102,7 @@ async def test(self, event: BulinMessageEvent):
     yield event.chain_result([video])
 ```
 
-![发送视频消息](https://files.bulinbot.app/docs/source/images/plugin/db93a2bb-671c-4332-b8ba-9a91c35623c2.png)
+![发送视频消息](https://files.novabot.app/docs/source/images/plugin/db93a2bb-671c-4332-b8ba-9a91c35623c2.png)
 
 ## 发送群合并转发消息
 
@@ -111,10 +111,10 @@ async def test(self, event: BulinMessageEvent):
 可以按照如下方式发送群合并转发消息。
 
 ```py
-from nova-bot.api.event import filter, BulinMessageEvent
+from nova-bot.api.event import filter, NovaMessageEvent
 
 @filter.command("test")
-async def test(self, event: BulinMessageEvent):
+async def test(self, event: NovaMessageEvent):
     from nova-bot.api.message_components import Node, Plain, Image
     node = Node(
         uin=905617992,
@@ -127,4 +127,4 @@ async def test(self, event: BulinMessageEvent):
     yield event.chain_result([node])
 ```
 
-![发送群合并转发消息](https://files.bulinbot.app/docs/source/images/plugin/image-4.png)
+![发送群合并转发消息](https://files.novabot.app/docs/source/images/plugin/image-4.png)

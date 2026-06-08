@@ -138,13 +138,13 @@ kubectl apply -f k8s/nova-bot/02-deployment.yaml
 
 ### 镜像加速 (中国大陆用户)
 
-如果拉取 `alma1314/bulinbot:latest` 或 `mlikiowa/napcat-docker:latest` 镜像困难，可以手动修改对应的 `02-deployment.yaml` 文件，将 `image` 字段替换为国内的镜像加速地址，例如：
+如果拉取 `alma1314/nova-bot:latest` 或 `mlikiowa/napcat-docker:latest` 镜像困难，可以手动修改对应的 `02-deployment.yaml` 文件，将 `image` 字段替换为国内的镜像加速地址，例如：
 
 ```yaml
 # 示例：
-# image: alma1314/bulinbot:latest
+# image: alma1314/nova-bot:latest
 # 替换为
-image: m.daocloud.io/docker.io/alma1314/bulinbot:latest
+image: m.daocloud.io/docker.io/alma1314/nova-bot:latest
 ```
 
 ### 启用 Docker 沙箱代码执行器

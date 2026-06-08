@@ -66,7 +66,7 @@ jobs:
 
         if: ${{ env.R2_ACCOUNT_ID != '' && env.R2_ACCESS_KEY_ID != '' && env.R2_SECRET_ACCESS_KEY != '' }}
         env:
-          R2_OBJECT_NAME: "bulinbot-webui-latest.zip"
+          R2_OBJECT_NAME: "nova-bot-webui-latest.zip"
           VERSION_TAG: ${{ steps.tag.outputs.tag }}
         shell: bash
         run: |

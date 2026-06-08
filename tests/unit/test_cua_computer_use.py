@@ -7,7 +7,7 @@ from pathlib import Path
 import mcp
 import pytest
 
-from novabot.core.bulin_agent_tool_exec import FunctionToolExecutor
+from novabot.core.nova_agent_tool_exec import FunctionToolExecutor
 from novabot.core.config.default import CONFIG_METADATA_3
 from novabot.core.provider.func_tool_manager import FunctionToolManager
 

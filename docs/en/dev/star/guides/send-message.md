@@ -6,7 +6,7 @@ Passive messages refer to the bot responding to messages reactively.
 
 ```python
 @filter.command("helloworld")
-async def helloworld(self, event: BulinMessageEvent):
+async def helloworld(self, event: NovaMessageEvent):
     yield event.plain_result("Hello!")
     yield event.plain_result("你好！")
 
@@ -24,7 +24,7 @@ For scheduled tasks or when you don't want to send messages immediately, you can
 from nova-bot.api.event import MessageChain
 
 @filter.command("helloworld")
-async def helloworld(self, event: BulinMessageEvent):
+async def helloworld(self, event: NovaMessageEvent):
     umo = event.unified_msg_origin
     message_chain = MessageChain().message("Hello!").file_image("path/to/image.jpg")
     await self.context.send_message(event.unified_msg_origin, message_chain)
@@ -44,7 +44,7 @@ NovaBot supports sending rich media messages such as images, audio, videos, etc.
 import nova-bot.api.message_components as Comp
 
 @filter.command("helloworld")
-async def helloworld(self, event: BulinMessageEvent):
+async def helloworld(self, event: NovaMessageEvent):
     chain = [
         Comp.At(qq=event.get_sender_id()), # Mention the message sender
         Comp.Plain("Check out this image:"),
@@ -86,10 +86,10 @@ Comp.Video.fromURL(url="https://example.com/video.mp4")
 ## Sending Video Messages
 
 ```python
-from nova-bot.api.event import filter, BulinMessageEvent
+from nova-bot.api.event import filter, NovaMessageEvent
 
 @filter.command("test")
-async def test(self, event: BulinMessageEvent):
+async def test(self, event: NovaMessageEvent):
     from nova-bot.api.message_components import Video
     # fromFileSystem requires the user's protocol client and bot to be on the same system.
     video = Video.fromFileSystem(
@@ -102,7 +102,7 @@ async def test(self, event: BulinMessageEvent):
     yield event.chain_result([video])
 ```
 
-![Sending video messages](https://files.bulinbot.app/docs/source/images/plugin/db93a2bb-671c-4332-b8ba-9a91c35623c2.png)
+![Sending video messages](https://files.novabot.app/docs/source/images/plugin/db93a2bb-671c-4332-b8ba-9a91c35623c2.png)
 
 ## Sending Group Forward Messages
 
@@ -111,10 +111,10 @@ async def test(self, event: BulinMessageEvent):
 You can send group forward messages as follows.
 
 ```py
-from nova-bot.api.event import filter, BulinMessageEvent
+from nova-bot.api.event import filter, NovaMessageEvent
 
 @filter.command("test")
-async def test(self, event: BulinMessageEvent):
+async def test(self, event: NovaMessageEvent):
     from nova-bot.api.message_components import Node, Plain, Image
     node = Node(
         uin=905617992,
@@ -127,4 +127,4 @@ async def test(self, event: BulinMessageEvent):
     yield event.chain_result([node])
 ```
 
-![Sending group forward messages](https://files.bulinbot.app/docs/source/images/plugin/image-4.png)
+![Sending group forward messages](https://files.novabot.app/docs/source/images/plugin/image-4.png)

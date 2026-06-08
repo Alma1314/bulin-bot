@@ -5,22 +5,22 @@ Event listeners can receive message content delivered by the platform and implem
 Event listener decorators are located in `nova-bot.api.event.filter` and must be imported first. Please make sure to import it, otherwise it will conflict with Python's built-in `filter` higher-order function.
 
 ```py
-from nova-bot.api.event import filter, BulinMessageEvent
+from nova-bot.api.event import filter, NovaMessageEvent
 ```
 
 ## Messages and Events
 
-NovaBot receives messages delivered by messaging platforms and encapsulates them as `BulinMessageEvent` objects, which are then passed to plugins for processing.
+NovaBot receives messages delivered by messaging platforms and encapsulates them as `NovaMessageEvent` objects, which are then passed to plugins for processing.
 
-![message-event](https://files.bulinbot.app/docs/en/dev/star/guides/message-event.svg)
+![message-event](https://files.novabot.app/docs/en/dev/star/guides/message-event.svg)
 
 ### Message Events
 
-`BulinMessageEvent` is NovaBot's message event object, which stores information about the message sender, message content, etc.
+`NovaMessageEvent` is NovaBot's message event object, which stores information about the message sender, message content, etc.
 
 ### Message Object
 
-`NovaBotMessage` is NovaBot's message object, which stores the specific content of messages delivered by the messaging platform. The `BulinMessageEvent` object contains a `message_obj` attribute to retrieve this message object.
+`NovaBotMessage` is NovaBot's message object, which stores the specific content of messages delivered by the messaging platform. The `NovaMessageEvent` object contains a `message_obj` attribute to retrieve this message object.
 
 ```py{11}
 class NovaBotMessage:
@@ -41,7 +41,7 @@ Here, `raw_message` is the **raw message object** from the messaging platform ad
 
 ### Message Chain
 
-![message-chain](https://files.bulinbot.app/docs/en/dev/star/guides/message-chain.svg)
+![message-chain](https://files.novabot.app/docs/en/dev/star/guides/message-chain.svg)
 
 A `message chain` describes the structure of a message. It's an ordered list where each element is called a `message segment`.
 
@@ -67,10 +67,10 @@ In NovaBot, message chains are represented as lists of type `List[BaseMessageCom
 
 ## Commands
 
-![message-event-simple-command](https://files.bulinbot.app/docs/en/dev/star/guides/message-event-simple-command.svg)
+![message-event-simple-command](https://files.novabot.app/docs/en/dev/star/guides/message-event-simple-command.svg)
 
 ```python
-from nova-bot.api.event import filter, BulinMessageEvent
+from nova-bot.api.event import filter, NovaMessageEvent
 from nova-bot.api.star import Context, Star
 
 class MyPlugin(Star):
@@ -78,7 +78,7 @@ class MyPlugin(Star):
         super().__init__(context)
 
     @filter.command("helloworld") # from nova-bot.api.event.filter import command
-    async def helloworld(self, event: BulinMessageEvent):
+    async def helloworld(self, event: NovaMessageEvent):
         '''This is a hello world command'''
         user_name = event.get_sender_name()
         message_str = event.message_str # Get the plain text content of the message
@@ -90,13 +90,13 @@ class MyPlugin(Star):
 
 ## Commands with Parameters
 
-![command-with-param](https://files.bulinbot.app/docs/en/dev/star/guides/command-with-param.svg)
+![command-with-param](https://files.novabot.app/docs/en/dev/star/guides/command-with-param.svg)
 
 NovaBot will automatically parse command parameters for you.
 
 ```python
 @filter.command("add")
-async def add(self, event: BulinMessageEvent, a: int, b: int):
+async def add(self, event: NovaMessageEvent, a: int, b: int):
     # /add 1 2 -> Result is: 3
     yield event.plain_result(f"Wow! The answer is {a + b}!")
 ```
@@ -111,12 +111,12 @@ def math():
     pass
 
 @math.command("add")
-async def add(self, event: BulinMessageEvent, a: int, b: int):
+async def add(self, event: NovaMessageEvent, a: int, b: int):
     # /math add 1 2 -> Result is: 3
     yield event.plain_result(f"Result is: {a + b}")
 
 @math.command("sub")
-async def sub(self, event: BulinMessageEvent, a: int, b: int):
+async def sub(self, event: NovaMessageEvent, a: int, b: int):
     # /math sub 1 2 -> Result is: -1
     yield event.plain_result(f"Result is: {a - b}")
 ```
@@ -125,11 +125,11 @@ The command group function doesn't need to implement any logic; just use `pass` 
 
 When a user doesn't input a subcommand, an error will be reported and the tree structure of the command group will be rendered.
 
-![image](https://files.bulinbot.app/docs/source/images/plugin/image-1.png)
+![image](https://files.novabot.app/docs/source/images/plugin/image-1.png)
 
-![image](https://files.bulinbot.app/docs/source/images/plugin/898a169ae7ed0478f41c0a7d14cb4d64.png)
+![image](https://files.novabot.app/docs/source/images/plugin/898a169ae7ed0478f41c0a7d14cb4d64.png)
 
-![image](https://files.bulinbot.app/docs/source/images/plugin/image-2.png)
+![image](https://files.novabot.app/docs/source/images/plugin/image-2.png)
 
 Theoretically, command groups can be nested infinitely!
 
@@ -151,15 +151,15 @@ def calc():
     pass
 
 @calc.command("add")
-async def add(self, event: BulinMessageEvent, a: int, b: int):
+async def add(self, event: NovaMessageEvent, a: int, b: int):
     yield event.plain_result(f"Result is: {a + b}")
 
 @calc.command("sub")
-async def sub(self, event: BulinMessageEvent, a: int, b: int):
+async def sub(self, event: NovaMessageEvent, a: int, b: int):
     yield event.plain_result(f"Result is: {a - b}")
 
 @calc.command("help")
-async def calc_help(self, event: BulinMessageEvent):
+async def calc_help(self, event: NovaMessageEvent):
     # /math calc help
     yield event.plain_result("This is a calculator plugin with add and sub commands.")
 ```
@@ -172,7 +172,7 @@ You can add different aliases for commands or command groups:
 
 ```python
 @filter.command("help", alias={'帮助', 'helpme'})
-async def help(self, event: BulinMessageEvent):
+async def help(self, event: NovaMessageEvent):
     yield event.plain_result("This is a calculator plugin with add and sub commands.")
 ```
 
@@ -184,7 +184,7 @@ This will receive all events.
 
 ```python
 @filter.event_message_type(filter.EventMessageType.ALL)
-async def on_all_message(self, event: BulinMessageEvent):
+async def on_all_message(self, event: NovaMessageEvent):
     yield event.plain_result("Received a message.")
 ```
 
@@ -192,7 +192,7 @@ async def on_all_message(self, event: BulinMessageEvent):
 
 ```python
 @filter.event_message_type(filter.EventMessageType.PRIVATE_MESSAGE)
-async def on_private_message(self, event: BulinMessageEvent):
+async def on_private_message(self, event: NovaMessageEvent):
     message_str = event.message_str # Get the plain text content of the message
     yield event.plain_result("Received a private message.")
 ```
@@ -203,7 +203,7 @@ async def on_private_message(self, event: BulinMessageEvent):
 
 ```python
 @filter.platform_adapter_type(filter.PlatformAdapterType.AIOCQHTTP | filter.PlatformAdapterType.QQOFFICIAL)
-async def on_aiocqhttp(self, event: BulinMessageEvent):
+async def on_aiocqhttp(self, event: NovaMessageEvent):
     '''Only receive messages from AIOCQHTTP and QQOFFICIAL'''
     yield event.plain_result("Received a message")
 ```
@@ -215,7 +215,7 @@ In the current version, `PlatformAdapterType` supports the following values: `AI
 ```python
 @filter.permission_type(filter.PermissionType.ADMIN)
 @filter.command("test")
-async def test(self, event: BulinMessageEvent):
+async def test(self, event: NovaMessageEvent):
     pass
 ```
 
@@ -228,7 +228,7 @@ Multiple filters can be used simultaneously by adding multiple decorators to a f
 ```python
 @filter.command("helloworld")
 @filter.event_message_type(filter.EventMessageType.PRIVATE_MESSAGE)
-async def helloworld(self, event: BulinMessageEvent):
+async def helloworld(self, event: NovaMessageEvent):
     yield event.plain_result("Hello!")
 ```
 
@@ -242,7 +242,7 @@ async def helloworld(self, event: BulinMessageEvent):
 > Available after v3.4.34
 
 ```python
-from nova-bot.api.event import filter, BulinMessageEvent
+from nova-bot.api.event import filter, NovaMessageEvent
 
 @filter.on_nova-bot_loaded()
 async def on_nova-bot_loaded(self):
@@ -257,10 +257,10 @@ This hook is triggered when NovaBot is preparing to call the LLM but has not yet
 It is suitable for sending feedback such as "Waiting for request..." to the user, or for obtaining the LLM request outside the lock without waiting for it to be released.
 
 ```python
-from nova-bot.api.event import filter, BulinMessageEvent
+from nova-bot.api.event import filter, NovaMessageEvent
 
 @filter.on_waiting_llm_request()
-async def on_waiting_llm(self, event: BulinMessageEvent):
+async def on_waiting_llm(self, event: NovaMessageEvent):
     await event.send(event.plain_result("🤔 Waiting for request..."))
 ```
 
@@ -275,11 +275,11 @@ You can obtain the `ProviderRequest` object and modify it.
 The ProviderRequest object contains all information about the LLM request, including the request text, system prompt, etc.
 
 ```python
-from nova-bot.api.event import filter, BulinMessageEvent
+from nova-bot.api.event import filter, NovaMessageEvent
 from nova-bot.api.provider import ProviderRequest
 
 @filter.on_llm_request()
-async def my_custom_hook_1(self, event: BulinMessageEvent, req: ProviderRequest): # Note there are three parameters
+async def my_custom_hook_1(self, event: NovaMessageEvent, req: ProviderRequest): # Note there are three parameters
     print(req) # Print the request text
     req.system_prompt += "Custom system_prompt" # If there is another suitable approach, avoid using this to append prompts that change every round. It can break prompt caching and greatly increase cost (7 - 20x).
 
@@ -296,7 +296,7 @@ async def my_custom_hook_1(self, event: BulinMessageEvent, req: ProviderRequest)
 > from nova-bot.core.agent.message import TextPart
 >
 > @filter.on_llm_request()
-> async def add_dynamic_prompt(self, event: BulinMessageEvent, req: ProviderRequest):
+> async def add_dynamic_prompt(self, event: NovaMessageEvent, req: ProviderRequest):
 >     req.extra_user_content_parts.append(
 >         TextPart(
 >             text=(
@@ -329,11 +329,11 @@ After the LLM request completes, the `on_llm_response` hook is triggered.
 You can obtain the `ProviderResponse` object and modify it.
 
 ```python
-from nova-bot.api.event import filter, BulinMessageEvent
+from nova-bot.api.event import filter, NovaMessageEvent
 from nova-bot.api.provider import LLMResponse
 
 @filter.on_llm_response()
-async def on_llm_resp(self, event: BulinMessageEvent, resp: LLMResponse): # Note there are three parameters
+async def on_llm_resp(self, event: NovaMessageEvent, resp: LLMResponse): # Note there are three parameters
     print(resp)
 ```
 
@@ -346,12 +346,12 @@ async def on_llm_resp(self, event: BulinMessageEvent, resp: LLMResponse): # Note
 When the Agent starts running, the `on_agent_begin` hook is triggered.
 
 ```python
-from nova-bot.api.event import filter, BulinMessageEvent
+from nova-bot.api.event import filter, NovaMessageEvent
 from nova-bot.core.agent.run_context import ContextWrapper
-from nova-bot.core.bulin_agent_context import BulinAgentContext
+from nova-bot.core.nova_agent_context import NovaAgentContext
 
 @filter.on_agent_begin()
-async def on_agent_begin(self, event: BulinMessageEvent, run_context: ContextWrapper[BulinAgentContext]): # Note there are three parameters
+async def on_agent_begin(self, event: NovaMessageEvent, run_context: ContextWrapper[NovaAgentContext]): # Note there are three parameters
     print("Agent started")
 ```
 
@@ -366,13 +366,13 @@ When the Agent is about to call an LLM tool, the `on_using_llm_tool` hook is tri
 You can obtain the `FunctionTool` object and tool call arguments.
 
 ```python
-from nova-bot.api.event import filter, BulinMessageEvent
+from nova-bot.api.event import filter, NovaMessageEvent
 from nova-bot.core.agent.tool import FunctionTool
 
 @filter.on_using_llm_tool()
 async def on_using_llm_tool(
     self,
-    event: BulinMessageEvent,
+    event: NovaMessageEvent,
     tool: FunctionTool,
     tool_args: dict | None,
 ):
@@ -392,13 +392,13 @@ You can obtain the `FunctionTool` object, tool call arguments, and tool call res
 ```python
 from mcp.types import CallToolResult
 
-from nova-bot.api.event import filter, BulinMessageEvent
+from nova-bot.api.event import filter, NovaMessageEvent
 from nova-bot.core.agent.tool import FunctionTool
 
 @filter.on_llm_tool_respond()
 async def on_llm_tool_respond(
     self,
-    event: BulinMessageEvent,
+    event: NovaMessageEvent,
     tool: FunctionTool,
     tool_args: dict | None,
     tool_result: CallToolResult | None,
@@ -415,13 +415,13 @@ async def on_llm_tool_respond(
 After the Agent finishes running, the `on_agent_done` hook is triggered. This hook is triggered after `on_llm_response`.
 
 ```python
-from nova-bot.api.event import filter, BulinMessageEvent
+from nova-bot.api.event import filter, NovaMessageEvent
 from nova-bot.api.provider import LLMResponse
 from nova-bot.core.agent.run_context import ContextWrapper
-from nova-bot.core.bulin_agent_context import BulinAgentContext
+from nova-bot.core.nova_agent_context import NovaAgentContext
 
 @filter.on_agent_done()
-async def on_agent_done(self, event: BulinMessageEvent, run_context: ContextWrapper[BulinAgentContext], resp: LLMResponse): # Note there are four parameters
+async def on_agent_done(self, event: NovaMessageEvent, run_context: ContextWrapper[NovaAgentContext], resp: LLMResponse): # Note there are four parameters
     print(resp)
 ```
 
@@ -434,11 +434,11 @@ Before sending a message, the `on_decorating_result` hook is triggered.
 You can implement some message decoration here, such as converting to voice, converting to image, adding prefixes, etc.
 
 ```python
-from nova-bot.api.event import filter, BulinMessageEvent
+from nova-bot.api.event import filter, NovaMessageEvent
 import nova-bot.api.message_components as Comp
 
 @filter.on_decorating_result()
-async def on_decorating_result(self, event: BulinMessageEvent):
+async def on_decorating_result(self, event: NovaMessageEvent):
     result = event.get_result()
     chain = result.chain
     print(chain) # Print the message chain
@@ -452,10 +452,10 @@ async def on_decorating_result(self, event: BulinMessageEvent):
 After a message is sent to the messaging platform, the `after_message_sent` hook is triggered.
 
 ```python
-from nova-bot.api.event import filter, BulinMessageEvent
+from nova-bot.api.event import filter, NovaMessageEvent
 
 @filter.after_message_sent()
-async def after_message_sent(self, event: BulinMessageEvent):
+async def after_message_sent(self, event: NovaMessageEvent):
     pass
 ```
 
@@ -467,7 +467,7 @@ Commands, event listeners, and event hooks can have priority set to execute befo
 
 ```python
 @filter.command("helloworld", priority=1)
-async def helloworld(self, event: BulinMessageEvent):
+async def helloworld(self, event: NovaMessageEvent):
     yield event.plain_result("Hello!")
 ```
 
@@ -475,7 +475,7 @@ async def helloworld(self, event: BulinMessageEvent):
 
 ```python{6}
 @filter.command("check_ok")
-async def check_ok(self, event: BulinMessageEvent):
+async def check_ok(self, event: NovaMessageEvent):
     ok = self.check() # Your own logic
     if not ok:
         yield event.plain_result("Check failed")

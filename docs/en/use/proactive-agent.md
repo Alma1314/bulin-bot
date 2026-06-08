@@ -2,7 +2,7 @@
 
 NovaBot introduces a Proactive Agent system, enabling NovaBot to not only respond passively to users but also schedule future tasks and proactively execute them at specified times, delivering results (text, images, files, etc.) to users.
 
-![](https://files.bulinbot.app/docs/source/images/proactive-agent/image.png)
+![](https://files.novabot.app/docs/source/images/proactive-agent/image.png)
 
 Introduced in v4.14.0, this is currently an **experimental feature** and not yet stable.
 
@@ -30,7 +30,7 @@ The Main Agent will call built-in scheduling tools to arrange these plans.
 
 You can view and manage all future tasks by clicking **Future Tasks** in the left navigation bar of the NovaBot WebUI.
 
-![](https://files.bulinbot.app/docs/source/images/proactive-agent/image-1.png)
+![](https://files.novabot.app/docs/source/images/proactive-agent/image-1.png)
 
 ### Supported Platforms
 

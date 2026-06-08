@@ -4,7 +4,7 @@ import mcp
 import pytest
 
 from novabot.core.agent.run_context import ContextWrapper
-from novabot.core.bulin_agent_tool_exec import FunctionToolExecutor
+from novabot.core.nova_agent_tool_exec import FunctionToolExecutor
 from novabot.core.message.components import Image
 
 
@@ -207,7 +207,7 @@ async def test_execute_handoff_skips_renormalize_when_image_urls_prepared(
     )
 
     monkeypatch.setattr(
-        "novabot.core.bulin_agent_tool_exec.normalize_and_dedupe_strings", _boom
+        "novabot.core.nova_agent_tool_exec.normalize_and_dedupe_strings", _boom
     )
 
     results = []
@@ -233,7 +233,7 @@ async def test_collect_handoff_image_urls_keeps_extensionless_existing_event_fil
 
     monkeypatch.setattr(Image, "convert_to_file_path", _fake_convert_to_file_path)
     monkeypatch.setattr(
-        "novabot.core.bulin_agent_tool_exec.get_novabot_temp_path", lambda: "/tmp"
+        "novabot.core.nova_agent_tool_exec.get_novabot_temp_path", lambda: "/tmp"
     )
     monkeypatch.setattr(
         "novabot.core.utils.image_ref_utils.os.path.exists", lambda _: True
@@ -257,7 +257,7 @@ async def test_collect_handoff_image_urls_filters_extensionless_missing_event_fi
 
     monkeypatch.setattr(Image, "convert_to_file_path", _fake_convert_to_file_path)
     monkeypatch.setattr(
-        "novabot.core.bulin_agent_tool_exec.get_novabot_temp_path", lambda: "/tmp"
+        "novabot.core.nova_agent_tool_exec.get_novabot_temp_path", lambda: "/tmp"
     )
     monkeypatch.setattr(
         "novabot.core.utils.image_ref_utils.os.path.exists", lambda _: False
@@ -330,7 +330,7 @@ async def test_collect_handoff_image_urls_filters_extensionless_file_outside_tem
 
     monkeypatch.setattr(Image, "convert_to_file_path", _fake_convert_to_file_path)
     monkeypatch.setattr(
-        "novabot.core.bulin_agent_tool_exec.get_novabot_temp_path", lambda: "/tmp"
+        "novabot.core.nova_agent_tool_exec.get_novabot_temp_path", lambda: "/tmp"
     )
     monkeypatch.setattr(
         "novabot.core.utils.image_ref_utils.os.path.exists", lambda _: True

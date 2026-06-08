@@ -29,17 +29,17 @@ from nova-bot.core.utils.session_waiter import (
 Code within the handler can be written as follows:
 
 ```python
-from nova-bot.api.event import filter, BulinMessageEvent
+from nova-bot.api.event import filter, NovaMessageEvent
 
 @filter.command("idiom-chain")
-async def handle_empty_mention(self, event: BulinMessageEvent):
+async def handle_empty_mention(self, event: NovaMessageEvent):
     """Idiom chain game implementation"""
     try:
         yield event.plain_result("Please send an idiom~")
 
         # How to use the session controller
         @session_waiter(timeout=60, record_history_chains=False) # Register a session controller with a 60-second timeout, without recording message history
-        async def empty_mention_waiter(controller: SessionController, event: BulinMessageEvent):
+        async def empty_mention_waiter(controller: SessionController, event: NovaMessageEvent):
             idiom = event.message_str # The idiom sent by the user, e.g., "one horse takes the lead"
 
             if idiom == "exit":   # If the user wants to exit the idiom chain game by typing "exit"
@@ -101,7 +101,7 @@ from nova-bot.core.utils.session_waiter import (
 # Using the handler from above
 # ...
 class CustomFilter(SessionFilter):
-    def filter(self, event: BulinMessageEvent) -> str:
+    def filter(self, event: NovaMessageEvent) -> str:
         return event.get_group_id() if event.get_group_id() else event.unified_msg_origin
 
 await empty_mention_waiter(event, session_filter=CustomFilter()) # Pass in session_filter here

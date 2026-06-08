@@ -21,7 +21,7 @@ export const head: HeadConfig[] = [
     ["meta", { property: "og:locale", content: "zh_CN" }],
     ["meta", { property: "og:title", content: "BulinBot" }],
     ["meta", { property: "og:description", content: "BulinBot" }],
-    ["meta", { property: "og:url", content: "https://docs.bulinbot.app" }],
+    ["meta", { property: "og:url", content: "https://docs.novabot.app" }],
     ["meta", { property: "og:site_name", content: "BulinBot" }],
     [
         "meta",

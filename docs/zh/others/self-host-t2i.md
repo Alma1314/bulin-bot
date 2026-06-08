@@ -15,7 +15,7 @@ https://t2i.rcfortress.site/text2img
 您可以选择自行部署文转图服务，以提升响应速度。
 
 ```bash
-docker run -itd -p 8999:8999 alma1314/bulinbot-t2i-service:latest
+docker run -itd -p 8999:8999 alma1314/nova-bot-t2i-service:latest
 ```
 
 在部署完成后，前往 NovaBot 仪表盘 -> 配置文件 -> 系统，修改 `文本转图像服务 API 地址` 为你部署好的 url（如下图所示）

@@ -146,4 +146,4 @@ curl -N 'http://localhost:6185/api/v1/chat' \
 
 Use the interactive docs:
 
-- https://docs.bulinbot.app/scalar.html
+- https://docs.novabot.app/scalar.html

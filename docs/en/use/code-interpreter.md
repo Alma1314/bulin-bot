@@ -18,14 +18,14 @@ If you've deployed NovaBot using Docker, some additional setup is required.
 1. When starting the Docker container, mount `/var/run/docker.sock` inside the container. This allows NovaBot to launch sandbox containers.
 
 ```bash
-sudo docker run -itd -p 6180-6200:6180-6200 -p 11451:11451 -v $PWD/data:/NovaBot/data -v /var/run/docker.sock:/var/run/docker.sock --name nova-bot alma1314/bulinbot:latest
+sudo docker run -itd -p 6180-6200:6180-6200 -p 11451:11451 -v $PWD/data:/NovaBot/data -v /var/run/docker.sock:/var/run/docker.sock --name nova-bot alma1314/nova-bot:latest
 ```
 
 2. Use the `/pi absdir <absolute-path>` command during chat to set the absolute path of NovaBot's data directory on your host machine.
 
 Example:
 
-![image](https://files.bulinbot.app/docs/source/images/code-interpreter/image-4.png)
+![image](https://files.novabot.app/docs/source/images/code-interpreter/image-4.png)
 
 ## Running NovaBot from Source on Linux
 
@@ -37,7 +37,7 @@ sudo -E python3 main.py
 
 ## Usage
 
-This feature uses the `alma1314/bulinbot-code-interpreter-sandbox` image. You can view detailed information about the image on [Docker Hub](https://hub.docker.com/r/alma1314/bulinbot-code-interpreter-sandbox).
+This feature uses the `alma1314/nova-bot-code-interpreter-sandbox` image. You can view detailed information about the image on [Docker Hub](https://hub.docker.com/r/alma1314/nova-bot-code-interpreter-sandbox).
 
 The image includes commonly used Python libraries:
 
@@ -73,7 +73,7 @@ The image may be updated periodically to provide more features, so check for upd
 > If the feature doesn't start properly initially, after successful startup, execute `/tool on python_interpreter` to enable this feature.
 > You can use `/tool ls` to view all tools and their enabled status.
 
-![image](https://files.bulinbot.app/docs/source/images/code-interpreter/image-3.png)
+![image](https://files.novabot.app/docs/source/images/code-interpreter/image-3.png)
 
 ## Image and File Input
 
@@ -87,10 +87,10 @@ For example, if you want to add rounded corners to an image, you can upload the 
 
 ## Demo
 
-![image](https://files.bulinbot.app/docs/source/images/code-interpreter/a3cd3a0e-aca5-41b2-aa52-66b568bd955b.png)
+![image](https://files.novabot.app/docs/source/images/code-interpreter/a3cd3a0e-aca5-41b2-aa52-66b568bd955b.png)
 
-![alt text](https://files.bulinbot.app/docs/source/images/code-interpreter/image.png)
+![alt text](https://files.novabot.app/docs/source/images/code-interpreter/image.png)
 
-![image](https://files.bulinbot.app/docs/source/images/code-interpreter/image-1.png)
+![image](https://files.novabot.app/docs/source/images/code-interpreter/image-1.png)
 
-![image](https://files.bulinbot.app/docs/source/images/code-interpreter/image-2.png)
+![image](https://files.novabot.app/docs/source/images/code-interpreter/image-2.png)

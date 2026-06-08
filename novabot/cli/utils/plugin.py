@@ -144,7 +144,7 @@ def build_plug_list(plugins_dir: Path) -> list:
     online_plugins = []
     try:
         with httpx.Client() as client:
-            resp = client.get("https://api.soulter.top/bulinbot/plugins")
+            resp = client.get("https://api.soulter.top/novabot/plugins")
             resp.raise_for_status()
             data = resp.json()
             for plugin_id, plugin_info in data.items():

@@ -61,7 +61,7 @@ def test_promote_stable_sync_failure_auto_rolls_back(monkeypatch):
         unified_msg_origin="session-1",
         get_sender_id=lambda: "admin-user",
     )
-    bulin_ctx = SimpleNamespace(
+    nova_ctx = SimpleNamespace(
         context=SimpleNamespace(
             get_config=lambda umo: {  # noqa: ARG005
                 "provider_settings": {
@@ -71,7 +71,7 @@ def test_promote_stable_sync_failure_auto_rolls_back(monkeypatch):
         ),
         event=event,
     )
-    run_ctx = ContextWrapper(context=bulin_ctx)
+    run_ctx = ContextWrapper(context=nova_ctx)
 
     tool = PromoteSkillCandidateTool()
     result = asyncio.run(

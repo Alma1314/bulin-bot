@@ -10,11 +10,11 @@ NovaBot can integrate with NewAPI as a model provider, so you can access those m
 
 After registering and signing in to NewAPI, open `Console` in the top navigation bar, go to `Token Management`, then click `Add Token` to create a new API key with appropriate permissions.
 
-![create-api-key](https://files.bulinbot.app/docs/source/images/newapi/image.png)
+![create-api-key](https://files.novabot.app/docs/source/images/newapi/image.png)
 
 After creation, copy the generated API key.
 
-![copy-api-key](https://files.bulinbot.app/docs/source/images/newapi/image-1.png)
+![copy-api-key](https://files.novabot.app/docs/source/images/newapi/image-1.png)
 
 ### 2. Configure NewAPI in NovaBot
 
@@ -29,12 +29,12 @@ Set `API Base URL` to your NewAPI endpoint:
 
 Then paste your API key into `API Key` and click `Save`.
 
-![nova-bot-provider-config](https://files.bulinbot.app/docs/source/images/newapi/image-2.png)
+![nova-bot-provider-config](https://files.novabot.app/docs/source/images/newapi/image-2.png)
 
 ### 3. Apply the Provider
 
 Go to `Configuration`, find the model section, set `Default Chat Model` to the NewAPI-based provider you just created, and click `Save`.
 
-![apply](https://files.bulinbot.app/docs/source/images/newapi/image-3.png)
+![apply](https://files.novabot.app/docs/source/images/newapi/image-3.png)
 
 You have now successfully configured NewAPI as an NovaBot model provider.

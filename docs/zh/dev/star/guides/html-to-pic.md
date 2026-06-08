@@ -10,14 +10,14 @@ NovaBot 支持将文字渲染成图片。
 
 ```python
 @filter.command("image") # 注册一个 /image 指令，接收 text 参数。
-async def on_aiocqhttp(self, event: BulinMessageEvent, text: str):
+async def on_aiocqhttp(self, event: NovaMessageEvent, text: str):
     url = await self.text_to_image(text) # text_to_image() 是 Star 类的一个方法。
     # path = await self.text_to_image(text, return_url = False) # 如果你想保存图片到本地
     yield event.image_result(url)
 
 ```
 
-![image](https://files.bulinbot.app/docs/source/images/plugin/image-3.png)
+![image](https://files.novabot.app/docs/source/images/plugin/image-3.png)
 
 ## 自定义(基于 HTML)
 
@@ -39,7 +39,7 @@ TMPL = '''
 '''
 
 @filter.command("todo")
-async def custom_t2i_tmpl(self, event: BulinMessageEvent):
+async def custom_t2i_tmpl(self, event: NovaMessageEvent):
     options = {} # 可选择传入渲染选项。
     url = await self.html_render(TMPL, {"items": ["吃饭", "睡觉", "玩原神"]}, options=options) # 第二个参数是 Jinja2 的渲染数据
     yield event.image_result(url)
@@ -47,7 +47,7 @@ async def custom_t2i_tmpl(self, event: BulinMessageEvent):
 
 返回的结果:
 
-![image](https://files.bulinbot.app/docs/source/images/plugin/fcc2dcb472a91b12899f617477adc5c7.png)
+![image](https://files.novabot.app/docs/source/images/plugin/fcc2dcb472a91b12899f617477adc5c7.png)
 
 这只是一个简单的例子。得益于 HTML 和 DOM 渲染器的强大性，你可以进行更复杂和更美观的的设计。除此之外，Jinja2 支持循环、条件等语法以适应列表、字典等数据结构。你可以从网上了解更多关于 Jinja2 的知识。
 

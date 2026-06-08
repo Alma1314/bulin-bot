@@ -12,4 +12,4 @@ Open the NovaBot WebUI, click `Service Providers` in the left sidebar -> `Add Pr
 
 Paste the `API Key` and `Model Name` you obtained earlier, then click Save to complete the setup. You can click the `Refresh` button under `Service Provider Availability` to verify whether the configuration is successful.
 
-![Configuring Chat Model](https://files.bulinbot.app/docs/source/images/siliconflow/image.png)
+![Configuring Chat Model](https://files.novabot.app/docs/source/images/siliconflow/image.png)

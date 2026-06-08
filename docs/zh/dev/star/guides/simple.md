@@ -3,7 +3,7 @@
 插件模版中的 `main.py` 是一个最小的插件实例。
 
 ```python
-from nova-bot.api.event import filter, BulinMessageEvent, MessageEventResult
+from nova-bot.api.event import filter, NovaMessageEvent, MessageEventResult
 from nova-bot.api.star import Context, Star
 from nova-bot.api import logger # 使用 nova-bot 提供的 logger 接口
 
@@ -13,7 +13,7 @@ class MyPlugin(Star):
 
     # 注册指令的装饰器。指令名为 helloworld。注册成功后，发送 `/helloworld` 就会触发这个指令，并回复 `你好, {user_name}!`
     @filter.command("helloworld")
-    async def helloworld(self, event: BulinMessageEvent):
+    async def helloworld(self, event: NovaMessageEvent):
         '''这是一个 hello world 指令''' # 这是 handler 的描述，将会被解析方便用户了解插件内容。非常建议填写。
         user_name = event.get_sender_name()
         message_str = event.message_str # 获取消息的纯文本内容
@@ -29,7 +29,7 @@ class MyPlugin(Star):
 - 插件需要继承 `Star` 类。
 - `Context` 类用于插件与 NovaBot Core 交互，可以由此调用 NovaBot Core 提供的各种 API。
 - 具体的处理函数 `Handler` 在插件类中定义，如这里的 `helloworld` 函数。
-- `BulinMessageEvent` 是 NovaBot 的消息事件对象，存储了消息发送者、消息内容等信息。
+- `NovaMessageEvent` 是 NovaBot 的消息事件对象，存储了消息发送者、消息内容等信息。
 - `NovaBotMessage` 是 NovaBot 的消息对象，存储了消息平台下发的消息的具体内容。可以通过 `event.message_obj` 获取。
 
 > [!TIP]

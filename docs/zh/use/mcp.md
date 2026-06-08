@@ -2,11 +2,11 @@
 
 MCP(Model Context Protocol，模型上下文协议) 是一种新的开放标准协议，用来在大模型和数据源之间建立安全双向的链接。简单来说，它将函数工具单独抽离出来作为一个独立的服务，NovaBot 通过 MCP 协议远程调用函数工具，函数工具返回结果给 NovaBot。
 
-![image](https://files.bulinbot.app/docs/source/images/function-calling/image3.png)
+![image](https://files.novabot.app/docs/source/images/function-calling/image3.png)
 
 NovaBot v3.5.0 支持 MCP 协议，可以添加多个 MCP 服务器、使用 MCP 服务器的函数工具。
 
-![image](https://files.bulinbot.app/docs/source/images/function-calling/image2.png)
+![image](https://files.novabot.app/docs/source/images/function-calling/image2.png)
 
 ## 初始状态配置
 
@@ -14,7 +14,7 @@ MCP 服务器一般使用 `uv` 或者 `npm` 来启动，因此您需要安装这
 
 对于 `uv`，您可以直接通过 pip 来安装。可在 NovaBot WebUI 快捷安装：
 
-![image](https://files.bulinbot.app/docs/zh/use/image.png)
+![image](https://files.novabot.app/docs/zh/use/image.png)
 
 输入 `uv` 即可。
 
@@ -91,7 +91,7 @@ npx -v
 
 在 NovaBot WebUI 中设置:
 
-![image](https://files.bulinbot.app/docs/zh/use/image-2.png)
+![image](https://files.novabot.app/docs/zh/use/image-2.png)
 
 即可。
 

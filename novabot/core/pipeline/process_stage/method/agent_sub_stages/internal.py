@@ -40,7 +40,7 @@ from novabot.core.star.star_handler import EventType
 from novabot.core.utils.metrics import Metric
 from novabot.core.utils.session_lock import session_lock_manager
 
-from .....bulin_agent_run_util import AgentRunner, run_agent, run_live_agent
+from .....nova_agent_run_util import AgentRunner, run_agent, run_live_agent
 from ....context import PipelineContext, call_event_hook
 from ...follow_up import (
     FollowUpCapture,
@@ -277,7 +277,7 @@ class InternalAgentSubStage(Stage):
                     action_type = event.get_extra("action_type")
 
                     event.trace.record(
-                        "bulin_agent_prepare",
+                        "nova_agent_prepare",
                         system_prompt=req.system_prompt,
                         tools=req.func_tool.names() if req.func_tool else [],
                         stream=streaming_response,
@@ -385,7 +385,7 @@ class InternalAgentSubStage(Stage):
                     final_resp = agent_runner.get_final_llm_resp()
 
                     event.trace.record(
-                        "bulin_agent_complete",
+                        "nova_agent_complete",
                         stats=agent_runner.stats.to_dict(),
                         resp=final_resp.completion_text if final_resp else None,
                     )

@@ -14,7 +14,7 @@ NovaBot 已经由 1Panel 团队上架至 [1Panel 应用商店](https://apps.fit2
 
 打开 1Panel 面板，进入 1Panel 应用商店，搜索 `NovaBot`，如下图所示。
 
-![image](https://files.bulinbot.app/docs/source/images/1panel/image.png)
+![image](https://files.novabot.app/docs/source/images/1panel/image.png)
 
 点击 `安装`，等待安装成功。
 

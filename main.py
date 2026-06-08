@@ -25,7 +25,7 @@ from novabot.core.utils.runtime_env import is_packaged_desktop_runtime  # noqa: 
 sys.path.append(Path(__file__).parent.as_posix())
 
 logo_tmpl = r"""
-布林bot（猫猫特供版）
+NovaBot（猫猫特供版）
 """
 
 

@@ -16,7 +16,7 @@ See deployment methods on the [VoceChat official website](https://voce.chat/en-U
 
 In NovaBot Dashboard Plugin Market, search for `nova-bot_plugin_vocechat` and install it.
 
-![image](https://files.bulinbot.app/docs/source/images/vocechat/image.png)
+![image](https://files.novabot.app/docs/source/images/vocechat/image.png)
 
 After installation, go to `Bots` -> `+ Create Bot` -> `VoceChat`.
 If VoceChat is missing, restart NovaBot or verify plugin installation.

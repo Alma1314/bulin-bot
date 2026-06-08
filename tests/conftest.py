@@ -209,7 +209,7 @@ def mock_conversation():
 
 @pytest.fixture
 def mock_event():
-    """创建模拟的 BulinMessageEvent。"""
+    """创建模拟的 NovaMessageEvent。"""
     event = MagicMock()
     event.unified_msg_origin = "test_umo"
     event.session_id = "test_session"
@@ -250,7 +250,7 @@ def novabot_config(temp_config_file: Path):
 @pytest.fixture
 def main_agent_build_config():
     """创建 MainAgentBuildConfig 实例。"""
-    from novabot.core.bulin_main_agent import MainAgentBuildConfig
+    from novabot.core.nova_main_agent import MainAgentBuildConfig
 
     return MainAgentBuildConfig(
         tool_call_timeout=60,

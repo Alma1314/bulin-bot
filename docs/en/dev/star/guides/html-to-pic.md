@@ -10,14 +10,14 @@ NovaBot supports rendering text into images.
 
 ```python
 @filter.command("image") # Register an /image command that accepts a text parameter.
-async def on_aiocqhttp(self, event: BulinMessageEvent, text: str):
+async def on_aiocqhttp(self, event: NovaMessageEvent, text: str):
     url = await self.text_to_image(text) # text_to_image() is a method of the Star class.
     # path = await self.text_to_image(text, return_url = False) # If you want to save the image locally
     yield event.image_result(url)
 
 ```
 
-![image](https://files.bulinbot.app/docs/source/images/plugin/image-3.png)
+![image](https://files.novabot.app/docs/source/images/plugin/image-3.png)
 
 ## Customization (HTML-Based)
 
@@ -39,7 +39,7 @@ TMPL = '''
 '''
 
 @filter.command("todo")
-async def custom_t2i_tmpl(self, event: BulinMessageEvent):
+async def custom_t2i_tmpl(self, event: NovaMessageEvent):
     options = {} # Optionally pass rendering options.
     url = await self.html_render(TMPL, {"items": ["Eat", "Sleep", "Play Genshin"]}, options=options) # The second parameter is the data for Jinja2 rendering
     yield event.image_result(url)
@@ -47,7 +47,7 @@ async def custom_t2i_tmpl(self, event: BulinMessageEvent):
 
 The result:
 
-![image](https://files.bulinbot.app/docs/source/images/plugin/fcc2dcb472a91b12899f617477adc5c7.png)
+![image](https://files.novabot.app/docs/source/images/plugin/fcc2dcb472a91b12899f617477adc5c7.png)
 
 This is just a simple example. Thanks to the powerful capabilities of HTML and DOM renderers, you can create more complex and visually appealing designs. Additionally, Jinja2 supports syntax for loops, conditionals, and more to accommodate data structures like lists and dictionaries. You can learn more about Jinja2 online.
 

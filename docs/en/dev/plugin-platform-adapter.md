@@ -127,13 +127,13 @@ class FakePlatformAdapter(Platform):
 `fake_platform_event.py`:
 
 ```py
-from nova-bot.api.event import BulinMessageEvent, MessageChain
+from nova-bot.api.event import NovaMessageEvent, MessageChain
 from nova-bot.api.platform import NovaBotMessage, PlatformMetadata
 from nova-bot.api.message_components import Plain, Image
 from .client import FakeClient
 from nova-bot.core.utils.io import download_image_by_url
 
-class FakePlatformEvent(BulinMessageEvent):
+class FakePlatformEvent(NovaMessageEvent):
     def __init__(self, message_str: str, message_obj: NovaBotMessage, platform_meta: PlatformMetadata, session_id: str, client: FakeClient):
         super().__init__(message_str, message_obj, platform_meta, session_id)
         self.client = client
@@ -172,15 +172,15 @@ class MyPlugin(Star):
 
 Once set up, run NovaBot:
 
-![image](https://files.bulinbot.app/docs/source/images/plugin-platform-adapter/QQ_1738155926221.png)
+![image](https://files.novabot.app/docs/source/images/plugin-platform-adapter/QQ_1738155926221.png)
 
 The `fake` adapter we created now appears here.
 
-![image](https://files.bulinbot.app/docs/source/images/plugin-platform-adapter/QQ_1738155982211.png)
+![image](https://files.novabot.app/docs/source/images/plugin-platform-adapter/QQ_1738155982211.png)
 
 After starting, you can see it working correctly:
 
-![image](https://files.bulinbot.app/docs/source/images/plugin-platform-adapter/QQ_1738156166893.png)
+![image](https://files.novabot.app/docs/source/images/plugin-platform-adapter/QQ_1738156166893.png)
 
 
 If you have any questions, feel free to join the community group and ask~

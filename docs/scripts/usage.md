@@ -4,5 +4,5 @@ bash scripts/upload-doc-images-to-r2.sh \
     --bucket nova-bot \
     --prefix docs \
     --rewrite-markdown \
-    --public-base-url https://files.bulinbot.app
+    --public-base-url https://files.novabot.app
 ```

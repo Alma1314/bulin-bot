@@ -5,7 +5,7 @@
 
 Starting from version `v4.12.0`, NovaBot introduced the Agent sandbox environment to replace the previous code executor functionality. The sandbox environment provides Agents with safer and more flexible code execution and automation capabilities.
 
-![](https://files.bulinbot.app/docs/source/images/nova-bot-agent-sandbox/image.png)
+![](https://files.novabot.app/docs/source/images/nova-bot-agent-sandbox/image.png)
 
 ## Enabling the Sandbox Environment
 

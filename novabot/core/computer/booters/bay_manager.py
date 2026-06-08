@@ -22,7 +22,7 @@ from novabot.api import logger
 # Constants
 # ---------------------------------------------------------------------------
 
-BAY_IMAGE = "ghcr.io/bulinbotdevs/shipyard-neo-bay:latest"
+BAY_IMAGE = "ghcr.io/novabotdevs/shipyard-neo-bay:latest"
 BAY_CONTAINER_NAME = "novabot-bay"
 BAY_LABEL = "novabot.bay.managed"
 BAY_PORT = 8114

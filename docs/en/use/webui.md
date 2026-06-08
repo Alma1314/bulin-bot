@@ -2,7 +2,7 @@
 
 The NovaBot admin panel features plugin management, log viewing, visual configuration, statistics viewing, and more.
 
-![image](https://files.bulinbot.app/docs/source/images/webui/image-4.png)
+![image](https://files.novabot.app/docs/source/images/webui/image-4.png)
 
 ## Accessing the Admin Panel
 
@@ -61,7 +61,7 @@ ChatUI supports these common workflows:
 
 In the admin panel, you can configure NovaBot's plugins through visual configuration. Click `Configuration` in the left sidebar to enter the configuration page.
 
-![image](https://files.bulinbot.app/docs/source/images/webui/image-3.png)
+![image](https://files.novabot.app/docs/source/images/webui/image-3.png)
 
 After modifying the configuration, you need to click the `Save` button in the bottom right corner to successfully save the configuration.
 
@@ -69,7 +69,7 @@ Use the first circular button in the bottom right corner to switch to `Code Edit
 
 After editing, first click `Apply This Configuration`, which will apply the configuration to the visual configuration, then click the `Save` button in the bottom right corner to save the configuration. If you don't click `Apply This Configuration`, your modifications won't take effect.
 
-![alt text](https://files.bulinbot.app/docs/source/images/webui/image-5.png)
+![alt text](https://files.novabot.app/docs/source/images/webui/image-5.png)
 
 ## Plugins
 
@@ -77,7 +77,7 @@ In the admin panel, you can view installed plugins and install new plugins throu
 
 Click the Plugin Market tab to browse plugins officially listed by NovaBot.
 
-![image](https://files.bulinbot.app/docs/source/images/webui/image-1.png)
+![image](https://files.novabot.app/docs/source/images/webui/image-1.png)
 
 You can also click the + button in the bottom right corner to manually install plugins via URL or file upload.
 

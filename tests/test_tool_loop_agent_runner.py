@@ -18,7 +18,7 @@ from novabot.core.agent.message import ImageURLPart, Message, TextPart
 from novabot.core.agent.run_context import ContextWrapper
 from novabot.core.agent.runners.tool_loop_agent_runner import ToolLoopAgentRunner
 from novabot.core.agent.tool import FunctionTool, ToolSet
-from novabot.core.bulin_agent_tool_exec import FunctionToolExecutor
+from novabot.core.nova_agent_tool_exec import FunctionToolExecutor
 from novabot.core.exceptions import EmptyModelOutputError
 from novabot.core.provider.entities import LLMResponse, ProviderRequest, TokenUsage
 from novabot.core.provider.provider import Provider

@@ -1,16 +1,16 @@
-"""Tests for bulin_main_agent module."""
+"""Tests for nova_main_agent module."""
 
 import os
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from novabot.core import bulin_main_agent as ama
+from novabot.core import nova_main_agent as ama
 from novabot.core.agent.mcp_client import MCPTool
 from novabot.core.agent.tool import FunctionTool, ToolSet
 from novabot.core.conversation_mgr import Conversation
 from novabot.core.message.components import File, Image, Plain, Reply, Video
-from novabot.core.platform.bulin_message_event import BulinMessageEvent
+from novabot.core.platform.nova_message_event import NovaMessageEvent
 from novabot.core.platform.platform_metadata import PlatformMetadata
 from novabot.core.provider import Provider
 from novabot.core.provider.entities import ProviderRequest
@@ -51,7 +51,7 @@ def mock_context():
 
 @pytest.fixture
 def mock_event():
-    """Create a mock BulinMessageEvent."""
+    """Create a mock NovaMessageEvent."""
     platform_meta = PlatformMetadata(
         id="test_platform",
         name="test_platform",
@@ -63,7 +63,7 @@ def mock_event():
     message_obj.group_id = None
     message_obj.group = None
 
-    event = MagicMock(spec=BulinMessageEvent)
+    event = MagicMock(spec=NovaMessageEvent)
     event.message_str = "Hello"
     event.message_obj = message_obj
     event.platform_meta = platform_meta
@@ -338,7 +338,7 @@ class TestApplyKb:
         )
 
         with patch(
-            "novabot.core.bulin_main_agent.retrieve_knowledge_base",
+            "novabot.core.nova_main_agent.retrieve_knowledge_base",
             AsyncMock(return_value="KB result"),
         ):
             await module._apply_kb(mock_event, req, mock_context, config)
@@ -381,7 +381,7 @@ class TestApplyKb:
         )
         retrieve = AsyncMock(return_value="KB result")
 
-        with patch("novabot.core.bulin_main_agent.retrieve_knowledge_base", retrieve):
+        with patch("novabot.core.nova_main_agent.retrieve_knowledge_base", retrieve):
             await module._apply_kb(mock_event, req, mock_context, config)
 
         retrieve.assert_not_awaited()
@@ -397,7 +397,7 @@ class TestApplyKb:
         )
 
         with patch(
-            "novabot.core.bulin_main_agent.retrieve_knowledge_base",
+            "novabot.core.nova_main_agent.retrieve_knowledge_base",
             AsyncMock(return_value=None),
         ):
             await module._apply_kb(mock_event, req, mock_context, config)
@@ -509,7 +509,7 @@ class TestApplyFileExtract:
         req = ProviderRequest(prompt="Summarize")
 
         with patch(
-            "novabot.core.bulin_main_agent.extract_file_moonshotai"
+            "novabot.core.nova_main_agent.extract_file_moonshotai"
         ) as mock_extract:
             mock_extract.return_value = "File content"
 
@@ -543,7 +543,7 @@ class TestApplyFileExtract:
         req = ProviderRequest(prompt="Summarize")
 
         with patch(
-            "novabot.core.bulin_main_agent.extract_file_moonshotai"
+            "novabot.core.nova_main_agent.extract_file_moonshotai"
         ) as mock_extract:
             mock_extract.return_value = "Reply content"
 
@@ -563,7 +563,7 @@ class TestApplyFileExtract:
         req = ProviderRequest(prompt=None)
 
         with patch(
-            "novabot.core.bulin_main_agent.extract_file_moonshotai"
+            "novabot.core.nova_main_agent.extract_file_moonshotai"
         ) as mock_extract:
             mock_extract.return_value = "Content"
 
@@ -900,7 +900,7 @@ class TestPluginToolFix:
         req = ProviderRequest(func_tool=tool_set)
         mock_event.plugins_name = ["test_plugin"]
 
-        with patch("novabot.core.bulin_main_agent.star_map") as mock_star_map:
+        with patch("novabot.core.nova_main_agent.star_map") as mock_star_map:
             mock_plugin = MagicMock()
             mock_plugin.name = "test_plugin"
             mock_plugin.reserved = False
@@ -924,7 +924,7 @@ class TestPluginToolFix:
         req = ProviderRequest(func_tool=tool_set)
         mock_event.plugins_name = ["other_plugin"]
 
-        with patch("novabot.core.bulin_main_agent.star_map"):
+        with patch("novabot.core.nova_main_agent.star_map"):
             module._plugin_tool_fix(mock_event, req)
 
         assert "mcp_tool" in req.func_tool.names()
@@ -946,7 +946,7 @@ class TestPluginToolFix:
         req = ProviderRequest(func_tool=tool_set)
         mock_event.plugins_name = ["other_plugin"]
 
-        with patch("novabot.core.bulin_main_agent.star_map"):
+        with patch("novabot.core.nova_main_agent.star_map"):
             module._plugin_tool_fix(mock_event, req)
 
         assert "transfer_to_demo_agent" in req.func_tool.names()
@@ -969,8 +969,8 @@ class TestBuildMainAgent:
         _setup_conversation_for_build(conv_mgr)
 
         with (
-            patch("novabot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
-            patch("novabot.core.bulin_main_agent.BulinAgentContext"),
+            patch("novabot.core.nova_main_agent.AgentRunner") as mock_runner_cls,
+            patch("novabot.core.nova_main_agent.NovaAgentContext"),
         ):
             mock_runner = MagicMock()
             mock_runner.reset = AsyncMock()
@@ -998,8 +998,8 @@ class TestBuildMainAgent:
         _setup_conversation_for_build(conv_mgr)
 
         with (
-            patch("novabot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
-            patch("novabot.core.bulin_main_agent.BulinAgentContext"),
+            patch("novabot.core.nova_main_agent.AgentRunner") as mock_runner_cls,
+            patch("novabot.core.nova_main_agent.NovaAgentContext"),
         ):
             mock_runner = MagicMock()
             mock_runner.reset = AsyncMock()
@@ -1048,8 +1048,8 @@ class TestBuildMainAgent:
         _setup_conversation_for_build(conv_mgr)
 
         with (
-            patch("novabot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
-            patch("novabot.core.bulin_main_agent.BulinAgentContext"),
+            patch("novabot.core.nova_main_agent.AgentRunner") as mock_runner_cls,
+            patch("novabot.core.nova_main_agent.NovaAgentContext"),
         ):
             mock_runner = MagicMock()
             mock_runner.reset = AsyncMock()
@@ -1103,8 +1103,8 @@ class TestBuildMainAgent:
         _setup_conversation_for_build(conv_mgr)
 
         with (
-            patch("novabot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
-            patch("novabot.core.bulin_main_agent.BulinAgentContext"),
+            patch("novabot.core.nova_main_agent.AgentRunner") as mock_runner_cls,
+            patch("novabot.core.nova_main_agent.NovaAgentContext"),
         ):
             mock_runner = MagicMock()
             mock_runner.reset = AsyncMock()
@@ -1141,8 +1141,8 @@ class TestBuildMainAgent:
         _setup_conversation_for_build(conv_mgr)
 
         with (
-            patch("novabot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
-            patch("novabot.core.bulin_main_agent.BulinAgentContext"),
+            patch("novabot.core.nova_main_agent.AgentRunner") as mock_runner_cls,
+            patch("novabot.core.nova_main_agent.NovaAgentContext"),
             patch.object(
                 Image,
                 "convert_to_file_path",
@@ -1206,8 +1206,8 @@ class TestBuildMainAgent:
         mock_context.get_config.return_value = {}
 
         with (
-            patch("novabot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
-            patch("novabot.core.bulin_main_agent.BulinAgentContext"),
+            patch("novabot.core.nova_main_agent.AgentRunner") as mock_runner_cls,
+            patch("novabot.core.nova_main_agent.NovaAgentContext"),
         ):
             mock_runner = MagicMock()
             mock_runner.reset = AsyncMock()
@@ -1258,8 +1258,8 @@ class TestBuildMainAgent:
         mock_context.get_config.return_value = {}
 
         with (
-            patch("novabot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
-            patch("novabot.core.bulin_main_agent.BulinAgentContext"),
+            patch("novabot.core.nova_main_agent.AgentRunner") as mock_runner_cls,
+            patch("novabot.core.nova_main_agent.NovaAgentContext"),
         ):
             mock_runner = MagicMock()
             mock_runner.reset = AsyncMock()
@@ -1303,8 +1303,8 @@ class TestBuildMainAgent:
         _setup_conversation_for_build(conv_mgr)
 
         with (
-            patch("novabot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
-            patch("novabot.core.bulin_main_agent.BulinAgentContext"),
+            patch("novabot.core.nova_main_agent.AgentRunner") as mock_runner_cls,
+            patch("novabot.core.nova_main_agent.NovaAgentContext"),
         ):
             mock_runner = MagicMock()
             mock_runner.reset = AsyncMock()
@@ -1344,8 +1344,8 @@ class TestBuildMainAgent:
         _setup_conversation_for_build(conv_mgr)
 
         with (
-            patch("novabot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
-            patch("novabot.core.bulin_main_agent.BulinAgentContext"),
+            patch("novabot.core.nova_main_agent.AgentRunner") as mock_runner_cls,
+            patch("novabot.core.nova_main_agent.NovaAgentContext"),
         ):
             mock_runner = MagicMock()
             mock_runner.reset = AsyncMock()
@@ -1392,9 +1392,9 @@ class TestBuildMainAgent:
             raise RuntimeError("quoted")
 
         with (
-            patch("novabot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
-            patch("novabot.core.bulin_main_agent.BulinAgentContext"),
-            patch("novabot.core.bulin_main_agent.logger") as mock_logger,
+            patch("novabot.core.nova_main_agent.AgentRunner") as mock_runner_cls,
+            patch("novabot.core.nova_main_agent.NovaAgentContext"),
+            patch("novabot.core.nova_main_agent.logger") as mock_logger,
             patch.object(
                 Video,
                 "convert_to_file_path",
@@ -1464,8 +1464,8 @@ class TestBuildMainAgent:
         _setup_conversation_for_build(conv_mgr)
 
         with (
-            patch("novabot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
-            patch("novabot.core.bulin_main_agent.BulinAgentContext"),
+            patch("novabot.core.nova_main_agent.AgentRunner") as mock_runner_cls,
+            patch("novabot.core.nova_main_agent.NovaAgentContext"),
         ):
             mock_runner = MagicMock()
             mock_runner.reset = AsyncMock()
@@ -1495,8 +1495,8 @@ class TestBuildMainAgent:
         )
 
         with (
-            patch("novabot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
-            patch("novabot.core.bulin_main_agent.BulinAgentContext"),
+            patch("novabot.core.nova_main_agent.AgentRunner") as mock_runner_cls,
+            patch("novabot.core.nova_main_agent.NovaAgentContext"),
         ):
             mock_runner = MagicMock()
             mock_runner.reset = AsyncMock()
@@ -1748,7 +1748,7 @@ class TestHandleWebchat:
 
         with (
             patch("novabot.core.db_helper") as mock_db,
-            patch("novabot.core.bulin_main_agent.logger") as mock_logger,
+            patch("novabot.core.nova_main_agent.logger") as mock_logger,
         ):
             mock_db.get_platform_session_by_id = AsyncMock(return_value=mock_session)
             mock_db.update_platform_session = AsyncMock()
@@ -1813,7 +1813,7 @@ class TestApplyLlmSafetyMode:
         )
         req = ProviderRequest(prompt="Test", system_prompt="Original")
 
-        with patch("novabot.core.bulin_main_agent.logger") as mock_logger:
+        with patch("novabot.core.nova_main_agent.logger") as mock_logger:
             module._apply_llm_safety_mode(config, req)
 
         mock_logger.warning.assert_called_once()
@@ -1953,7 +1953,7 @@ class TestApplySandboxTools:
         )
         req = ProviderRequest(prompt="Test", func_tool=None)
 
-        with patch("novabot.core.bulin_main_agent.logger") as mock_logger:
+        with patch("novabot.core.nova_main_agent.logger") as mock_logger:
             module._apply_sandbox_tools(config, req, "session-123")
 
         mock_logger.error.assert_called_once()
@@ -1976,7 +1976,7 @@ class TestApplySandboxTools:
         )
         req = ProviderRequest(prompt="Test", func_tool=None)
 
-        with patch("novabot.core.bulin_main_agent.logger") as mock_logger:
+        with patch("novabot.core.nova_main_agent.logger") as mock_logger:
             module._apply_sandbox_tools(config, req, "session-123")
 
         mock_logger.error.assert_called_once()

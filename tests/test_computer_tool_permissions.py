@@ -39,8 +39,8 @@ def _make_run_context(require_admin: bool, role: str = "member") -> ContextWrapp
         unified_msg_origin="qq_official:friend:user-1",
         get_sender_id=lambda: "user-1",
     )
-    bulin_ctx = SimpleNamespace(context=config_holder, event=event)
-    return ContextWrapper(context=bulin_ctx)
+    nova_ctx = SimpleNamespace(context=config_holder, event=event)
+    return ContextWrapper(context=nova_ctx)
 
 
 @pytest.mark.asyncio

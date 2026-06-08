@@ -21,8 +21,8 @@ Platform adapters that support Unified Webhook Mode include:
 
 When configuring each platform adapter afterwards, enable `Unified Webhook Mode (unified_webhook_mode)`.
 
-![unified_webhook](https://files.bulinbot.app/docs/source/images/use/unified-webhook-config.png)
+![unified_webhook](https://files.novabot.app/docs/source/images/use/unified-webhook-config.png)
 
 Once this mode is enabled, NovaBot will generate a unique Webhook callback URL for you. You just need to fill this URL into each platform's callback address field.
 
-![unified_webhook](https://files.bulinbot.app/docs/source/images/use/unified-webhook.png)
+![unified_webhook](https://files.novabot.app/docs/source/images/use/unified-webhook.png)

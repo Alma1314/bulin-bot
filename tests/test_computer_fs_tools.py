@@ -37,8 +37,8 @@ def _make_context(
         unified_msg_origin=umo,
         get_sender_id=lambda: "user-1",
     )
-    bulin_ctx = SimpleNamespace(context=config_holder, event=event)
-    return ContextWrapper(context=bulin_ctx)
+    nova_ctx = SimpleNamespace(context=config_holder, event=event)
+    return ContextWrapper(context=nova_ctx)
 
 
 def _setup_local_fs_tools(

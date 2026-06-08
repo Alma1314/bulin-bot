@@ -20,7 +20,7 @@ If not, follow official docs first:
 
 After enabling, `server-satori` serves Satori API under `/satori`.
 
-![image](https://files.bulinbot.app/docs/source/images/satori/2025-09-07_17-14-55.png)
+![image](https://files.novabot.app/docs/source/images/satori/2025-09-07_17-14-55.png)
 
 ## Configure Satori Adapter in NovaBot
 
@@ -43,7 +43,7 @@ Fill in:
 > - So the full API base is `http://localhost:5140/satori/v1`.
 > - If your Koishi runs on different host/port/path, change accordingly.
 
-![image](https://files.bulinbot.app/docs/source/images/satori/2025-10-10_16-16-25.png)
+![image](https://files.novabot.app/docs/source/images/satori/2025-10-10_16-16-25.png)
 
 Click `Save`.
 
@@ -53,7 +53,7 @@ NovaBot should now be connected to Koishi via `server-satori`.
 
 Test by sending an NovaBot command (for example `/help`) in Koishi sandbox.
 
-![image](https://files.bulinbot.app/docs/source/images/satori/2025-09-07_17-19-04.png)
+![image](https://files.novabot.app/docs/source/images/satori/2025-09-07_17-19-04.png)
 
 ## Troubleshooting
 

@@ -27,7 +27,7 @@ Create a bot, fill in name/description/avatar, then submit for review. After sec
 
 Open the created bot to enter its management page:
 
-![image](https://files.bulinbot.app/docs/source/images/qqofficial/image.png)
+![image](https://files.novabot.app/docs/source/images/qqofficial/image.png)
 
 ## Allow Bot in Channel / Group / Private Chat
 
@@ -35,7 +35,7 @@ Open `Sandbox Configuration` to set a sandbox channel / QQ group / QQ private ch
 
 Then configure QQ groups, private chat QQ accounts, and QQ channels as needed.
 
-![image](https://files.bulinbot.app/docs/source/images/qqofficial/image-1.png)
+![image](https://files.novabot.app/docs/source/images/qqofficial/image-1.png)
 
 ## Get `appid` and `secret`
 
@@ -45,7 +45,7 @@ After adding the bot where you need it, open `Development -> Development Setting
 
 Open `Development -> Development Settings`, find IP whitelist, and add your server IP.
 
-![image](https://files.bulinbot.app/docs/source/images/qqofficial/image-3.png)
+![image](https://files.novabot.app/docs/source/images/qqofficial/image-3.png)
 
 ## Configure in NovaBot
 
@@ -73,7 +73,7 @@ Your domain should reverse-proxy traffic to NovaBot port `6196` using `Caddy`, `
 
 Then add callback events and select all four event categories (private, group, channel, etc.).
 
-![image](https://files.bulinbot.app/docs/source/images/webhook/image.png)
+![image](https://files.novabot.app/docs/source/images/webhook/image.png)
 
 After entering values, move focus out of the input box to trigger validation. If validation passes, the confirm button on the right becomes clickable.
 

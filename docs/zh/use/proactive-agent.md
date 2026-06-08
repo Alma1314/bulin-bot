@@ -2,7 +2,7 @@
 
 NovaBot 引入了主动 Agent（Proactive Agent）系统，使 NovaBot 不仅能被动响应用户，还能通过给自己下达未来的任务来在未来的指定时刻主动执行任务并向用户主动反馈结果（文本、图片、文件都可）。
 
-![](https://files.bulinbot.app/docs/source/images/proactive-agent/image.png)
+![](https://files.novabot.app/docs/source/images/proactive-agent/image.png)
 
 在 v4.14.0 引入，目前是**实验性功能**，未稳定。
 
@@ -30,7 +30,7 @@ NovaBot 引入了主动 Agent（Proactive Agent）系统，使 NovaBot 不仅能
 
 你可以在 NovaBot WebUI 左侧导航栏中点击 **未来任务** 来查看和管理所有未来任务。
 
-![](https://files.bulinbot.app/docs/source/images/proactive-agent/image-1.png)
+![](https://files.novabot.app/docs/source/images/proactive-agent/image-1.png)
 
 ### 支持的平台
 

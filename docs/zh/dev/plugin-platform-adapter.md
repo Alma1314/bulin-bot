@@ -51,7 +51,7 @@ import asyncio
 from nova-bot.api.platform import Platform, NovaBotMessage, MessageMember, PlatformMetadata, MessageType
 from nova-bot.api.event import MessageChain
 from nova-bot.api.message_components import Plain, Image, Record # 消息链中的组件，可以根据需要导入
-from nova-bot.core.platform.bulin_message_event import MessageSesion
+from nova-bot.core.platform.nova_message_event import MessageSesion
 from nova-bot.api.platform import register_platform_adapter
 from nova-bot import logger
 from .client import FakeClient
@@ -126,13 +126,13 @@ class FakePlatformAdapter(Platform):
 `fake_platform_event.py`：
 
 ```py
-from nova-bot.api.event import BulinMessageEvent, MessageChain
+from nova-bot.api.event import NovaMessageEvent, MessageChain
 from nova-bot.api.platform import NovaBotMessage, PlatformMetadata
 from nova-bot.api.message_components import Plain, Image
 from .client import FakeClient
 from nova-bot.core.utils.io import download_image_by_url
 
-class FakePlatformEvent(BulinMessageEvent):
+class FakePlatformEvent(NovaMessageEvent):
     def __init__(self, message_str: str, message_obj: NovaBotMessage, platform_meta: PlatformMetadata, session_id: str, client: FakeClient):
         super().__init__(message_str, message_obj, platform_meta, session_id)
         self.client = client
@@ -171,15 +171,15 @@ class MyPlugin(Star):
 
 搞好后，运行 NovaBot：
 
-![image](https://files.bulinbot.app/docs/source/images/plugin-platform-adapter/QQ_1738155926221.png)
+![image](https://files.novabot.app/docs/source/images/plugin-platform-adapter/QQ_1738155926221.png)
 
 这里出现了我们创建的 fake。
 
-![image](https://files.bulinbot.app/docs/source/images/plugin-platform-adapter/QQ_1738155982211.png)
+![image](https://files.novabot.app/docs/source/images/plugin-platform-adapter/QQ_1738155982211.png)
 
 启动后，可以看到正常工作：
 
-![image](https://files.bulinbot.app/docs/source/images/plugin-platform-adapter/QQ_1738156166893.png)
+![image](https://files.novabot.app/docs/source/images/plugin-platform-adapter/QQ_1738156166893.png)
 
 
 有任何疑问欢迎加群询问~

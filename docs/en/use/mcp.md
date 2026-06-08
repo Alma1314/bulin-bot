@@ -3,11 +3,11 @@
 
 MCP (Model Context Protocol) is a new open standard protocol for establishing secure bidirectional connections between large language models and data sources. Simply put, it extracts function tools as independent services, allowing NovaBot to remotely invoke these function tools via the MCP protocol, which then return results to NovaBot.
 
-![image](https://files.bulinbot.app/docs/source/images/function-calling/image3.png)
+![image](https://files.novabot.app/docs/source/images/function-calling/image3.png)
 
 NovaBot v3.5.0 supports the MCP protocol, enabling you to add multiple MCP servers and use function tools from MCP servers.
 
-![image](https://files.bulinbot.app/docs/source/images/function-calling/image2.png)
+![image](https://files.novabot.app/docs/source/images/function-calling/image2.png)
 
 ## Initial Configuration
 
@@ -15,7 +15,7 @@ MCP servers are typically launched using `uv` or `npm`, so you need to install t
 
 For `uv`, you can install it directly via pip. Quick installation via NovaBot WebUI:
 
-![image](https://files.bulinbot.app/docs/en/use/image.png)
+![image](https://files.novabot.app/docs/en/use/image.png)
 
 Just enter `uv`.
 
@@ -92,7 +92,7 @@ If the MCP server you need requires environment variables to configure something
 
 Configure it in the NovaBot WebUI:
 
-![image](https://files.bulinbot.app/docs/en/use/image-2.png)
+![image](https://files.novabot.app/docs/en/use/image-2.png)
 
 That's it.
 

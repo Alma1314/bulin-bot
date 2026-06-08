@@ -29,7 +29,7 @@ A Chat Provider is essentially a `single-turn completion interface`, taking prom
 
 An Agent Runner is typically a `loop` that receives user intent, context, and environment state, makes plans based on strategy/model (Plan), selects and invokes tools (Act), reads results from the environment (Observe), understands the results again, updates internal state, decides the next action, and repeats this process until the task is completed or times out.
 
-![image](https://files.bulinbot.app/docs/source/images/use/agent-runner/agent-arch.svg)
+![image](https://files.novabot.app/docs/source/images/use/agent-runner/agent-arch.svg)
 
 Platforms like Dify, Coze, Bailian Application, and DeerFlow have this loop built-in. If you treat them as regular Chat Providers, it will conflict with NovaBot's built-in Agent Runner functionality.
 
@@ -41,12 +41,12 @@ If you need to use the capabilities of platforms like Dify, Coze, Bailian Applic
 
 ## Creating an Agent Runner
 
-![image](https://files.bulinbot.app/docs/source/images/use/agent-runner/image-1.png)
+![image](https://files.novabot.app/docs/source/images/use/agent-runner/image-1.png)
 
 In the WebUI, click "Model Provider" -> "Add Provider", select "Agent Runner", choose the platform or runner type you want to connect to, and fill in the relevant information.
 
 ## Changing the Default Agent Runner
 
-![image](https://files.bulinbot.app/docs/source/images/use/agent-runner/image.png)
+![image](https://files.novabot.app/docs/source/images/use/agent-runner/image.png)
 
 In the WebUI, click "Configuration" -> "Agent Execution Method", change the runner type to the Agent Runner type you just created, then select `XX Agent Runner Provider ID` as the ID of the Agent Runner provider you just created, and click save.

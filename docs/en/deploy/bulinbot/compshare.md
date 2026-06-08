@@ -52,7 +52,7 @@ The image includes Ollama. You can pull any model and host it locally on the ins
 3. Run `ollama pull <model-name>` and wait for completion.
 4. In NovaBot Dashboard -> Providers, edit `ollama_deepseek-r1`, update the model name, and save.
 
-![image](https://files.bulinbot.app/docs/source/images/compshare/image-1.png)
+![image](https://files.novabot.app/docs/source/images/compshare/image-1.png)
 
 ### Use Compshare Model API
 
@@ -69,24 +69,24 @@ In NovaBot Dashboard, click `Chat` and run `/provider` to view and switch your a
 
 Then send a normal message to test whether the model works.
 
-![image](https://files.bulinbot.app/docs/source/images/compshare/image-2.png)
+![image](https://files.novabot.app/docs/source/images/compshare/image-2.png)
 
 ## Connect to Messaging Platforms
 
-You can follow the latest platform integration guides in the [NovaBot Documentation](https://docs.bulinbot.app/en/what-is-nova-bot.html).
+You can follow the latest platform integration guides in the [NovaBot Documentation](https://docs.novabot.app/en/what-is-nova-bot.html).
 Open the docs and check the left sidebar under Messaging Platforms.
 
-- Lark: [Connect to Lark](https://docs.bulinbot.app/en/platform/lark.html)
-- LINE: [Connect to LINE](https://docs.bulinbot.app/en/platform/line.html)
-- DingTalk: [Connect to DingTalk](https://docs.bulinbot.app/en/platform/dingtalk.html)
-- WeCom: [Connect to WeCom](https://docs.bulinbot.app/en/platform/wecom.html)
-- WeChat Official Account: [Connect to WeChat Official Account](https://docs.bulinbot.app/en/platform/weixin-official-account.html)
-- QQ Official Bot: [Connect to QQ Official API](https://docs.bulinbot.app/en/platform/qqofficial/webhook.html)
-- KOOK: [Connect to KOOK](https://docs.bulinbot.app/en/platform/kook.html)
-- Slack: [Connect to Slack](https://docs.bulinbot.app/en/platform/slack.html)
-- Discord: [Connect to Discord](https://docs.bulinbot.app/en/platform/discord.html)
-- More methods: [NovaBot Documentation](https://docs.bulinbot.app/en/what-is-nova-bot.html)
+- Lark: [Connect to Lark](https://docs.novabot.app/en/platform/lark.html)
+- LINE: [Connect to LINE](https://docs.novabot.app/en/platform/line.html)
+- DingTalk: [Connect to DingTalk](https://docs.novabot.app/en/platform/dingtalk.html)
+- WeCom: [Connect to WeCom](https://docs.novabot.app/en/platform/wecom.html)
+- WeChat Official Account: [Connect to WeChat Official Account](https://docs.novabot.app/en/platform/weixin-official-account.html)
+- QQ Official Bot: [Connect to QQ Official API](https://docs.novabot.app/en/platform/qqofficial/webhook.html)
+- KOOK: [Connect to KOOK](https://docs.novabot.app/en/platform/kook.html)
+- Slack: [Connect to Slack](https://docs.novabot.app/en/platform/slack.html)
+- Discord: [Connect to Discord](https://docs.novabot.app/en/platform/discord.html)
+- More methods: [NovaBot Documentation](https://docs.novabot.app/en/what-is-nova-bot.html)
 
 ## More Features
 
-For more capabilities, see the [NovaBot Documentation](https://docs.bulinbot.app/en/what-is-nova-bot.html).
+For more capabilities, see the [NovaBot Documentation](https://docs.novabot.app/en/what-is-nova-bot.html).

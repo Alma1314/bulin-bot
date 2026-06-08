@@ -90,7 +90,7 @@ async def retrieve_knowledge_base(
 @builtin_tool(config=_KNOWLEDGE_BASE_TOOL_CONFIG)
 @dataclass
 class KnowledgeBaseQueryTool(FunctionTool[NovaAgentContext]):
-    name: str = "bulin_kb_search"
+    name: str = "nova_kb_search"
     description: str = (
         "Query the knowledge base for facts or relevant context. "
         "Use this tool when the user's question requires factual information, "

@@ -23,8 +23,8 @@ from novabot.core.provider.provider import TTSProvider
 AgentRunner = ToolLoopAgentRunner[NovaAgentContext]
 
 
-def _should_stop_agent(bulin_event) -> bool:
-    return bulin_event.is_stopped() or bool(bulin_event.get_extra("agent_stop_requested"))
+def _should_stop_agent(nova_event) -> bool:
+    return nova_event.is_stopped() or bool(nova_event.get_extra("agent_stop_requested"))
 
 
 def _truncate_tool_result(text: str, limit: int = 70) -> str:
@@ -122,7 +122,7 @@ async def run_agent(
     buffer_intermediate_messages: bool = False,
 ) -> AsyncGenerator[MessageChain | None, None]:
     step_idx = 0
-    bulin_event = agent_runner.run_context.context.event
+    nova_event = agent_runner.run_context.context.event
     tool_name_by_call_id: dict[str, str] = {}
     buffered_llm_chains: list[MessageChain] = []
     can_buffer_llm_result = _should_buffer_llm_result(
@@ -150,42 +150,42 @@ async def run_agent(
                 )
 
         stop_watcher = asyncio.create_task(
-            _watch_agent_stop_signal(agent_runner, bulin_event),
+            _watch_agent_stop_signal(agent_runner, nova_event),
         )
         try:
             async for resp in agent_runner.step():
-                if _should_stop_agent(bulin_event):
+                if _should_stop_agent(nova_event):
                     agent_runner.request_stop()
 
                 if resp.type == "aborted":
                     if can_buffer_llm_result:
                         merged_chain = _merge_buffered_llm_chains(buffered_llm_chains)
                         if merged_chain:
-                            bulin_event.set_result(
+                            nova_event.set_result(
                                 MessageEventResult(
                                     chain=merged_chain.chain,
                                     result_content_type=ResultContentType.LLM_RESULT,
                                 ),
                             )
                             yield merged_chain
-                            bulin_event.clear_result()
+                            nova_event.clear_result()
                     if not stop_watcher.done():
                         stop_watcher.cancel()
                         try:
                             await stop_watcher
                         except asyncio.CancelledError:
                             pass
-                    bulin_event.set_extra("agent_user_aborted", True)
-                    bulin_event.set_extra("agent_stop_requested", False)
+                    nova_event.set_extra("agent_user_aborted", True)
+                    nova_event.set_extra("agent_stop_requested", False)
                     return
 
-                if _should_stop_agent(bulin_event):
+                if _should_stop_agent(nova_event):
                     continue
 
                 if resp.type == "tool_call_result":
                     msg_chain = resp.data["chain"]
 
-                    bulin_event.trace.record(
+                    nova_event.trace.record(
                         "agent_tool_result",
                         tool_result=msg_chain.get_plain_text(
                             with_other_comps_mark=True
@@ -194,15 +194,15 @@ async def run_agent(
 
                     if msg_chain.type == "tool_direct_result":
                         # tool_direct_result 用于标记 llm tool 需要直接发送给用户的内容
-                        await bulin_event.send(msg_chain)
+                        await nova_event.send(msg_chain)
                         continue
-                    if bulin_event.get_platform_id() == "webchat":
-                        await bulin_event.send(msg_chain)
+                    if nova_event.get_platform_id() == "webchat":
+                        await nova_event.send(msg_chain)
                     elif show_tool_use and show_tool_call_result:
                         status_msg = _build_tool_result_status_message(
                             msg_chain, tool_name_by_call_id
                         )
-                        await bulin_event.send(
+                        await nova_event.send(
                             MessageChain(type="tool_call").message(status_msg)
                         )
                     # 对于其他情况，暂时先不处理
@@ -212,20 +212,20 @@ async def run_agent(
                         # 向下游平台发送 "break" 分段信号（空 MessageChain，不携带数据）。
                         # 平台适配器收到后会关闭当前流式消息，并在后续文本到来时创建新消息。
                         # 仅在 show_tool_use 为 True 时才发送：此时紧接着会通过
-                        # bulin_event.send() 独立发送工具状态消息（如"🔨 调用工具: xxx"），
+                        # nova_event.send() 独立发送工具状态消息（如"🔨 调用工具: xxx"），
                         # 需要分段才能保证消息顺序正确。
                         # 若 show_tool_use 为 False，不会有独立消息插入，无需分段。
                         yield MessageChain(chain=[], type="break")
 
                     tool_info = _extract_chain_json_data(resp.data["chain"])
-                    bulin_event.trace.record(
+                    nova_event.trace.record(
                         "agent_tool_call",
                         tool_name=tool_info if tool_info else "unknown",
                     )
                     _record_tool_call_name(tool_info, tool_name_by_call_id)
 
-                    if bulin_event.get_platform_name() == "webchat":
-                        await bulin_event.send(resp.data["chain"])
+                    if nova_event.get_platform_name() == "webchat":
+                        await nova_event.send(resp.data["chain"])
                     elif show_tool_use:
                         if show_tool_call_result and isinstance(tool_info, dict):
                             # Delay tool status notification until tool_call_result.
@@ -233,12 +233,12 @@ async def run_agent(
                         chain = MessageChain(type="tool_call").message(
                             _build_tool_call_status_message(tool_info)
                         )
-                        await bulin_event.send(chain)
+                        await nova_event.send(chain)
                     continue
                 elif resp.type == "llm_result":
                     chain = resp.data["chain"]
                     if chain.type == "reasoning":
-                        # For non-streaming mode, we handle reasoning in novabot/core/bulin_agent_hooks.py.
+                        # For non-streaming mode, we handle reasoning in novabot/core/nova_agent_hooks.py.
                         # For streaming mode, we yield content immediately when received a reasoning chunk but not in here, see below.
                         continue
 
@@ -255,14 +255,14 @@ async def run_agent(
                         if resp.type == "llm_result"
                         else ResultContentType.GENERAL_RESULT
                     )
-                    bulin_event.set_result(
+                    nova_event.set_result(
                         MessageEventResult(
                             chain=resp.data["chain"].chain,
                             result_content_type=content_typ,
                         ),
                     )
                     yield resp.data["chain"]
-                    bulin_event.clear_result()
+                    nova_event.clear_result()
                 elif resp.type == "streaming_delta":
                     chain = resp.data["chain"]
                     if chain.type == "reasoning" and not show_reasoning:
@@ -273,14 +273,14 @@ async def run_agent(
             if can_buffer_llm_result and agent_runner.done():
                 merged_chain = _merge_buffered_llm_chains(buffered_llm_chains)
                 if merged_chain:
-                    bulin_event.set_result(
+                    nova_event.set_result(
                         MessageEventResult(
                             chain=merged_chain.chain,
                             result_content_type=ResultContentType.LLM_RESULT,
                         ),
                     )
                     yield merged_chain
-                    bulin_event.clear_result()
+                    nova_event.clear_result()
 
             if not stop_watcher.done():
                 stop_watcher.cancel()
@@ -290,8 +290,8 @@ async def run_agent(
                     pass
             if agent_runner.done():
                 # send agent stats to webchat
-                if bulin_event.get_platform_name() == "webchat":
-                    await bulin_event.send(
+                if nova_event.get_platform_name() == "webchat":
+                    await nova_event.send(
                         MessageChain(
                             type="agent_stats",
                             chain=[Json(data=agent_runner.stats.to_dict())],
@@ -310,7 +310,7 @@ async def run_agent(
             logger.error(traceback.format_exc())
 
             custom_error_message = extract_persona_custom_error_message_from_event(
-                bulin_event
+                nova_event
             )
             if custom_error_message:
                 err_msg = custom_error_message
@@ -335,13 +335,13 @@ async def run_agent(
             if agent_runner.streaming:
                 yield MessageChain().message(err_msg)
             else:
-                bulin_event.set_result(MessageEventResult().message(err_msg))
+                nova_event.set_result(MessageEventResult().message(err_msg))
             return
 
 
-async def _watch_agent_stop_signal(agent_runner: AgentRunner, bulin_event) -> None:
+async def _watch_agent_stop_signal(agent_runner: AgentRunner, nova_event) -> None:
     while not agent_runner.done():
-        if _should_stop_agent(bulin_event):
+        if _should_stop_agent(nova_event):
             agent_runner.request_stop()
             return
         await asyncio.sleep(0.5)
@@ -470,10 +470,10 @@ async def run_live_agent(
 
     # 发送 TTS 统计信息
     try:
-        bulin_event = agent_runner.run_context.context.event
-        if bulin_event.get_platform_name() == "webchat":
+        nova_event = agent_runner.run_context.context.event
+        if nova_event.get_platform_name() == "webchat":
             tts_duration = tts_end_time - tts_start_time
-            await bulin_event.send(
+            await nova_event.send(
                 MessageChain(
                     type="tts_stats",
                     chain=[
