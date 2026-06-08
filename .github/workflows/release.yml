@@ -20,7 +20,7 @@ permissions:
 jobs:
   build-dashboard:
     name: Build Dashboard
-    if: github.repository == 'BulinBotDevs/BulinBot'
+    if: github.repository == 'NovaBotDevs/NovaBot'
     runs-on: ubuntu-24.04
     env:
       R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
@@ -69,14 +69,14 @@ jobs:
           pnpm install --frozen-lockfile
           pnpm run build
           echo "${{ steps.tag.outputs.tag }}" > dist/assets/version
-          zip -r "BulinBot-${{ steps.tag.outputs.tag }}-dashboard.zip" dist
+          zip -r "NovaBot-${{ steps.tag.outputs.tag }}-dashboard.zip" dist
 
       - name: Upload dashboard artifact
         uses: actions/upload-artifact@v7
         with:
           name: Dashboard-${{ steps.tag.outputs.tag }}
           if-no-files-found: error
-          path: dashboard/BulinBot-${{ steps.tag.outputs.tag }}-dashboard.zip
+          path: dashboard/NovaBot-${{ steps.tag.outputs.tag }}-dashboard.zip
 
       - name: Upload dashboard package to Cloudflare R2
         if: ${{ env.R2_ACCOUNT_ID != '' && env.R2_ACCESS_KEY_ID != '' && env.R2_SECRET_ACCESS_KEY != '' }}
@@ -98,14 +98,14 @@ jobs:
           endpoint = https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com
           EOF
 
-          cp "dashboard/BulinBot-${VERSION_TAG}-dashboard.zip" "dashboard/${R2_OBJECT_NAME}"
+          cp "dashboard/NovaBot-${VERSION_TAG}-dashboard.zip" "dashboard/${R2_OBJECT_NAME}"
           rclone copy "dashboard/${R2_OBJECT_NAME}" "r2:${R2_BUCKET_NAME}" --progress
-          cp "dashboard/BulinBot-${VERSION_TAG}-dashboard.zip" "dashboard/bulinbot-webui-${VERSION_TAG}.zip"
+          cp "dashboard/NovaBot-${VERSION_TAG}-dashboard.zip" "dashboard/bulinbot-webui-${VERSION_TAG}.zip"
           rclone copy "dashboard/bulinbot-webui-${VERSION_TAG}.zip" "r2:${R2_BUCKET_NAME}" --progress
 
   publish-release:
     name: Publish GitHub Release
-    if: github.repository == 'BulinBotDevs/BulinBot'
+    if: github.repository == 'NovaBotDevs/NovaBot'
     runs-on: ubuntu-24.04
     needs:
       - build-dashboard
@@ -185,7 +185,7 @@ jobs:
 
   publish-pypi:
     name: Publish PyPI
-    if: github.repository == 'BulinBotDevs/BulinBot'
+    if: github.repository == 'NovaBotDevs/NovaBot'
     runs-on: ubuntu-24.04
     needs:
       - publish-release
@@ -222,9 +222,9 @@ jobs:
       - name: Unpack dashboard dist into package tree
         shell: bash
         run: |
-          mkdir -p bulinbot/dashboard/dist
-          unzip -q "dashboard-artifact/BulinBot-${{ steps.tag.outputs.tag }}-dashboard.zip" -d dashboard-artifact/unpacked
-          cp -r dashboard-artifact/unpacked/dist/. bulinbot/dashboard/dist/
+          mkdir -p novabot/dashboard/dist
+          unzip -q "dashboard-artifact/NovaBot-${{ steps.tag.outputs.tag }}-dashboard.zip" -d dashboard-artifact/unpacked
+          cp -r dashboard-artifact/unpacked/dist/. novabot/dashboard/dist/
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -237,8 +237,8 @@ jobs:
 
       - name: Build package
         shell: bash
-        # Dashboard assets are already in bulinbot/dashboard/dist/;
-        # BULINBOT_BUILD_DASHBOARD is intentionally unset so the hatch hook skips npm.
+        # Dashboard assets are already in novabot/dashboard/dist/;
+        # NOVABOT_BUILD_DASHBOARD is intentionally unset so the hatch hook skips npm.
         run: uv build
 
       - name: Publish to PyPI

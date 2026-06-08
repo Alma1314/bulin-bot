@@ -1,4 +1,4 @@
-"""Tests for bulinbot/core/computer module.
+"""Tests for novabot/core/computer module.
 
 This module tests the ComputerClient, Booter implementations (local, shipyard, boxlite),
 filesystem operations, Python execution, shell execution, and security restrictions.
@@ -9,8 +9,8 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from bulinbot.core.computer.booters.base import ComputerBooter
-from bulinbot.core.computer.booters.local import (
+from novabot.core.computer.booters.base import ComputerBooter
+from novabot.core.computer.booters.local import (
     LocalBooter,
     LocalFileSystemComponent,
     LocalPythonComponent,
@@ -163,7 +163,7 @@ class TestLocalShellComponent:
 
         with (
             patch(
-                "bulinbot.core.computer.booters.local.get_bulinbot_root",
+                "novabot.core.computer.booters.local.get_novabot_root",
                 return_value=str(tmp_path),
             ),
         ):
@@ -194,7 +194,7 @@ class TestLocalPythonComponent:
         """Test executing simple Python code."""
         python = LocalPythonComponent()
         result = await python.exec("print('hello')")
-        assert result["data"]["output"]["text"] == "hello\n"
+        assert result["data"]["output"]["text"].replace("\r\n", "\n") == "hello\n"
 
     @pytest.mark.asyncio
     async def test_exec_with_error(self):
@@ -237,7 +237,7 @@ class TestLocalFileSystemComponent:
 
         with (
             patch(
-                "bulinbot.core.computer.booters.local.get_bulinbot_root",
+                "novabot.core.computer.booters.local.get_novabot_root",
                 return_value=str(tmp_path),
             ),
         ):
@@ -255,7 +255,7 @@ class TestLocalFileSystemComponent:
 
         with (
             patch(
-                "bulinbot.core.computer.booters.local.get_bulinbot_root",
+                "novabot.core.computer.booters.local.get_novabot_root",
                 return_value=str(tmp_path),
             ),
         ):
@@ -271,7 +271,7 @@ class TestLocalFileSystemComponent:
 
         with (
             patch(
-                "bulinbot.core.computer.booters.local.get_bulinbot_root",
+                "novabot.core.computer.booters.local.get_novabot_root",
                 return_value=str(tmp_path),
             ),
         ):
@@ -288,7 +288,7 @@ class TestLocalFileSystemComponent:
 
         with (
             patch(
-                "bulinbot.core.computer.booters.local.get_bulinbot_root",
+                "novabot.core.computer.booters.local.get_novabot_root",
                 return_value=str(tmp_path),
             ),
         ):
@@ -306,7 +306,7 @@ class TestLocalFileSystemComponent:
 
         with (
             patch(
-                "bulinbot.core.computer.booters.local.get_bulinbot_root",
+                "novabot.core.computer.booters.local.get_novabot_root",
                 return_value=str(tmp_path),
             ),
         ):
@@ -325,7 +325,7 @@ class TestLocalFileSystemComponent:
 
         with (
             patch(
-                "bulinbot.core.computer.booters.local.get_bulinbot_root",
+                "novabot.core.computer.booters.local.get_novabot_root",
                 return_value=str(tmp_path),
             ),
         ):
@@ -347,7 +347,7 @@ class TestLocalFileSystemComponent:
 
         with (
             patch(
-                "bulinbot.core.computer.booters.local.get_bulinbot_root",
+                "novabot.core.computer.booters.local.get_novabot_root",
                 return_value=str(tmp_path),
             ),
         ):
@@ -378,8 +378,8 @@ class TestShipyardBooter:
     @pytest.mark.asyncio
     async def test_shipyard_booter_init(self):
         """Test ShipyardBooter initialization."""
-        with patch("bulinbot.core.computer.booters.shipyard.ShipyardClient"):
-            from bulinbot.core.computer.booters.shipyard import ShipyardBooter
+        with patch("novabot.core.computer.booters.shipyard.ShipyardClient"):
+            from novabot.core.computer.booters.shipyard import ShipyardBooter
 
             booter = ShipyardBooter(
                 endpoint_url="http://localhost:8080",
@@ -403,10 +403,10 @@ class TestShipyardBooter:
         mock_client.create_ship = AsyncMock(return_value=mock_ship)
 
         with patch(
-            "bulinbot.core.computer.booters.shipyard.ShipyardClient",
+            "novabot.core.computer.booters.shipyard.ShipyardClient",
             return_value=mock_client,
         ):
-            from bulinbot.core.computer.booters.shipyard import ShipyardBooter
+            from novabot.core.computer.booters.shipyard import ShipyardBooter
 
             booter = ShipyardBooter(
                 endpoint_url="http://localhost:8080",
@@ -425,10 +425,10 @@ class TestShipyardBooter:
         mock_client.get_ship = AsyncMock(return_value={"status": 1})
 
         with patch(
-            "bulinbot.core.computer.booters.shipyard.ShipyardClient",
+            "novabot.core.computer.booters.shipyard.ShipyardClient",
             return_value=mock_client,
         ):
-            from bulinbot.core.computer.booters.shipyard import ShipyardBooter
+            from novabot.core.computer.booters.shipyard import ShipyardBooter
 
             booter = ShipyardBooter(
                 endpoint_url="http://localhost:8080",
@@ -450,10 +450,10 @@ class TestShipyardBooter:
         mock_client.get_ship = AsyncMock(return_value={"status": 0})
 
         with patch(
-            "bulinbot.core.computer.booters.shipyard.ShipyardClient",
+            "novabot.core.computer.booters.shipyard.ShipyardClient",
             return_value=mock_client,
         ):
-            from bulinbot.core.computer.booters.shipyard import ShipyardBooter
+            from novabot.core.computer.booters.shipyard import ShipyardBooter
 
             booter = ShipyardBooter(
                 endpoint_url="http://localhost:8080",
@@ -477,7 +477,7 @@ class TestBoxliteBooter:
         mock_boxlite.SimpleBox = MagicMock()
 
         with patch.dict(sys.modules, {"boxlite": mock_boxlite}):
-            from bulinbot.core.computer.booters.boxlite import BoxliteBooter
+            from novabot.core.computer.booters.boxlite import BoxliteBooter
 
             # Just verify class exists and can be instantiated (boot is async)
             booter = BoxliteBooter.__new__(BoxliteBooter)
@@ -489,7 +489,7 @@ class TestComputerClient:
 
     def test_get_local_booter(self):
         """Test get_local_booter returns singleton LocalBooter."""
-        from bulinbot.core.computer import computer_client
+        from novabot.core.computer import computer_client
 
         # Clear the global booter to test singleton
         computer_client.local_booter = None
@@ -506,8 +506,8 @@ class TestComputerClient:
     @pytest.mark.asyncio
     async def test_get_booter_shipyard(self):
         """Test get_booter with shipyard type."""
-        from bulinbot.core.computer import computer_client
-        from bulinbot.core.computer.booters.shipyard import ShipyardBooter
+        from novabot.core.computer import computer_client
+        from novabot.core.computer.booters.shipyard import ShipyardBooter
 
         # Clear session booter
         computer_client.session_booter.clear()
@@ -544,7 +544,7 @@ class TestComputerClient:
         with (
             patch.object(ShipyardBooter, "boot", new=AsyncMock()),
             patch(
-                "bulinbot.core.computer.computer_client._sync_skills_to_sandbox",
+                "novabot.core.computer.computer_client._sync_skills_to_sandbox",
                 AsyncMock(),
             ),
         ):
@@ -560,7 +560,7 @@ class TestComputerClient:
     @pytest.mark.asyncio
     async def test_get_booter_unknown_type(self):
         """Test get_booter with unknown booter type raises ValueError."""
-        from bulinbot.core.computer import computer_client
+        from novabot.core.computer import computer_client
 
         computer_client.session_booter.clear()
 
@@ -583,8 +583,8 @@ class TestComputerClient:
     @pytest.mark.asyncio
     async def test_get_booter_reuses_existing(self):
         """Test get_booter reuses existing booter for same session."""
-        from bulinbot.core.computer import computer_client
-        from bulinbot.core.computer.booters.shipyard import ShipyardBooter
+        from novabot.core.computer import computer_client
+        from novabot.core.computer.booters.shipyard import ShipyardBooter
 
         computer_client.session_booter.clear()
 
@@ -611,7 +611,7 @@ class TestComputerClient:
         with (
             patch.object(ShipyardBooter, "boot", new=AsyncMock()),
             patch(
-                "bulinbot.core.computer.computer_client._sync_skills_to_sandbox",
+                "novabot.core.computer.computer_client._sync_skills_to_sandbox",
                 AsyncMock(),
             ),
         ):
@@ -628,8 +628,8 @@ class TestComputerClient:
     @pytest.mark.asyncio
     async def test_get_booter_rebuild_unavailable(self):
         """Test get_booter rebuilds when existing booter is unavailable."""
-        from bulinbot.core.computer import computer_client
-        from bulinbot.core.computer.booters.shipyard import ShipyardBooter
+        from novabot.core.computer import computer_client
+        from novabot.core.computer.booters.shipyard import ShipyardBooter
 
         computer_client.session_booter.clear()
 
@@ -655,11 +655,11 @@ class TestComputerClient:
 
         with (
             patch(
-                "bulinbot.core.computer.booters.shipyard.ShipyardBooter",
+                "novabot.core.computer.booters.shipyard.ShipyardBooter",
                 return_value=mock_new_booter,
             ) as mock_booter_cls,
             patch(
-                "bulinbot.core.computer.computer_client._sync_skills_to_sandbox",
+                "novabot.core.computer.computer_client._sync_skills_to_sandbox",
                 AsyncMock(),
             ),
         ):
@@ -688,21 +688,15 @@ class TestSyncSkillsToSandbox:
     @pytest.mark.asyncio
     async def test_sync_skills_no_skills_dir(self):
         """Test sync does nothing when skills directory doesn't exist."""
-        from bulinbot.core.computer import computer_client
+        from novabot.core.computer import computer_client
 
         mock_booter = MagicMock()
         mock_booter.shell.exec = AsyncMock()
         mock_booter.upload_file = AsyncMock(return_value={"success": True})
 
-        with (
-            patch(
-                "bulinbot.core.computer.computer_client.get_bulinbot_skills_path",
-                return_value="/nonexistent/path",
-            ),
-            patch(
-                "bulinbot.core.computer.computer_client.os.path.isdir",
-                return_value=False,
-            ),
+        with patch(
+            "novabot.core.computer.computer_client._collect_sync_skill_dirs",
+            return_value=[],
         ):
             await computer_client._sync_skills_to_sandbox(mock_booter)
             mock_booter.upload_file.assert_not_called()
@@ -710,7 +704,7 @@ class TestSyncSkillsToSandbox:
     @pytest.mark.asyncio
     async def test_sync_skills_empty_dir(self):
         """Test sync does nothing when skills directory is empty."""
-        from bulinbot.core.computer import computer_client
+        from novabot.core.computer import computer_client
 
         mock_booter = MagicMock()
         mock_booter.shell.exec = AsyncMock()
@@ -718,15 +712,15 @@ class TestSyncSkillsToSandbox:
 
         with (
             patch(
-                "bulinbot.core.computer.computer_client.get_bulinbot_skills_path",
+                "novabot.core.computer.computer_client.get_novabot_skills_path",
                 return_value="/tmp/empty",
             ),
             patch(
-                "bulinbot.core.computer.computer_client.os.path.isdir",
+                "novabot.core.computer.computer_client.os.path.isdir",
                 return_value=True,
             ),
             patch(
-                "bulinbot.core.computer.computer_client.Path.iterdir",
+                "novabot.core.computer.computer_client.Path.iterdir",
                 return_value=iter([]),
             ),
         ):
@@ -736,7 +730,7 @@ class TestSyncSkillsToSandbox:
     @pytest.mark.asyncio
     async def test_sync_skills_success(self):
         """Test successful skills sync."""
-        from bulinbot.core.computer import computer_client
+        from novabot.core.computer import computer_client
 
         mock_booter = MagicMock()
         mock_booter.shell.exec = AsyncMock(return_value={"exit_code": 0})
@@ -748,30 +742,30 @@ class TestSyncSkillsToSandbox:
 
         with (
             patch(
-                "bulinbot.core.computer.computer_client.get_bulinbot_skills_path",
+                "novabot.core.computer.computer_client.get_novabot_skills_path",
                 return_value="/tmp/skills",
             ),
             patch(
-                "bulinbot.core.computer.computer_client.os.path.isdir",
+                "novabot.core.computer.computer_client.os.path.isdir",
                 return_value=True,
             ),
             patch(
-                "bulinbot.core.computer.computer_client.Path.iterdir",
+                "novabot.core.computer.computer_client.Path.iterdir",
                 return_value=iter([mock_skill_file]),
             ),
             patch(
-                "bulinbot.core.computer.computer_client.get_bulinbot_temp_path",
+                "novabot.core.computer.computer_client.get_novabot_temp_path",
                 return_value="/tmp",
             ),
             patch(
-                "bulinbot.core.computer.computer_client.shutil.make_archive",
+                "novabot.core.computer.computer_client.shutil.make_archive",
             ),
             patch(
-                "bulinbot.core.computer.computer_client.os.path.exists",
+                "novabot.core.computer.computer_client.os.path.exists",
                 return_value=True,
             ),
             patch(
-                "bulinbot.core.computer.computer_client.os.remove",
+                "novabot.core.computer.computer_client.os.remove",
             ),
         ):
             # Should not raise

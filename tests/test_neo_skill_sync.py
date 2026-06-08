@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from bulinbot.core.skills.neo_skill_sync import NeoSkillSyncManager
+from novabot.core.skills.neo_skill_sync import NeoSkillSyncManager
 
 
 class _FakeSkills:
@@ -34,7 +34,7 @@ class _FakeSkills:
         assert payload_ref == "blob:blob-1"
         return {
             "payload_ref": payload_ref,
-            "kind": "bulinbot_skill_v1",
+            "kind": "novabot_skill_v1",
             "payload": {
                 "skill_markdown": "---\ndescription: test\n---\n# title\ncontent",
             },
@@ -56,11 +56,11 @@ def test_sync_release_writes_skill_and_map(monkeypatch, tmp_path: Path):
         calls["sandbox_sync"] += 1
 
     monkeypatch.setattr(
-        "bulinbot.core.skills.neo_skill_sync.SkillManager.set_skill_active",
+        "novabot.core.skills.neo_skill_sync.SkillManager.set_skill_active",
         _fake_set_skill_active,
     )
     monkeypatch.setattr(
-        "bulinbot.core.skills.neo_skill_sync.sync_skills_to_active_sandboxes",
+        "novabot.core.skills.neo_skill_sync.sync_skills_to_active_sandboxes",
         _fake_sync_sandboxes,
     )
 
@@ -112,11 +112,11 @@ def test_sync_release_rejects_non_stable(monkeypatch, tmp_path: Path):
         return
 
     monkeypatch.setattr(
-        "bulinbot.core.skills.neo_skill_sync.sync_skills_to_active_sandboxes",
+        "novabot.core.skills.neo_skill_sync.sync_skills_to_active_sandboxes",
         _fake_sync_sandboxes,
     )
     monkeypatch.setattr(
-        "bulinbot.core.skills.neo_skill_sync.SkillManager.set_skill_active",
+        "novabot.core.skills.neo_skill_sync.SkillManager.set_skill_active",
         lambda self, name, active: None,
     )
 

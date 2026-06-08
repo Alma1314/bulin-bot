@@ -1,6 +1,6 @@
 # Proactive Capabilities
 
-BulinBot introduces a Proactive Agent system, enabling BulinBot to not only respond passively to users but also schedule future tasks and proactively execute them at specified times, delivering results (text, images, files, etc.) to users.
+NovaBot introduces a Proactive Agent system, enabling NovaBot to not only respond passively to users but also schedule future tasks and proactively execute them at specified times, delivering results (text, images, files, etc.) to users.
 
 ![](https://files.bulinbot.app/docs/source/images/proactive-agent/image.png)
 
@@ -12,8 +12,8 @@ The Main Agent can now manage a global **Cron Job List**, setting tasks for its 
 
 ### Features
 
-- **Self-Wakeup**: BulinBot automatically wakes up at the scheduled time to execute tasks.
-- **Task Feedback**: After execution, BulinBot reports the results back to the task creator.
+- **Self-Wakeup**: NovaBot automatically wakes up at the scheduled time to execute tasks.
+- **Task Feedback**: After execution, NovaBot reports the results back to the task creator.
 - **WebUI Management**: You can view, edit, or delete scheduled tasks in the "Future Tasks" page of the WebUI.
 
 ### How to Use
@@ -28,13 +28,13 @@ The Main Agent has the ability to manage scheduled tasks. You can tell it:
 
 The Main Agent will call built-in scheduling tools to arrange these plans.
 
-You can view and manage all future tasks by clicking **Future Tasks** in the left navigation bar of the BulinBot WebUI.
+You can view and manage all future tasks by clicking **Future Tasks** in the left navigation bar of the NovaBot WebUI.
 
 ![](https://files.bulinbot.app/docs/source/images/proactive-agent/image-1.png)
 
 ### Supported Platforms
 
-Scheduling tasks is supported on all platforms. However, due to some platforms not providing APIs for proactive message pushing, only the following platforms support BulinBot proactively pushing results to users:
+Scheduling tasks is supported on all platforms. However, due to some platforms not providing APIs for proactive message pushing, only the following platforms support NovaBot proactively pushing results to users:
 - Telegram
 - OneBot (QQ)
 - Slack
@@ -45,7 +45,7 @@ Scheduling tasks is supported on all platforms. However, due to some platforms n
 
 ## Sending Multimedia Messages
 
-To make it easier for Agents to send images, audio, video, and other files directly to users, BulinBot provides a `send_message_to_user` tool by default.
+To make it easier for Agents to send images, audio, video, and other files directly to users, NovaBot provides a `send_message_to_user` tool by default.
 
 ### Features
 - **Direct Sending**: Agents can send generated or retrieved multimedia files directly to users without complex text conversions.

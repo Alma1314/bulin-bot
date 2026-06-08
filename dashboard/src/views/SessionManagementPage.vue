@@ -4,7 +4,7 @@
       <v-card flat>
         <v-card-title class="d-flex align-center py-3 px-4">
           <span class="text-h4">{{ tm('customRules.title') }}</span>
-          <v-btn icon="mdi-information-outline" size="small" variant="text" href="https://docs.bulinbot.app/use/custom-rules.html" target="_blank"></v-btn>
+          <v-btn icon="mdi-information-outline" size="small" variant="text" href="https://docs.nova-bot.app/use/custom-rules.html" target="_blank"></v-btn>
           <v-chip size="small" class="ml-1">{{ totalItems }} {{ tm('customRules.rulesCount') }}</v-chip>
           <v-row class="me-4 ms-4" dense>
             <v-text-field
@@ -680,7 +680,7 @@ import UmoDisplay from '@/components/shared/UmoDisplay.vue'
 import { useI18n, useModuleI18n } from '@/i18n/composables'
 import { askForConfirmation as askForConfirmationDialog, useConfirmDialog } from '@/utils/confirmDialog'
 
-const FOLLOW_CONFIG_VALUE = '__bulinbot_follow_config__'
+const FOLLOW_CONFIG_VALUE = '__nova-bot_follow_config__'
 
 export default {
   name: 'SessionManagementPage',
@@ -1284,7 +1284,7 @@ export default {
               }),
             )
           } else if (this.editingRules[`provider_perf_${type}`]) {
-            // 选择了"跟随配置文件" (__bulinbot_follow_config__) 且之前有配置，则删除
+            // 选择了"跟随配置文件" (__nova-bot_follow_config__) 且之前有配置，则删除
             deleteTasks.push(
               axios.post('/api/session/delete-rule', {
                 umo: this.selectedUmo.umo,

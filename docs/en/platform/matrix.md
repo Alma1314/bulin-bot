@@ -22,11 +22,11 @@ Please refer to [Matrix Server](https://matrix.org/ecosystem/servers/) to view a
 
 \*: Will be persisted locally. The plugin will clean up according to configuration. Files will be uploaded before sending; uploads exceeding the server's size limit will fail.
 
-## Installing the bulinbot_plugin_matrix_adapter Plugin
+## Installing the nova-bot_plugin_matrix_adapter Plugin
 
-Go to the BulinBot WebUI plugin marketplace, search for `bulinbot_plugin_matrix_adapter`, and click Install.
+Go to the NovaBot WebUI plugin marketplace, search for `nova-bot_plugin_matrix_adapter`, and click Install.
 
-After installation, navigate to Messaging Platforms (older versions: `Bot`) → Add Adapter → Select Matrix (if the option is missing, try restarting BulinBot or check the plugin installation status).
+After installation, navigate to Messaging Platforms (older versions: `Bot`) → Add Adapter → Select Matrix (if the option is missing, try restarting NovaBot or check the plugin installation status).
 
 Click `Enable` in the configuration dialog that appears.
 
@@ -34,10 +34,10 @@ Click `Enable` in the configuration dialog that appears.
 
 - **`matrix_homeserver` (required)**: The full URL of your Matrix server instance, supports delegation-based auto-discovery. For example, the official instance: `https://matrix.org`
 - **`matrix_user_id`**: Your full Matrix username, e.g. `@username:homeserver.com`
-- **`matrix_auth_method` (required)**: Your login method. Options: `password`, `token`, `oauth2`, `qr`. It is recommended to use `password` or `oauth2/qr` mode (in oauth2/qr mode, please ensure the device used for authentication/scanning can reach the public address configured in BulinBot)
+- **`matrix_auth_method` (required)**: Your login method. Options: `password`, `token`, `oauth2`, `qr`. It is recommended to use `password` or `oauth2/qr` mode (in oauth2/qr mode, please ensure the device used for authentication/scanning can reach the public address configured in NovaBot)
 
-For more configuration options, please refer to the repository's [README.md](https://github.com/stevessr/bulinbot_plugin_matrix_adapter?tab=readme-ov-file#bulinbot-matrix-adapter-%E6%8F%92%E4%BB%B6).
+For more configuration options, please refer to the repository's [README.md](https://github.com/stevessr/nova-bot_plugin_matrix_adapter?tab=readme-ov-file#nova-bot-matrix-adapter-%E6%8F%92%E4%BB%B6).
 
 ## Issue Reporting
 
-If you have any questions, please submit an issue to the [plugin repository](https://github.com/stevessr/bulinbot_plugin_matrix_adapter/issues).
+If you have any questions, please submit an issue to the [plugin repository](https://github.com/stevessr/nova-bot_plugin_matrix_adapter/issues).

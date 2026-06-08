@@ -126,7 +126,7 @@
         @compositioncancel="handleCompositionEnd"
         @blur="handleBlur"
         :disabled="disabled"
-        placeholder="Ask BulinBot..."
+        placeholder="Ask NovaBot..."
         class="chat-textarea"
         autocomplete="off"
         autocorrect="off"

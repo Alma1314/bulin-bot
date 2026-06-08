@@ -1,6 +1,6 @@
-# BulinBot Development Instructions
+# NovaBot Development Instructions
 
-BulinBot is a multi-platform LLM chatbot and development framework written in Python with a Vue.js dashboard. It supports multiple messaging platforms (QQ, Telegram, Discord, etc.) and various LLM providers (OpenAI, Anthropic, Google Gemini, etc.).
+NovaBot is a multi-platform LLM chatbot and development framework written in Python with a Vue.js dashboard. It supports multiple messaging platforms (QQ, Telegram, Discord, etc.) and various LLM providers (OpenAI, Anthropic, Google Gemini, etc.).
 
 Always reference these instructions first and fallback to search or bash commands only when you encounter unexpected information that does not match the info here.
 
@@ -14,7 +14,7 @@ Always reference these instructions first and fallback to search or bash command
 
 ### Running the Application
 - Run main application: `uv run main.py` -- starts in ~3 seconds
-- Application creates WebUI on http://localhost:6185 (default credentials: `bulinbot`/`bulinbot`)
+- Application creates WebUI on http://localhost:6185 (default credentials: `novabot`/`novabot`)
 
 ### Dashboard Build (Vue.js/Node.js)
 - **Prerequisites**: Node.js 20+ and npm 10+ required
@@ -34,9 +34,9 @@ Always reference these instructions first and fallback to search or bash command
 - **ALWAYS** run `uv run ruff check .` and `uv run ruff format .` before committing changes
 
 ### Plugin Development
-- Plugins load from `bulinbot/builtin_stars/` (built-in) and `data/plugins/` (user-installed)
+- Plugins load from `novabot/builtin_stars/` (built-in) and `data/plugins/` (user-installed)
 - Plugin system supports function tools and message handlers
-- Key plugins: python_interpreter, web_searcher, bulinbot, reminder, session_controller
+- Key plugins: python_interpreter, web_searcher, novabot, reminder, session_controller
 
 ### Common Issues and Workarounds
 - **Dashboard download fails**: Known issue with "division by zero" error - application still works
@@ -49,10 +49,10 @@ Always reference these instructions first and fallback to search or bash command
 - Pre-commit hooks enforce ruff formatting and linting
 
 ## Docker Support
-- Primary deployment method: `docker run soulter/bulinbot:latest`
+- Primary deployment method: `docker run soulter/novabot:latest`
 - Compose file available: `compose.yml`
 - Exposes ports: 6185 (WebUI), 6195 (WeChat), 6199 (QQ), etc.
-- Volume mount required: `./data:/BulinBot/data`
+- Volume mount required: `./data:/NovaBot/data`
 
 ## Multi-language Support
 - Documentation in Chinese (README.md), English (README_en.md), Japanese (README_ja.md)

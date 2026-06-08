@@ -27,8 +27,8 @@ const commonStore = useCommonStore();
 const theme = useTheme();
 const { t } = useI18n();
 const route = useRoute();
-const LAST_BOT_ROUTE_KEY = "bulinbot:last_bot_route";
-const LAST_CHAT_ROUTE_KEY = "bulinbot:last_chat_route";
+const LAST_BOT_ROUTE_KEY = "nova-bot:last_bot_route";
+const LAST_CHAT_ROUTE_KEY = "nova-bot:last_chat_route";
 let dialog = ref(false);
 let accountWarning = ref(false);
 let accountWarningLegacy = ref(false);
@@ -96,7 +96,7 @@ const createEmptyUpdateProgress = (): UpdateProgress => ({
 let updateProgress = ref<UpdateProgress>(createEmptyUpdateProgress());
 let updateProgressTimer: ReturnType<typeof setInterval> | null = null;
 const isDesktopReleaseMode = ref(
-  typeof window !== "undefined" && !!window.bulinbotDesktop?.isDesktop,
+  typeof window !== "undefined" && !!window.nova-botDesktop?.isDesktop,
 );
 const desktopUpdateDialog = ref(false);
 const desktopUpdateChecking = ref(false);
@@ -108,11 +108,11 @@ const desktopUpdateStatus = ref("");
 const isChatPath = computed(
   () => route.path === "/chat" || route.path.startsWith("/chat/"),
 );
-const getAppUpdaterBridge = (): BulinBotAppUpdaterBridge | null => {
+const getAppUpdaterBridge = (): NovaBotAppUpdaterBridge | null => {
   if (typeof window === "undefined") {
     return null;
   }
-  const bridge = window.bulinbotAppUpdater;
+  const bridge = window.nova-botAppUpdater;
   if (
     bridge &&
     typeof bridge.checkForAppUpdate === "function" &&
@@ -396,7 +396,7 @@ function getVersion() {
     .then((res) => {
       botCurrVersion.value = "v" + res.data.data.version;
       dashboardCurrentVersion.value = res.data.data?.dashboard_version;
-      commonStore.setBulinBotVersion(
+      commonStore.setNovaBotVersion(
         res.data.data.version,
         res.data.data?.dashboard_version,
       );
@@ -562,14 +562,14 @@ function stopRestartPolling() {
   }
 }
 
-async function fetchBulinBotStartTime() {
+async function fetchNovaBotStartTime() {
   const res = await axios.get("/api/stat/start-time", { timeout: 3000 });
   const startTime = res.data?.data?.start_time ?? null;
   commonStore.startTime = startTime;
   return startTime;
 }
 
-function waitForBulinBotRestart(initialStartTime: number | string | null) {
+function waitForNovaBotRestart(initialStartTime: number | string | null) {
   if (restartWaiting.value) {
     return;
   }
@@ -586,7 +586,7 @@ function waitForBulinBotRestart(initialStartTime: number | string | null) {
 
   const poll = async () => {
     try {
-      const currentStartTime = await fetchBulinBotStartTime();
+      const currentStartTime = await fetchNovaBotStartTime();
       if (
         initialStartTime !== null &&
         currentStartTime !== null &&
@@ -619,7 +619,7 @@ function applyUpdateProgress(payload: UpdateProgress) {
     stopUpdateProgressPolling();
   }
   if (payload.status === "success") {
-    waitForBulinBotRestart(restartStartTime.value);
+    waitForNovaBotRestart(restartStartTime.value);
   }
 }
 
@@ -658,7 +658,7 @@ async function switchVersion(targetVersion: string) {
   installLoading.value = true;
 
   try {
-    initialStartTime = await fetchBulinBotStartTime();
+    initialStartTime = await fetchNovaBotStartTime();
   } catch (_error) {
     initialStartTime = commonStore.getStartTime();
   }
@@ -682,7 +682,7 @@ async function switchVersion(targetVersion: string) {
           res.data.status === "ok" ? 100 : updateProgress.value.overall_percent,
       };
       if (res.data.status == "ok") {
-        waitForBulinBotRestart(initialStartTime);
+        waitForNovaBotRestart(initialStartTime);
       }
     })
     .catch((err) => {
@@ -1306,7 +1306,7 @@ onMounted(async () => {
                     t("core.header.updateDialog.preReleaseWarning.description")
                   }}
                   <a
-                    href="https://github.com/BulinBotDevs/BulinBot/issues"
+                    href="https://github.com/NovaBotDevs/NovaBot/issues"
                     target="_blank"
                     class="text-decoration-none"
                   >

@@ -1,7 +1,7 @@
-# Deploy BulinBot with Kubernetes
+# Deploy NovaBot with Kubernetes
 
 > [!WARNING]
-> You can deploy BulinBot in a high-availability setup using Kubernetes (K8s), allowing it to automatically recover from failures.
+> You can deploy NovaBot in a high-availability setup using Kubernetes (K8s), allowing it to automatically recover from failures.
 >
 > Due to the current use of an SQLite database, this deployment does not support horizontal scaling with multiple replicas. Additionally, if using the Sidecar mode, pay special attention to the persistence of NapCat's login state.
 >
@@ -18,28 +18,28 @@ Before you begin, make sure your Kubernetes cluster meets the following conditio
 
 We offer two deployment options:
 
-*   **Integrated Deployment (Sidecar Mode)**: Deploy BulinBot and NapCat in the same Pod. Recommended for personal QQ accounts.
-*   **Standalone Deployment**: Deploy only BulinBot. Suitable for other platforms or if you want to manage NapCat independently.
+*   **Integrated Deployment (Sidecar Mode)**: Deploy NovaBot and NapCat in the same Pod. Recommended for personal QQ accounts.
+*   **Standalone Deployment**: Deploy only NovaBot. Suitable for other platforms or if you want to manage NapCat independently.
 
 ---
 
 ### Method 1: Deploy with NapCatQQ (Sidecar)
 
-This method is located in the `k8s/bulinbot_with_napcat` directory.
+This method is located in the `k8s/nova-bot_with_napcat` directory.
 
 #### 1. Deploy
 
 ```bash
 # 1. Create namespace
-kubectl apply -f k8s/bulinbot_with_napcat/00-namespace.yaml
+kubectl apply -f k8s/nova-bot_with_napcat/00-namespace.yaml
 
 # 2. Create Persistent Volume Claim
-# Note: bulinbot-data-shared-pvc requires ReadWriteMany (RWX) access mode.
+# Note: nova-bot-data-shared-pvc requires ReadWriteMany (RWX) access mode.
 # If your cluster does not support RWX, you need to configure shared storage such as NFS and modify the storageClassName in 01-pvc.yaml.
-kubectl apply -f k8s/bulinbot_with_napcat/01-pvc.yaml
+kubectl apply -f k8s/nova-bot_with_napcat/01-pvc.yaml
 
 # 3. Deploy the application
-kubectl apply -f k8s/bulinbot_with_napcat/02-deployment.yaml
+kubectl apply -f k8s/nova-bot_with_napcat/02-deployment.yaml
 ```
 
 #### 2. Expose Service (Choose one)
@@ -47,33 +47,33 @@ kubectl apply -f k8s/bulinbot_with_napcat/02-deployment.yaml
 *   **Option A: NodePort**
 
     ```bash
-    kubectl apply -f k8s/bulinbot_with_napcat/03-service-nodeport.yaml
+    kubectl apply -f k8s/nova-bot_with_napcat/03-service-nodeport.yaml
     ```
 
     The service will be exposed via the node IP and a port automatically assigned by Kubernetes. You can find the port with the following command:
 
     ```bash
-    kubectl get svc -n bulinbot-ns
+    kubectl get svc -n nova-bot-ns
     ```
 
-    In the output, find the `PORT(S)` column for `bulinbot-webui-svc` and `napcat-web-svc`. The format is `<internal-port>:<NodePort>/TCP`. For example, if you see `8080:30185/TCP`, the access address is `http://<NodeIP>:30185`.
+    In the output, find the `PORT(S)` column for `nova-bot-webui-svc` and `napcat-web-svc`. The format is `<internal-port>:<NodePort>/TCP`. For example, if you see `8080:30185/TCP`, the access address is `http://<NodeIP>:30185`.
 
 *   **Option B: LoadBalancer**
 
     If your cluster supports `LoadBalancer` type services (usually provided in K8s services from cloud providers), you can use this method.
 
     ```bash
-    kubectl apply -f k8s/bulinbot_with_napcat/04-service-loadbalancer.yaml
+    kubectl apply -f k8s/nova-bot_with_napcat/04-service-loadbalancer.yaml
     ```
 
-    After execution, check the assigned external IP (EXTERNAL-IP) with `kubectl get svc -n bulinbot-ns`.
+    After execution, check the assigned external IP (EXTERNAL-IP) with `kubectl get svc -n nova-bot-ns`.
 
 #### 3. Configure Connection
 
-Since BulinBot and NapCat are in the same Pod, they can communicate directly via `localhost`.
+Since NovaBot and NapCat are in the same Pod, they can communicate directly via `localhost`.
 
-1.  **Add a message platform in BulinBot:**
-    *   Go to the BulinBot WebUI, select  `Platform` -> `Add`.
+1.  **Add a message platform in NovaBot:**
+    *   Go to the NovaBot WebUI, select  `Platform` -> `Add`.
     *   **Select Message Platform Category**: `aiocqhttp`
     *   **Bot Name**: `napcat` (or custom)
     *   **Reverse Websocket Host**: `0.0.0.0`
@@ -91,21 +91,21 @@ Since BulinBot and NapCat are in the same Pod, they can communicate directly via
 
 ---
 
-### Method 2: Deploy BulinBot Only (General Purpose)
+### Method 2: Deploy NovaBot Only (General Purpose)
 
-This method is located in the `k8s/bulinbot` directory.
+This method is located in the `k8s/nova-bot` directory.
 
 #### 1. Deploy
 
 ```bash
 # 1. Create namespace
-kubectl apply -f k8s/bulinbot/00-namespace.yaml
+kubectl apply -f k8s/nova-bot/00-namespace.yaml
 
 # 2. Create Persistent Volume Claim
-kubectl apply -f k8s/bulinbot/01-pvc.yaml
+kubectl apply -f k8s/nova-bot/01-pvc.yaml
 
 # 3. Deploy the application
-kubectl apply -f k8s/bulinbot/02-deployment.yaml
+kubectl apply -f k8s/nova-bot/02-deployment.yaml
 ```
 
 #### 2. Expose Service (Choose one)
@@ -113,24 +113,24 @@ kubectl apply -f k8s/bulinbot/02-deployment.yaml
 *   **Option A: NodePort**
 
     ```bash
-    kubectl apply -f k8s/bulinbot/03-service-nodeport.yaml
+    kubectl apply -f k8s/nova-bot/03-service-nodeport.yaml
     ```
 
     The service will be exposed via the node IP and a port automatically assigned by Kubernetes. You can find the port with the following command:
 
     ```bash
-    kubectl get svc -n bulinbot-standalone-ns
+    kubectl get svc -n nova-bot-standalone-ns
     ```
 
-    In the output, find the `PORT(S)` column for `bulinbot-webui-svc`. The format is `<internal-port>:<NodePort>/TCP`. For example, if you see `8080:30185/TCP`, the access address is `http://<NodeIP>:30185`.
+    In the output, find the `PORT(S)` column for `nova-bot-webui-svc`. The format is `<internal-port>:<NodePort>/TCP`. For example, if you see `8080:30185/TCP`, the access address is `http://<NodeIP>:30185`.
 
 *   **Option B: LoadBalancer**
 
     ```bash
-    kubectl apply -f k8s/bulinbot/04-service-loadbalancer.yaml
+    kubectl apply -f k8s/nova-bot/04-service-loadbalancer.yaml
     ```
 
-    After execution, check the assigned external IP (EXTERNAL-IP) with `kubectl get svc -n bulinbot-standalone-ns`.
+    After execution, check the assigned external IP (EXTERNAL-IP) with `kubectl get svc -n nova-bot-standalone-ns`.
 
 ---
 
@@ -153,7 +153,7 @@ If you need to use the sandbox code executor, you need to mount the Docker socke
 
 Edit the `02-deployment.yaml` file and add `volumes` and `volumeMounts` under `spec.template.spec`:
 
-1.  **Add the following to the `volumeMounts` list of the `bulinbot` container:**
+1.  **Add the following to the `volumeMounts` list of the `nova-bot` container:**
 
     ```yaml
     - name: docker-sock
@@ -177,21 +177,21 @@ Edit the `02-deployment.yaml` file and add `volumes` and `volumeMounts` under `s
 *   **Sidecar Deployment Mode:**
 
     ```bash
-    # View BulinBot logs
-    kubectl logs -f -n bulinbot-ns deployment/bulinbot-stack -c bulinbot
+    # View NovaBot logs
+    kubectl logs -f -n nova-bot-ns deployment/nova-bot-stack -c nova-bot
 
     # View NapCat logs
-    kubectl logs -f -n bulinbot-ns deployment/bulinbot-stack -c napcat
+    kubectl logs -f -n nova-bot-ns deployment/nova-bot-stack -c napcat
     ```
 
 *   **Standalone Deployment Mode:**
 
     ```bash
-    kubectl logs -f -n bulinbot-standalone-ns deployment/bulinbot-standalone
+    kubectl logs -f -n nova-bot-standalone-ns deployment/nova-bot-standalone
     ```
 
 ## 🎉 All Done!
 
-After deploying and exposing the service, you can access the BulinBot admin panel through the corresponding IP and port.
+After deploying and exposing the service, you can access the NovaBot admin panel through the corresponding IP and port.
 
-> New users must use the random password printed in the startup logs for the first login. Use the username shown in the logs (usually `bulinbot`) and change it after logging in.
+> New users must use the random password printed in the startup logs for the first login. Use the username shown in the logs (usually `nova-bot`) and change it after logging in.

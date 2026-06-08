@@ -1,7 +1,7 @@
 export {};
 
 declare global {
-  interface BulinBotDesktopAppUpdateCheckResult {
+  interface NovaBotDesktopAppUpdateCheckResult {
     ok: boolean;
     reason?: string | null;
     currentVersion?: string;
@@ -9,19 +9,19 @@ declare global {
     hasUpdate: boolean;
   }
 
-  interface BulinBotDesktopAppUpdateResult {
+  interface NovaBotDesktopAppUpdateResult {
     ok: boolean;
     reason?: string | null;
   }
 
-  interface BulinBotAppUpdaterBridge {
-    checkForAppUpdate: () => Promise<BulinBotDesktopAppUpdateCheckResult>;
-    installAppUpdate: () => Promise<BulinBotDesktopAppUpdateResult>;
+  interface NovaBotAppUpdaterBridge {
+    checkForAppUpdate: () => Promise<NovaBotDesktopAppUpdateCheckResult>;
+    installAppUpdate: () => Promise<NovaBotDesktopAppUpdateResult>;
   }
 
   interface Window {
-    bulinbotAppUpdater?: BulinBotAppUpdaterBridge;
-    bulinbotDesktop?: {
+    nova-botAppUpdater?: NovaBotAppUpdaterBridge;
+    nova-botDesktop?: {
       isDesktop: boolean;
       isDesktopRuntime: () => Promise<boolean>;
       getBackendState: () => Promise<{

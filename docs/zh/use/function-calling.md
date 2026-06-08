@@ -22,17 +22,17 @@ outline: deep
 
 不支持的模型比较常见的有 Deepseek-R1, Gemini 2.0 的 thinking 类等较老模型。
 
-在 BulinBot 中，默认提供了网页搜索、待办提醒、代码执行器这些工具。很多插件，如:
+在 NovaBot 中，默认提供了网页搜索、待办提醒、代码执行器这些工具。很多插件，如:
 
-- bulinbot_plugin_cloudmusic
-- bulinbot_plugin_bilibili
+- nova-bot_plugin_cloudmusic
+- nova-bot_plugin_bilibili
 - ...
 
 等在提供传统的指令调用的基础上，也提供了函数调用的功能。
 
 相关操作请在 WebUI 中管理工具的开启和关闭。
 
-某些模型可能不支持函数调用，会返回诸如 `tool call is not supported`, `function calling is not supported`, `tool use is not supported` 等错误。在大多数情况下，BulinBot 能够检测到这种错误并自动帮您去除函数调用工具。如果你发现某个模型不支持函数调用，也可在 WebUI 中关闭所有调用工具，然后再次尝试。或者更换为支持函数调用的模型。
+某些模型可能不支持函数调用，会返回诸如 `tool call is not supported`, `function calling is not supported`, `tool use is not supported` 等错误。在大多数情况下，NovaBot 能够检测到这种错误并自动帮您去除函数调用工具。如果你发现某个模型不支持函数调用，也可在 WebUI 中关闭所有调用工具，然后再次尝试。或者更换为支持函数调用的模型。
 
 
 下面是一些常见的工具调用 Demo：
@@ -44,4 +44,4 @@ outline: deep
 
 ## MCP
 
-请前往此文档 [BulinBot - MCP](/use/mcp) 查看。
+请前往此文档 [NovaBot - MCP](/use/mcp) 查看。

@@ -2,9 +2,9 @@
 outline: deep
 ---
 
-# BulinBot 插件开发指南 🌠
+# NovaBot 插件开发指南 🌠
 
-欢迎来到 BulinBot 插件开发指南！本章节将引导您如何开发 BulinBot 插件。在我们开始之前，希望你能具备以下基础知识：
+欢迎来到 NovaBot 插件开发指南！本章节将引导您如何开发 NovaBot 插件。在我们开始之前，希望你能具备以下基础知识：
 
 1. 有一定的 Python 编程经验。
 2. 有一定的 Git、GitHub 使用经验。
@@ -15,11 +15,11 @@ outline: deep
 
 ### 获取插件模板
 
-1. 打开 BulinBot 插件模板: [helloworld](https://github.com/Soulter/helloworld)
+1. 打开 NovaBot 插件模板: [helloworld](https://github.com/Soulter/helloworld)
 2. 点击右上角的 `Use this template`
 3. 然后点击 `Create new repository`。
 4. 在 `Repository name` 处填写您的插件名。插件名格式:
-   - 推荐以 `bulinbot_plugin_` 开头；
+   - 推荐以 `nova-bot_plugin_` 开头；
    - 不能包含空格；
    - 保持全部字母小写；
    - 尽量简短。
@@ -27,21 +27,21 @@ outline: deep
 
 ### 克隆项目到本地
 
-克隆 BulinBot 项目本体和刚刚创建的插件仓库到本地。
+克隆 NovaBot 项目本体和刚刚创建的插件仓库到本地。
 
 ```bash
-git clone https://github.com/BulinBotDevs/BulinBot
-mkdir -p BulinBot/data/plugins
-cd BulinBot/data/plugins
+git clone https://github.com/NovaBotDevs/NovaBot
+mkdir -p NovaBot/data/plugins
+cd NovaBot/data/plugins
 git clone 插件仓库地址
 ```
 
-然后，使用 `VSCode` 打开 `BulinBot` 项目。找到 `data/plugins/<你的插件名字>` 目录。
+然后，使用 `VSCode` 打开 `NovaBot` 项目。找到 `data/plugins/<你的插件名字>` 目录。
 
 更新 `metadata.yaml` 文件，填写插件的元数据信息。
 
 > [!WARNING]
-> 请务必修改此文件，BulinBot 识别插件元数据依赖于 `metadata.yaml` 文件。
+> 请务必修改此文件，NovaBot 识别插件元数据依赖于 `metadata.yaml` 文件。
 
 ### 设置插件 Logo（可选）
 
@@ -65,7 +65,7 @@ short_desc: 一句话介绍你的插件。
 
 ### 随插件提供 Skills（可选）
 
-插件可以在自己的目录下提供 `skills/` 文件夹。BulinBot 加载插件后会自动把其中合法的 Skill 纳入 Skill Manager，来源会显示为对应插件。
+插件可以在自己的目录下提供 `skills/` 文件夹。NovaBot 加载插件后会自动把其中合法的 Skill 纳入 Skill Manager，来源会显示为对应插件。
 
 推荐一个插件包含多个 Skill 时使用以下结构：
 
@@ -122,12 +122,12 @@ support_platforms:
 - `matrix`
 - `mattermost`
 
-### 声明 BulinBot 版本范围（Optional）
+### 声明 NovaBot 版本范围（Optional）
 
-你可以在 `metadata.yaml` 中新增 `bulinbot_version` 字段，声明插件要求的 BulinBot 版本范围。格式与 `pyproject.toml` 依赖版本约束一致（PEP 440），且不要加 `v` 前缀。
+你可以在 `metadata.yaml` 中新增 `nova-bot_version` 字段，声明插件要求的 NovaBot 版本范围。格式与 `pyproject.toml` 依赖版本约束一致（PEP 440），且不要加 `v` 前缀。
 
 ```yaml
-bulinbot_version: ">=4.16,<5"
+nova-bot_version: ">=4.16,<5"
 ```
 
 可选示例：
@@ -140,28 +140,28 @@ bulinbot_version: ">=4.16,<5"
 
 - `>=4.17.0`
 
-当当前 BulinBot 版本不满足该范围时，插件会被阻止加载并提示版本不兼容。
+当当前 NovaBot 版本不满足该范围时，插件会被阻止加载并提示版本不兼容。
 在 WebUI 安装插件时，你可以选择“无视警告，继续安装”来跳过这个检查。
 
 ### 调试插件
 
-BulinBot 采用在运行时注入插件的机制。因此，在调试插件时，需要启动 BulinBot 本体。
+NovaBot 采用在运行时注入插件的机制。因此，在调试插件时，需要启动 NovaBot 本体。
 
-您可以使用 BulinBot 的热重载功能简化开发流程。
+您可以使用 NovaBot 的热重载功能简化开发流程。
 
-插件的代码修改后，可以在 BulinBot WebUI 的插件管理处找到自己的插件，点击右上角 `...` 按钮，选择 `重载插件`。
+插件的代码修改后，可以在 NovaBot WebUI 的插件管理处找到自己的插件，点击右上角 `...` 按钮，选择 `重载插件`。
 
 如果插件因为代码错误等原因加载失败，你也可以在管理面板的错误提示中点击 **“尝试一键重载修复”** 来重新加载。
 
 ### 插件依赖管理
 
-目前 BulinBot 对插件的依赖管理使用 `pip` 自带的 `requirements.txt` 文件。如果你的插件需要依赖第三方库，请务必在插件目录下创建 `requirements.txt` 文件并写入所使用的依赖库，以防止用户在安装你的插件时出现依赖未找到(Module Not Found)的问题。
+目前 NovaBot 对插件的依赖管理使用 `pip` 自带的 `requirements.txt` 文件。如果你的插件需要依赖第三方库，请务必在插件目录下创建 `requirements.txt` 文件并写入所使用的依赖库，以防止用户在安装你的插件时出现依赖未找到(Module Not Found)的问题。
 
 > `requirements.txt` 的完整格式可以参考 [pip 官方文档](https://pip.pypa.io/en/stable/reference/requirements-file-format/)。
 
 ## 开发原则
 
-感谢您为 BulinBot 生态做出贡献，开发插件请遵守以下原则，这也是良好的编程习惯。
+感谢您为 NovaBot 生态做出贡献，开发插件请遵守以下原则，这也是良好的编程习惯。
 
 - 功能需经过测试。
 - 需包含良好的注释。

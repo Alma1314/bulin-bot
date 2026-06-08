@@ -5,7 +5,7 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from bulinbot.core.tools.cron_tools import FutureTaskTool
+from novabot.core.tools.cron_tools import FutureTaskTool
 
 
 def test_future_task_schema_has_action_and_create_cron_guidance():

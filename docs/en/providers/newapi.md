@@ -2,7 +2,7 @@
 
 [NewAPI](http://newapi.ai/) is a next-generation LLM gateway and AI asset management system built on top of One API. It provides a unified interface for managing and using multiple AI model services, including OpenAI, Anthropic, Gemini, Midjourney, and more.
 
-BulinBot can integrate with NewAPI as a model provider, so you can access those model services through BulinBot.
+NovaBot can integrate with NewAPI as a model provider, so you can access those model services through NovaBot.
 
 ## Setup Steps
 
@@ -16,9 +16,9 @@ After creation, copy the generated API key.
 
 ![copy-api-key](https://files.bulinbot.app/docs/source/images/newapi/image-1.png)
 
-### 2. Configure NewAPI in BulinBot
+### 2. Configure NewAPI in NovaBot
 
-Open BulinBot WebUI, go to `Service Providers`, and click `Add Provider`.
+Open NovaBot WebUI, go to `Service Providers`, and click `Add Provider`.
 
 NewAPI fully supports OpenAI Chat Completion and Responses APIs, so select `OpenAI` and open its provider configuration.
 
@@ -29,7 +29,7 @@ Set `API Base URL` to your NewAPI endpoint:
 
 Then paste your API key into `API Key` and click `Save`.
 
-![bulinbot-provider-config](https://files.bulinbot.app/docs/source/images/newapi/image-2.png)
+![nova-bot-provider-config](https://files.bulinbot.app/docs/source/images/newapi/image-2.png)
 
 ### 3. Apply the Provider
 
@@ -37,4 +37,4 @@ Go to `Configuration`, find the model section, set `Default Chat Model` to the N
 
 ![apply](https://files.bulinbot.app/docs/source/images/newapi/image-3.png)
 
-You have now successfully configured NewAPI as an BulinBot model provider.
+You have now successfully configured NewAPI as an NovaBot model provider.

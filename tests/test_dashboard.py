@@ -18,31 +18,31 @@ import pytest_asyncio
 from quart import Quart, jsonify
 from werkzeug.datastructures import FileStorage
 
-from bulinbot.core import LogBroker
-from bulinbot.core.core_lifecycle import BulinBotCoreLifecycle
-from bulinbot.core.db.sqlite import SQLiteDatabase
-from bulinbot.core.star.star import StarMetadata, star_registry
-from bulinbot.core.star.star_handler import star_handlers_registry
-from bulinbot.core.utils.auth_password import (
+from novabot.core import LogBroker
+from novabot.core.core_lifecycle import NovaBotCoreLifecycle
+from novabot.core.db.sqlite import SQLiteDatabase
+from novabot.core.star.star import StarMetadata, star_registry
+from novabot.core.star.star_handler import star_handlers_registry
+from novabot.core.utils.auth_password import (
     hash_dashboard_password,
     hash_legacy_dashboard_password,
     verify_dashboard_password,
 )
-from bulinbot.core.utils.pip_installer import PipInstallError
-from bulinbot.core.utils.totp import (
+from novabot.core.utils.pip_installer import PipInstallError
+from novabot.core.utils.totp import (
     TOTP_TRUSTED_DEVICE_COOKIE_NAME,
     generate_recovery_code,
 )
-from bulinbot.dashboard.password_state import (
+from novabot.dashboard.password_state import (
     get_dashboard_password_hash,
     is_password_change_required,
     is_password_storage_upgraded,
     set_password_change_required,
     set_password_storage_upgraded,
 )
-from bulinbot.dashboard.routes.auth import DASHBOARD_JWT_COOKIE_NAME
-from bulinbot.dashboard.routes.plugin import PluginRoute
-from bulinbot.dashboard.server import BulinBotDashboard
+from novabot.dashboard.routes.auth import DASHBOARD_JWT_COOKIE_NAME
+from novabot.dashboard.routes.plugin import PluginRoute
+from novabot.dashboard.server import NovaBotDashboard
 from tests.fixtures.helpers import (
     MockPluginBuilder,
     create_mock_updater_install,
@@ -50,7 +50,7 @@ from tests.fixtures.helpers import (
 )
 
 _TEST_DASHBOARD_PASSWORD = "BulinbotTest123"
-PLUGIN_PAGE_DEMO_NAME = "bulinbot_plugin_page_demo"
+PLUGIN_PAGE_DEMO_NAME = "novabot_plugin_page_demo"
 PLUGIN_PAGE_DEMO_PAGE_NAME = "bridge-demo"
 
 
@@ -60,12 +60,12 @@ def _strip_query(url: str) -> str:
 
 
 @pytest.fixture
-def registered_plugin_page(core_lifecycle_td: BulinBotCoreLifecycle, monkeypatch):
+def registered_plugin_page(core_lifecycle_td: NovaBotCoreLifecycle, monkeypatch):
     plugin_root = (
         Path(core_lifecycle_td.plugin_manager.plugin_store_path) / PLUGIN_PAGE_DEMO_NAME
     )
     page_root = plugin_root / "pages" / PLUGIN_PAGE_DEMO_PAGE_NAME
-    i18n_root = plugin_root / ".bulinbot-plugin" / "i18n"
+    i18n_root = plugin_root / ".novabot-plugin" / "i18n"
     shared_root = page_root / "shared"
     images_root = page_root / "images"
     shared_root.mkdir(parents=True, exist_ok=True)
@@ -132,7 +132,7 @@ window.renderTabs = renderTabs;
 
     plugin = StarMetadata(
         name=PLUGIN_PAGE_DEMO_NAME,
-        author="BulinBot Test",
+        author="NovaBot Test",
         desc="Plugin Page demo",
         version="1.0.0",
         display_name="Plugin Page Demo",
@@ -158,29 +158,29 @@ async def core_lifecycle_td(tmp_path_factory):
     tmp_db_path = tmp_path_factory.mktemp("data") / "test_data_v3.db"
     db = SQLiteDatabase(str(tmp_db_path))
     log_broker = LogBroker()
-    core_lifecycle = BulinBotCoreLifecycle(log_broker, db)
+    core_lifecycle = NovaBotCoreLifecycle(log_broker, db)
     await core_lifecycle.initialize()
     generated_password = getattr(
-        core_lifecycle.bulinbot_config,
+        core_lifecycle.novabot_config,
         "_generated_dashboard_password",
         None,
     )
     dashboard_password = generated_password or _TEST_DASHBOARD_PASSWORD
     if not generated_password:
-        core_lifecycle.bulinbot_config["dashboard"]["pbkdf2_password"] = (
+        core_lifecycle.novabot_config["dashboard"]["pbkdf2_password"] = (
             hash_dashboard_password(dashboard_password)
         )
-        core_lifecycle.bulinbot_config["dashboard"]["password"] = (
+        core_lifecycle.novabot_config["dashboard"]["password"] = (
             hash_legacy_dashboard_password(dashboard_password)
         )
         await set_password_storage_upgraded(
             core_lifecycle.db,
-            core_lifecycle.bulinbot_config,
+            core_lifecycle.novabot_config,
             True,
         )
         await set_password_change_required(
             core_lifecycle.db,
-            core_lifecycle.bulinbot_config,
+            core_lifecycle.novabot_config,
             False,
         )
     object.__setattr__(
@@ -202,28 +202,28 @@ async def core_lifecycle_td(tmp_path_factory):
 
 
 @pytest.fixture(scope="module")
-def app(core_lifecycle_td: BulinBotCoreLifecycle):
+def app(core_lifecycle_td: NovaBotCoreLifecycle):
     """Creates a Quart app instance for testing."""
     shutdown_event = asyncio.Event()
     # The db instance is already part of the core_lifecycle_td
-    server = BulinBotDashboard(core_lifecycle_td, core_lifecycle_td.db, shutdown_event)
+    server = NovaBotDashboard(core_lifecycle_td, core_lifecycle_td.db, shutdown_event)
     server.app._dashboard_server = server  # expose for test cleanup
     return server.app
 
 
-def _resolve_dashboard_password(core_lifecycle_td: BulinBotCoreLifecycle) -> str:
+def _resolve_dashboard_password(core_lifecycle_td: NovaBotCoreLifecycle) -> str:
     """Return a login password compatible with both hashed and plain defaults."""
     generated_password = getattr(core_lifecycle_td, "_dashboard_plain_password", None)
     if generated_password:
         return generated_password
-    password = core_lifecycle_td.bulinbot_config["dashboard"]["pbkdf2_password"]
+    password = core_lifecycle_td.novabot_config["dashboard"]["pbkdf2_password"]
     if isinstance(password, str) and password.startswith("pbkdf2_sha256$"):
-        return "bulinbot"
+        return "novabot"
     return password
 
 
 def test_dashboard_uses_bundled_dist_when_data_dist_is_stale(
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
     monkeypatch,
     tmp_path,
 ):
@@ -234,60 +234,60 @@ def test_dashboard_uses_bundled_dist_when_data_dist_is_stale(
     bundled_dist.mkdir()
 
     monkeypatch.setattr(
-        "bulinbot.dashboard.server.get_bulinbot_data_path",
+        "novabot.dashboard.server.get_novabot_data_path",
         lambda: str(data_dir),
     )
     monkeypatch.setattr(
-        "bulinbot.dashboard.server.get_bundled_dashboard_dist_path",
+        "novabot.dashboard.server.get_bundled_dashboard_dist_path",
         lambda: bundled_dist,
     )
     monkeypatch.setattr(
-        "bulinbot.dashboard.server.should_use_bundled_dashboard_dist",
+        "novabot.dashboard.server.should_use_bundled_dashboard_dist",
         lambda *_args, **_kwargs: True,
     )
 
     shutdown_event = asyncio.Event()
-    server = BulinBotDashboard(core_lifecycle_td, core_lifecycle_td.db, shutdown_event)
+    server = NovaBotDashboard(core_lifecycle_td, core_lifecycle_td.db, shutdown_event)
 
     assert server.data_path == str(bundled_dist)
 
 
 async def _set_dashboard_password_change_required(
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
     required: bool,
 ) -> None:
     await set_password_change_required(
         core_lifecycle_td.db,
-        core_lifecycle_td.bulinbot_config,
+        core_lifecycle_td.novabot_config,
         required,
     )
 
 
 async def _restore_dashboard_password_state(
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
     dashboard_config: dict,
 ) -> None:
-    core_lifecycle_td.bulinbot_config["dashboard"] = dashboard_config
+    core_lifecycle_td.novabot_config["dashboard"] = dashboard_config
     await set_password_change_required(
         core_lifecycle_td.db,
-        core_lifecycle_td.bulinbot_config,
+        core_lifecycle_td.novabot_config,
         False,
     )
     await set_password_storage_upgraded(
         core_lifecycle_td.db,
-        core_lifecycle_td.bulinbot_config,
+        core_lifecycle_td.novabot_config,
         bool(dashboard_config.get("pbkdf2_password")),
     )
 
 
 @pytest_asyncio.fixture(scope="module")
-async def authenticated_header(app: Quart, core_lifecycle_td: BulinBotCoreLifecycle):
+async def authenticated_header(app: Quart, core_lifecycle_td: NovaBotCoreLifecycle):
     """Handles login and returns an authenticated header."""
     test_client = app.test_client()
     response = await test_client.post(
         "/api/auth/login",
         json={
-            "username": core_lifecycle_td.bulinbot_config["dashboard"]["username"],
+            "username": core_lifecycle_td.novabot_config["dashboard"]["username"],
             "password": _resolve_dashboard_password(core_lifecycle_td),
         },
     )
@@ -300,7 +300,7 @@ async def authenticated_header(app: Quart, core_lifecycle_td: BulinBotCoreLifecy
 @pytest.mark.asyncio
 async def test_auth_login(
     app: Quart,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
     monkeypatch: pytest.MonkeyPatch,
 ):
     """Tests the login functionality with both wrong and correct credentials."""
@@ -317,7 +317,7 @@ async def test_auth_login(
     response = await test_client.post(
         "/api/auth/login",
         json={
-            "username": core_lifecycle_td.bulinbot_config["dashboard"]["username"],
+            "username": core_lifecycle_td.novabot_config["dashboard"]["username"],
             "password": _resolve_dashboard_password(core_lifecycle_td),
         },
     )
@@ -337,7 +337,7 @@ async def test_auth_login(
 @pytest.mark.asyncio
 async def test_auth_login_secure_cookie_override(
     app: Quart,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
     monkeypatch: pytest.MonkeyPatch,
 ):
     monkeypatch.setitem(app.config, "DASHBOARD_JWT_COOKIE_SECURE", True)
@@ -346,7 +346,7 @@ async def test_auth_login_secure_cookie_override(
     response = await test_client.post(
         "/api/auth/login",
         json={
-            "username": core_lifecycle_td.bulinbot_config["dashboard"]["username"],
+            "username": core_lifecycle_td.novabot_config["dashboard"]["username"],
             "password": _resolve_dashboard_password(core_lifecycle_td),
         },
     )
@@ -365,13 +365,13 @@ async def test_auth_login_secure_cookie_override(
 @pytest.mark.asyncio
 async def test_auth_rate_limit_uses_same_bucket_across_paths(
     app: Quart,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
     monkeypatch: pytest.MonkeyPatch,
 ):
     """Same client IP shares a rate-limit bucket across different auth endpoints."""
     monkeypatch.setenv("BULINBOT_TEST_MODE", "false")
     app._dashboard_server._rate_limiter_registry.clear()
-    cfg = core_lifecycle_td.bulinbot_config["dashboard"]
+    cfg = core_lifecycle_td.novabot_config["dashboard"]
     rl_original = cfg.get("auth_rate_limit", {})
     tp_original = cfg.get("trust_proxy_headers", False)
     cfg["auth_rate_limit"] = {
@@ -401,13 +401,13 @@ async def test_auth_rate_limit_uses_same_bucket_across_paths(
 @pytest.mark.asyncio
 async def test_auth_rate_limit_separates_different_client_ips(
     app: Quart,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
     monkeypatch: pytest.MonkeyPatch,
 ):
     """Different client IPs have independent rate-limit buckets."""
     monkeypatch.setenv("BULINBOT_TEST_MODE", "false")
     app._dashboard_server._rate_limiter_registry.clear()
-    cfg = core_lifecycle_td.bulinbot_config["dashboard"]
+    cfg = core_lifecycle_td.novabot_config["dashboard"]
     rl_original = cfg.get("auth_rate_limit", {})
     tp_original = cfg.get("trust_proxy_headers", False)
     cfg["auth_rate_limit"] = {
@@ -449,13 +449,13 @@ async def test_auth_rate_limit_separates_different_client_ips(
 @pytest.mark.asyncio
 async def test_auth_rate_limit_ignores_proxy_headers_by_default(
     app: Quart,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
     monkeypatch: pytest.MonkeyPatch,
 ):
     """When trust_proxy_headers is False, all proxy-spoofed IPs fall back to the connection IP."""
     monkeypatch.setenv("BULINBOT_TEST_MODE", "false")
     app._dashboard_server._rate_limiter_registry.clear()
-    cfg = core_lifecycle_td.bulinbot_config["dashboard"]
+    cfg = core_lifecycle_td.novabot_config["dashboard"]
     rl_original = cfg.get("auth_rate_limit", {})
     tp_original = cfg.get("trust_proxy_headers", False)
     cfg["auth_rate_limit"] = {
@@ -490,17 +490,17 @@ async def test_auth_rate_limit_ignores_proxy_headers_by_default(
 @pytest.mark.asyncio
 async def test_auth_login_requires_totp_when_enabled_and_not_trusted(
     app: Quart,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
 ):
     original_dashboard_config = copy.deepcopy(
-        core_lifecycle_td.bulinbot_config["dashboard"]
+        core_lifecycle_td.novabot_config["dashboard"]
     )
     test_client = app.test_client()
     _, recovery_code_hash = generate_recovery_code()
     secret = pyotp.random_base32()
 
     try:
-        core_lifecycle_td.bulinbot_config["dashboard"]["totp"] = {
+        core_lifecycle_td.novabot_config["dashboard"]["totp"] = {
             "enable": True,
             "secret": secret,
             "recovery_code_hash": recovery_code_hash,
@@ -508,7 +508,7 @@ async def test_auth_login_requires_totp_when_enabled_and_not_trusted(
         response = await test_client.post(
             "/api/auth/login",
             json={
-                "username": core_lifecycle_td.bulinbot_config["dashboard"]["username"],
+                "username": core_lifecycle_td.novabot_config["dashboard"]["username"],
                 "password": _resolve_dashboard_password(core_lifecycle_td),
             },
         )
@@ -526,17 +526,17 @@ async def test_auth_login_requires_totp_when_enabled_and_not_trusted(
 @pytest.mark.asyncio
 async def test_auth_login_accepts_valid_totp_code(
     app: Quart,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
 ):
     original_dashboard_config = copy.deepcopy(
-        core_lifecycle_td.bulinbot_config["dashboard"]
+        core_lifecycle_td.novabot_config["dashboard"]
     )
     test_client = app.test_client()
     _, recovery_code_hash = generate_recovery_code()
     secret = pyotp.random_base32()
 
     try:
-        core_lifecycle_td.bulinbot_config["dashboard"]["totp"] = {
+        core_lifecycle_td.novabot_config["dashboard"]["totp"] = {
             "enable": True,
             "secret": secret,
             "recovery_code_hash": recovery_code_hash,
@@ -544,7 +544,7 @@ async def test_auth_login_accepts_valid_totp_code(
         response = await test_client.post(
             "/api/auth/login",
             json={
-                "username": core_lifecycle_td.bulinbot_config["dashboard"]["username"],
+                "username": core_lifecycle_td.novabot_config["dashboard"]["username"],
                 "password": _resolve_dashboard_password(core_lifecycle_td),
                 "code": pyotp.TOTP(secret).now(),
             },
@@ -562,17 +562,17 @@ async def test_auth_login_accepts_valid_totp_code(
 @pytest.mark.asyncio
 async def test_auth_login_rejects_invalid_totp_code(
     app: Quart,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
 ):
     original_dashboard_config = copy.deepcopy(
-        core_lifecycle_td.bulinbot_config["dashboard"]
+        core_lifecycle_td.novabot_config["dashboard"]
     )
     test_client = app.test_client()
     _, recovery_code_hash = generate_recovery_code()
     secret = pyotp.random_base32()
 
     try:
-        core_lifecycle_td.bulinbot_config["dashboard"]["totp"] = {
+        core_lifecycle_td.novabot_config["dashboard"]["totp"] = {
             "enable": True,
             "secret": secret,
             "recovery_code_hash": recovery_code_hash,
@@ -582,7 +582,7 @@ async def test_auth_login_rejects_invalid_totp_code(
         response = await test_client.post(
             "/api/auth/login",
             json={
-                "username": core_lifecycle_td.bulinbot_config["dashboard"]["username"],
+                "username": core_lifecycle_td.novabot_config["dashboard"]["username"],
                 "password": _resolve_dashboard_password(core_lifecycle_td),
                 "code": invalid_code,
             },
@@ -600,17 +600,17 @@ async def test_auth_login_rejects_invalid_totp_code(
 @pytest.mark.asyncio
 async def test_auth_login_with_recovery_code_disables_totp(
     app: Quart,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
 ):
     original_dashboard_config = copy.deepcopy(
-        core_lifecycle_td.bulinbot_config["dashboard"]
+        core_lifecycle_td.novabot_config["dashboard"]
     )
     test_client = app.test_client()
     recovery_code, recovery_code_hash = generate_recovery_code()
     secret = pyotp.random_base32()
 
     try:
-        core_lifecycle_td.bulinbot_config["dashboard"]["totp"] = {
+        core_lifecycle_td.novabot_config["dashboard"]["totp"] = {
             "enable": True,
             "secret": secret,
             "recovery_code_hash": recovery_code_hash,
@@ -618,14 +618,14 @@ async def test_auth_login_with_recovery_code_disables_totp(
         response = await test_client.post(
             "/api/auth/login",
             json={
-                "username": core_lifecycle_td.bulinbot_config["dashboard"]["username"],
+                "username": core_lifecycle_td.novabot_config["dashboard"]["username"],
                 "password": _resolve_dashboard_password(core_lifecycle_td),
                 "code": recovery_code,
             },
         )
         data = await response.get_json()
         assert data["status"] == "ok"
-        assert core_lifecycle_td.bulinbot_config["dashboard"]["totp"] == {
+        assert core_lifecycle_td.novabot_config["dashboard"]["totp"] == {
             "enable": False,
             "secret": "",
             "recovery_code_hash": "",
@@ -640,17 +640,17 @@ async def test_auth_login_with_recovery_code_disables_totp(
 @pytest.mark.asyncio
 async def test_auth_login_sets_trusted_device_cookie_when_flag_true(
     app: Quart,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
 ):
     original_dashboard_config = copy.deepcopy(
-        core_lifecycle_td.bulinbot_config["dashboard"]
+        core_lifecycle_td.novabot_config["dashboard"]
     )
     test_client = app.test_client()
     _, recovery_code_hash = generate_recovery_code()
     secret = pyotp.random_base32()
 
     try:
-        core_lifecycle_td.bulinbot_config["dashboard"]["totp"] = {
+        core_lifecycle_td.novabot_config["dashboard"]["totp"] = {
             "enable": True,
             "secret": secret,
             "recovery_code_hash": recovery_code_hash,
@@ -658,7 +658,7 @@ async def test_auth_login_sets_trusted_device_cookie_when_flag_true(
         response = await test_client.post(
             "/api/auth/login",
             json={
-                "username": core_lifecycle_td.bulinbot_config["dashboard"]["username"],
+                "username": core_lifecycle_td.novabot_config["dashboard"]["username"],
                 "password": _resolve_dashboard_password(core_lifecycle_td),
                 "code": pyotp.TOTP(secret).now(),
                 "trust_device_flag": True,
@@ -689,17 +689,17 @@ async def test_auth_login_sets_trusted_device_cookie_when_flag_true(
 @pytest.mark.asyncio
 async def test_auth_login_skips_totp_when_trusted_cookie_valid(
     app: Quart,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
 ):
     original_dashboard_config = copy.deepcopy(
-        core_lifecycle_td.bulinbot_config["dashboard"]
+        core_lifecycle_td.novabot_config["dashboard"]
     )
     test_client = app.test_client()
     _, recovery_code_hash = generate_recovery_code()
     secret = pyotp.random_base32()
 
     try:
-        core_lifecycle_td.bulinbot_config["dashboard"]["totp"] = {
+        core_lifecycle_td.novabot_config["dashboard"]["totp"] = {
             "enable": True,
             "secret": secret,
             "recovery_code_hash": recovery_code_hash,
@@ -707,7 +707,7 @@ async def test_auth_login_skips_totp_when_trusted_cookie_valid(
         first_login = await test_client.post(
             "/api/auth/login",
             json={
-                "username": core_lifecycle_td.bulinbot_config["dashboard"]["username"],
+                "username": core_lifecycle_td.novabot_config["dashboard"]["username"],
                 "password": _resolve_dashboard_password(core_lifecycle_td),
                 "code": pyotp.TOTP(secret).now(),
                 "trust_device_flag": True,
@@ -719,7 +719,7 @@ async def test_auth_login_skips_totp_when_trusted_cookie_valid(
         second_login = await test_client.post(
             "/api/auth/login",
             json={
-                "username": core_lifecycle_td.bulinbot_config["dashboard"]["username"],
+                "username": core_lifecycle_td.novabot_config["dashboard"]["username"],
                 "password": _resolve_dashboard_password(core_lifecycle_td),
             },
         )
@@ -737,29 +737,29 @@ async def test_auth_login_skips_totp_when_trusted_cookie_valid(
 async def test_config_save_requires_two_factor_for_protected_totp_changes(
     app: Quart,
     authenticated_header: dict,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
 ):
     original_dashboard_config = copy.deepcopy(
-        core_lifecycle_td.bulinbot_config["dashboard"]
+        core_lifecycle_td.novabot_config["dashboard"]
     )
     test_client = app.test_client()
     _, recovery_code_hash = generate_recovery_code()
     secret = pyotp.random_base32()
 
     try:
-        core_lifecycle_td.bulinbot_config["dashboard"]["totp"] = {
+        core_lifecycle_td.novabot_config["dashboard"]["totp"] = {
             "enable": True,
             "secret": secret,
             "recovery_code_hash": recovery_code_hash,
         }
-        post_config = copy.deepcopy(dict(core_lifecycle_td.bulinbot_config))
+        post_config = copy.deepcopy(dict(core_lifecycle_td.novabot_config))
         post_config["dashboard"]["totp"] = {
             "enable": False,
             "secret": "",
             "recovery_code_hash": "",
         }
         response = await test_client.post(
-            "/api/config/bulinbot/update",
+            "/api/config/novabot/update",
             headers=authenticated_header,
             json={"conf_id": "default", "config": post_config},
         )
@@ -767,7 +767,7 @@ async def test_config_save_requires_two_factor_for_protected_totp_changes(
         assert response.status_code == 401
         assert data["status"] == "error"
         assert data["data"]["totp_required"] is True
-        assert core_lifecycle_td.bulinbot_config["dashboard"]["totp"] == {
+        assert core_lifecycle_td.novabot_config["dashboard"]["totp"] == {
             "enable": True,
             "secret": secret,
             "recovery_code_hash": recovery_code_hash,
@@ -783,29 +783,29 @@ async def test_config_save_requires_two_factor_for_protected_totp_changes(
 async def test_config_save_accepts_totp_code_for_protected_totp_changes(
     app: Quart,
     authenticated_header: dict,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
 ):
     original_dashboard_config = copy.deepcopy(
-        core_lifecycle_td.bulinbot_config["dashboard"]
+        core_lifecycle_td.novabot_config["dashboard"]
     )
     test_client = app.test_client()
     _, recovery_code_hash = generate_recovery_code()
     secret = pyotp.random_base32()
 
     try:
-        core_lifecycle_td.bulinbot_config["dashboard"]["totp"] = {
+        core_lifecycle_td.novabot_config["dashboard"]["totp"] = {
             "enable": True,
             "secret": secret,
             "recovery_code_hash": recovery_code_hash,
         }
-        post_config = copy.deepcopy(dict(core_lifecycle_td.bulinbot_config))
+        post_config = copy.deepcopy(dict(core_lifecycle_td.novabot_config))
         post_config["dashboard"]["totp"] = {
             "enable": False,
             "secret": "",
             "recovery_code_hash": "",
         }
         response = await test_client.post(
-            "/api/config/bulinbot/update",
+            "/api/config/novabot/update",
             headers={
                 **authenticated_header,
                 "X-2FA-Code": pyotp.TOTP(secret).now(),
@@ -814,7 +814,7 @@ async def test_config_save_accepts_totp_code_for_protected_totp_changes(
         )
         data = await response.get_json()
         assert data["status"] == "ok"
-        assert core_lifecycle_td.bulinbot_config["dashboard"]["totp"] == {
+        assert core_lifecycle_td.novabot_config["dashboard"]["totp"] == {
             "enable": False,
             "secret": "",
             "recovery_code_hash": "",
@@ -830,29 +830,29 @@ async def test_config_save_accepts_totp_code_for_protected_totp_changes(
 async def test_config_save_rejects_recovery_code_for_protected_totp_changes(
     app: Quart,
     authenticated_header: dict,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
 ):
     original_dashboard_config = copy.deepcopy(
-        core_lifecycle_td.bulinbot_config["dashboard"]
+        core_lifecycle_td.novabot_config["dashboard"]
     )
     test_client = app.test_client()
     recovery_code, recovery_code_hash = generate_recovery_code()
     secret = pyotp.random_base32()
 
     try:
-        core_lifecycle_td.bulinbot_config["dashboard"]["totp"] = {
+        core_lifecycle_td.novabot_config["dashboard"]["totp"] = {
             "enable": True,
             "secret": secret,
             "recovery_code_hash": recovery_code_hash,
         }
-        post_config = copy.deepcopy(dict(core_lifecycle_td.bulinbot_config))
+        post_config = copy.deepcopy(dict(core_lifecycle_td.novabot_config))
         post_config["dashboard"]["totp"] = {
             "enable": False,
             "secret": "",
             "recovery_code_hash": recovery_code_hash,
         }
         response = await test_client.post(
-            "/api/config/bulinbot/update",
+            "/api/config/novabot/update",
             headers={
                 **authenticated_header,
                 "X-2FA-Code": recovery_code,
@@ -863,7 +863,7 @@ async def test_config_save_rejects_recovery_code_for_protected_totp_changes(
         assert response.status_code == 401
         assert data["status"] == "error"
         assert data["data"]["totp_required"] is True
-        assert core_lifecycle_td.bulinbot_config["dashboard"]["totp"] == {
+        assert core_lifecycle_td.novabot_config["dashboard"]["totp"] == {
             "enable": True,
             "secret": secret,
             "recovery_code_hash": recovery_code_hash,
@@ -898,31 +898,31 @@ async def test_auth_totp_setup_with_valid_code_returns_recovery_code(
 @pytest.mark.asyncio
 async def test_legacy_md5_dashboard_password_keeps_legacy_auth_until_edit(
     app: Quart,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
 ):
     original_dashboard_config = copy.deepcopy(
-        core_lifecycle_td.bulinbot_config["dashboard"]
+        core_lifecycle_td.novabot_config["dashboard"]
     )
     test_client = app.test_client()
     legacy_password = "BulinbotLegacy123"
     changed_password = "BulinbotChanged123"
 
     try:
-        core_lifecycle_td.bulinbot_config["dashboard"]["username"] = "bulinbot"
-        core_lifecycle_td.bulinbot_config["dashboard"]["password"] = (
+        core_lifecycle_td.novabot_config["dashboard"]["username"] = "novabot"
+        core_lifecycle_td.novabot_config["dashboard"]["password"] = (
             hash_legacy_dashboard_password(legacy_password)
         )
-        core_lifecycle_td.bulinbot_config["dashboard"]["pbkdf2_password"] = ""
+        core_lifecycle_td.novabot_config["dashboard"]["pbkdf2_password"] = ""
         await _set_dashboard_password_change_required(core_lifecycle_td, False)
         await set_password_storage_upgraded(
             core_lifecycle_td.db,
-            core_lifecycle_td.bulinbot_config,
+            core_lifecycle_td.novabot_config,
             False,
         )
 
         response = await test_client.post(
             "/api/auth/login",
-            json={"username": "bulinbot", "password": legacy_password},
+            json={"username": "novabot", "password": legacy_password},
         )
         data = await response.get_json()
         assert data["status"] == "ok"
@@ -936,7 +936,7 @@ async def test_legacy_md5_dashboard_password_keeps_legacy_auth_until_edit(
                 "password": legacy_password,
                 "new_password": "",
                 "confirm_password": "",
-                "new_username": "bulinbot-admin",
+                "new_username": "novabot-admin",
             },
         )
         data = await response.get_json()
@@ -944,7 +944,7 @@ async def test_legacy_md5_dashboard_password_keeps_legacy_auth_until_edit(
         assert (
             await is_password_storage_upgraded(
                 core_lifecycle_td.db,
-                core_lifecycle_td.bulinbot_config,
+                core_lifecycle_td.novabot_config,
             )
             is False
         )
@@ -955,7 +955,7 @@ async def test_legacy_md5_dashboard_password_keeps_legacy_auth_until_edit(
                 "password": legacy_password,
                 "new_password": changed_password,
                 "confirm_password": changed_password,
-                "new_username": "bulinbot",
+                "new_username": "novabot",
             },
         )
         data = await response.get_json()
@@ -963,16 +963,16 @@ async def test_legacy_md5_dashboard_password_keeps_legacy_auth_until_edit(
         assert (
             await is_password_storage_upgraded(
                 core_lifecycle_td.db,
-                core_lifecycle_td.bulinbot_config,
+                core_lifecycle_td.novabot_config,
             )
             is True
         )
         assert verify_dashboard_password(
-            core_lifecycle_td.bulinbot_config["dashboard"]["pbkdf2_password"],
+            core_lifecycle_td.novabot_config["dashboard"]["pbkdf2_password"],
             changed_password,
         )
         assert verify_dashboard_password(
-            core_lifecycle_td.bulinbot_config["dashboard"]["password"],
+            core_lifecycle_td.novabot_config["dashboard"]["password"],
             changed_password,
         )
     finally:
@@ -985,38 +985,38 @@ async def test_legacy_md5_dashboard_password_keeps_legacy_auth_until_edit(
 @pytest.mark.asyncio
 async def test_legacy_md5_login_failure_includes_upgrade_faq_hint(
     app: Quart,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
 ):
     original_dashboard_config = copy.deepcopy(
-        core_lifecycle_td.bulinbot_config["dashboard"]
+        core_lifecycle_td.novabot_config["dashboard"]
     )
     test_client = app.test_client()
     legacy_password = "BulinbotLegacy123"
 
     try:
-        core_lifecycle_td.bulinbot_config["dashboard"]["username"] = "bulinbot"
-        core_lifecycle_td.bulinbot_config["dashboard"]["password"] = (
+        core_lifecycle_td.novabot_config["dashboard"]["username"] = "novabot"
+        core_lifecycle_td.novabot_config["dashboard"]["password"] = (
             hash_legacy_dashboard_password(legacy_password)
         )
-        core_lifecycle_td.bulinbot_config["dashboard"]["pbkdf2_password"] = ""
+        core_lifecycle_td.novabot_config["dashboard"]["pbkdf2_password"] = ""
         await _set_dashboard_password_change_required(core_lifecycle_td, False)
         await set_password_storage_upgraded(
             core_lifecycle_td.db,
-            core_lifecycle_td.bulinbot_config,
+            core_lifecycle_td.novabot_config,
             False,
         )
 
         response = await test_client.post(
             "/api/auth/login",
-            json={"username": "bulinbot", "password": "WrongPassword123"},
+            json={"username": "novabot", "password": "WrongPassword123"},
         )
         data = await response.get_json()
 
         assert data["status"] == "error"
         assert data["message"].startswith("Incorrect username or password.")
         assert "用户名或密码错误" in data["message"]
-        assert "https://docs.bulinbot.app/en/faq.html" in data["message"]
-        assert "https://docs.bulinbot.app/faq.html" in data["message"]
+        assert "https://docs.novabot.app/en/faq.html" in data["message"]
+        assert "https://docs.novabot.app/faq.html" in data["message"]
     finally:
         await _restore_dashboard_password_state(
             core_lifecycle_td,
@@ -1027,30 +1027,30 @@ async def test_legacy_md5_login_failure_includes_upgrade_faq_hint(
 @pytest.mark.asyncio
 async def test_password_storage_flag_repairs_after_rollback_clears_pbkdf2(
     app: Quart,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
 ):
     original_dashboard_config = copy.deepcopy(
-        core_lifecycle_td.bulinbot_config["dashboard"]
+        core_lifecycle_td.novabot_config["dashboard"]
     )
     test_client = app.test_client()
     legacy_password = "BulinbotRollback123"
 
     try:
-        core_lifecycle_td.bulinbot_config["dashboard"]["username"] = "bulinbot"
-        core_lifecycle_td.bulinbot_config["dashboard"]["password"] = (
+        core_lifecycle_td.novabot_config["dashboard"]["username"] = "novabot"
+        core_lifecycle_td.novabot_config["dashboard"]["password"] = (
             hash_legacy_dashboard_password(legacy_password)
         )
-        core_lifecycle_td.bulinbot_config["dashboard"]["pbkdf2_password"] = ""
+        core_lifecycle_td.novabot_config["dashboard"]["pbkdf2_password"] = ""
         await _set_dashboard_password_change_required(core_lifecycle_td, False)
         await set_password_storage_upgraded(
             core_lifecycle_td.db,
-            core_lifecycle_td.bulinbot_config,
+            core_lifecycle_td.novabot_config,
             True,
         )
 
         response = await test_client.post(
             "/api/auth/login",
-            json={"username": "bulinbot", "password": legacy_password},
+            json={"username": "novabot", "password": legacy_password},
         )
         data = await response.get_json()
 
@@ -1060,7 +1060,7 @@ async def test_password_storage_flag_repairs_after_rollback_clears_pbkdf2(
         assert (
             await is_password_storage_upgraded(
                 core_lifecycle_td.db,
-                core_lifecycle_td.bulinbot_config,
+                core_lifecycle_td.novabot_config,
             )
             is False
         )
@@ -1072,33 +1072,33 @@ async def test_password_storage_flag_repairs_after_rollback_clears_pbkdf2(
 
 
 def test_password_hash_lookup_falls_back_to_legacy_when_pbkdf2_missing(
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
 ):
-    dashboard_config = copy.deepcopy(core_lifecycle_td.bulinbot_config["dashboard"])
+    dashboard_config = copy.deepcopy(core_lifecycle_td.novabot_config["dashboard"])
     legacy_hash = hash_legacy_dashboard_password("BulinbotRollback123")
 
     try:
-        core_lifecycle_td.bulinbot_config["dashboard"]["password"] = legacy_hash
-        core_lifecycle_td.bulinbot_config["dashboard"]["pbkdf2_password"] = ""
+        core_lifecycle_td.novabot_config["dashboard"]["password"] = legacy_hash
+        core_lifecycle_td.novabot_config["dashboard"]["pbkdf2_password"] = ""
 
         assert (
             get_dashboard_password_hash(
-                core_lifecycle_td.bulinbot_config,
+                core_lifecycle_td.novabot_config,
                 upgraded=True,
             )
             == legacy_hash
         )
     finally:
-        core_lifecycle_td.bulinbot_config["dashboard"] = dashboard_config
+        core_lifecycle_td.novabot_config["dashboard"] = dashboard_config
 
 
 @pytest.mark.asyncio
 async def test_generated_password_requires_password_change_until_changed(
     app: Quart,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
 ):
     original_dashboard_config = copy.deepcopy(
-        core_lifecycle_td.bulinbot_config["dashboard"]
+        core_lifecycle_td.novabot_config["dashboard"]
     )
     test_client = app.test_client()
     changed_password = "BulinbotChanged123"
@@ -1109,7 +1109,7 @@ async def test_generated_password_requires_password_change_until_changed(
         response = await test_client.post(
             "/api/auth/login",
             json={
-                "username": core_lifecycle_td.bulinbot_config["dashboard"]["username"],
+                "username": core_lifecycle_td.novabot_config["dashboard"]["username"],
                 "password": _resolve_dashboard_password(core_lifecycle_td),
             },
         )
@@ -1123,7 +1123,7 @@ async def test_generated_password_requires_password_change_until_changed(
                 "password": _resolve_dashboard_password(core_lifecycle_td),
                 "new_password": "",
                 "confirm_password": "",
-                "new_username": core_lifecycle_td.bulinbot_config["dashboard"][
+                "new_username": core_lifecycle_td.novabot_config["dashboard"][
                     "username"
                 ],
             },
@@ -1133,7 +1133,7 @@ async def test_generated_password_requires_password_change_until_changed(
         assert (
             await is_password_change_required(
                 core_lifecycle_td.db,
-                core_lifecycle_td.bulinbot_config,
+                core_lifecycle_td.novabot_config,
             )
             is True
         )
@@ -1144,7 +1144,7 @@ async def test_generated_password_requires_password_change_until_changed(
                 "password": _resolve_dashboard_password(core_lifecycle_td),
                 "new_password": changed_password,
                 "confirm_password": changed_password,
-                "new_username": core_lifecycle_td.bulinbot_config["dashboard"][
+                "new_username": core_lifecycle_td.novabot_config["dashboard"][
                     "username"
                 ],
             },
@@ -1154,7 +1154,7 @@ async def test_generated_password_requires_password_change_until_changed(
         assert (
             await is_password_change_required(
                 core_lifecycle_td.db,
-                core_lifecycle_td.bulinbot_config,
+                core_lifecycle_td.novabot_config,
             )
             is False
         )
@@ -1168,19 +1168,19 @@ async def test_generated_password_requires_password_change_until_changed(
 @pytest.mark.asyncio
 async def test_local_setup_can_skip_default_password_auth(
     app: Quart,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
     monkeypatch: pytest.MonkeyPatch,
 ):
     original_dashboard_config = copy.deepcopy(
-        core_lifecycle_td.bulinbot_config["dashboard"]
+        core_lifecycle_td.novabot_config["dashboard"]
     )
     test_client = app.test_client()
     setup_password = "BulinbotSetup123"
-    setup_username = "bulinbot-admin"
+    setup_username = "novabot-admin"
 
     try:
         monkeypatch.setenv("BULINBOT_DASHBOARD_SKIP_DEFAULT_PASSWORD_AUTH", "true")
-        core_lifecycle_td.bulinbot_config["dashboard"]["host"] = "127.0.0.1"
+        core_lifecycle_td.novabot_config["dashboard"]["host"] = "127.0.0.1"
         await _set_dashboard_password_change_required(core_lifecycle_td, True)
 
         response = await test_client.get("/api/auth/setup-status")
@@ -1204,19 +1204,19 @@ async def test_local_setup_can_skip_default_password_auth(
         assert (
             await is_password_change_required(
                 core_lifecycle_td.db,
-                core_lifecycle_td.bulinbot_config,
+                core_lifecycle_td.novabot_config,
             )
             is False
         )
         assert (
-            core_lifecycle_td.bulinbot_config["dashboard"]["username"] == setup_username
+            core_lifecycle_td.novabot_config["dashboard"]["username"] == setup_username
         )
         assert verify_dashboard_password(
-            core_lifecycle_td.bulinbot_config["dashboard"]["pbkdf2_password"],
+            core_lifecycle_td.novabot_config["dashboard"]["pbkdf2_password"],
             setup_password,
         )
         assert verify_dashboard_password(
-            core_lifecycle_td.bulinbot_config["dashboard"]["password"],
+            core_lifecycle_td.novabot_config["dashboard"]["password"],
             setup_password,
         )
     finally:
@@ -1229,14 +1229,14 @@ async def test_local_setup_can_skip_default_password_auth(
 @pytest.mark.asyncio
 async def test_authenticated_default_password_login_can_complete_setup(
     app: Quart,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
 ):
     original_dashboard_config = copy.deepcopy(
-        core_lifecycle_td.bulinbot_config["dashboard"]
+        core_lifecycle_td.novabot_config["dashboard"]
     )
     test_client = app.test_client()
     setup_password = "BulinbotSetup123"
-    setup_username = "bulinbot-admin"
+    setup_username = "novabot-admin"
 
     try:
         await _set_dashboard_password_change_required(core_lifecycle_td, True)
@@ -1244,7 +1244,7 @@ async def test_authenticated_default_password_login_can_complete_setup(
         login_response = await test_client.post(
             "/api/auth/login",
             json={
-                "username": core_lifecycle_td.bulinbot_config["dashboard"]["username"],
+                "username": core_lifecycle_td.novabot_config["dashboard"]["username"],
                 "password": _resolve_dashboard_password(core_lifecycle_td),
             },
         )
@@ -1268,16 +1268,16 @@ async def test_authenticated_default_password_login_can_complete_setup(
         assert (
             await is_password_change_required(
                 core_lifecycle_td.db,
-                core_lifecycle_td.bulinbot_config,
+                core_lifecycle_td.novabot_config,
             )
             is False
         )
         assert verify_dashboard_password(
-            core_lifecycle_td.bulinbot_config["dashboard"]["pbkdf2_password"],
+            core_lifecycle_td.novabot_config["dashboard"]["pbkdf2_password"],
             setup_password,
         )
         assert verify_dashboard_password(
-            core_lifecycle_td.bulinbot_config["dashboard"]["password"],
+            core_lifecycle_td.novabot_config["dashboard"]["password"],
             setup_password,
         )
     finally:
@@ -1290,17 +1290,17 @@ async def test_authenticated_default_password_login_can_complete_setup(
 @pytest.mark.asyncio
 async def test_setup_skip_requires_local_host(
     app: Quart,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
     monkeypatch: pytest.MonkeyPatch,
 ):
     original_dashboard_config = copy.deepcopy(
-        core_lifecycle_td.bulinbot_config["dashboard"]
+        core_lifecycle_td.novabot_config["dashboard"]
     )
     test_client = app.test_client()
 
     try:
         monkeypatch.setenv("BULINBOT_DASHBOARD_SKIP_DEFAULT_PASSWORD_AUTH", "true")
-        core_lifecycle_td.bulinbot_config["dashboard"]["host"] = "0.0.0.0"
+        core_lifecycle_td.novabot_config["dashboard"]["host"] = "0.0.0.0"
         await _set_dashboard_password_change_required(core_lifecycle_td, True)
 
         response = await test_client.get("/api/auth/setup-status")
@@ -1312,7 +1312,7 @@ async def test_setup_skip_requires_local_host(
         response = await test_client.post(
             "/api/auth/setup",
             json={
-                "username": "bulinbot-admin",
+                "username": "novabot-admin",
                 "password": "BulinbotSetup123",
                 "confirm_password": "BulinbotSetup123",
             },
@@ -1329,7 +1329,7 @@ async def test_setup_skip_requires_local_host(
 @pytest.mark.asyncio
 async def test_plugin_web_api_supports_dynamic_route(
     app: Quart,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
     authenticated_header: dict[str, str],
     monkeypatch: pytest.MonkeyPatch,
 ):
@@ -1476,14 +1476,14 @@ async def test_plugin_page_content_requires_auth(
 @pytest.mark.asyncio
 async def test_plugin_page_content_supports_cookie_auth(
     app: Quart,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
     registered_plugin_page: StarMetadata,
 ):
     test_client = app.test_client()
     login_response = await test_client.post(
         "/api/auth/login",
         json={
-            "username": core_lifecycle_td.bulinbot_config["dashboard"]["username"],
+            "username": core_lifecycle_td.novabot_config["dashboard"]["username"],
             "password": _resolve_dashboard_password(core_lifecycle_td),
         },
     )
@@ -1524,7 +1524,7 @@ async def test_plugin_page_content_supports_cookie_auth(
     bridge_response = await test_client.get(bridge_url_match.group(1))
     assert bridge_response.status_code == 200
     bridge_content = (await bridge_response.get_data()).decode("utf-8")
-    assert "BulinBotPluginPage" in bridge_content
+    assert "NovaBotPluginPage" in bridge_content
 
 
 @pytest.mark.asyncio
@@ -1570,7 +1570,7 @@ async def test_plugin_page_content_issues_scoped_asset_token(
     bridge_response = await anonymous_client.get(bridge_sdk_url.group(1))
     assert bridge_response.status_code == 200
     bridge_js = (await bridge_response.get_data()).decode("utf-8")
-    assert "window.BulinBotPluginPage?.__setInitialContext" in bridge_js
+    assert "window.NovaBotPluginPage?.__setInitialContext" in bridge_js
     assert '"locale": "zh-CN"' in bridge_js
     assert '"displayName": "插件页面演示"' in bridge_js
     assert '"pageTitle": "Bridge 演示页"' in bridge_js
@@ -1755,14 +1755,14 @@ async def test_plugin_page_content_blocks_path_traversal(
 @pytest.mark.asyncio
 async def test_logout_clears_cookie_for_plugin_page(
     app: Quart,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
     registered_plugin_page: StarMetadata,
 ):
     test_client = app.test_client()
     response = await test_client.post(
         "/api/auth/login",
         json={
-            "username": core_lifecycle_td.bulinbot_config["dashboard"]["username"],
+            "username": core_lifecycle_td.novabot_config["dashboard"]["username"],
             "password": _resolve_dashboard_password(core_lifecycle_td),
         },
     )
@@ -1812,13 +1812,13 @@ async def test_get_stat(app: Quart, authenticated_header: dict):
 
 @pytest.mark.asyncio
 async def test_dashboard_ssl_missing_cert_and_key_falls_back_to_http(
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
     monkeypatch,
 ):
     shutdown_event = asyncio.Event()
-    server = BulinBotDashboard(core_lifecycle_td, core_lifecycle_td.db, shutdown_event)
+    server = NovaBotDashboard(core_lifecycle_td, core_lifecycle_td.db, shutdown_event)
     original_dashboard_config = copy.deepcopy(
-        core_lifecycle_td.bulinbot_config.get("dashboard", {}),
+        core_lifecycle_td.novabot_config.get("dashboard", {}),
     )
     warning_messages = []
     info_messages = []
@@ -1833,19 +1833,19 @@ async def test_dashboard_ssl_missing_cert_and_key_falls_back_to_http(
         return append
 
     try:
-        core_lifecycle_td.bulinbot_config["dashboard"]["ssl"] = {
+        core_lifecycle_td.novabot_config["dashboard"]["ssl"] = {
             "enable": True,
             "cert_file": "",
             "key_file": "",
         }
         monkeypatch.setattr(server, "check_port_in_use", lambda port: False)
-        monkeypatch.setattr("bulinbot.dashboard.server.serve", fake_serve)
+        monkeypatch.setattr("novabot.dashboard.server.serve", fake_serve)
         monkeypatch.setattr(
-            "bulinbot.dashboard.server.logger.warning",
+            "novabot.dashboard.server.logger.warning",
             capture(warning_messages),
         )
         monkeypatch.setattr(
-            "bulinbot.dashboard.server.logger.info",
+            "novabot.dashboard.server.logger.info",
             capture(info_messages),
         )
 
@@ -1859,18 +1859,18 @@ async def test_dashboard_ssl_missing_cert_and_key_falls_back_to_http(
         )
         assert any("Starting WebUI at http://" in message for message in info_messages)
     finally:
-        core_lifecycle_td.bulinbot_config["dashboard"] = original_dashboard_config
+        core_lifecycle_td.novabot_config["dashboard"] = original_dashboard_config
 
 
 @pytest.mark.asyncio
 async def test_subagent_config_accepts_default_persona(
     app: Quart,
     authenticated_header: dict,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
 ):
     test_client = app.test_client()
     old_cfg = copy.deepcopy(
-        core_lifecycle_td.bulinbot_config.get("subagent_orchestrator", {})
+        core_lifecycle_td.novabot_config.get("subagent_orchestrator", {})
     )
     payload = {
         "main_enable": True,
@@ -1946,7 +1946,7 @@ async def test_batch_delete_sessions_masks_internal_error(
         raise RuntimeError("secret-internal-error")
 
     monkeypatch.setattr(
-        "bulinbot.dashboard.routes.chat.ChatRoute._delete_session_internal",
+        "novabot.dashboard.routes.chat.ChatRoute._delete_session_internal",
         _raise_error,
     )
 
@@ -1969,7 +1969,7 @@ async def test_batch_delete_sessions_masks_internal_error(
 async def test_batch_delete_sessions_uses_batch_lookup(
     app: Quart,
     authenticated_header: dict,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
     monkeypatch,
 ):
     test_client = app.test_client()
@@ -2018,7 +2018,7 @@ async def test_batch_delete_sessions_uses_batch_lookup(
 async def test_plugins(
     app: Quart,
     authenticated_header: dict,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
     monkeypatch,
 ):
     """测试插件 API 端点，使用 Mock 避免真实网络调用。"""
@@ -2205,7 +2205,7 @@ async def test_commands_api(app: Quart, authenticated_header: dict):
 async def test_t2i_set_active_template_syncs_all_configs(
     app: Quart,
     authenticated_header: dict,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
 ):
     test_client = app.test_client()
     template_name = f"sync_tpl_{uuid.uuid4().hex[:8]}"
@@ -2244,10 +2244,10 @@ async def test_t2i_set_active_template_syncs_all_configs(
         data = await response.get_json()
         assert data["status"] == "ok"
 
-        conf_ids = set(core_lifecycle_td.bulinbot_config_mgr.confs.keys())
+        conf_ids = set(core_lifecycle_td.novabot_config_mgr.confs.keys())
         assert "default" in conf_ids
         for conf_id in conf_ids:
-            conf = core_lifecycle_td.bulinbot_config_mgr.confs[conf_id]
+            conf = core_lifecycle_td.novabot_config_mgr.confs[conf_id]
             assert conf.get("t2i_active_template") == template_name
             assert conf_id in core_lifecycle_td.pipeline_scheduler_mapping
     finally:
@@ -2272,7 +2272,7 @@ async def test_t2i_set_active_template_syncs_all_configs(
 async def test_t2i_reset_default_template_syncs_all_configs(
     app: Quart,
     authenticated_header: dict,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
 ):
     test_client = app.test_client()
     template_name = f"reset_tpl_{uuid.uuid4().hex[:8]}"
@@ -2317,10 +2317,10 @@ async def test_t2i_reset_default_template_syncs_all_configs(
         data = await response.get_json()
         assert data["status"] == "ok"
 
-        conf_ids = set(core_lifecycle_td.bulinbot_config_mgr.confs.keys())
+        conf_ids = set(core_lifecycle_td.novabot_config_mgr.confs.keys())
         assert "default" in conf_ids
         for conf_id in conf_ids:
-            conf = core_lifecycle_td.bulinbot_config_mgr.confs[conf_id]
+            conf = core_lifecycle_td.novabot_config_mgr.confs[conf_id]
             assert conf.get("t2i_active_template") == "base"
             assert conf_id in core_lifecycle_td.pipeline_scheduler_mapping
     finally:
@@ -2345,7 +2345,7 @@ async def test_t2i_reset_default_template_syncs_all_configs(
 async def test_t2i_update_active_template_reloads_all_schedulers(
     app: Quart,
     authenticated_header: dict,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
 ):
     test_client = app.test_client()
     template_name = f"update_tpl_{uuid.uuid4().hex[:8]}"
@@ -2380,7 +2380,7 @@ async def test_t2i_update_active_template_reloads_all_schedulers(
         )
         assert response.status_code == 200
 
-        conf_ids = list(core_lifecycle_td.bulinbot_config_mgr.confs.keys())
+        conf_ids = list(core_lifecycle_td.novabot_config_mgr.confs.keys())
         old_schedulers = {
             conf_id: core_lifecycle_td.pipeline_scheduler_mapping[conf_id]
             for conf_id in conf_ids
@@ -2423,7 +2423,7 @@ async def test_t2i_update_active_template_reloads_all_schedulers(
 async def test_check_update(
     app: Quart,
     authenticated_header: dict,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
     monkeypatch,
 ):
     """测试检查更新 API，使用 Mock 避免真实网络调用。"""
@@ -2436,17 +2436,17 @@ async def test_check_update(
 
     async def mock_get_dashboard_version(*args, **kwargs):
         """Mock Dashboard 版本获取。"""
-        from bulinbot.core.config.default import VERSION
+        from novabot.core.config.default import VERSION
 
         return f"v{VERSION}"  # 返回当前版本
 
     monkeypatch.setattr(
-        core_lifecycle_td.bulinbot_updator,
+        core_lifecycle_td.novabot_updator,
         "check_update",
         mock_check_update,
     )
     monkeypatch.setattr(
-        "bulinbot.dashboard.routes.update.get_dashboard_version",
+        "novabot.dashboard.routes.update.get_dashboard_version",
         mock_get_dashboard_version,
     )
 
@@ -2461,7 +2461,7 @@ async def test_check_update(
 async def test_do_update(
     app: Quart,
     authenticated_header: dict,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
     monkeypatch,
     tmp_path_factory,
 ):
@@ -2469,7 +2469,7 @@ async def test_do_update(
 
     # Use a temporary path for the mock update to avoid side effects
     temp_release_dir = tmp_path_factory.mktemp("release")
-    release_path = temp_release_dir / "bulinbot"
+    release_path = temp_release_dir / "novabot"
     calls = []
 
     async def mock_update(*args, **kwargs):
@@ -2492,13 +2492,13 @@ async def test_do_update(
         """Mocks pip install to prevent actual installation."""
         return
 
-    monkeypatch.setattr(core_lifecycle_td.bulinbot_updator, "update", mock_update)
+    monkeypatch.setattr(core_lifecycle_td.novabot_updator, "update", mock_update)
     monkeypatch.setattr(
-        "bulinbot.dashboard.routes.update.download_dashboard",
+        "novabot.dashboard.routes.update.download_dashboard",
         mock_download_dashboard,
     )
     monkeypatch.setattr(
-        "bulinbot.dashboard.routes.update.pip_installer.install",
+        "novabot.dashboard.routes.update.pip_installer.install",
         mock_pip_install,
     )
 
@@ -2536,7 +2536,7 @@ async def test_install_pip_package_returns_pip_install_error_message(
         raise PipInstallError("install failed", code=2)
 
     monkeypatch.setattr(
-        "bulinbot.dashboard.routes.update.pip_installer.install",
+        "novabot.dashboard.routes.update.pip_installer.install",
         mock_pip_install,
     )
 
@@ -2615,10 +2615,10 @@ class _FakeNeoBayClient:
 async def test_neo_skills_routes(
     app: Quart,
     authenticated_header: dict,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
     monkeypatch,
 ):
-    provider_settings = core_lifecycle_td.bulinbot_config.setdefault(
+    provider_settings = core_lifecycle_td.novabot_config.setdefault(
         "provider_settings", {}
     )
     sandbox = provider_settings.setdefault("sandbox", {})
@@ -2644,11 +2644,11 @@ async def test_neo_skills_routes(
         return
 
     monkeypatch.setattr(
-        "bulinbot.dashboard.routes.skills.NeoSkillSyncManager.sync_release",
+        "novabot.dashboard.routes.skills.NeoSkillSyncManager.sync_release",
         _fake_sync_release,
     )
     monkeypatch.setattr(
-        "bulinbot.dashboard.routes.skills.sync_skills_to_active_sandboxes",
+        "novabot.dashboard.routes.skills.sync_skills_to_active_sandboxes",
         _fake_sync_skills_to_active_sandboxes,
     )
 
@@ -2778,11 +2778,11 @@ async def test_batch_upload_skills_accepts_zip_files(
         return "demo_skill"
 
     monkeypatch.setattr(
-        "bulinbot.dashboard.routes.skills.sync_skills_to_active_sandboxes",
+        "novabot.dashboard.routes.skills.sync_skills_to_active_sandboxes",
         _fake_sync_skills_to_active_sandboxes,
     )
     monkeypatch.setattr(
-        "bulinbot.dashboard.routes.skills.SkillManager.install_skill_from_zip",
+        "novabot.dashboard.routes.skills.SkillManager.install_skill_from_zip",
         _fake_install_skill_from_zip,
     )
 
@@ -2829,23 +2829,23 @@ async def test_batch_upload_skills_accepts_valid_skill_archive(
         return
 
     monkeypatch.setattr(
-        "bulinbot.dashboard.routes.skills.sync_skills_to_active_sandboxes",
+        "novabot.dashboard.routes.skills.sync_skills_to_active_sandboxes",
         _fake_sync_skills_to_active_sandboxes,
     )
     monkeypatch.setattr(
-        "bulinbot.core.skills.skill_manager.get_bulinbot_data_path",
+        "novabot.core.skills.skill_manager.get_novabot_data_path",
         lambda: str(data_dir),
     )
     monkeypatch.setattr(
-        "bulinbot.core.skills.skill_manager.get_bulinbot_skills_path",
+        "novabot.core.skills.skill_manager.get_novabot_skills_path",
         lambda: str(skills_dir),
     )
     monkeypatch.setattr(
-        "bulinbot.core.skills.skill_manager.get_bulinbot_temp_path",
+        "novabot.core.skills.skill_manager.get_novabot_temp_path",
         lambda: str(temp_dir),
     )
     monkeypatch.setattr(
-        "bulinbot.dashboard.routes.skills.get_bulinbot_temp_path",
+        "novabot.dashboard.routes.skills.get_novabot_temp_path",
         lambda: str(temp_dir),
     )
 
@@ -2905,17 +2905,17 @@ async def test_batch_upload_skills_partial_success(
         raise RuntimeError("install failed")
 
     monkeypatch.setattr(
-        "bulinbot.dashboard.routes.skills.sync_skills_to_active_sandboxes",
+        "novabot.dashboard.routes.skills.sync_skills_to_active_sandboxes",
         _fake_sync_skills_to_active_sandboxes,
     )
     monkeypatch.setattr(
-        "bulinbot.dashboard.routes.skills.SkillManager.install_skill_from_zip",
+        "novabot.dashboard.routes.skills.SkillManager.install_skill_from_zip",
         _fake_install_skill_from_zip,
     )
 
     test_client = app.test_client()
 
-    boundary = "----BulinBotBatchBoundary"
+    boundary = "----NovaBotBatchBoundary"
     body = (
         (
             f"--{boundary}\r\n"
@@ -2980,11 +2980,11 @@ async def test_skill_file_browser_and_editor_security(
         os.symlink(outside_file, skill_dir / "outside-link.txt")
 
     monkeypatch.setattr(
-        "bulinbot.core.skills.skill_manager.get_bulinbot_skills_path",
+        "novabot.core.skills.skill_manager.get_novabot_skills_path",
         lambda: str(skills_root),
     )
     monkeypatch.setattr(
-        "bulinbot.dashboard.routes.skills.sync_skills_to_active_sandboxes",
+        "novabot.dashboard.routes.skills.sync_skills_to_active_sandboxes",
         _fake_sync_skills_to_active_sandboxes,
     )
 

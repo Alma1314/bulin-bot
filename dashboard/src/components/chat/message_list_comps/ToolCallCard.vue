@@ -75,13 +75,13 @@ const displayToolName = computed(() => props.toolCall.name || "tool");
 
 const toolCallIcon = computed(() => {
   const name = String(props.toolCall.name || "");
-  if (name === "bulinbot_execute_ipython" || name === "bulinbot_execute_python") {
+  if (name === "nova-bot_execute_ipython" || name === "nova-bot_execute_python") {
     return "mdi-code-json";
   }
   if (name.includes("web_search") || name.includes("tavily")) {
     return "mdi-web";
   }
-  if (name === "bulinbot_execute_shell") {
+  if (name === "nova-bot_execute_shell") {
     return "mdi-console-line";
   }
   return "mdi-wrench";

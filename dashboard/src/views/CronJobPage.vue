@@ -463,7 +463,7 @@ const createDialog = ref(false);
 const creating = ref(false);
 const editingJobId = ref("");
 const runningJobIds = ref(new Set<string>());
-const NO_DELIVERY_TARGET_FILTER = "__bulinbot_no_delivery_target__";
+const NO_DELIVERY_TARGET_FILTER = "__nova-bot_no_delivery_target__";
 type ScheduleMode =
   | "once"
   | "interval"

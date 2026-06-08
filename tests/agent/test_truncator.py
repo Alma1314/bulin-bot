@@ -1,7 +1,7 @@
 """Tests for ContextTruncator."""
 
-from bulinbot.core.agent.context.truncator import ContextTruncator
-from bulinbot.core.agent.message import Message
+from novabot.core.agent.context.truncator import ContextTruncator
+from novabot.core.agent.message import Message
 
 
 class TestContextTruncator:

@@ -1,5 +1,0 @@
-# BulinBot Star
-
-`BulinBot Star` 就是插件。
-
-在 BulinBot v4.0 版本后，BulinBot 内部将插件命名为 `star`。插件的 handler 称作 `star_handler`。

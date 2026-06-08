@@ -1,6 +1,6 @@
 {
   "hero": {
-    "title": "BulinBot",
+    "title": "NovaBot",
     "subtitle": "A project out of interests and loves ❤️",
     "starButton": "Star this project! 🌟",
     "issueButton": "Submit Issue"
@@ -8,10 +8,10 @@
   "contributors": {
     "title": "Contributors",
     "description": "This project is maintained by many open source community members. Thanks to every contributor for their dedication!",
-    "viewLink": "View BulinBot Contributors"
+    "viewLink": "View NovaBot Contributors"
   },
   "stats": {
     "title": "Global Deployment",
-    "license": "BulinBot is open source under AGPL v3 license"
+    "license": "NovaBot is open source under AGPL v3 license"
   }
 } 

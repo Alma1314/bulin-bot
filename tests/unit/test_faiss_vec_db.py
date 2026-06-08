@@ -2,8 +2,8 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from bulinbot.core.db.vec_db.faiss_impl.vec_db import FaissVecDB
-from bulinbot.core.exceptions import KnowledgeBaseUploadError
+from novabot.core.db.vec_db.faiss_impl.vec_db import FaissVecDB
+from novabot.core.exceptions import KnowledgeBaseUploadError
 
 
 @pytest.mark.asyncio

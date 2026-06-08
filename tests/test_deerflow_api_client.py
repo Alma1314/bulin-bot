@@ -1,6 +1,6 @@
 import pytest
 
-from bulinbot.core.agent.runners.deerflow.deerflow_api_client import (
+from novabot.core.agent.runners.deerflow.deerflow_api_client import (
     DeerFlowAPIClient,
     DeerFlowAPIError,
 )

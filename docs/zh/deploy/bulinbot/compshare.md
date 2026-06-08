@@ -2,42 +2,42 @@
 
 优云智算是 UCloud 旗下的 GPU 算力租赁和大模型 API 调用平台，致力于为 AI、深度学习、科学计算相关客户提供丰富多样的算力资源。
 
-BulinBot 在优云智算发布了 Ollama + BulinBot 一键自部署镜像，并且接入了优云智算 LLM API。
+NovaBot 在优云智算发布了 Ollama + NovaBot 一键自部署镜像，并且接入了优云智算 LLM API。
 
-## 使用 Ollama + BulinBot 一键自部署镜像
+## 使用 Ollama + NovaBot 一键自部署镜像
 
 > 镜像默认参数为：RTX 3090 24GB + Intel 16核 + 64GB RAM + 200GB 系统盘。采用按量付费的方式，请留意您的余额使用情况。
 
 1. 通过 [此链接](https://passport.compshare.cn/register?referral_code=FV7DcGowN4hB5UuXKgpE74) 注册优云智算账户。
-1. 打开 [BulinBot 镜像链接](https://www.compshare.cn/images/0oX7xoGrzfre)，点击创建实例。
+1. 打开 [NovaBot 镜像链接](https://www.compshare.cn/images/0oX7xoGrzfre)，点击创建实例。
 2. 部署成功后，在[控制台](https://console.compshare.cn/light-gpu/console/resources)中打开「JupyterLab」
 3. 进入JupyterLab后，新建一个终端 Terminal，在终端中粘贴以下指令
 
 ```bash
 cd
-./bulinbot_booter.sh
+./nova-bot_booter.sh
 ```
 
 指令运行结果如下所示即说明启动成功。
 
 ```txt
 (py312) root@f8396035c96d:/workspace# cd
-./bulinbot_booter.sh
-Starting BulinBot...
+./nova-bot_booter.sh
+Starting NovaBot...
 Starting ollama...
 Both services started in the background.
 ```
 
-启动成功后，在浏览器中输入 `http://实例的外网IP:6185` 即可访问 BulinBot 的界面。外网 IP 可以在 控制台->基础网络（外网）中获取。
+启动成功后，在浏览器中输入 `http://实例的外网IP:6185` 即可访问 NovaBot 的界面。外网 IP 可以在 控制台->基础网络（外网）中获取。
 
 > 可能需要等待半分钟左右。
 
 ![WebUI 界面](https://www-s.ucloud.cn/2025/07/7e9fc6edc1dfa916abc069f4cecc24cf_1753940381771.png)
 
-首次登录时请使用启动日志内的随机初始密码（用户名通常是 bulinbot），登录后请立即修改密码。
+首次登录时请使用启动日志内的随机初始密码（用户名通常是 nova-bot），登录后请立即修改密码。
 
 
-登录成功后，可以重新设置密码，并进入 BulinBot 的页面。
+登录成功后，可以重新设置密码，并进入 NovaBot 的页面。
 
 实例默认会导入 Ollama-DeepSeek-R1-32B 模型。
 
@@ -50,20 +50,20 @@ Both services started in the background.
 1. 在 [Ollama](https://ollama.com/search) 模型列表找到想部署的模型。
 2. 通过 SSH 进入到实例的终端（进入优云智算平台的控制台页面->实例列表->控制台指令和密码）
 3. 通过 `ollama pull 模型名` 拉取模型，等待拉取成功。
-4. 在 BulinBot 面板的 服务提供商页面找到 `ollama_deepseek-r1`，点击编辑，更新模型名称，点击保存。
+4. 在 NovaBot 面板的 服务提供商页面找到 `ollama_deepseek-r1`，点击编辑，更新模型名称，点击保存。
 
 ![image](https://files.bulinbot.app/docs/source/images/compshare/image-1.png)
 
 ### 使用优云智算提供的模型 API
 
-BulinBot 支持接入优云智算提供的模型 API。
+NovaBot 支持接入优云智算提供的模型 API。
 
 1. 在 [优云智算](https://console.compshare.cn/light-gpu/model-center) 找到想要接入的模型
-2. 在 BulinBot 面板的 服务提供商页面点击「+ 新增服务提供商」，点击优云智算（如果没有，点击“接入 OpenAI”，并且修改下一步弹出窗口的 API Base URL 为 `https://api.modelverse.cn/v1`）。在模型配置-模型名称输入模型名，点击保存。
+2. 在 NovaBot 面板的 服务提供商页面点击「+ 新增服务提供商」，点击优云智算（如果没有，点击“接入 OpenAI”，并且修改下一步弹出窗口的 API Base URL 为 `https://api.modelverse.cn/v1`）。在模型配置-模型名称输入模型名，点击保存。
 
 ### 测试
 
-在 BulinBot 面板左侧点击 `聊天`，输入 `/provider`，可以查看和切换您当前接入的提供商。
+在 NovaBot 面板左侧点击 `聊天`，输入 `/provider`，可以查看和切换您当前接入的提供商。
 
 您可以直接聊天来测试模型是否正常。
 
@@ -82,8 +82,8 @@ BulinBot 支持接入优云智算提供的模型 API。
 - KOOK：[接入到 KOOK](https://docs.bulinbot.app/deploy/platform/kook.html)
 - Slack：[接入到 Slack](https://docs.bulinbot.app/deploy/platform/slack.html)
 - Discord：[接入到 Discord](https://docs.bulinbot.app/deploy/platform/discord.html)
-- 更多接入方式参考 [BulinBot 官方文档](https://docs.bulinbot.app/what-is-bulinbot.html)
+- 更多接入方式参考 [NovaBot 官方文档](https://docs.bulinbot.app/what-is-nova-bot.html)
 
 ## 更多功能
 
-更多功能请参考 [BulinBot 官方文档](https://docs.bulinbot.app)。
+更多功能请参考 [NovaBot 官方文档](https://docs.bulinbot.app)。

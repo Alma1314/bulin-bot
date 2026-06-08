@@ -1,12 +1,12 @@
-# 使用 BulinBot 桌面客户端部署
+# 使用 NovaBot 桌面客户端部署
 
-`BulinBot-desktop` 适合在本地电脑快速部署和使用 BulinBot，支持 Windows、macOS、Linux。
+`NovaBot-desktop` 适合在本地电脑快速部署和使用 NovaBot，支持 Windows、macOS、Linux。
 
-在多种部署方式中，桌面客户端更适合个人本地快速使用，不建议用于服务器长期运行或生产环境；如需生产部署，建议优先考虑 [Docker 部署](/deploy/bulinbot/docker) 或 [Kubernetes 部署](/deploy/bulinbot/kubernetes)。
+在多种部署方式中，桌面客户端更适合个人本地快速使用，不建议用于服务器长期运行或生产环境；如需生产部署，建议优先考虑 [Docker 部署](/deploy/nova-bot/docker) 或 [Kubernetes 部署](/deploy/nova-bot/kubernetes)。
 
 相比命令行或容器方案，桌面客户端更偏向「开箱即用」体验，适合希望少折腾环境、直接开始使用的用户。
 
-仓库地址：[BulinBotDevs/BulinBot-desktop](https://github.com/BulinBotDevs/BulinBot-desktop)
+仓库地址：[NovaBotDevs/NovaBot-desktop](https://github.com/NovaBotDevs/NovaBot-desktop)
 
 ## 适合谁
 
@@ -22,7 +22,7 @@
 
 ## 下载并安装
 
-1. 打开 [BulinBot-desktop Releases](https://github.com/BulinBotDevs/BulinBot-desktop/releases)。
+1. 打开 [NovaBot-desktop Releases](https://github.com/NovaBotDevs/NovaBot-desktop/releases)。
 2. 下载与你系统对应的安装包（如 `.exe`、`.dmg`、`.rpm`、`.deb`）。
 3. 安装完成后启动桌面客户端，按向导完成初始化。
 
@@ -30,4 +30,4 @@
 
 - 桌面客户端：更偏向开箱即用的 GUI 体验。
 - 启动器部署：更偏向自动化脚本拉起，适合希望保持传统部署流程的用户。
-- 参考 [启动器部署](/deploy/bulinbot/launcher)。
+- 参考 [启动器部署](/deploy/nova-bot/launcher)。

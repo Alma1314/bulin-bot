@@ -2,7 +2,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from bulinbot.builtin_stars.builtin_commands.commands import (
+from novabot.builtin_stars.builtin_commands.commands import (
     conversation as conversation_module,
 )
 

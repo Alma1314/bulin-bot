@@ -108,7 +108,7 @@ const isMarketDetail = computed(() => detailSourceTab.value === "market");
 const detailParentTitle = computed(() =>
   isMarketDetail.value
     ? tm("tabs.market")
-    : tm("titles.installedBulinBotPlugins"),
+    : tm("titles.installedNovaBotPlugins"),
 );
 
 const pluginDesc = computed(() => {
@@ -214,11 +214,11 @@ const tagsDisplay = computed(() => {
   return tags.filter((tag) => typeof tag === "string" && tag.trim().length > 0);
 });
 
-const bulinbotVersionDisplay = computed(() =>
+const nova-botVersionDisplay = computed(() =>
   String(
     firstPresentValue(
-      pluginData.value?.bulinbot_version,
-      props.marketPlugin?.bulinbot_version,
+      pluginData.value?.nova-bot_version,
+      props.marketPlugin?.nova-bot_version,
     ) || "",
   ).trim(),
 );
@@ -257,8 +257,8 @@ const infoRows = computed(() => {
       optional: true,
     },
     {
-      label: tm("detail.info.bulinbotVersion"),
-      value: bulinbotVersionDisplay.value,
+      label: tm("detail.info.nova-botVersion"),
+      value: nova-botVersionDisplay.value,
       optional: true,
     },
     {

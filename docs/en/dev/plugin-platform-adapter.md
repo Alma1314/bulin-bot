@@ -4,7 +4,7 @@ outline: deep
 
 # Developing a Platform Adapter
 
-BulinBot supports integrating platform adapters in plugin form, allowing you to connect platforms that BulinBot does not natively support — such as Lark, DingTalk, Bilibili private messages, or even Minecraft.
+NovaBot supports integrating platform adapters in plugin form, allowing you to connect platforms that NovaBot does not natively support — such as Lark, DingTalk, Bilibili private messages, or even Minecraft.
 
 We will use a platform called `FakePlatform` as an example.
 
@@ -48,12 +48,12 @@ Now create `fake_platform_adapter.py`:
 ```py
 import asyncio
 
-from bulinbot.api.platform import Platform, BulinBotMessage, MessageMember, PlatformMetadata, MessageType
-from bulinbot.api.event import MessageChain
-from bulinbot.api.message_components import Plain, Image, Record # Message chain components, import as needed
-from bulinbot.core.platform.message_session import MessageSesion
-from bulinbot.api.platform import register_platform_adapter
-from bulinbot import logger
+from nova-bot.api.platform import Platform, NovaBotMessage, MessageMember, PlatformMetadata, MessageType
+from nova-bot.api.event import MessageChain
+from nova-bot.api.message_components import Plain, Image, Record # Message chain components, import as needed
+from nova-bot.core.platform.message_session import MessageSesion
+from nova-bot.api.platform import register_platform_adapter
+from nova-bot import logger
 from .client import FakeClient
 from .fake_platform_event import FakePlatformEvent
             
@@ -86,7 +86,7 @@ class FakePlatformAdapter(Platform):
         # FakeClient is defined by us — this is just an example. This is its callback function.
         async def on_received(data):
             logger.info(data)
-            abm = await self.convert_message(data=data) # Convert to BulinBotMessage
+            abm = await self.convert_message(data=data) # Convert to NovaBotMessage
             await self.handle_msg(abm) 
         
         # Initialize FakeClient
@@ -94,11 +94,11 @@ class FakePlatformAdapter(Platform):
         self.client.on_message_received = on_received
         await self.client.start_polling() # Continuously listens for messages; this is a blocking call.
 
-    async def convert_message(self, data: dict) -> BulinBotMessage:
-        # Convert the platform message to BulinBotMessage.
+    async def convert_message(self, data: dict) -> NovaBotMessage:
+        # Convert the platform message to NovaBotMessage.
         # The degree of adaptation is reflected here. Different platforms have different message
         # structures; convert accordingly.
-        abm = BulinBotMessage()
+        abm = NovaBotMessage()
         abm.type = MessageType.GROUP_MESSAGE # Also friend_message for private chats. Analyze per platform. Important!
         abm.group_id = data['group_id'] # Can be omitted for private chats
         abm.message_str = data['content'] # Plain text message. Important!
@@ -111,7 +111,7 @@ class FakePlatformAdapter(Platform):
         
         return abm
     
-    async def handle_msg(self, message: BulinBotMessage):
+    async def handle_msg(self, message: NovaBotMessage):
         # Handle the message
         message_event = FakePlatformEvent(
             message_str=message.message_str,
@@ -127,14 +127,14 @@ class FakePlatformAdapter(Platform):
 `fake_platform_event.py`:
 
 ```py
-from bulinbot.api.event import BulinMessageEvent, MessageChain
-from bulinbot.api.platform import BulinBotMessage, PlatformMetadata
-from bulinbot.api.message_components import Plain, Image
+from nova-bot.api.event import BulinMessageEvent, MessageChain
+from nova-bot.api.platform import NovaBotMessage, PlatformMetadata
+from nova-bot.api.message_components import Plain, Image
 from .client import FakeClient
-from bulinbot.core.utils.io import download_image_by_url
+from nova-bot.core.utils.io import download_image_by_url
 
 class FakePlatformEvent(BulinMessageEvent):
-    def __init__(self, message_str: str, message_obj: BulinBotMessage, platform_meta: PlatformMetadata, session_id: str, client: FakeClient):
+    def __init__(self, message_str: str, message_obj: NovaBotMessage, platform_meta: PlatformMetadata, session_id: str, client: FakeClient):
         super().__init__(message_str, message_obj, platform_meta, session_id)
         self.client = client
         
@@ -163,14 +163,14 @@ class FakePlatformEvent(BulinMessageEvent):
 Finally, in `main.py`, simply import the `fake_platform_adapter` module during initialization. The decorator will handle registration automatically.
 
 ```py
-from bulinbot.api.star import Context, Star
+from nova-bot.api.star import Context, Star
 
 class MyPlugin(Star):
     def __init__(self, context: Context):
         from .fake_platform_adapter import FakePlatformAdapter # noqa
 ```
 
-Once set up, run BulinBot:
+Once set up, run NovaBot:
 
 ![image](https://files.bulinbot.app/docs/source/images/plugin-platform-adapter/QQ_1738155926221.png)
 

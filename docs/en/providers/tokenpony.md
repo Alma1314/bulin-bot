@@ -8,7 +8,7 @@ Navigate to the TokenPony [API Keys](https://www.tokenpony.cn/#/user/keys) page 
 
 Visit the TokenPony [Models page](https://www.tokenpony.cn/#/model) to select your desired model. Note down the model name for later use.
 
-Open the BulinBot WebUI, click `Service Providers` in the left sidebar -> `Add Provider` -> select `TokenPony` (requires version >= 4.3.3)
+Open the NovaBot WebUI, click `Service Providers` in the left sidebar -> `Add Provider` -> select `TokenPony` (requires version >= 4.3.3)
 
 ![Configuring Chat Model](https://files.bulinbot.app/docs/source/images/tokenpony/image.png)
 
@@ -18,6 +18,6 @@ Paste the `API Key` and `Model Name` you obtained earlier, then click Save to co
 
 ## Applying the Chat Model
 
-In the BulinBot WebUI, click `Configuration` in the left sidebar, find `Default Chat Model` under AI Configuration, select the `tokenpony` (TokenPony) provider you just created, and click Save.
+In the NovaBot WebUI, click `Configuration` in the left sidebar, find `Default Chat Model` under AI Configuration, select the `tokenpony` (TokenPony) provider you just created, and click Save.
 
 ![Configuring Chat Model 2](https://files.bulinbot.app/docs/source/images/tokenpony/image_1.png)

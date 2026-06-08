@@ -1,1 +1,1 @@
-This page has moved to [BulinBot Plugin Development Guide](/en/dev/star/plugin-new).
+This page has moved to [NovaBot Plugin Development Guide](/en/dev/star/plugin-new).

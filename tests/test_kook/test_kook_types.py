@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pytest
 
-from bulinbot.core.platform.sources.kook.kook_types import (
+from novabot.core.platform.sources.kook.kook_types import (
     ActionGroupModule,
     ButtonElement,
     ContextModule,

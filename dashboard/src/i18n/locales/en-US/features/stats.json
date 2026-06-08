@@ -30,7 +30,7 @@
     },
     "cpu": {
       "label": "CPU",
-      "note": "BulinBot CPU usage"
+      "note": "NovaBot CPU usage"
     },
     "memory": {
       "label": "Process Memory",

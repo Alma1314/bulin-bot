@@ -2,7 +2,7 @@
 
 ## Community Channels
 
-This documentation may not cover all features comprehensively. If you have any questions or suggestions regarding BulinBot or this documentation, please feel free to reach out to us through the community channels below.
+This documentation may not cover all features comprehensively. If you have any questions or suggestions regarding NovaBot or this documentation, please feel free to reach out to us through the community channels below.
 
 ### Discord
 
@@ -12,7 +12,7 @@ This documentation may not cover all features comprehensively. If you have any q
 
 Welcome to submit Issues or Pull Requests:
 
-- [BulinBotDevs/BulinBot](https://github.com/BulinBotDevs/BulinBot)
+- [NovaBotDevs/NovaBot](https://github.com/NovaBotDevs/NovaBot)
 
 ### Tencent QQ Groups
 
@@ -27,8 +27,8 @@ Welcome to submit Issues or Pull Requests:
 - Group 6: 753075035 (Full)
 - Group 7: 743746109 (Full)
 - Group 8: 1030353265 (Full)
-- **BulinBot Core Development Group: 975206796** (BulinBot development members are usually active here. Welcome to anyone interested in programming/AI technology~)
+- **NovaBot Core Development Group: 975206796** (NovaBot development members are usually active here. Welcome to anyone interested in programming/AI technology~)
 
-## Become an BulinBot Organization Member
+## Become an NovaBot Organization Member
 
 We welcome you to join us!

@@ -3,8 +3,8 @@ from __future__ import annotations
 import asyncio
 from types import SimpleNamespace
 
-from bulinbot.core.agent.run_context import ContextWrapper
-from bulinbot.core.tools.computer_tools.shipyard_neo.neo_skills import (
+from novabot.core.agent.run_context import ContextWrapper
+from novabot.core.tools.computer_tools.shipyard_neo.neo_skills import (
     PromoteSkillCandidateTool,
 )
 
@@ -48,11 +48,11 @@ def test_promote_stable_sync_failure_auto_rolls_back(monkeypatch):
         raise ValueError("sync failed")
 
     monkeypatch.setattr(
-        "bulinbot.core.tools.computer_tools.shipyard_neo.neo_skills.get_booter",
+        "novabot.core.tools.computer_tools.shipyard_neo.neo_skills.get_booter",
         _fake_get_booter,
     )
     monkeypatch.setattr(
-        "bulinbot.core.tools.computer_tools.shipyard_neo.neo_skills.NeoSkillSyncManager.sync_release",
+        "novabot.core.tools.computer_tools.shipyard_neo.neo_skills.NeoSkillSyncManager.sync_release",
         _fake_sync_release,
     )
 

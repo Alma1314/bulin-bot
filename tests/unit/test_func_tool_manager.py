@@ -2,11 +2,11 @@ import json
 
 import pytest
 
-from bulinbot.core import sp
-from bulinbot.core.provider.func_tool_manager import FunctionToolManager
-from bulinbot.core.tools.computer_tools.shell import ExecuteShellTool
-from bulinbot.core.tools.message_tools import SendMessageToUserTool
-from bulinbot.core.tools.web_search_tools import (
+from novabot.core import sp
+from novabot.core.provider.func_tool_manager import FunctionToolManager
+from novabot.core.tools.computer_tools.shell import ExecuteShellTool
+from novabot.core.tools.message_tools import SendMessageToUserTool
+from novabot.core.tools.web_search_tools import (
     FirecrawlExtractWebPageTool,
     FirecrawlWebSearchTool,
 )
@@ -44,14 +44,14 @@ def test_computer_tools_are_registered_as_builtin_tools():
 
     tool = manager.get_builtin_tool(ExecuteShellTool)
 
-    assert tool.name == "bulinbot_execute_shell"
+    assert tool.name == "novabot_execute_shell"
     assert tool.parameters["properties"]["background"]["default"] is False
-    assert manager.is_builtin_tool("bulinbot_execute_shell") is True
+    assert manager.is_builtin_tool("novabot_execute_shell") is True
 
 
 @pytest.mark.asyncio
 async def test_execute_shell_defaults_to_foreground(monkeypatch):
-    from bulinbot.core.tools.computer_tools import shell as shell_tools
+    from novabot.core.tools.computer_tools import shell as shell_tools
 
     calls = []
 
@@ -95,7 +95,7 @@ async def test_execute_shell_defaults_to_foreground(monkeypatch):
 
 @pytest.mark.asyncio
 async def test_execute_shell_uses_fresh_default_env_per_call(monkeypatch):
-    from bulinbot.core.tools.computer_tools import shell as shell_tools
+    from novabot.core.tools.computer_tools import shell as shell_tools
 
     calls = []
 
@@ -141,7 +141,7 @@ async def test_execute_shell_uses_fresh_default_env_per_call(monkeypatch):
 
 @pytest.mark.asyncio
 async def test_execute_shell_copies_user_env_before_execution(monkeypatch):
-    from bulinbot.core.tools.computer_tools import shell as shell_tools
+    from novabot.core.tools.computer_tools import shell as shell_tools
 
     calls = []
 
@@ -187,7 +187,7 @@ async def test_execute_shell_copies_user_env_before_execution(monkeypatch):
 async def test_execute_shell_avoids_double_background_for_detached_commands(
     monkeypatch,
 ):
-    from bulinbot.core.tools.computer_tools import shell as shell_tools
+    from novabot.core.tools.computer_tools import shell as shell_tools
 
     calls = []
 
@@ -221,7 +221,7 @@ async def test_execute_shell_avoids_double_background_for_detached_commands(
 
     monkeypatch.setattr(shell_tools, "get_booter", fake_get_booter)
 
-    command = "nohup firefox >/tmp/bulinbot-firefox.log 2>&1 &"
+    command = "nohup firefox >/tmp/novabot-firefox.log 2>&1 &"
     result = await ExecuteShellTool().call(
         FakeWrapper(), command=command, background=True
     )
@@ -232,7 +232,7 @@ async def test_execute_shell_avoids_double_background_for_detached_commands(
 
 @pytest.mark.asyncio
 async def test_execute_shell_recognizes_commented_background_command(monkeypatch):
-    from bulinbot.core.tools.computer_tools import shell as shell_tools
+    from novabot.core.tools.computer_tools import shell as shell_tools
 
     calls = []
 
@@ -283,19 +283,19 @@ async def test_execute_shell_recognizes_commented_background_command(monkeypatch
         ("echo foo#bar &", True),
         ("echo 'unterminated", False),
         ("firefox & # already detached", True),
-        ("nohup firefox >/tmp/bulinbot-firefox.log 2>&1 &", True),
+        ("nohup firefox >/tmp/novabot-firefox.log 2>&1 &", True),
         ("firefox", False),
     ],
 )
 def test_is_self_detached_command_handles_quotes_and_comments(command, expected):
-    from bulinbot.core.tools.computer_tools.shell import _is_self_detached_command
+    from novabot.core.tools.computer_tools.shell import _is_self_detached_command
 
     assert _is_self_detached_command(command) is expected
 
 
 @pytest.mark.asyncio
 async def test_execute_shell_reports_blank_exception_type(monkeypatch):
-    from bulinbot.core.tools.computer_tools import shell as shell_tools
+    from novabot.core.tools.computer_tools import shell as shell_tools
 
     class BlankError(Exception):
         def __str__(self):

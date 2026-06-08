@@ -1,4 +1,4 @@
-export const PINNED_EXTENSIONS_STORAGE_KEY = "bulinbot.pinnedExtensions";
+export const PINNED_EXTENSIONS_STORAGE_KEY = "novabot.pinnedExtensions";
 
 const getStorageForRead = (storageOverride) => {
   if (storageOverride === null) {

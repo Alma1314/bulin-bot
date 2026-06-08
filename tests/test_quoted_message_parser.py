@@ -2,8 +2,8 @@ from types import SimpleNamespace
 
 import pytest
 
-from bulinbot.core.message.components import Image, Plain, Reply
-from bulinbot.core.utils.quoted_message_parser import (
+from novabot.core.message.components import Image, Plain, Reply
+from novabot.core.utils.quoted_message_parser import (
     extract_quoted_message_images,
     extract_quoted_message_text,
 )

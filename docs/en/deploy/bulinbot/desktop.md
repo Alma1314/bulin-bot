@@ -1,12 +1,12 @@
-# Deploy with BulinBot Desktop Client
+# Deploy with NovaBot Desktop Client
 
-`BulinBot-desktop` is designed for quick local deployment of BulinBot on your personal computer, supporting Windows, macOS, and Linux.
+`NovaBot-desktop` is designed for quick local deployment of NovaBot on your personal computer, supporting Windows, macOS, and Linux.
 
-Among the various deployment options, the desktop client is best suited for personal local use. It is not recommended for long-term server operation or production environments. For production deployments, consider [Docker](/en/deploy/bulinbot/docker) or [Kubernetes](/en/deploy/bulinbot/kubernetes) instead.
+Among the various deployment options, the desktop client is best suited for personal local use. It is not recommended for long-term server operation or production environments. For production deployments, consider [Docker](/en/deploy/nova-bot/docker) or [Kubernetes](/en/deploy/nova-bot/kubernetes) instead.
 
 Compared to command-line or container-based solutions, the desktop client offers an out-of-the-box experience, ideal for users who want to get started without dealing with environment setup.
 
-Repository: [BulinBotDevs/BulinBot-desktop](https://github.com/BulinBotDevs/BulinBot-desktop)
+Repository: [NovaBotDevs/NovaBot-desktop](https://github.com/NovaBotDevs/NovaBot-desktop)
 
 ## Who Is It For
 
@@ -22,7 +22,7 @@ Repository: [BulinBotDevs/BulinBot-desktop](https://github.com/BulinBotDevs/Buli
 
 ## Download and Install
 
-1. Open [BulinBot-desktop Releases](https://github.com/BulinBotDevs/BulinBot-desktop/releases).
+1. Open [NovaBot-desktop Releases](https://github.com/NovaBotDevs/NovaBot-desktop/releases).
 2. Download the installer for your operating system (e.g. `.exe`, `.dmg`, `.rpm`, `.deb`).
 3. Launch the desktop client after installation and follow the setup wizard to complete initialization.
 
@@ -30,4 +30,4 @@ Repository: [BulinBotDevs/BulinBot-desktop](https://github.com/BulinBotDevs/Buli
 
 - Desktop client: focuses on an out-of-the-box GUI experience.
 - Launcher deployment: focuses on automated script-based startup, suitable for users who prefer a traditional deployment workflow.
-- See [Launcher Deployment](/en/deploy/bulinbot/launcher).
+- See [Launcher Deployment](/en/deploy/nova-bot/launcher).

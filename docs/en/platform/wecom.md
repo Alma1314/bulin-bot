@@ -1,6 +1,6 @@
-# Connect BulinBot to WeCom
+# Connect NovaBot to WeCom
 
-BulinBot supports both WeCom Applications and WeCom Customer Service.
+NovaBot supports both WeCom Applications and WeCom Customer Service.
 
 ## Supported Basic Message Types
 
@@ -18,7 +18,7 @@ Proactive message push: Supported for WeCom Application. Not fully tested for We
 
 ## Before You Start
 
-1. Open BulinBot Dashboard.
+1. Open NovaBot Dashboard.
 2. Click `Bots` in the left sidebar.
 3. Click `+ Create Bot`.
 4. Select `wecom`.
@@ -28,12 +28,12 @@ A configuration dialog will appear. Keep it open and continue with the steps bel
 ## Method 1: WeCom Customer Service
 
 > [!NOTE]
-> 1. Requires BulinBot >= v3.5.7.
+> 1. Requires NovaBot >= v3.5.7.
 > 2. This method works directly inside WeChat.
 
 1. Open [WeCom Customer Service Console](https://kf.weixin.qq.com/) and sign in with WeCom QR login.
-2. Create a customer service account in `Customer Service Account`, then copy its **name** (not account ID) to BulinBot field `wechat_kf_account_name`.
-3. Go to [WeCom Enterprise Info](https://work.weixin.qq.com/wework_admin/frame#profile), copy `Corpid`, and fill BulinBot `corpid`.
+2. Create a customer service account in `Customer Service Account`, then copy its **name** (not account ID) to NovaBot field `wechat_kf_account_name`.
+3. Go to [WeCom Enterprise Info](https://work.weixin.qq.com/wework_admin/frame#profile), copy `Corpid`, and fill NovaBot `corpid`.
 4. Configure callback verification:
 
 - If this is your first customer service bot, open `Development Configuration`, click `Start` next to internal access.
@@ -41,26 +41,26 @@ A configuration dialog will appear. Keep it open and continue with the steps bel
 
 ![image](https://files.bulinbot.app/docs/source/images/wecom/8287fd9fec5823847e6b590dc3f0f545.png)
 
-5. Click random generation buttons to get `Token` and `EncodingAESKey`, then fill BulinBot `token` and `encoding_aes_key`.
+5. Click random generation buttons to get `Token` and `EncodingAESKey`, then fill NovaBot `token` and `encoding_aes_key`.
 6. Keep `Unified Webhook Mode (unified_webhook_mode)` enabled, click `Save`, and wait for adapter reload.
 
 For callback URL:
 
-- If unified mode is enabled, BulinBot generates a unique webhook callback URL after save. Copy it from logs or bot card in WebUI.
+- If unified mode is enabled, NovaBot generates a unique webhook callback URL after save. Copy it from logs or bot card in WebUI.
 - If unified mode is disabled, use `http://<your-public-server-ip>:6195/callback/command`.
 
 ![unified_webhook](https://files.bulinbot.app/docs/source/images/use/unified-webhook.png)
 
-> If unified mode is enabled, forward external requests to BulinBot port `6185`; otherwise forward to configured adapter port (default `6195`).
+> If unified mode is enabled, forward external requests to NovaBot port `6185`; otherwise forward to configured adapter port (default `6195`).
 
 Back in WeCom Customer Service callback settings, click `Complete`. If successful, status shows completed.
 
-7. In `Development Configuration`, get `Secret`, edit your WeCom adapter in BulinBot, set `secret`, then save again.
+7. In `Development Configuration`, get `Secret`, edit your WeCom adapter in NovaBot, set `secret`, then save again.
 
 > [!TIP]
-> Based on [#571](https://github.com/Soulter/BulinBot/issues/571), for newly registered enterprises, `corp_id` may take about 30 minutes to become valid.
+> Based on [#571](https://github.com/Soulter/NovaBot/issues/571), for newly registered enterprises, `corp_id` may take about 30 minutes to become valid.
 
-Then open BulinBot `Console`, you should see logs asking you to open a WeChat scan link.
+Then open NovaBot `Console`, you should see logs asking you to open a WeChat scan link.
 
 ```txt
 Please open the following link and scan with WeChat ...
@@ -74,15 +74,15 @@ Open the link, scan with WeChat, then send `help` in the customer service chat t
 
 Open: <https://work.weixin.qq.com/wework_admin/frame#apps>
 
-1. Click `My Company`, copy enterprise ID (`Corpid`), and fill BulinBot `corpid`.
+1. Click `My Company`, copy enterprise ID (`Corpid`), and fill NovaBot `corpid`.
 
 > [!TIP]
-> For newly registered enterprises, `corp_id` may take time to become valid. See [#571](https://github.com/Soulter/BulinBot/issues/571).
+> For newly registered enterprises, `corp_id` may take time to become valid. See [#571](https://github.com/Soulter/NovaBot/issues/571).
 
 ![image](https://files.bulinbot.app/docs/source/images/wecom/image-5.png)
 
 2. Create a custom app (`Custom App`) and fill name/avatar/visibility scope.
-3. Open the app, copy `Secret`, and fill BulinBot `secret`.
+3. Open the app, copy `Secret`, and fill NovaBot `secret`.
 
 ![image](https://files.bulinbot.app/docs/source/images/wecom/image-4.png)
 
@@ -92,8 +92,8 @@ Open: <https://work.weixin.qq.com/wework_admin/frame#apps>
 
 ![image](https://files.bulinbot.app/docs/source/images/wecom/image-9.png)
 
-5. Generate `Token` and `EncodingAESKey`, fill BulinBot `token` and `encoding_aes_key`.
-6. Keep `Unified Webhook Mode (unified_webhook_mode)` enabled (recommended), then click Save in BulinBot and wait for restart.
+5. Generate `Token` and `EncodingAESKey`, fill NovaBot `token` and `encoding_aes_key`.
+6. Keep `Unified Webhook Mode (unified_webhook_mode)` enabled (recommended), then click Save in NovaBot and wait for restart.
 
 For callback URL:
 
@@ -112,19 +112,19 @@ Add your public IP and confirm.
 
 ![image](https://files.bulinbot.app/docs/source/images/wecom/image-12.png)
 
-After BulinBot restart, return to API receive page and click save. If you see callback verification errors, re-check all required fields.
+After NovaBot restart, return to API receive page and click save. If you see callback verification errors, re-check all required fields.
 
-If save succeeds, BulinBot can receive messages from WeCom.
+If save succeeds, NovaBot can receive messages from WeCom.
 
 ## Test
 
 In WeCom Workbench, open the app you just created and send `/help`.
 
-If BulinBot replies, integration is successful.
+If NovaBot replies, integration is successful.
 
 ## Reverse Proxy (Custom API Base)
 
-BulinBot supports custom WeCom endpoint (`api_base_url`) for environments without stable public IP.
+NovaBot supports custom WeCom endpoint (`api_base_url`) for environments without stable public IP.
 
 Set your custom endpoint in `api_base_url`.
 

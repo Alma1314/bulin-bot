@@ -1,6 +1,6 @@
 # 接入 Coze
 
-BulinBot v4.2.1 之后的版本, 支持接入 [Coze](https://www.coze.cn/) 的 Agent 服务。
+NovaBot v4.2.1 之后的版本, 支持接入 [Coze](https://www.coze.cn/) 的 Agent 服务。
 
 ## 预备工作：准备 API Key
 
@@ -44,11 +44,11 @@ BulinBot v4.2.1 之后的版本, 支持接入 [Coze](https://www.coze.cn/) 的 A
 
 我们需要将 `bot_id` 记录下来, 后面会用到。
 
-## 在 BulinBot 中配置 Coze
+## 在 NovaBot 中配置 Coze
 
-完成了所有预备工作, 现在我们就可以在 BulinBot 中配置 Coze 了。
+完成了所有预备工作, 现在我们就可以在 NovaBot 中配置 Coze 了。
 
-进入 BulinBot 管理面板 -> 服务提供商 -> 新增服务提供商 -> Coze, 进入配置页面。
+进入 NovaBot 管理面板 -> 服务提供商 -> 新增服务提供商 -> Coze, 进入配置页面。
 
 ![Coze 供应商](https://files.bulinbot.app/docs/source/images/coze/image_8.png)
 

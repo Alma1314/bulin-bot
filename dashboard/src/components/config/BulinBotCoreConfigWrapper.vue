@@ -12,13 +12,13 @@
                 <v-container fluid>
                     <div v-for="(val2, key2, index2) in section.value['metadata']" :key="key2">
                         <!-- Support both traditional and JSON selector metadata -->
-                        <BulinBotConfigV4
+                        <NovaBotConfigV4
                             :metadata="{ [key2]: section.value['metadata'][key2] }"
                             :iterable="config_data"
                             :metadataKey="key2"
                             :search-keyword="searchKeyword"
                         >
-                        </BulinBotConfigV4>
+                        </NovaBotConfigV4>
                     </div>
                 </v-container>
             </v-tabs-window-item>
@@ -26,7 +26,7 @@
 
             <div style="margin-left: 16px; padding-bottom: 16px">
                 <small>{{ tm('help.helpPrefix') }}
-                    <a href="https://docs.bulinbot.app/" target="_blank">{{ tm('help.documentation') }}</a>
+                    <a href="https://docs.nova-bot.app/" target="_blank">{{ tm('help.documentation') }}</a>
                     {{ tm('help.helpMiddle') }}
                     <a href="https://qm.qq.com/cgi-bin/qm/qr?k=EYGsuUTfe00_iOu9JTXS7_TEpMkXOvwv&jump_from=webapi&authKey=uUEMKCROfsseS+8IzqPjzV3y1tzy4AkykwTib2jNkOFdzezF9s9XknqnIaf3CDft"
                         target="_blank">{{ tm('help.support') }}</a>{{ tm('help.helpSuffix') }}
@@ -43,13 +43,13 @@
 </template>
 
 <script>
-import BulinBotConfigV4 from '@/components/shared/BulinBotConfigV4.vue';
+import NovaBotConfigV4 from '@/components/shared/NovaBotConfigV4.vue';
 import { useModuleI18n } from '@/i18n/composables';
 
 export default {
-  name: 'BulinBotCoreConfigWrapper',
+  name: 'NovaBotCoreConfigWrapper',
   components: {
-    BulinBotConfigV4
+    NovaBotConfigV4
   },
   props: {
     metadata: {

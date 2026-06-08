@@ -1,4 +1,4 @@
-name: BulinBot Dashboard CI
+name: NovaBot Dashboard CI
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    if: github.repository == 'BulinBotDevs/BulinBot'
+    if: github.repository == 'NovaBotDevs/NovaBot'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -54,8 +54,8 @@ jobs:
         uses: ncipollo/release-action@v1.21.0
         with:
           tag: release-${{ github.sha }}
-          owner: BulinBotDevs
-          repo: bulinbot-release-harbour
+          owner: NovaBotDevs
+          repo: novabot-release-harbour
           body: "Automated release from commit ${{ github.sha }}"
-          token: ${{ secrets.BULINBOT_HARBOUR_TOKEN }}
+          token: ${{ secrets.NOVABOT_HARBOUR_TOKEN }}
           artifacts: "dashboard/dist.zip"

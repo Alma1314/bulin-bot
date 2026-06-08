@@ -5,10 +5,10 @@ import os
 
 import pytest
 
-from bulinbot.core.config.bulinbot_config import BulinBotConfig, RateLimitStrategy
-from bulinbot.core.config.default import DEFAULT_VALUE_MAP
-from bulinbot.core.config.i18n_utils import ConfigMetadataI18n
-from bulinbot.core.utils.auth_password import (
+from novabot.core.config.novabot_config import NovaBotConfig, RateLimitStrategy
+from novabot.core.config.default import DEFAULT_VALUE_MAP
+from novabot.core.config.i18n_utils import ConfigMetadataI18n
+from novabot.core.utils.auth_password import (
     DEFAULT_DASHBOARD_PASSWORD,
     validate_dashboard_password,
     verify_dashboard_password,
@@ -53,8 +53,8 @@ class TestRateLimitStrategy:
         assert RateLimitStrategy.DISCARD.value == "discard"
 
 
-class TestBulinBotConfigLoad:
-    """Tests for BulinBotConfig loading and initialization."""
+class TestNovaBotConfigLoad:
+    """Tests for NovaBotConfig loading and initialization."""
 
     def test_init_creates_file_if_not_exists(
         self, temp_config_path, minimal_default_config
@@ -62,7 +62,7 @@ class TestBulinBotConfigLoad:
         """Test that config file is created when it doesn't exist."""
         assert not os.path.exists(temp_config_path)
 
-        config = BulinBotConfig(
+        config = NovaBotConfig(
             config_path=temp_config_path, default_config=minimal_default_config
         )
 
@@ -80,7 +80,7 @@ class TestBulinBotConfigLoad:
         with open(temp_config_path, "w", encoding="utf-8-sig") as f:
             json.dump(existing_config, f)
 
-        config = BulinBotConfig(
+        config = NovaBotConfig(
             config_path=temp_config_path, default_config=minimal_default_config
         )
 
@@ -89,7 +89,7 @@ class TestBulinBotConfigLoad:
 
     def test_first_deploy_flag(self, temp_config_path, minimal_default_config):
         """Test first_deploy flag is set for new config."""
-        config = BulinBotConfig(
+        config = NovaBotConfig(
             config_path=temp_config_path, default_config=minimal_default_config
         )
 
@@ -112,7 +112,7 @@ class TestBulinBotConfigLoad:
             },
         }
 
-        config = BulinBotConfig(config_path=temp_config_path, schema=schema)
+        config = NovaBotConfig(config_path=temp_config_path, schema=schema)
 
         assert config.test_field == "test_value"
         assert config.nested["enabled"] is False
@@ -120,7 +120,7 @@ class TestBulinBotConfigLoad:
 
     def test_dot_notation_access(self, temp_config_path, minimal_default_config):
         """Test accessing config values using dot notation."""
-        config = BulinBotConfig(
+        config = NovaBotConfig(
             config_path=temp_config_path, default_config=minimal_default_config
         )
 
@@ -129,7 +129,7 @@ class TestBulinBotConfigLoad:
 
     def test_setattr_updates_config(self, temp_config_path, minimal_default_config):
         """Test that setting attributes updates config."""
-        config = BulinBotConfig(
+        config = NovaBotConfig(
             config_path=temp_config_path, default_config=minimal_default_config
         )
 
@@ -139,7 +139,7 @@ class TestBulinBotConfigLoad:
 
     def test_delattr_removes_field(self, temp_config_path, minimal_default_config):
         """Test that deleting attributes removes them."""
-        config = BulinBotConfig(
+        config = NovaBotConfig(
             config_path=temp_config_path, default_config=minimal_default_config
         )
         config.temp_field = "temp"
@@ -153,7 +153,7 @@ class TestBulinBotConfigLoad:
 
     def test_delattr_saves_config(self, temp_config_path, minimal_default_config):
         """Test that deleting attributes saves config to file."""
-        config = BulinBotConfig(
+        config = NovaBotConfig(
             config_path=temp_config_path, default_config=minimal_default_config
         )
         config.temp_field = "temp"
@@ -166,7 +166,7 @@ class TestBulinBotConfigLoad:
 
     def test_check_exist(self, temp_config_path, minimal_default_config):
         """Test check_exist method."""
-        config = BulinBotConfig(
+        config = NovaBotConfig(
             config_path=temp_config_path, default_config=minimal_default_config
         )
 
@@ -182,7 +182,7 @@ class TestBulinBotConfigLoad:
         assert not os.path.exists(non_existent_path)
 
         # Create config which will auto-create the file
-        config2 = BulinBotConfig(
+        config2 = NovaBotConfig(
             config_path=non_existent_path, default_config=minimal_default_config
         )
 
@@ -194,12 +194,12 @@ class TestBulinBotConfigLoad:
         """Test that an empty dashboard password is replaced with a random password."""
         default_config = {
             "dashboard": {
-                "username": "bulinbot",
+                "username": "novabot",
                 "password": "",
             },
         }
 
-        config = BulinBotConfig(
+        config = NovaBotConfig(
             config_path=temp_config_path,
             default_config=default_config,
         )
@@ -237,12 +237,12 @@ class TestBulinBotConfigLoad:
         monkeypatch.setenv("BULINBOT_DASHBOARD_INITIAL_PASSWORD", env_password)
         default_config = {
             "dashboard": {
-                "username": "bulinbot",
+                "username": "novabot",
                 "password": "",
             },
         }
 
-        config = BulinBotConfig(
+        config = NovaBotConfig(
             config_path=temp_config_path,
             default_config=default_config,
         )
@@ -265,13 +265,13 @@ class TestBulinBotConfigLoad:
         monkeypatch.setenv("BULINBOT_DASHBOARD_INITIAL_PASSWORD", "weak")
         default_config = {
             "dashboard": {
-                "username": "bulinbot",
+                "username": "novabot",
                 "password": "",
             },
         }
 
         with pytest.raises(ValueError, match="Password must be at least"):
-            BulinBotConfig(
+            NovaBotConfig(
                 config_path=temp_config_path,
                 default_config=default_config,
             )
@@ -282,7 +282,7 @@ class TestBulinBotConfigLoad:
         """Test that the setup flag stays in dashboard config."""
         default_config = {
             "dashboard": {
-                "username": "bulinbot",
+                "username": "novabot",
                 "password": "",
                 "pbkdf2_password": "",
             },
@@ -291,7 +291,7 @@ class TestBulinBotConfigLoad:
             json.dump(
                 {
                     "dashboard": {
-                        "username": "bulinbot",
+                        "username": "novabot",
                         "password": "",
                         "pbkdf2_password": "pbkdf2_sha256$600000$00$00",
                         "password_change_required": True,
@@ -300,7 +300,7 @@ class TestBulinBotConfigLoad:
                 f,
             )
 
-        config = BulinBotConfig(
+        config = NovaBotConfig(
             config_path=temp_config_path,
             default_config=default_config,
         )
@@ -320,13 +320,13 @@ class TestBulinBotConfigLoad:
             config["dashboard"]["password"], generated_password
         )
 
-    def test_legacy_bulinbot_user_without_change_flag_keeps_legacy_password(
+    def test_legacy_novabot_user_without_change_flag_keeps_legacy_password(
         self, temp_config_path
     ):
         """Test old MD5 configs keep legacy auth until the manual upgrade."""
         default_config = {
             "dashboard": {
-                "username": "bulinbot",
+                "username": "novabot",
                 "password": "",
                 "pbkdf2_password": "",
             },
@@ -335,14 +335,14 @@ class TestBulinBotConfigLoad:
             json.dump(
                 {
                     "dashboard": {
-                        "username": "bulinbot",
-                        "password": "77b90590a8945a7d36c963981a307dc9",
+                        "username": "novabot",
+                        "password": "0b9f2397c7b631dcf1a59dfd14177fd7",
                     }
                 },
                 f,
             )
 
-        config = BulinBotConfig(
+        config = NovaBotConfig(
             config_path=temp_config_path,
             default_config=default_config,
         )
@@ -356,7 +356,7 @@ class TestBulinBotConfigLoad:
 
     def test_legacy_md5_password_requires_plain_password(self):
         """Test that a leaked legacy MD5 hash cannot be used as the login password."""
-        legacy_hash = "77b90590a8945a7d36c963981a307dc9"
+        legacy_hash = "0b9f2397c7b631dcf1a59dfd14177fd7"
 
         assert verify_dashboard_password(legacy_hash, DEFAULT_DASHBOARD_PASSWORD)
         assert not verify_dashboard_password(legacy_hash, legacy_hash)
@@ -373,7 +373,7 @@ class TestConfigValidation:
         with open(temp_config_path, "w", encoding="utf-8-sig") as f:
             json.dump(existing_config, f)
 
-        config = BulinBotConfig(
+        config = NovaBotConfig(
             config_path=temp_config_path, default_config=minimal_default_config
         )
 
@@ -390,12 +390,12 @@ class TestConfigValidation:
         with open(temp_config_path, "w", encoding="utf-8-sig") as f:
             json.dump(existing_config, f)
 
-        BulinBotConfig(
+        NovaBotConfig(
             config_path=temp_config_path, default_config=minimal_default_config
         )
 
         # Reload to verify the values were replaced
-        config2 = BulinBotConfig(
+        config2 = NovaBotConfig(
             config_path=temp_config_path, default_config=minimal_default_config
         )
 
@@ -412,7 +412,7 @@ class TestConfigValidation:
         with open(temp_config_path, "w", encoding="utf-8-sig") as f:
             json.dump(existing_config, f)
 
-        BulinBotConfig(
+        NovaBotConfig(
             config_path=temp_config_path, default_config=minimal_default_config
         )
 
@@ -434,7 +434,7 @@ class TestConfigValidation:
         with open(temp_config_path, "w", encoding="utf-8-sig") as f:
             json.dump(existing_config, f)
 
-        config = BulinBotConfig(
+        config = NovaBotConfig(
             config_path=temp_config_path, default_config=minimal_default_config
         )
 
@@ -460,7 +460,7 @@ class TestConfigValidation:
         with open(temp_config_path, "w", encoding="utf-8-sig") as f:
             json.dump(existing_config, f)
 
-        config = BulinBotConfig(
+        config = NovaBotConfig(
             config_path=temp_config_path, default_config=default_config
         )
 
@@ -471,7 +471,7 @@ class TestConfigValidation:
         self, temp_config_path, monkeypatch
     ):
         """Default values may contain secrets and should not be logged."""
-        from bulinbot.core.config import bulinbot_config
+        from novabot.core.config import novabot_config
 
         existing_config = {}
         default_config = {"api_key": "secret-value"}
@@ -482,9 +482,9 @@ class TestConfigValidation:
         def capture_info(message, *args):
             messages.append(message % args if args else message)
 
-        monkeypatch.setattr(bulinbot_config.logger, "info", capture_info)
+        monkeypatch.setattr(novabot_config.logger, "info", capture_info)
 
-        BulinBotConfig(config_path=temp_config_path, default_config=default_config)
+        NovaBotConfig(config_path=temp_config_path, default_config=default_config)
 
         assert messages
         assert all("secret-value" not in message for message in messages)
@@ -497,7 +497,7 @@ class TestConfigHotReload:
 
     def test_save_config(self, temp_config_path, minimal_default_config):
         """Test saving config to file."""
-        config = BulinBotConfig(
+        config = NovaBotConfig(
             config_path=temp_config_path, default_config=minimal_default_config
         )
         config.new_field = "new_value"
@@ -510,7 +510,7 @@ class TestConfigHotReload:
 
     def test_save_config_with_replace(self, temp_config_path, minimal_default_config):
         """Test saving config with replacement."""
-        config = BulinBotConfig(
+        config = NovaBotConfig(
             config_path=temp_config_path, default_config=minimal_default_config
         )
 
@@ -533,13 +533,13 @@ class TestConfigHotReload:
         self, temp_config_path, minimal_default_config
     ):
         """Test that modifications persist after reloading."""
-        config1 = BulinBotConfig(
+        config1 = NovaBotConfig(
             config_path=temp_config_path, default_config=minimal_default_config
         )
         config1.platform_settings["unique_session"] = True
         config1.save_config()
 
-        config2 = BulinBotConfig(
+        config2 = NovaBotConfig(
             config_path=temp_config_path, default_config=minimal_default_config
         )
 
@@ -557,7 +557,7 @@ class TestConfigSchemaToDefault:
             "bool_field": {"type": "bool", "default": True},
         }
 
-        config = BulinBotConfig(config_path=temp_config_path, schema=schema)
+        config = NovaBotConfig(config_path=temp_config_path, schema=schema)
 
         assert config.string_field == "custom"
         assert config.int_field == 100
@@ -571,7 +571,7 @@ class TestConfigSchemaToDefault:
             "bool_field": {"type": "bool"},
         }
 
-        config = BulinBotConfig(config_path=temp_config_path, schema=schema)
+        config = NovaBotConfig(config_path=temp_config_path, schema=schema)
 
         assert config.string_field == DEFAULT_VALUE_MAP["string"]
         assert config.int_field == DEFAULT_VALUE_MAP["int"]
@@ -584,7 +584,7 @@ class TestConfigSchemaToDefault:
         }
 
         with pytest.raises(TypeError, match="不受支持的配置类型"):
-            BulinBotConfig(config_path=temp_config_path, schema=schema)
+            NovaBotConfig(config_path=temp_config_path, schema=schema)
 
     def test_template_list_type(self, temp_config_path):
         """Test template_list schema type."""
@@ -592,7 +592,7 @@ class TestConfigSchemaToDefault:
             "templates": {"type": "template_list", "default": []},
         }
 
-        config = BulinBotConfig(config_path=temp_config_path, schema=schema)
+        config = NovaBotConfig(config_path=temp_config_path, schema=schema)
 
         assert config.templates == []
 
@@ -608,7 +608,7 @@ class TestConfigSchemaToDefault:
             },
         }
 
-        config = BulinBotConfig(config_path=temp_config_path, schema=schema)
+        config = NovaBotConfig(config_path=temp_config_path, schema=schema)
 
         assert config.nested["field1"] == ""
         assert config.nested["field2"] == 0

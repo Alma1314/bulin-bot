@@ -10,7 +10,7 @@ Usage:
 When enabled, this hook:
 1. Runs `npm run build` inside the `dashboard/` directory.
 2. Copies the resulting `dashboard/dist/` tree into
-   `bulinbot/dashboard/dist/` so the static assets are shipped
+   `novabot/dashboard/dist/` so the static assets are shipped
    inside the Python wheel.
 """
 
@@ -35,7 +35,7 @@ class CustomBuildHook(BuildHookInterface):
         root = Path(self.root)
         dashboard_src = root / "dashboard"
         dist_src = dashboard_src / "dist"
-        dist_target = root / "bulinbot" / "dashboard" / "dist"
+        dist_target = root / "novabot" / "dashboard" / "dist"
 
         if not dashboard_src.exists():
             print(

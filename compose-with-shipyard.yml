@@ -1,27 +1,27 @@
 version: '3.8'
 
-# 当接入 QQ NapCat 时，请使用这个 compose 文件一键部署: https://github.com/NapNeko/NapCat-Docker/blob/main/compose/bulinbot.yml
+# 当接入 QQ NapCat 时，请使用这个 compose 文件一键部署: https://github.com/NapNeko/NapCat-Docker/blob/main/compose/novabot.yml
 
 services:
-  bulinbot:
-    image: soulter/bulinbot:latest
-    container_name: bulinbot
+  novabot:
+    image: soulter/novabot:latest
+    container_name: novabot
     restart: always
-    ports: # mappings description: https://github.com/BulinBotDevs/BulinBot/issues/497
-      - "6185:6185" # 必选，BulinBot WebUI 端口
+    ports: # mappings description: https://github.com/NovaBotDevs/NovaBot/issues/497
+      - "6185:6185" # 必选，NovaBot WebUI 端口
       - "6199:6199" # 可选, QQ 个人号 WebSocket 端口
     environment:
       - TZ=Asia/Shanghai
     volumes:
-      - ${PWD}/data:/BulinBot/data
+      - ${PWD}/data:/NovaBot/data
       # - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     networks:
-      - bulinbot_network
+      - novabot_network
 
   shipyard:
     image: soulter/shipyard-bay:latest
-    container_name: bulinbot_shipyard
+    container_name: novabot_shipyard
     # ports:
     #   - "8156:8156"
     environment:
@@ -31,18 +31,18 @@ services:
       - MAX_SHIP_NUM=10
       - BEHAVIOR_AFTER_MAX_SHIP=reject
       - DOCKER_IMAGE=soulter/shipyard-ship:latest
-      - DOCKER_NETWORK=bulinbot_network
+      - DOCKER_NETWORK=novabot_network
       - SHIP_DATA_DIR=${PWD}/data/shipyard/ship_mnt_data
       - DEFAULT_SHIP_CPUS=1.0
       - DEFAULT_SHIP_MEMORY=512m
     volumes:
       - ${PWD}/data/shipyard/bay_data:/app/data
-      - ${PWD}/data/temp:/BulinBot/data/temp           # Bind the local temp directory to the sandbox so that the uploaded file can be accessed in the sandbox
+      - ${PWD}/data/temp:/NovaBot/data/temp           # Bind the local temp directory to the sandbox so that the uploaded file can be accessed in the sandbox
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
-      - bulinbot_network
+      - novabot_network
 
 networks:
-  bulinbot_network:
-    name: bulinbot_network
+  novabot_network:
+    name: novabot_network
     driver: bridge

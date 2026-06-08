@@ -1,4 +1,4 @@
-# BulinBot 知识库
+# NovaBot 知识库
 
 ![知识库预览](https://files.bulinbot.app/docs/zh/use/image-3.png)
 
@@ -6,7 +6,7 @@
 
 打开服务提供商页面，点击新增服务提供商，选择 Embedding。
 
-目前 BulinBot 支持兼容 OpenAI API 和 Gemini API 的嵌入向量服务。
+目前 NovaBot 支持兼容 OpenAI API 和 Gemini API 的嵌入向量服务。
 
 点击上面的提供商卡片进入配置页面，填写配置。
 
@@ -20,7 +20,7 @@
 
 ## 创建知识库
 
-BulinBot 支持多知识库管理。在聊天时，您可以**自由指定知识库**。
+NovaBot 支持多知识库管理。在聊天时，您可以**自由指定知识库**。
 
 进入知识库页面，点击创建知识库，如下图所示：
 
@@ -43,7 +43,7 @@ BulinBot 支持多知识库管理。在聊天时，您可以**自由指定知识
 2. 进入 [模型广场](https://ppio.cn/model-api/console)，点击嵌入模型
 3. 点击 BAAI:BGE-M3 （截止至 2025-06-02，该模型在该平台免费）。
 4. 找到 API 接入指南，申请 Key。
-5. 填写 BulinBot OpenAI Embedding 模型提供商配置：
+5. 填写 NovaBot OpenAI Embedding 模型提供商配置：
    1. API Key 为刚刚申请的 PPIO 的 API Key
    2. embedding api base 填写 `https://api.ppinfra.com/v3/openai`
    3. model 填写你选择的模型，此例子中为 `baai/bge-m3`。

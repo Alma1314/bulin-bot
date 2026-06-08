@@ -42,13 +42,13 @@ html {
 
 pre, code, .markdown pre, .markdown code, .release-notes pre, .release-notes code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Helvetica Neue", monospace;
-  color: var(--bulinbot-code-color);
+  color: var(--novabot-code-color);
 }
 
 // Dark mode global overrides
 .v-theme--PurpleThemeDark {
   // Override code text color for dark mode
-  --bulinbot-code-color: rgb(var(--v-theme-on-surface-variant));
+  --novabot-code-color: rgb(var(--v-theme-on-surface-variant));
 
   // Soften flat primary buttons for dark mode
   .v-btn--variant-flat.bg-primary {

@@ -88,7 +88,7 @@ const handleOpen = () => {
             {{ tm("market.recommended") }}
           </v-chip>
           <v-chip
-            v-if="plugin?.bulinbot_compatible === false"
+            v-if="plugin?.nova-bot_compatible === false"
             color="error"
             size="x-small"
             label

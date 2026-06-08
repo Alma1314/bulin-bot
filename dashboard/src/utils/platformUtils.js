@@ -52,26 +52,26 @@ export function getPlatformIcon(name) {
  */
 export function getTutorialLink(platformType) {
   const tutorialMap = {
-    "qq_official_webhook": "https://docs.bulinbot.app/platform/qqofficial/webhook.html",
-    "qq_official": "https://docs.bulinbot.app/platform/qqofficial/websockets.html",
-    "aiocqhttp": "https://docs.bulinbot.app/platform/aiocqhttp.html",
-    "wecom": "https://docs.bulinbot.app/platform/wecom.html",
-    "weixin_oc": "https://docs.bulinbot.app/platform/weixin_oc.html",
-    "wecom_ai_bot": "https://docs.bulinbot.app/platform/wecom_ai_bot.html",
-    "lark": "https://docs.bulinbot.app/platform/lark.html",
-    "telegram": "https://docs.bulinbot.app/platform/telegram.html",
-    "dingtalk": "https://docs.bulinbot.app/platform/dingtalk.html",
-    "weixin_official_account": "https://docs.bulinbot.app/platform/weixin-official-account.html",
-    "discord": "https://docs.bulinbot.app/platform/discord.html",
-    "slack": "https://docs.bulinbot.app/platform/slack.html",
-    "kook": "https://docs.bulinbot.app/platform/kook.html",
-    "vocechat": "https://docs.bulinbot.app/platform/vocechat.html",
-    "satori": "https://docs.bulinbot.app/platform/satori/llonebot.html",
-    "misskey": "https://docs.bulinbot.app/platform/misskey.html",
-    "line": "https://docs.bulinbot.app/platform/line.html",
-    "matrix": "https://docs.bulinbot.app/platform/matrix.html",
+    "qq_official_webhook": "https://docs.nova-bot.app/platform/qqofficial/webhook.html",
+    "qq_official": "https://docs.nova-bot.app/platform/qqofficial/websockets.html",
+    "aiocqhttp": "https://docs.nova-bot.app/platform/aiocqhttp.html",
+    "wecom": "https://docs.nova-bot.app/platform/wecom.html",
+    "weixin_oc": "https://docs.nova-bot.app/platform/weixin_oc.html",
+    "wecom_ai_bot": "https://docs.nova-bot.app/platform/wecom_ai_bot.html",
+    "lark": "https://docs.nova-bot.app/platform/lark.html",
+    "telegram": "https://docs.nova-bot.app/platform/telegram.html",
+    "dingtalk": "https://docs.nova-bot.app/platform/dingtalk.html",
+    "weixin_official_account": "https://docs.nova-bot.app/platform/weixin-official-account.html",
+    "discord": "https://docs.nova-bot.app/platform/discord.html",
+    "slack": "https://docs.nova-bot.app/platform/slack.html",
+    "kook": "https://docs.nova-bot.app/platform/kook.html",
+    "vocechat": "https://docs.nova-bot.app/platform/vocechat.html",
+    "satori": "https://docs.nova-bot.app/platform/satori/llonebot.html",
+    "misskey": "https://docs.nova-bot.app/platform/misskey.html",
+    "line": "https://docs.nova-bot.app/platform/line.html",
+    "matrix": "https://docs.nova-bot.app/platform/matrix.html",
   }
-  return tutorialMap[platformType] || "https://docs.bulinbot.app";
+  return tutorialMap[platformType] || "https://docs.nova-bot.app";
 }
 
 /**

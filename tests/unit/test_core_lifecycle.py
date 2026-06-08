@@ -1,4 +1,4 @@
-"""Tests for BulinBotCoreLifecycle."""
+"""Tests for NovaBotCoreLifecycle."""
 
 import asyncio
 import os
@@ -6,8 +6,8 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from bulinbot.core.core_lifecycle import BulinBotCoreLifecycle
-from bulinbot.core.log import LogBroker
+from novabot.core.core_lifecycle import NovaBotCoreLifecycle
+from novabot.core.log import LogBroker
 
 
 @pytest.fixture
@@ -26,8 +26,8 @@ def mock_db():
 
 
 @pytest.fixture
-def mock_bulinbot_config():
-    """Create a mock BulinBot config."""
+def mock_novabot_config():
+    """Create a mock NovaBot config."""
     config = MagicMock()
     config.get = MagicMock(return_value="")
     config.__getitem__ = MagicMock(return_value={})
@@ -35,12 +35,12 @@ def mock_bulinbot_config():
     return config
 
 
-class TestBulinBotCoreLifecycleInit:
-    """Tests for BulinBotCoreLifecycle initialization."""
+class TestNovaBotCoreLifecycleInit:
+    """Tests for NovaBotCoreLifecycle initialization."""
 
     def test_init(self, mock_log_broker, mock_db):
-        """Test BulinBotCoreLifecycle initialization."""
-        lifecycle = BulinBotCoreLifecycle(mock_log_broker, mock_db)
+        """Test NovaBotCoreLifecycle initialization."""
+        lifecycle = NovaBotCoreLifecycle(mock_log_broker, mock_db)
 
         assert lifecycle.log_broker == mock_log_broker
         assert lifecycle.db == mock_db
@@ -52,11 +52,11 @@ class TestBulinBotCoreLifecycleInit:
         self,
         mock_log_broker,
         mock_db,
-        mock_bulinbot_config,
+        mock_novabot_config,
         monkeypatch: pytest.MonkeyPatch,
     ):
         """Test initialization with proxy settings."""
-        mock_bulinbot_config.get = MagicMock(
+        mock_novabot_config.get = MagicMock(
             side_effect=lambda key, default="": {
                 "http_proxy": "http://proxy.example.com:8080",
                 "no_proxy": ["localhost", "127.0.0.1"],
@@ -66,8 +66,8 @@ class TestBulinBotCoreLifecycleInit:
         monkeypatch.delenv("https_proxy", raising=False)
         monkeypatch.delenv("no_proxy", raising=False)
 
-        with patch("bulinbot.core.core_lifecycle.bulinbot_config", mock_bulinbot_config):
-            lifecycle = BulinBotCoreLifecycle(mock_log_broker, mock_db)
+        with patch("novabot.core.core_lifecycle.novabot_config", mock_novabot_config):
+            lifecycle = NovaBotCoreLifecycle(mock_log_broker, mock_db)
 
             assert lifecycle.log_broker == mock_log_broker
             assert lifecycle.db == mock_db
@@ -81,17 +81,17 @@ class TestBulinBotCoreLifecycleInit:
         self,
         mock_log_broker,
         mock_db,
-        mock_bulinbot_config,
+        mock_novabot_config,
         monkeypatch: pytest.MonkeyPatch,
     ):
         """Test initialization clears proxy settings when configured."""
-        mock_bulinbot_config.get = MagicMock(return_value="")
+        mock_novabot_config.get = MagicMock(return_value="")
         # Set proxy in environment to test clearing
         monkeypatch.setenv("http_proxy", "http://old-proxy:8080")
         monkeypatch.setenv("https_proxy", "http://old-proxy:8080")
 
-        with patch("bulinbot.core.core_lifecycle.bulinbot_config", mock_bulinbot_config):
-            lifecycle = BulinBotCoreLifecycle(mock_log_broker, mock_db)
+        with patch("novabot.core.core_lifecycle.novabot_config", mock_novabot_config):
+            lifecycle = NovaBotCoreLifecycle(mock_log_broker, mock_db)
 
             assert lifecycle.log_broker == mock_log_broker
             # Verify proxy environment variables are cleared
@@ -99,13 +99,13 @@ class TestBulinBotCoreLifecycleInit:
             assert "https_proxy" not in os.environ
 
 
-class TestBulinBotCoreLifecycleStop:
-    """Tests for BulinBotCoreLifecycle.stop method."""
+class TestNovaBotCoreLifecycleStop:
+    """Tests for NovaBotCoreLifecycle.stop method."""
 
     @pytest.mark.asyncio
     async def test_stop_without_initialize(self, mock_log_broker, mock_db):
         """Test stop without initialize should not raise errors."""
-        lifecycle = BulinBotCoreLifecycle(mock_log_broker, mock_db)
+        lifecycle = NovaBotCoreLifecycle(mock_log_broker, mock_db)
 
         # Set up minimal state to avoid None attribute errors
         lifecycle.temp_dir_cleaner = None
@@ -126,13 +126,13 @@ class TestBulinBotCoreLifecycleStop:
         await lifecycle.stop()
 
 
-class TestBulinBotCoreLifecycleTaskWrapper:
-    """Tests for BulinBotCoreLifecycle._task_wrapper method."""
+class TestNovaBotCoreLifecycleTaskWrapper:
+    """Tests for NovaBotCoreLifecycle._task_wrapper method."""
 
     @pytest.mark.asyncio
     async def test_task_wrapper_normal_completion(self, mock_log_broker, mock_db):
         """Test task wrapper with normal completion."""
-        lifecycle = BulinBotCoreLifecycle(mock_log_broker, mock_db)
+        lifecycle = NovaBotCoreLifecycle(mock_log_broker, mock_db)
 
         async def normal_task():
             pass
@@ -145,14 +145,14 @@ class TestBulinBotCoreLifecycleTaskWrapper:
     @pytest.mark.asyncio
     async def test_task_wrapper_with_exception(self, mock_log_broker, mock_db):
         """Test task wrapper with exception."""
-        lifecycle = BulinBotCoreLifecycle(mock_log_broker, mock_db)
+        lifecycle = NovaBotCoreLifecycle(mock_log_broker, mock_db)
 
         async def failing_task():
             raise ValueError("Test error")
 
         task = asyncio.create_task(failing_task(), name="test_task")
 
-        with patch("bulinbot.core.core_lifecycle.logger") as mock_logger:
+        with patch("novabot.core.core_lifecycle.logger") as mock_logger:
             await lifecycle._task_wrapper(task)
 
             # Verify error was logged
@@ -161,7 +161,7 @@ class TestBulinBotCoreLifecycleTaskWrapper:
     @pytest.mark.asyncio
     async def test_task_wrapper_with_cancelled_error(self, mock_log_broker, mock_db):
         """Test task wrapper with CancelledError."""
-        lifecycle = BulinBotCoreLifecycle(mock_log_broker, mock_db)
+        lifecycle = NovaBotCoreLifecycle(mock_log_broker, mock_db)
 
         async def cancelled_task():
             raise asyncio.CancelledError()
@@ -169,7 +169,7 @@ class TestBulinBotCoreLifecycleTaskWrapper:
         task = asyncio.create_task(cancelled_task(), name="test_task")
 
         # Should not raise and should not log
-        with patch("bulinbot.core.core_lifecycle.logger") as mock_logger:
+        with patch("novabot.core.core_lifecycle.logger") as mock_logger:
             await lifecycle._task_wrapper(task)
 
             # CancelledError should be handled silently
@@ -179,13 +179,13 @@ class TestBulinBotCoreLifecycleTaskWrapper:
             )
 
 
-class TestBulinBotCoreLifecycleLoadPlatform:
-    """Tests for BulinBotCoreLifecycle.load_platform method."""
+class TestNovaBotCoreLifecycleLoadPlatform:
+    """Tests for NovaBotCoreLifecycle.load_platform method."""
 
     @pytest.mark.asyncio
     async def test_load_platform(self, mock_log_broker, mock_db):
         """Test load_platform method."""
-        lifecycle = BulinBotCoreLifecycle(mock_log_broker, mock_db)
+        lifecycle = NovaBotCoreLifecycle(mock_log_broker, mock_db)
 
         # Set up mock platform manager
         mock_platform_manager = MagicMock()
@@ -218,20 +218,20 @@ class TestBulinBotCoreLifecycleLoadPlatform:
         assert any("inst2" in task.get_name() for task in tasks)
 
 
-class TestBulinBotCoreLifecycleErrorHandling:
-    """Tests for BulinBotCoreLifecycle error handling."""
+class TestNovaBotCoreLifecycleErrorHandling:
+    """Tests for NovaBotCoreLifecycle error handling."""
 
     @pytest.mark.asyncio
     async def test_subagent_orchestrator_error_is_logged(
-        self, mock_log_broker, mock_db, mock_bulinbot_config
+        self, mock_log_broker, mock_db, mock_novabot_config
     ):
         """Test that subagent orchestrator init errors are logged."""
-        lifecycle = BulinBotCoreLifecycle(mock_log_broker, mock_db)
+        lifecycle = NovaBotCoreLifecycle(mock_log_broker, mock_db)
         lifecycle.provider_manager = MagicMock()
         lifecycle.provider_manager.llm_tools = MagicMock()
         lifecycle.persona_mgr = MagicMock()
-        lifecycle.bulinbot_config = mock_bulinbot_config
-        lifecycle.bulinbot_config.get = MagicMock(return_value={})
+        lifecycle.novabot_config = mock_novabot_config
+        lifecycle.novabot_config.get = MagicMock(return_value={})
 
         mock_subagent = MagicMock()
         mock_subagent.reload_from_config = AsyncMock(
@@ -240,10 +240,10 @@ class TestBulinBotCoreLifecycleErrorHandling:
 
         with (
             patch(
-                "bulinbot.core.core_lifecycle.SubAgentOrchestrator",
+                "novabot.core.core_lifecycle.SubAgentOrchestrator",
                 return_value=mock_subagent,
             ) as mock_subagent_cls,
-            patch("bulinbot.core.core_lifecycle.logger") as mock_logger,
+            patch("novabot.core.core_lifecycle.logger") as mock_logger,
         ):
             await lifecycle._init_or_reload_subagent_orchestrator()
 
@@ -259,7 +259,7 @@ class TestBulinBotCoreLifecycleErrorHandling:
         )
 
 
-class TestBulinBotCoreLifecycleDefaultChatProviderWarning:
+class TestNovaBotCoreLifecycleDefaultChatProviderWarning:
     """Tests for startup warning when default chat provider is unset."""
 
     @staticmethod
@@ -271,7 +271,7 @@ class TestBulinBotCoreLifecycleDefaultChatProviderWarning:
     def test_warns_for_multiple_enabled_chat_providers_without_default(
         self, mock_log_broker, mock_db
     ):
-        lifecycle = BulinBotCoreLifecycle(mock_log_broker, mock_db)
+        lifecycle = NovaBotCoreLifecycle(mock_log_broker, mock_db)
         provider_a = self._make_provider("openai_source/model-a")
         provider_b = self._make_provider("openai_source/model-b")
         lifecycle.provider_manager = MagicMock(
@@ -280,7 +280,7 @@ class TestBulinBotCoreLifecycleDefaultChatProviderWarning:
             curr_provider_inst=provider_b,
         )
 
-        with patch("bulinbot.core.core_lifecycle.logger") as mock_logger:
+        with patch("novabot.core.core_lifecycle.logger") as mock_logger:
             lifecycle._warn_about_unset_default_chat_provider()
 
         mock_logger.warning.assert_called_once()
@@ -288,7 +288,7 @@ class TestBulinBotCoreLifecycleDefaultChatProviderWarning:
         assert mock_logger.warning.call_args[0][2] == "openai_source/model-b"
 
     def test_warns_only_once_per_lifecycle(self, mock_log_broker, mock_db):
-        lifecycle = BulinBotCoreLifecycle(mock_log_broker, mock_db)
+        lifecycle = NovaBotCoreLifecycle(mock_log_broker, mock_db)
         lifecycle.provider_manager = MagicMock(
             provider_settings={"default_provider_id": ""},
             provider_insts=[
@@ -298,7 +298,7 @@ class TestBulinBotCoreLifecycleDefaultChatProviderWarning:
             curr_provider_inst=self._make_provider("openai_source/model-a"),
         )
 
-        with patch("bulinbot.core.core_lifecycle.logger") as mock_logger:
+        with patch("novabot.core.core_lifecycle.logger") as mock_logger:
             lifecycle._warn_about_unset_default_chat_provider()
             lifecycle._warn_about_unset_default_chat_provider()
 
@@ -307,14 +307,14 @@ class TestBulinBotCoreLifecycleDefaultChatProviderWarning:
     def test_does_not_warn_with_single_enabled_chat_provider_without_default(
         self, mock_log_broker, mock_db
     ):
-        lifecycle = BulinBotCoreLifecycle(mock_log_broker, mock_db)
+        lifecycle = NovaBotCoreLifecycle(mock_log_broker, mock_db)
         lifecycle.provider_manager = MagicMock(
             provider_settings={"default_provider_id": ""},
             provider_insts=[self._make_provider("openai_source/model-a")],
             curr_provider_inst=self._make_provider("openai_source/model-a"),
         )
 
-        with patch("bulinbot.core.core_lifecycle.logger") as mock_logger:
+        with patch("novabot.core.core_lifecycle.logger") as mock_logger:
             lifecycle._warn_about_unset_default_chat_provider()
 
         mock_logger.warning.assert_not_called()
@@ -322,7 +322,7 @@ class TestBulinBotCoreLifecycleDefaultChatProviderWarning:
     def test_does_not_warn_when_default_chat_provider_is_set(
         self, mock_log_broker, mock_db
     ):
-        lifecycle = BulinBotCoreLifecycle(mock_log_broker, mock_db)
+        lifecycle = NovaBotCoreLifecycle(mock_log_broker, mock_db)
         lifecycle.provider_manager = MagicMock(
             provider_settings={"default_provider_id": "openai_source/model-a"},
             provider_insts=[
@@ -332,7 +332,7 @@ class TestBulinBotCoreLifecycleDefaultChatProviderWarning:
             curr_provider_inst=self._make_provider("openai_source/model-a"),
         )
 
-        with patch("bulinbot.core.core_lifecycle.logger") as mock_logger:
+        with patch("novabot.core.core_lifecycle.logger") as mock_logger:
             lifecycle._warn_about_unset_default_chat_provider()
 
         mock_logger.warning.assert_not_called()
@@ -340,7 +340,7 @@ class TestBulinBotCoreLifecycleDefaultChatProviderWarning:
     def test_warns_and_fallbacks_to_first_provider_when_curr_provider_inst_is_none(
         self, mock_log_broker, mock_db
     ):
-        lifecycle = BulinBotCoreLifecycle(mock_log_broker, mock_db)
+        lifecycle = NovaBotCoreLifecycle(mock_log_broker, mock_db)
         provider_a = self._make_provider("openai_source/model-a")
         provider_b = self._make_provider("openai_source/model-b")
         lifecycle.provider_manager = MagicMock(
@@ -349,7 +349,7 @@ class TestBulinBotCoreLifecycleDefaultChatProviderWarning:
             curr_provider_inst=None,
         )
 
-        with patch("bulinbot.core.core_lifecycle.logger") as mock_logger:
+        with patch("novabot.core.core_lifecycle.logger") as mock_logger:
             lifecycle._warn_about_unset_default_chat_provider()
 
         mock_logger.warning.assert_called_once()
@@ -359,7 +359,7 @@ class TestBulinBotCoreLifecycleDefaultChatProviderWarning:
     def test_warns_when_default_provider_id_does_not_match_any_enabled_provider(
         self, mock_log_broker, mock_db
     ):
-        lifecycle = BulinBotCoreLifecycle(mock_log_broker, mock_db)
+        lifecycle = NovaBotCoreLifecycle(mock_log_broker, mock_db)
         lifecycle.provider_manager = MagicMock(
             provider_settings={"default_provider_id": "non-existent-id"},
             provider_insts=[
@@ -369,7 +369,7 @@ class TestBulinBotCoreLifecycleDefaultChatProviderWarning:
             curr_provider_inst=self._make_provider("openai_source/model-b"),
         )
 
-        with patch("bulinbot.core.core_lifecycle.logger") as mock_logger:
+        with patch("novabot.core.core_lifecycle.logger") as mock_logger:
             lifecycle._warn_about_unset_default_chat_provider()
 
         mock_logger.warning.assert_called_once()
@@ -377,15 +377,15 @@ class TestBulinBotCoreLifecycleDefaultChatProviderWarning:
         assert mock_logger.warning.call_args[0][2] == "openai_source/model-b"
 
 
-class TestBulinBotCoreLifecycleInitialize:
-    """Tests for BulinBotCoreLifecycle.initialize method."""
+class TestNovaBotCoreLifecycleInitialize:
+    """Tests for NovaBotCoreLifecycle.initialize method."""
 
     @pytest.mark.asyncio
     async def test_initialize_sets_up_all_components(
-        self, mock_log_broker, mock_db, mock_bulinbot_config
+        self, mock_log_broker, mock_db, mock_novabot_config
     ):
         """Test that initialize sets up all required components in correct order."""
-        lifecycle = BulinBotCoreLifecycle(mock_log_broker, mock_db)
+        lifecycle = NovaBotCoreLifecycle(mock_log_broker, mock_db)
 
         # Mock all the dependencies
         mock_db.initialize = AsyncMock()
@@ -395,9 +395,9 @@ class TestBulinBotCoreLifecycleInitialize:
         mock_umop_config_router = MagicMock()
         mock_umop_config_router.initialize = AsyncMock()
 
-        mock_bulinbot_config_mgr = MagicMock()
-        mock_bulinbot_config_mgr.default_conf = {}
-        mock_bulinbot_config_mgr.confs = {}
+        mock_novabot_config_mgr = MagicMock()
+        mock_novabot_config_mgr.default_conf = {}
+        mock_novabot_config_mgr.confs = {}
 
         mock_persona_mgr = MagicMock()
         mock_persona_mgr.initialize = AsyncMock()
@@ -426,68 +426,68 @@ class TestBulinBotCoreLifecycleInitialize:
         mock_pipeline_scheduler = MagicMock()
         mock_pipeline_scheduler.initialize = AsyncMock()
 
-        mock_bulinbot_updator = MagicMock()
+        mock_novabot_updator = MagicMock()
 
         mock_event_bus = MagicMock()
 
         with (
-            patch("bulinbot.core.core_lifecycle.bulinbot_config", mock_bulinbot_config),
-            patch("bulinbot.core.core_lifecycle.html_renderer", mock_html_renderer),
+            patch("novabot.core.core_lifecycle.novabot_config", mock_novabot_config),
+            patch("novabot.core.core_lifecycle.html_renderer", mock_html_renderer),
             patch(
-                "bulinbot.core.core_lifecycle.UmopConfigRouter",
+                "novabot.core.core_lifecycle.UmopConfigRouter",
                 return_value=mock_umop_config_router,
             ),
             patch(
-                "bulinbot.core.core_lifecycle.BulinBotConfigManager",
-                return_value=mock_bulinbot_config_mgr,
+                "novabot.core.core_lifecycle.NovaBotConfigManager",
+                return_value=mock_novabot_config_mgr,
             ),
             patch(
-                "bulinbot.core.core_lifecycle.PersonaManager",
+                "novabot.core.core_lifecycle.PersonaManager",
                 return_value=mock_persona_mgr,
             ),
             patch(
-                "bulinbot.core.core_lifecycle.ProviderManager",
+                "novabot.core.core_lifecycle.ProviderManager",
                 return_value=mock_provider_manager,
             ),
             patch(
-                "bulinbot.core.core_lifecycle.PlatformManager",
+                "novabot.core.core_lifecycle.PlatformManager",
                 return_value=mock_platform_manager,
             ),
             patch(
-                "bulinbot.core.core_lifecycle.ConversationManager",
+                "novabot.core.core_lifecycle.ConversationManager",
                 return_value=mock_conversation_manager,
             ),
             patch(
-                "bulinbot.core.core_lifecycle.PlatformMessageHistoryManager",
+                "novabot.core.core_lifecycle.PlatformMessageHistoryManager",
                 return_value=mock_platform_message_history_manager,
             ),
             patch(
-                "bulinbot.core.core_lifecycle.KnowledgeBaseManager",
+                "novabot.core.core_lifecycle.KnowledgeBaseManager",
                 return_value=mock_kb_manager,
             ),
             patch(
-                "bulinbot.core.core_lifecycle.CronJobManager",
+                "novabot.core.core_lifecycle.CronJobManager",
                 return_value=mock_cron_manager,
             ),
             patch(
-                "bulinbot.core.core_lifecycle.Context", return_value=mock_star_context
+                "novabot.core.core_lifecycle.Context", return_value=mock_star_context
             ),
             patch(
-                "bulinbot.core.core_lifecycle.PluginManager",
+                "novabot.core.core_lifecycle.PluginManager",
                 return_value=mock_plugin_manager,
             ),
             patch(
-                "bulinbot.core.core_lifecycle.PipelineScheduler",
+                "novabot.core.core_lifecycle.PipelineScheduler",
                 return_value=mock_pipeline_scheduler,
             ),
             patch(
-                "bulinbot.core.core_lifecycle.BulinBotUpdator",
-                return_value=mock_bulinbot_updator,
+                "novabot.core.core_lifecycle.NovaBotUpdator",
+                return_value=mock_novabot_updator,
             ),
-            patch("bulinbot.core.core_lifecycle.EventBus", return_value=mock_event_bus),
-            patch("bulinbot.core.core_lifecycle.migra", new_callable=AsyncMock),
+            patch("novabot.core.core_lifecycle.EventBus", return_value=mock_event_bus),
+            patch("novabot.core.core_lifecycle.migra", new_callable=AsyncMock),
             patch(
-                "bulinbot.core.core_lifecycle.update_llm_metadata",
+                "novabot.core.core_lifecycle.update_llm_metadata",
                 new_callable=AsyncMock,
             ),
         ):
@@ -522,10 +522,10 @@ class TestBulinBotCoreLifecycleInitialize:
 
     @pytest.mark.asyncio
     async def test_initialize_handles_migration_failure(
-        self, mock_log_broker, mock_db, mock_bulinbot_config
+        self, mock_log_broker, mock_db, mock_novabot_config
     ):
         """Test that initialize handles migration failures gracefully."""
-        lifecycle = BulinBotCoreLifecycle(mock_log_broker, mock_db)
+        lifecycle = NovaBotCoreLifecycle(mock_log_broker, mock_db)
 
         mock_db.initialize = AsyncMock()
 
@@ -535,77 +535,77 @@ class TestBulinBotCoreLifecycleInitialize:
         mock_umop_config_router = MagicMock()
         mock_umop_config_router.initialize = AsyncMock()
 
-        mock_bulinbot_config_mgr = MagicMock()
-        mock_bulinbot_config_mgr.default_conf = {}
-        mock_bulinbot_config_mgr.confs = {}
+        mock_novabot_config_mgr = MagicMock()
+        mock_novabot_config_mgr.default_conf = {}
+        mock_novabot_config_mgr.confs = {}
 
         # Mock components that need to be created for initialize to continue
         with (
-            patch("bulinbot.core.core_lifecycle.bulinbot_config", mock_bulinbot_config),
-            patch("bulinbot.core.core_lifecycle.html_renderer", mock_html_renderer),
+            patch("novabot.core.core_lifecycle.novabot_config", mock_novabot_config),
+            patch("novabot.core.core_lifecycle.html_renderer", mock_html_renderer),
             patch(
-                "bulinbot.core.core_lifecycle.UmopConfigRouter",
+                "novabot.core.core_lifecycle.UmopConfigRouter",
                 return_value=mock_umop_config_router,
             ),
             patch(
-                "bulinbot.core.core_lifecycle.BulinBotConfigManager",
-                return_value=mock_bulinbot_config_mgr,
+                "novabot.core.core_lifecycle.NovaBotConfigManager",
+                return_value=mock_novabot_config_mgr,
             ),
             patch(
-                "bulinbot.core.core_lifecycle.PersonaManager",
+                "novabot.core.core_lifecycle.PersonaManager",
                 return_value=MagicMock(initialize=AsyncMock()),
             ),
             patch(
-                "bulinbot.core.core_lifecycle.ProviderManager",
+                "novabot.core.core_lifecycle.ProviderManager",
                 return_value=MagicMock(initialize=AsyncMock()),
             ),
             patch(
-                "bulinbot.core.core_lifecycle.PlatformManager",
+                "novabot.core.core_lifecycle.PlatformManager",
                 return_value=MagicMock(initialize=AsyncMock()),
             ),
             patch(
-                "bulinbot.core.core_lifecycle.ConversationManager",
+                "novabot.core.core_lifecycle.ConversationManager",
                 return_value=MagicMock(),
             ),
             patch(
-                "bulinbot.core.core_lifecycle.PlatformMessageHistoryManager",
+                "novabot.core.core_lifecycle.PlatformMessageHistoryManager",
                 return_value=MagicMock(),
             ),
             patch(
-                "bulinbot.core.core_lifecycle.KnowledgeBaseManager",
+                "novabot.core.core_lifecycle.KnowledgeBaseManager",
                 return_value=MagicMock(initialize=AsyncMock()),
             ),
             patch(
-                "bulinbot.core.core_lifecycle.CronJobManager",
+                "novabot.core.core_lifecycle.CronJobManager",
                 return_value=MagicMock(),
             ),
             patch(
-                "bulinbot.core.core_lifecycle.Context",
+                "novabot.core.core_lifecycle.Context",
                 return_value=MagicMock(_register_tasks=[]),
             ),
             patch(
-                "bulinbot.core.core_lifecycle.PluginManager",
+                "novabot.core.core_lifecycle.PluginManager",
                 return_value=MagicMock(reload=AsyncMock()),
             ),
             patch(
-                "bulinbot.core.core_lifecycle.PipelineScheduler",
+                "novabot.core.core_lifecycle.PipelineScheduler",
                 return_value=MagicMock(initialize=AsyncMock()),
             ),
             patch(
-                "bulinbot.core.core_lifecycle.BulinBotUpdator",
+                "novabot.core.core_lifecycle.NovaBotUpdator",
                 return_value=MagicMock(),
             ),
             patch(
-                "bulinbot.core.core_lifecycle.EventBus",
+                "novabot.core.core_lifecycle.EventBus",
                 return_value=MagicMock(),
             ),
             patch(
-                "bulinbot.core.core_lifecycle.migra",
+                "novabot.core.core_lifecycle.migra",
                 AsyncMock(side_effect=Exception("Migration failed")),
             ),
-            patch("bulinbot.core.core_lifecycle.logger") as mock_logger,
+            patch("novabot.core.core_lifecycle.logger") as mock_logger,
             patch(
-                "bulinbot.core.core_lifecycle.update_llm_metadata",
+                "novabot.core.core_lifecycle.update_llm_metadata",
                 new_callable=AsyncMock,
             ),
         ):
@@ -616,13 +616,13 @@ class TestBulinBotCoreLifecycleInitialize:
             mock_logger.error.assert_called()
 
 
-class TestBulinBotCoreLifecycleStart:
-    """Tests for BulinBotCoreLifecycle.start method."""
+class TestNovaBotCoreLifecycleStart:
+    """Tests for NovaBotCoreLifecycle.start method."""
 
     @pytest.mark.asyncio
     async def test_start_loads_event_bus_and_runs(self, mock_log_broker, mock_db):
         """Test that start loads event bus and runs tasks."""
-        lifecycle = BulinBotCoreLifecycle(mock_log_broker, mock_db)
+        lifecycle = NovaBotCoreLifecycle(mock_log_broker, mock_db)
 
         # Set up minimal state
         lifecycle.event_bus = MagicMock()
@@ -654,9 +654,9 @@ class TestBulinBotCoreLifecycleStart:
 
         with (
             patch(
-                "bulinbot.core.core_lifecycle.star_handlers_registry"
+                "novabot.core.core_lifecycle.star_handlers_registry"
             ) as mock_registry,
-            patch("bulinbot.core.core_lifecycle.logger"),
+            patch("novabot.core.core_lifecycle.logger"),
         ):
             mock_registry.get_handlers_by_event_type = MagicMock(return_value=[])
 
@@ -679,9 +679,9 @@ class TestBulinBotCoreLifecycleStart:
                 pass
 
     @pytest.mark.asyncio
-    async def test_start_calls_on_bulinbot_loaded_hook(self, mock_log_broker, mock_db):
-        """Test that start calls the OnBulinBotLoadedEvent handlers."""
-        lifecycle = BulinBotCoreLifecycle(mock_log_broker, mock_db)
+    async def test_start_calls_on_novabot_loaded_hook(self, mock_log_broker, mock_db):
+        """Test that start calls the OnNovaBotLoadedEvent handlers."""
+        lifecycle = NovaBotCoreLifecycle(mock_log_broker, mock_db)
 
         # Set up minimal state
         lifecycle.event_bus = MagicMock()
@@ -718,13 +718,13 @@ class TestBulinBotCoreLifecycleStart:
 
         with (
             patch(
-                "bulinbot.core.core_lifecycle.star_handlers_registry"
+                "novabot.core.core_lifecycle.star_handlers_registry"
             ) as mock_registry,
             patch(
-                "bulinbot.core.core_lifecycle.star_map",
+                "novabot.core.core_lifecycle.star_map",
                 {"test_module": MagicMock(name="Test Handler")},
             ),
-            patch("bulinbot.core.core_lifecycle.logger"),
+            patch("novabot.core.core_lifecycle.logger"),
         ):
             mock_registry.get_handlers_by_event_type = MagicMock(
                 return_value=[mock_handler]
@@ -744,13 +744,13 @@ class TestBulinBotCoreLifecycleStart:
             mock_handler.handler.assert_awaited_once()
 
 
-class TestBulinBotCoreLifecycleStopAdditional:
-    """Additional tests for BulinBotCoreLifecycle.stop method."""
+class TestNovaBotCoreLifecycleStopAdditional:
+    """Additional tests for NovaBotCoreLifecycle.stop method."""
 
     @pytest.mark.asyncio
     async def test_stop_cancels_all_tasks(self, mock_log_broker, mock_db):
         """Test that stop cancels all current tasks."""
-        lifecycle = BulinBotCoreLifecycle(mock_log_broker, mock_db)
+        lifecycle = NovaBotCoreLifecycle(mock_log_broker, mock_db)
 
         lifecycle.temp_dir_cleaner = None
         lifecycle.cron_manager = None
@@ -790,7 +790,7 @@ class TestBulinBotCoreLifecycleStopAdditional:
     @pytest.mark.asyncio
     async def test_stop_terminates_all_managers(self, mock_log_broker, mock_db):
         """Test that stop terminates all managers in correct order."""
-        lifecycle = BulinBotCoreLifecycle(mock_log_broker, mock_db)
+        lifecycle = NovaBotCoreLifecycle(mock_log_broker, mock_db)
 
         lifecycle.temp_dir_cleaner = None
         lifecycle.cron_manager = None
@@ -824,7 +824,7 @@ class TestBulinBotCoreLifecycleStopAdditional:
         self, mock_log_broker, mock_db
     ):
         """Test that stop handles plugin termination errors gracefully."""
-        lifecycle = BulinBotCoreLifecycle(mock_log_broker, mock_db)
+        lifecycle = NovaBotCoreLifecycle(mock_log_broker, mock_db)
 
         lifecycle.temp_dir_cleaner = None
         lifecycle.cron_manager = None
@@ -855,7 +855,7 @@ class TestBulinBotCoreLifecycleStopAdditional:
 
         lifecycle.curr_tasks = []
 
-        with patch("bulinbot.core.core_lifecycle.logger") as mock_logger:
+        with patch("novabot.core.core_lifecycle.logger") as mock_logger:
             # Should not raise
             await lifecycle.stop()
 
@@ -863,15 +863,15 @@ class TestBulinBotCoreLifecycleStopAdditional:
             mock_logger.warning.assert_called()
 
 
-class TestBulinBotCoreLifecycleRestart:
-    """Tests for BulinBotCoreLifecycle.restart method."""
+class TestNovaBotCoreLifecycleRestart:
+    """Tests for NovaBotCoreLifecycle.restart method."""
 
     @pytest.mark.asyncio
     async def test_restart_terminates_managers_and_starts_thread(
         self, mock_log_broker, mock_db
     ):
         """Test that restart terminates managers and starts reboot thread."""
-        lifecycle = BulinBotCoreLifecycle(mock_log_broker, mock_db)
+        lifecycle = NovaBotCoreLifecycle(mock_log_broker, mock_db)
 
         lifecycle.provider_manager = MagicMock()
         lifecycle.provider_manager.terminate = AsyncMock()
@@ -884,9 +884,9 @@ class TestBulinBotCoreLifecycleRestart:
 
         lifecycle.dashboard_shutdown_event = asyncio.Event()
 
-        lifecycle.bulinbot_updator = MagicMock()
+        lifecycle.novabot_updator = MagicMock()
 
-        with patch("bulinbot.core.core_lifecycle.threading.Thread") as mock_thread:
+        with patch("novabot.core.core_lifecycle.threading.Thread") as mock_thread:
             await lifecycle.restart()
 
             # Verify managers were terminated
@@ -899,18 +899,18 @@ class TestBulinBotCoreLifecycleRestart:
             mock_thread.return_value.start.assert_called_once()
 
 
-class TestBulinBotCoreLifecycleLoadPipelineScheduler:
-    """Tests for BulinBotCoreLifecycle.load_pipeline_scheduler method."""
+class TestNovaBotCoreLifecycleLoadPipelineScheduler:
+    """Tests for NovaBotCoreLifecycle.load_pipeline_scheduler method."""
 
     @pytest.mark.asyncio
     async def test_load_pipeline_scheduler_creates_schedulers(
-        self, mock_log_broker, mock_db, mock_bulinbot_config
+        self, mock_log_broker, mock_db, mock_novabot_config
     ):
         """Test that load_pipeline_scheduler creates schedulers for each config."""
-        lifecycle = BulinBotCoreLifecycle(mock_log_broker, mock_db)
+        lifecycle = NovaBotCoreLifecycle(mock_log_broker, mock_db)
 
-        mock_bulinbot_config_mgr = MagicMock()
-        mock_bulinbot_config_mgr.confs = {
+        mock_novabot_config_mgr = MagicMock()
+        mock_novabot_config_mgr.confs = {
             "config1": MagicMock(),
             "config2": MagicMock(),
         }
@@ -925,14 +925,14 @@ class TestBulinBotCoreLifecycleLoadPipelineScheduler:
 
         with (
             patch(
-                "bulinbot.core.core_lifecycle.PipelineScheduler"
+                "novabot.core.core_lifecycle.PipelineScheduler"
             ) as mock_scheduler_cls,
-            patch("bulinbot.core.core_lifecycle.PipelineContext"),
+            patch("novabot.core.core_lifecycle.PipelineContext"),
         ):
             # Configure mock to return different schedulers
             mock_scheduler_cls.side_effect = [mock_scheduler1, mock_scheduler2]
 
-            lifecycle.bulinbot_config_mgr = mock_bulinbot_config_mgr
+            lifecycle.novabot_config_mgr = mock_novabot_config_mgr
             lifecycle.plugin_manager = mock_plugin_manager
 
             result = await lifecycle.load_pipeline_scheduler()
@@ -944,13 +944,13 @@ class TestBulinBotCoreLifecycleLoadPipelineScheduler:
 
     @pytest.mark.asyncio
     async def test_reload_pipeline_scheduler_updates_existing(
-        self, mock_log_broker, mock_db, mock_bulinbot_config
+        self, mock_log_broker, mock_db, mock_novabot_config
     ):
         """Test that reload_pipeline_scheduler updates existing scheduler."""
-        lifecycle = BulinBotCoreLifecycle(mock_log_broker, mock_db)
+        lifecycle = NovaBotCoreLifecycle(mock_log_broker, mock_db)
 
-        mock_bulinbot_config_mgr = MagicMock()
-        mock_bulinbot_config_mgr.confs = {
+        mock_novabot_config_mgr = MagicMock()
+        mock_novabot_config_mgr.confs = {
             "config1": MagicMock(),
         }
 
@@ -959,15 +959,15 @@ class TestBulinBotCoreLifecycleLoadPipelineScheduler:
         mock_new_scheduler = MagicMock()
         mock_new_scheduler.initialize = AsyncMock()
 
-        lifecycle.bulinbot_config_mgr = mock_bulinbot_config_mgr
+        lifecycle.novabot_config_mgr = mock_novabot_config_mgr
         lifecycle.plugin_manager = mock_plugin_manager
         lifecycle.pipeline_scheduler_mapping = {}
 
         with (
             patch(
-                "bulinbot.core.core_lifecycle.PipelineScheduler"
+                "novabot.core.core_lifecycle.PipelineScheduler"
             ) as mock_scheduler_cls,
-            patch("bulinbot.core.core_lifecycle.PipelineContext"),
+            patch("novabot.core.core_lifecycle.PipelineContext"),
         ):
             mock_scheduler_cls.return_value = mock_new_scheduler
 
@@ -982,12 +982,12 @@ class TestBulinBotCoreLifecycleLoadPipelineScheduler:
         self, mock_log_broker, mock_db
     ):
         """Test that reload_pipeline_scheduler raises error for missing config."""
-        lifecycle = BulinBotCoreLifecycle(mock_log_broker, mock_db)
+        lifecycle = NovaBotCoreLifecycle(mock_log_broker, mock_db)
 
-        mock_bulinbot_config_mgr = MagicMock()
-        mock_bulinbot_config_mgr.confs = {}
+        mock_novabot_config_mgr = MagicMock()
+        mock_novabot_config_mgr.confs = {}
 
-        lifecycle.bulinbot_config_mgr = mock_bulinbot_config_mgr
+        lifecycle.novabot_config_mgr = mock_novabot_config_mgr
 
         with pytest.raises(ValueError, match="配置文件 .* 不存在"):
             await lifecycle.reload_pipeline_scheduler("nonexistent")

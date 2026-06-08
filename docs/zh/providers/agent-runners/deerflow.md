@@ -1,6 +1,6 @@
 # 接入 DeerFlow
 
-在 v4.19.2 及之后，BulinBot 支持接入 [DeerFlow](https://github.com/bytedance/deer-flow) Agent Runner。
+在 v4.19.2 及之后，NovaBot 支持接入 [DeerFlow](https://github.com/bytedance/deer-flow) Agent Runner。
 
 当前适配面向 DeerFlow **2.0 `main` 分支**。DeerFlow 官方已将原始 Deep Research 框架迁移到 `main-1.x` 分支持续维护，因此如果你使用的是 2.0，请以 `main` 分支文档和后端 API 为准。
 
@@ -12,13 +12,13 @@
 - [DeerFlow 官方网站](https://deerflow.tech/)
 - [DeerFlow 配置文档](https://github.com/bytedance/deer-flow/blob/main/backend/docs/CONFIGURATION.md)
 
-请确认 DeerFlow 已正常启动，并且 BulinBot 可以访问 DeerFlow 的网关地址。默认情况下，DeerFlow 网关地址为 `http://127.0.0.1:2026`。
+请确认 DeerFlow 已正常启动，并且 NovaBot 可以访问 DeerFlow 的网关地址。默认情况下，DeerFlow 网关地址为 `http://127.0.0.1:2026`。
 
 > [!TIP]
 > - `API Base URL` 必须以 `http://` 或 `https://` 开头。
-> - 如果 BulinBot 与 DeerFlow 运行在不同容器或主机上，请将 `127.0.0.1` 替换为 DeerFlow 实际可访问的内网地址、主机名或域名。
+> - 如果 NovaBot 与 DeerFlow 运行在不同容器或主机上，请将 `127.0.0.1` 替换为 DeerFlow 实际可访问的内网地址、主机名或域名。
 
-## 在 BulinBot 中配置 DeerFlow
+## 在 NovaBot 中配置 DeerFlow
 
 在 WebUI 中，点击「模型提供商」->「新增提供商」，选择「Agent 执行器」，选择「DeerFlow」，进入 DeerFlow 的配置页面。
 
@@ -40,7 +40,7 @@
 > [!TIP]
 > - 如果 DeerFlow 侧已经配置了默认模型，可以将 `模型名称覆盖` 留空。
 > - 只有在 DeerFlow 侧已经启用了相应能力时，才建议开启 `计划模式` 或 `子智能体` 相关选项。
-> - BulinBot 会同时发送 DeerFlow 2.0 推荐的 `config.configurable` 运行时参数，并保留兼容字段，便于对接上游近期版本。
+> - NovaBot 会同时发送 DeerFlow 2.0 推荐的 `config.configurable` 运行时参数，并保留兼容字段，便于对接上游近期版本。
 
 ## 选择 Agent 执行器
 
@@ -51,7 +51,7 @@
 如果请求没有正常通过 DeerFlow 执行，请优先检查以下内容：
 
 - DeerFlow 服务是否已经正常启动
-- `API Base URL` 是否能从 BulinBot 所在环境访问
+- `API Base URL` 是否能从 NovaBot 所在环境访问
 - 鉴权配置是否填写正确
 - `Assistant ID` 是否与 DeerFlow 中实际可用的 assistant 一致
-- 如果通过 `/reset`、`/new`、`/del` 重置 DeerFlow 会话，BulinBot 会尝试同步清理 DeerFlow 远端 thread；若 DeerFlow 网关不可达，则只会清理 BulinBot 本地会话标识
+- 如果通过 `/reset`、`/new`、`/del` 重置 DeerFlow 会话，NovaBot 会尝试同步清理 DeerFlow 远端 thread；若 DeerFlow 网关不可达，则只会清理 NovaBot 本地会话标识

@@ -2,29 +2,29 @@
 
 Event listeners can receive message content delivered by the platform and implement features such as commands, command groups, and event listening.
 
-Event listener decorators are located in `bulinbot.api.event.filter` and must be imported first. Please make sure to import it, otherwise it will conflict with Python's built-in `filter` higher-order function.
+Event listener decorators are located in `nova-bot.api.event.filter` and must be imported first. Please make sure to import it, otherwise it will conflict with Python's built-in `filter` higher-order function.
 
 ```py
-from bulinbot.api.event import filter, BulinMessageEvent
+from nova-bot.api.event import filter, BulinMessageEvent
 ```
 
 ## Messages and Events
 
-BulinBot receives messages delivered by messaging platforms and encapsulates them as `BulinMessageEvent` objects, which are then passed to plugins for processing.
+NovaBot receives messages delivered by messaging platforms and encapsulates them as `BulinMessageEvent` objects, which are then passed to plugins for processing.
 
 ![message-event](https://files.bulinbot.app/docs/en/dev/star/guides/message-event.svg)
 
 ### Message Events
 
-`BulinMessageEvent` is BulinBot's message event object, which stores information about the message sender, message content, etc.
+`BulinMessageEvent` is NovaBot's message event object, which stores information about the message sender, message content, etc.
 
 ### Message Object
 
-`BulinBotMessage` is BulinBot's message object, which stores the specific content of messages delivered by the messaging platform. The `BulinMessageEvent` object contains a `message_obj` attribute to retrieve this message object.
+`NovaBotMessage` is NovaBot's message object, which stores the specific content of messages delivered by the messaging platform. The `BulinMessageEvent` object contains a `message_obj` attribute to retrieve this message object.
 
 ```py{11}
-class BulinBotMessage:
-    '''BulinBot's message object'''
+class NovaBotMessage:
+    '''NovaBot's message object'''
     type: MessageType  # Message type
     self_id: str  # Bot's identification ID
     session_id: str  # Session ID. Depends on the unique_session setting.
@@ -63,21 +63,21 @@ Additionally, the OneBot v11 platform (QQ personal accounts, etc.) also supports
 - `Nodes`: Multiple nodes in a forward message
 - `Poke`: Poke message segment
 
-In BulinBot, message chains are represented as lists of type `List[BaseMessageComponent]`.
+In NovaBot, message chains are represented as lists of type `List[BaseMessageComponent]`.
 
 ## Commands
 
 ![message-event-simple-command](https://files.bulinbot.app/docs/en/dev/star/guides/message-event-simple-command.svg)
 
 ```python
-from bulinbot.api.event import filter, BulinMessageEvent
-from bulinbot.api.star import Context, Star
+from nova-bot.api.event import filter, BulinMessageEvent
+from nova-bot.api.star import Context, Star
 
 class MyPlugin(Star):
     def __init__(self, context: Context):
         super().__init__(context)
 
-    @filter.command("helloworld") # from bulinbot.api.event.filter import command
+    @filter.command("helloworld") # from nova-bot.api.event.filter import command
     async def helloworld(self, event: BulinMessageEvent):
         '''This is a hello world command'''
         user_name = event.get_sender_name()
@@ -86,13 +86,13 @@ class MyPlugin(Star):
 ```
 
 > [!TIP]
-> Commands cannot contain spaces, otherwise BulinBot will parse them as a second parameter. You can use the command group feature below, or use a listener to parse the message content yourself.
+> Commands cannot contain spaces, otherwise NovaBot will parse them as a second parameter. You can use the command group feature below, or use a listener to parse the message content yourself.
 
 ## Commands with Parameters
 
 ![command-with-param](https://files.bulinbot.app/docs/en/dev/star/guides/command-with-param.svg)
 
-BulinBot will automatically parse command parameters for you.
+NovaBot will automatically parse command parameters for you.
 
 ```python
 @filter.command("add")
@@ -242,22 +242,22 @@ async def helloworld(self, event: BulinMessageEvent):
 > Available after v3.4.34
 
 ```python
-from bulinbot.api.event import filter, BulinMessageEvent
+from nova-bot.api.event import filter, BulinMessageEvent
 
-@filter.on_bulinbot_loaded()
-async def on_bulinbot_loaded(self):
-    print("BulinBot initialization complete")
+@filter.on_nova-bot_loaded()
+async def on_nova-bot_loaded(self):
+    print("NovaBot initialization complete")
 
 ```
 
 #### On Waiting for LLM Request
 
-This hook is triggered when BulinBot is preparing to call the LLM but has not yet acquired the session lock.
+This hook is triggered when NovaBot is preparing to call the LLM but has not yet acquired the session lock.
 
 It is suitable for sending feedback such as "Waiting for request..." to the user, or for obtaining the LLM request outside the lock without waiting for it to be released.
 
 ```python
-from bulinbot.api.event import filter, BulinMessageEvent
+from nova-bot.api.event import filter, BulinMessageEvent
 
 @filter.on_waiting_llm_request()
 async def on_waiting_llm(self, event: BulinMessageEvent):
@@ -268,15 +268,15 @@ async def on_waiting_llm(self, event: BulinMessageEvent):
 
 #### On LLM Request
 
-In BulinBot's default execution flow, the `on_llm_request` hook is triggered before calling the LLM.
+In NovaBot's default execution flow, the `on_llm_request` hook is triggered before calling the LLM.
 
 You can obtain the `ProviderRequest` object and modify it.
 
 The ProviderRequest object contains all information about the LLM request, including the request text, system prompt, etc.
 
 ```python
-from bulinbot.api.event import filter, BulinMessageEvent
-from bulinbot.api.provider import ProviderRequest
+from nova-bot.api.event import filter, BulinMessageEvent
+from nova-bot.api.provider import ProviderRequest
 
 @filter.on_llm_request()
 async def my_custom_hook_1(self, event: BulinMessageEvent, req: ProviderRequest): # Note there are three parameters
@@ -293,7 +293,7 @@ async def my_custom_hook_1(self, event: BulinMessageEvent, req: ProviderRequest)
 > For small or medium-sized dynamic prompts that change every round, prefer appending them through `req.extra_user_content_parts`. These parts are added after the current user input as extra user-message content, which is more suitable for dynamic context such as "current time", "character affinity", or "relevant memory snippets":
 >
 > ```python
-> from bulinbot.core.agent.message import TextPart
+> from nova-bot.core.agent.message import TextPart
 >
 > @filter.on_llm_request()
 > async def add_dynamic_prompt(self, event: BulinMessageEvent, req: ProviderRequest):
@@ -329,8 +329,8 @@ After the LLM request completes, the `on_llm_response` hook is triggered.
 You can obtain the `ProviderResponse` object and modify it.
 
 ```python
-from bulinbot.api.event import filter, BulinMessageEvent
-from bulinbot.api.provider import LLMResponse
+from nova-bot.api.event import filter, BulinMessageEvent
+from nova-bot.api.provider import LLMResponse
 
 @filter.on_llm_response()
 async def on_llm_resp(self, event: BulinMessageEvent, resp: LLMResponse): # Note there are three parameters
@@ -341,14 +341,14 @@ async def on_llm_resp(self, event: BulinMessageEvent, resp: LLMResponse): # Note
 
 #### On Agent Begin
 
-> Requires BulinBot version > v4.23.1
+> Requires NovaBot version > v4.23.1
 
 When the Agent starts running, the `on_agent_begin` hook is triggered.
 
 ```python
-from bulinbot.api.event import filter, BulinMessageEvent
-from bulinbot.core.agent.run_context import ContextWrapper
-from bulinbot.core.bulin_agent_context import BulinAgentContext
+from nova-bot.api.event import filter, BulinMessageEvent
+from nova-bot.core.agent.run_context import ContextWrapper
+from nova-bot.core.bulin_agent_context import BulinAgentContext
 
 @filter.on_agent_begin()
 async def on_agent_begin(self, event: BulinMessageEvent, run_context: ContextWrapper[BulinAgentContext]): # Note there are three parameters
@@ -359,15 +359,15 @@ async def on_agent_begin(self, event: BulinMessageEvent, run_context: ContextWra
 
 #### Before LLM Tool Call
 
-> Requires BulinBot version > v4.23.1
+> Requires NovaBot version > v4.23.1
 
 When the Agent is about to call an LLM tool, the `on_using_llm_tool` hook is triggered.
 
 You can obtain the `FunctionTool` object and tool call arguments.
 
 ```python
-from bulinbot.api.event import filter, BulinMessageEvent
-from bulinbot.core.agent.tool import FunctionTool
+from nova-bot.api.event import filter, BulinMessageEvent
+from nova-bot.core.agent.tool import FunctionTool
 
 @filter.on_using_llm_tool()
 async def on_using_llm_tool(
@@ -383,7 +383,7 @@ async def on_using_llm_tool(
 
 #### After LLM Tool Call
 
-> Requires BulinBot version > v4.23.1
+> Requires NovaBot version > v4.23.1
 
 After the LLM tool call completes, the `on_llm_tool_respond` hook is triggered.
 
@@ -392,8 +392,8 @@ You can obtain the `FunctionTool` object, tool call arguments, and tool call res
 ```python
 from mcp.types import CallToolResult
 
-from bulinbot.api.event import filter, BulinMessageEvent
-from bulinbot.core.agent.tool import FunctionTool
+from nova-bot.api.event import filter, BulinMessageEvent
+from nova-bot.core.agent.tool import FunctionTool
 
 @filter.on_llm_tool_respond()
 async def on_llm_tool_respond(
@@ -410,15 +410,15 @@ async def on_llm_tool_respond(
 
 #### On Agent Done
 
-> Requires BulinBot version > v4.23.1
+> Requires NovaBot version > v4.23.1
 
 After the Agent finishes running, the `on_agent_done` hook is triggered. This hook is triggered after `on_llm_response`.
 
 ```python
-from bulinbot.api.event import filter, BulinMessageEvent
-from bulinbot.api.provider import LLMResponse
-from bulinbot.core.agent.run_context import ContextWrapper
-from bulinbot.core.bulin_agent_context import BulinAgentContext
+from nova-bot.api.event import filter, BulinMessageEvent
+from nova-bot.api.provider import LLMResponse
+from nova-bot.core.agent.run_context import ContextWrapper
+from nova-bot.core.bulin_agent_context import BulinAgentContext
 
 @filter.on_agent_done()
 async def on_agent_done(self, event: BulinMessageEvent, run_context: ContextWrapper[BulinAgentContext], resp: LLMResponse): # Note there are four parameters
@@ -434,8 +434,8 @@ Before sending a message, the `on_decorating_result` hook is triggered.
 You can implement some message decoration here, such as converting to voice, converting to image, adding prefixes, etc.
 
 ```python
-from bulinbot.api.event import filter, BulinMessageEvent
-import bulinbot.api.message_components as Comp
+from nova-bot.api.event import filter, BulinMessageEvent
+import nova-bot.api.message_components as Comp
 
 @filter.on_decorating_result()
 async def on_decorating_result(self, event: BulinMessageEvent):
@@ -452,7 +452,7 @@ async def on_decorating_result(self, event: BulinMessageEvent):
 After a message is sent to the messaging platform, the `after_message_sent` hook is triggered.
 
 ```python
-from bulinbot.api.event import filter, BulinMessageEvent
+from nova-bot.api.event import filter, BulinMessageEvent
 
 @filter.after_message_sent()
 async def after_message_sent(self, event: BulinMessageEvent):

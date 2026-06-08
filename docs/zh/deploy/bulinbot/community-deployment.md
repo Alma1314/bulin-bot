@@ -1,27 +1,27 @@
 # 社区提供的部署方式
 
 > [!WARNING]
-> BulinBot 官方不保证这些部署方式的安全性和稳定性。
+> NovaBot 官方不保证这些部署方式的安全性和稳定性。
 
 ## Linux 一键部署脚本
 
 使用 `curl` 去下载脚本并且使用 `bash` 执行脚本：
 
 ```bash
-bash <(curl -sSL https://raw.githubusercontent.com/zhende1113/Antlia/refs/heads/main/Script/BulinBot/Antlia.sh)
+bash <(curl -sSL https://raw.githubusercontent.com/zhende1113/Antlia/refs/heads/main/Script/NovaBot/Antlia.sh)
 ```
 
 如果你的系统没有 `curl`，你可以使用 `wget`：
 
 ```bash
-wget -qO- https://raw.githubusercontent.com/zhende1113/Antlia/refs/heads/main/Script/BulinBot/Antlia.sh | bash
+wget -qO- https://raw.githubusercontent.com/zhende1113/Antlia/refs/heads/main/Script/NovaBot/Antlia.sh | bash
 ```
 
 仓库地址：[zhende1113/Antlia](https://github.com/zhende1113/Antlia/)
 
 ## Linux 一键部署脚本（基于Docker）
 
-支持 BulinBot / NapCat
+支持 NovaBot / NapCat
 
 > [!TIP]
 > 权限不足时请使用 `sudo` 提权
@@ -47,6 +47,6 @@ sudo ./AstrbotScript.sh
 
 __仓库地址：[railgun19457/AstrbotScript](https://github.com/railgun19457/AstrbotScript)__
 
-## BulinBot Android 部署
+## NovaBot Android 部署
 
-参考 [zz6zz666/BulinBot-Android-App](https://github.com/zz6zz666/BulinBot-Android-App)
+参考 [zz6zz666/NovaBot-Android-App](https://github.com/zz6zz666/NovaBot-Android-App)

@@ -76,7 +76,7 @@
   },
   "configManagement": {
     "title": "Configuration Management",
-    "description": "BulinBot supports separate configuration files for different bots. The `default` configuration is used by default.",
+    "description": "NovaBot supports separate configuration files for different bots. The `default` configuration is used by default.",
     "newConfig": "New Configuration",
     "copyConfig": "Copy Configuration",
     "editConfig": "Edit Configuration",

@@ -172,8 +172,8 @@ const confirmLabel = computed(() => {
 
 const totpProvisioningUri = computed(() => {
   if (!newSecret.value) return ''
-  const label = encodeURIComponent(props.configRoot?.dashboard?.username || 'BulinBot')
-  const issuer = encodeURIComponent('BulinBot')
+  const label = encodeURIComponent(props.configRoot?.dashboard?.username || 'NovaBot')
+  const issuer = encodeURIComponent('NovaBot')
   return `otpauth://totp/${label}?secret=${encodeURIComponent(newSecret.value)}&issuer=${issuer}`
 })
 

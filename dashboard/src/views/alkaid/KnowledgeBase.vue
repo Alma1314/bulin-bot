@@ -11,7 +11,7 @@
                 style="flex-grow: 1; width: 100%; height: 100%;">
                 <h2>{{ tm('notInstalled.title') }}
                     <v-icon class="ml-2" size="small" color="grey"
-                        @click="openUrl('https://docs.bulinbot.app/use/knowledge-base.html')">mdi-information-outline</v-icon>
+                        @click="openUrl('https://docs.nova-bot.app/use/knowledge-base.html')">mdi-information-outline</v-icon>
                 </h2>
                 <v-btn style="margin-top: 16px;" variant="tonal" color="primary" @click="installPlugin"
                     :loading="installing">
@@ -31,14 +31,14 @@
             <div v-else>
                 <h2 class="mb-4">{{ tm('list.title') }}
                     <v-icon class="ml-2" size="x-small" color="grey"
-                        @click="openUrl('https://docs.bulinbot.app/use/knowledge-base.html')">mdi-information-outline</v-icon>
+                        @click="openUrl('https://docs.nova-bot.app/use/knowledge-base.html')">mdi-information-outline</v-icon>
                 </h2>
                 <v-btn class="mb-4" prepend-icon="mdi-plus" variant="tonal" color="primary"
                     @click="showCreateDialog = true">
                     {{ tm('list.create') }}
                 </v-btn>
                 <v-btn class="mb-4 ml-4" prepend-icon="mdi-cog" variant="tonal" color="success"
-                    @click="$router.push('/extension?open_config=bulinbot_plugin_knowledge_base')">
+                    @click="$router.push('/extension?open_config=nova-bot_plugin_knowledge_base')">
                     {{ tm('list.config') }}
                 </v-btn>
                 <v-btn class="mb-4 ml-4" prepend-icon="mdi-update" variant="tonal" color="warning"
@@ -615,7 +615,7 @@ export default {
             }
         },
         checkPlugin() {
-            axios.get('/api/plugin/get?name=bulinbot_plugin_knowledge_base')
+            axios.get('/api/plugin/get?name=nova-bot_plugin_knowledge_base')
                 .then(response => {
                     if (response.data.status !== 'ok' || response.data.data.length === 0) {
                         this.showSnackbar(this.tm('messages.pluginNotAvailable'), 'error');
@@ -649,7 +649,7 @@ export default {
                 // 获取在线插件数据
                 const onlineResponse = await axios.get('/api/plugin/market_list');
                 if (onlineResponse.data.status === 'ok') {
-                    const knowledgeBasePlugin = onlineResponse.data.data['bulinbot_plugin_knowledge_base'];
+                    const knowledgeBasePlugin = onlineResponse.data.data['nova-bot_plugin_knowledge_base'];
                     if (knowledgeBasePlugin) {
                         this.pluginLatestVersion = knowledgeBasePlugin.version || '未知';
 
@@ -685,7 +685,7 @@ export default {
             this.updatingPlugin = true;
             try {
                 const response = await axios.post('/api/plugin/update', {
-                    name: 'bulinbot_plugin_knowledge_base',
+                    name: 'nova-bot_plugin_knowledge_base',
                     proxy: this.getSelectedGitHubProxy()
                 });
 
@@ -709,7 +709,7 @@ export default {
         installPlugin() {
             this.installing = true;
             axios.post('/api/plugin/install', {
-                url: "https://github.com/lxfight/bulinbot_plugin_knowledge_base",
+                url: "https://github.com/lxfight/nova-bot_plugin_knowledge_base",
                 proxy: this.getSelectedGitHubProxy()
             })
                 .then(response => {

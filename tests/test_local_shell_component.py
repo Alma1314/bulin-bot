@@ -3,8 +3,8 @@ from __future__ import annotations
 import asyncio
 import subprocess
 
-from bulinbot.core.computer.booters import local as local_booter
-from bulinbot.core.computer.booters.local import LocalShellComponent
+from novabot.core.computer.booters import local as local_booter
+from novabot.core.computer.booters.local import LocalShellComponent
 
 
 class _FakeCompletedProcess:

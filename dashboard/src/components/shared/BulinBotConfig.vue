@@ -204,7 +204,7 @@ function hasVisibleItemsAfter(items, currentIndex) {
         <div v-if="metadata[metadataKey].items[key]?.type === 'object'" class="nested-object">
           <div v-if="metadata[metadataKey].items[key] && !metadata[metadataKey].items[key]?.invisible && shouldShowItem(metadata[metadataKey].items[key], key)" class="nested-container">
             <v-expand-transition>
-              <BulinBotConfig
+              <NovaBotConfig
                 :metadata="metadata[metadataKey].items"
                 :iterable="iterable[key]"
                 :metadataKey="key"
@@ -212,7 +212,7 @@ function hasVisibleItemsAfter(items, currentIndex) {
                 :pluginI18n="pluginI18n"
                 :pathPrefix="getItemPath(key)"
               >
-              </BulinBotConfig>
+              </NovaBotConfig>
             </v-expand-transition>
           </div>
         </div>

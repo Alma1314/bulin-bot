@@ -1,6 +1,6 @@
 import pytest
 
-from bulinbot.core.agent.message import (
+from novabot.core.agent.message import (
     CheckpointData,
     CheckpointMessageSegment,
     Message,
@@ -10,9 +10,9 @@ from bulinbot.core.agent.message import (
     get_checkpoint_id,
     strip_checkpoint_messages,
 )
-from bulinbot.core.provider.entities import ProviderRequest
-from bulinbot.core.provider.provider import Provider
-from bulinbot.dashboard.routes.chat import ChatRoute
+from novabot.core.provider.entities import ProviderRequest
+from novabot.core.provider.provider import Provider
+from novabot.dashboard.routes.chat import ChatRoute
 
 
 def test_checkpoint_message_segment_round_trip():

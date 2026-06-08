@@ -7,15 +7,15 @@ from pathlib import Path
 from typing import Generic, TypeVar
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-TOOL_MODULE_PATH = REPO_ROOT / "bulinbot/core/agent/tool.py"
+TOOL_MODULE_PATH = REPO_ROOT / "novabot/core/agent/tool.py"
 
 
 def load_tool_module():
     package_names = [
-        "bulinbot",
-        "bulinbot.core",
-        "bulinbot.core.agent",
-        "bulinbot.core.message",
+        "novabot",
+        "novabot.core",
+        "novabot.core.agent",
+        "novabot.core.message",
     ]
     for name in package_names:
         if name not in sys.modules:
@@ -24,12 +24,12 @@ def load_tool_module():
             sys.modules[name] = module
 
     message_result_module = types.ModuleType(
-        "bulinbot.core.message.message_event_result"
+        "novabot.core.message.message_event_result"
     )
     message_result_module.MessageEventResult = type("MessageEventResult", (), {})
     sys.modules[message_result_module.__name__] = message_result_module
 
-    run_context_module = types.ModuleType("bulinbot.core.agent.run_context")
+    run_context_module = types.ModuleType("novabot.core.agent.run_context")
     run_context_module.TContext = TypeVar("TContext")
 
     class ContextWrapper(Generic[run_context_module.TContext]):
@@ -39,7 +39,7 @@ def load_tool_module():
     sys.modules[run_context_module.__name__] = run_context_module
 
     spec = importlib.util.spec_from_file_location(
-        "bulinbot.core.agent.tool", TOOL_MODULE_PATH
+        "novabot.core.agent.tool", TOOL_MODULE_PATH
     )
     assert spec and spec.loader
     module = importlib.util.module_from_spec(spec)

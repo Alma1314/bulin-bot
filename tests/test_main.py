@@ -9,7 +9,7 @@ from unittest import mock
 
 import pytest
 
-from bulinbot.core.utils.io import should_use_bundled_dashboard_dist
+from novabot.core.utils.io import should_use_bundled_dashboard_dist
 from main import check_dashboard_files, check_env
 
 
@@ -50,7 +50,7 @@ def test_check_env(monkeypatch):
     monkeypatch.setattr(sys, "version_info", version_info_correct)
     with mock.patch("os.makedirs") as mock_makedirs:
         check_env()
-        # check_env uses get_bulinbot_*_path() which returns absolute paths,
+        # check_env uses get_novabot_*_path() which returns absolute paths,
         # so just verify makedirs was called the expected number of times
         assert mock_makedirs.call_count >= 4
         # Verify all calls used exist_ok=True
@@ -63,45 +63,45 @@ def test_check_env(monkeypatch):
 
 
 def test_check_env_appends_user_site_packages_after_runtime_paths(monkeypatch):
-    bulinbot_root = "/tmp/bulinbot-root"
-    site_packages_path = "/tmp/bulinbot-site-packages"
+    novabot_root = "/tmp/novabot-root"
+    site_packages_path = "/tmp/novabot-site-packages"
     original_sys_path = list(sys.path)
 
     monkeypatch.setattr(sys, "version_info", _version_info(3, 12))
-    monkeypatch.setattr("main.get_bulinbot_root", lambda: bulinbot_root)
+    monkeypatch.setattr("main.get_novabot_root", lambda: novabot_root)
     monkeypatch.setattr(
-        "main.get_bulinbot_site_packages_path", lambda: site_packages_path
+        "main.get_novabot_site_packages_path", lambda: site_packages_path
     )
-    monkeypatch.setattr("main.get_bulinbot_config_path", lambda: "/tmp/config")
-    monkeypatch.setattr("main.get_bulinbot_plugin_path", lambda: "/tmp/plugins")
-    monkeypatch.setattr("main.get_bulinbot_temp_path", lambda: "/tmp/temp")
-    monkeypatch.setattr("main.get_bulinbot_knowledge_base_path", lambda: "/tmp/kb")
+    monkeypatch.setattr("main.get_novabot_config_path", lambda: "/tmp/config")
+    monkeypatch.setattr("main.get_novabot_plugin_path", lambda: "/tmp/plugins")
+    monkeypatch.setattr("main.get_novabot_temp_path", lambda: "/tmp/temp")
+    monkeypatch.setattr("main.get_novabot_knowledge_base_path", lambda: "/tmp/kb")
     monkeypatch.setattr(sys, "path", ["/runtime/lib", *original_sys_path])
 
     with mock.patch("os.makedirs"):
         check_env()
 
-    assert sys.path[0] == bulinbot_root
+    assert sys.path[0] == novabot_root
     assert sys.path[-1] == site_packages_path
     assert sys.path.index(site_packages_path) > sys.path.index("/runtime/lib")
 
 
 def test_check_env_does_not_append_duplicate_user_site_packages(monkeypatch):
-    bulinbot_root = "/tmp/bulinbot-root"
-    site_packages_path = "/tmp/bulinbot-site-packages"
+    novabot_root = "/tmp/novabot-root"
+    site_packages_path = "/tmp/novabot-site-packages"
     original_sys_path = list(sys.path)
 
     monkeypatch.setattr(sys, "version_info", _version_info(3, 12))
-    monkeypatch.setattr("main.get_bulinbot_root", lambda: bulinbot_root)
+    monkeypatch.setattr("main.get_novabot_root", lambda: novabot_root)
     monkeypatch.setattr(
-        "main.get_bulinbot_site_packages_path", lambda: site_packages_path
+        "main.get_novabot_site_packages_path", lambda: site_packages_path
     )
-    monkeypatch.setattr("main.get_bulinbot_config_path", lambda: "/tmp/config")
-    monkeypatch.setattr("main.get_bulinbot_plugin_path", lambda: "/tmp/plugins")
-    monkeypatch.setattr("main.get_bulinbot_temp_path", lambda: "/tmp/temp")
-    monkeypatch.setattr("main.get_bulinbot_knowledge_base_path", lambda: "/tmp/kb")
+    monkeypatch.setattr("main.get_novabot_config_path", lambda: "/tmp/config")
+    monkeypatch.setattr("main.get_novabot_plugin_path", lambda: "/tmp/plugins")
+    monkeypatch.setattr("main.get_novabot_temp_path", lambda: "/tmp/temp")
+    monkeypatch.setattr("main.get_novabot_knowledge_base_path", lambda: "/tmp/kb")
     monkeypatch.setattr(
-        sys, "path", [bulinbot_root, *original_sys_path, site_packages_path]
+        sys, "path", [novabot_root, *original_sys_path, site_packages_path]
     )
 
     with mock.patch("os.makedirs"):
@@ -197,7 +197,7 @@ def test_should_use_bundled_dashboard_dist_when_data_dist_is_stale(tmp_path):
     (bundled_dist / "assets" / "version").write_text("v4.24.4", encoding="utf-8")
 
     with mock.patch(
-        "bulinbot.core.utils.io.get_bundled_dashboard_dist_path",
+        "novabot.core.utils.io.get_bundled_dashboard_dist_path",
         return_value=bundled_dist,
     ):
         assert should_use_bundled_dashboard_dist(user_dist, "v4.24.4") is True
@@ -211,7 +211,7 @@ def test_should_keep_data_dist_when_version_file_is_malformed(tmp_path):
     (user_dist / "assets" / "version").write_text("not-a-version", encoding="utf-8")
 
     with mock.patch(
-        "bulinbot.core.utils.io.get_bundled_dashboard_dist_path",
+        "novabot.core.utils.io.get_bundled_dashboard_dist_path",
         return_value=bundled_dist,
     ):
         assert should_use_bundled_dashboard_dist(user_dist, "4.24.4") is False
@@ -228,7 +228,7 @@ async def test_check_dashboard_files_uses_bundled_dist_when_data_dist_is_stale(
     data_dist.mkdir(parents=True)
     bundled_dist.mkdir()
 
-    with mock.patch("main.get_bulinbot_data_path", return_value=str(data_dir)):
+    with mock.patch("main.get_novabot_data_path", return_value=str(data_dir)):
         with mock.patch(
             "main.get_dashboard_version", mock.AsyncMock(return_value="v0.0.1")
         ):

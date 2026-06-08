@@ -4,19 +4,19 @@
 
 ### Encountering 404 Error When Opening the Dashboard
 
-Download `BulinBot-vxxxxx-dashboard.zip` from the [release](https://github.com/BulinBotDevs/BulinBot/releases) page, extract it, and move it to `BulinBot/data`. If it still doesn't work, try restarting your computer (based on community feedback).
+Download `NovaBot-vxxxxx-dashboard.zip` from the [release](https://github.com/NovaBotDevs/NovaBot/releases) page, extract it, and move it to `NovaBot/data`. If it still doesn't work, try restarting your computer (based on community feedback).
 
 ### First Login Account and Random Password
 
-On first startup, the WebUI account is `bulinbot` by default, and the default password is randomly generated (it is not a fixed hardcoded value). Check the startup logs and log in with the random initial password shown there:
+On first startup, the WebUI account is `nova-bot` by default, and the default password is randomly generated (it is not a fixed hardcoded value). Check the startup logs and log in with the random initial password shown there:
 
 ```text
 [00:27:40.590] [Core] [INFO] [dashboard.server:523]:
  ✨✨✨
-  BulinBot v4.24.3 WebUI is ready
+  NovaBot v4.24.3 WebUI is ready
 
    ➜  Local: http://localhost:6185
-   ➜  Initial username: bulinbot
+   ➜  Initial username: nova-bot
    ➜  Initial password: UiYVpZxnW8k22IWqf0ru5pOy
    ➜  Change it after logging in
  ✨✨✨
@@ -27,12 +27,12 @@ Set dashboard.host in data/cmd_config.json to enable remote access.
 
 ### Forgot Dashboard Password
 
-If you forgot your BulinBot dashboard password, find the `"dashboard"` field in `BulinBot/data/cmd_config.json`, for example:
+If you forgot your NovaBot dashboard password, find the `"dashboard"` field in `NovaBot/data/cmd_config.json`, for example:
 
 ```json
   "dashboard": {
     "enable": true,
-    "username": "bulinbot",
+    "username": "nova-bot",
     "password": "81e0c3dxxxxxxxxxxx78862e78",
     "pbkdf2_password": "pbkdf2_sha256$600000$1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
     "password_storage_upgraded": true,
@@ -68,31 +68,31 @@ The segment should look like:
   },
 ```
 
-After restart, BulinBot will automatically generate a random password with the fixed username `bulinbot`; check the startup logs.
+After restart, NovaBot will automatically generate a random password with the fixed username `nova-bot`; check the startup logs.
 
-### Correct Password Cannot Log In After Upgrading BulinBot
+### Correct Password Cannot Log In After Upgrading NovaBot
 
-If you are sure the dashboard password is correct but still cannot log in after upgrading BulinBot, the old WebUI static files may be incompatible with the newer backend.
+If you are sure the dashboard password is correct but still cannot log in after upgrading NovaBot, the old WebUI static files may be incompatible with the newer backend.
 
 Solution:
 
-1. Stop BulinBot.
-2. Delete the `dist` folder under BulinBot's `data` directory: `BulinBot/data/dist`.
-3. Restart BulinBot.
+1. Stop NovaBot.
+2. Delete the `dist` folder under NovaBot's `data` directory: `NovaBot/data/dist`.
+3. Restart NovaBot.
 4. Access the dashboard in your browser. Press `Ctrl+Shift+R` or `Ctrl+F5` (or `Cmd+Shift+R` on macOS) to force refresh the page.
 
-After restart, BulinBot will reload or download WebUI files that match the current version.
+After restart, NovaBot will reload or download WebUI files that match the current version.
 
 ## Bot Core Related
 
-### How to Let BulinBot Control My Mac / Windows / Linux Computer?
+### How to Let NovaBot Control My Mac / Windows / Linux Computer?
 
-1. In BulinBot WebUI's `Config -> General Config`, find `Use Computer Capabilities`, and select `local` for the runtime environment.
+1. In NovaBot WebUI's `Config -> General Config`, find `Use Computer Capabilities`, and select `local` for the runtime environment.
 2. In `Config -> Other Config`, find `Admin ID List`, and add your user ID (you can get it through the `/sid` command).
 
 > [!TIP]
-> For security reasons, when runtime environment is set to `local`, BulinBot only allows BulinBot administrators to use computer capabilities by default.
-> You can select `sandbox` for the runtime environment, which allows all users to use computer capabilities (in an isolated sandbox). For more details, see [BulinBot Sandbox Environment](/en/use/bulinbot-agent-sandbox.md)
+> For security reasons, when runtime environment is set to `local`, NovaBot only allows NovaBot administrators to use computer capabilities by default.
+> You can select `sandbox` for the runtime environment, which allows all users to use computer capabilities (in an isolated sandbox). For more details, see [NovaBot Sandbox Environment](/en/use/nova-bot-agent-sandbox.md)
 
 ### Bot Cannot Chat in Group Conversations
 
@@ -104,7 +104,7 @@ After restart, BulinBot will reload or download WebUI files that match the curre
 
 ### Chinese Characters Garbled When Locally Rendering Markdown Images (t2i)
 
-You can customize the font. See details -> [#957](https://github.com/BulinBotDevs/BulinBot/issues/957#issuecomment-2749981802)
+You can customize the font. See details -> [#957](https://github.com/NovaBotDevs/NovaBot/issues/957#issuecomment-2749981802)
 
 Recommended font: [Maple Mono](https://github.com/subframe7536/maple-font).
 
@@ -129,7 +129,7 @@ This is because the provider's API returned empty text. Try the following steps:
 
 ![image](https://files.bulinbot.app/docs/source/images/faq/image.png)
 
-This is because the plugin's dependencies were not installed properly. Normally, BulinBot automatically installs plugin dependencies after installing the plugin, but installation may fail in the following situations:
+This is because the plugin's dependencies were not installed properly. Normally, NovaBot automatically installs plugin dependencies after installing the plugin, but installation may fail in the following situations:
 
 1. Network issues preventing dependency downloads
 2. Plugin author did not include a `requirements.txt` file
@@ -137,7 +137,7 @@ This is because the plugin's dependencies were not installed properly. Normally,
 
 Solution:
 
-Based on the error message, refer to the plugin's README to manually install dependencies. You can install dependencies in the BulinBot WebUI under `Console` -> `Install Pip Package`.
+Based on the error message, refer to the plugin's README to manually install dependencies. You can install dependencies in the NovaBot WebUI under `Console` -> `Install Pip Package`.
 
 ![image](https://files.bulinbot.app/docs/source/images/faq/image-1.png)
 

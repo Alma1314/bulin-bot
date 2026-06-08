@@ -108,7 +108,7 @@
                           {{ tm("dialog.viewTutorial") }}
                         </v-btn>
                       </div>
-                      <BulinBotConfig
+                      <NovaBotConfig
                         :iterable="selectedPlatformConfig"
                         :metadata="metadata['platform_group']?.metadata"
                         metadataKey="platform"
@@ -162,7 +162,7 @@
                           {{ tm("dialog.viewTutorial") }}
                         </v-btn>
                       </div>
-                      <BulinBotConfig
+                      <NovaBotConfig
                         :iterable="selectedPlatformConfig"
                         :metadata="metadata['platform_group']?.metadata"
                         metadataKey="platform"
@@ -195,7 +195,7 @@
                         {{ tm("dialog.viewTutorial") }}
                       </v-btn>
                     </div>
-                    <BulinBotConfig
+                    <NovaBotConfig
                       :iterable="selectedPlatformConfig"
                       :metadata="metadata['platform_group']?.metadata"
                       metadataKey="platform"
@@ -217,7 +217,7 @@
                 ></v-text-field>
                 <div class="mt-3">
                   <div class="mt-2">
-                    <BulinBotConfig
+                    <NovaBotConfig
                       :iterable="updatingPlatformConfig"
                       :metadata="metadata['platform_group']?.metadata"
                       metadataKey="platform"
@@ -341,7 +341,7 @@
                   </div>
                   <div v-else-if="selectedConfigData && selectedConfigMetadata" class="config-preview-container">
                     <h4 class="mb-3">配置文件预览</h4>
-                    <BulinBotCoreConfigWrapper :metadata="selectedConfigMetadata" :config_data="selectedConfigData"
+                    <NovaBotCoreConfigWrapper :metadata="selectedConfigMetadata" :config_data="selectedConfigData"
                       readonly="true" />
                   </div>
                   <div v-else class="text-center py-4 text-grey">
@@ -368,7 +368,7 @@
                     <h4 class="mb-3">
                       {{ tm("createDialog.newConfigTitle") }}
                     </h4>
-                    <BulinBotCoreConfigWrapper
+                    <NovaBotCoreConfigWrapper
                       :metadata="newConfigMetadata"
                       :config_data="newConfigData"
                     />
@@ -667,7 +667,7 @@
         <p>{{ tm("dialog.securityWarning.aiocqhttpTokenMissing") }}</p>
         <span
           ><a
-            href="https://docs.bulinbot.app/platform/aiocqhttp.html"
+            href="https://docs.nova-bot.app/platform/aiocqhttp.html"
             target="_blank"
             >{{ tm("dialog.securityWarning.learnMore") }}</a
           ></span
@@ -733,8 +733,8 @@ import {
   getPlatformDescription,
   getTutorialLink,
 } from "@/utils/platformUtils";
-import BulinBotConfig from "@/components/shared/BulinBotConfig.vue";
-import BulinBotCoreConfigWrapper from "@/components/config/BulinBotCoreConfigWrapper.vue";
+import NovaBotConfig from "@/components/shared/NovaBotConfig.vue";
+import NovaBotCoreConfigWrapper from "@/components/config/NovaBotCoreConfigWrapper.vue";
 import ConfigPage from "@/views/ConfigPage.vue";
 import PlatformRegistrationAction from "@/components/platform/PlatformRegistrationAction.vue";
 import UmoDisplay from "@/components/shared/UmoDisplay.vue";
@@ -742,8 +742,8 @@ import UmoDisplay from "@/components/shared/UmoDisplay.vue";
 export default {
   name: "AddNewPlatform",
   components: {
-    BulinBotConfig,
-    BulinBotCoreConfigWrapper,
+    NovaBotConfig,
+    NovaBotCoreConfigWrapper,
     ConfigPage,
     PlatformRegistrationAction,
     UmoDisplay,

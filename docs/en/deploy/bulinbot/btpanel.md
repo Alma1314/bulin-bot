@@ -1,8 +1,8 @@
-# Deploy BulinBot on BT Panel
+# Deploy NovaBot on BT Panel
 
 [BT Panel](https://www.bt.cn/new/index.html) is a secure, efficient, and production-ready Linux/Windows server operation panel.
 
-BulinBot has been published to BT Panel's Docker App Store, supporting one-click installation.
+NovaBot has been published to BT Panel's Docker App Store, supporting one-click installation.
 
 ## Install BT Panel
 
@@ -14,24 +14,24 @@ After entering the BT Panel page, click `Docker` on the left sidebar, click Sett
 
 ![alt text](https://files.bulinbot.app/docs/source/images/btpanel/image-1.png)
 
-## Install BulinBot
+## Install NovaBot
 
-Go to Docker's App Store and search for `BulinBot`, as shown below.
+Go to Docker's App Store and search for `NovaBot`, as shown below.
 
 ![image](https://files.bulinbot.app/docs/source/images/btpanel/image.png)
 
 Click Install and wait for the installation to complete.
 
-After successful installation, click `Security` on the left sidebar and open the corresponding BulinBot port (default is 6185).
+After successful installation, click `Security` on the left sidebar and open the corresponding NovaBot port (default is 6185).
 
 If you are using cloud servers from providers like AWS, Alibaba Cloud, Tencent Cloud, etc., make sure their security groups also allow the corresponding port.
 
-## Access BulinBot
+## Access NovaBot
 
-Visit `http://IP:6185` to access the BulinBot dashboard.
+Visit `http://IP:6185` to access the NovaBot dashboard.
 
 > [!TIP]
-> By default, the above method only opens port 6185. If you need to deploy messaging platforms, you need to additionally open the corresponding ports. Click `Container` in the top bar, find the BulinBot container, click `Manage`, click `Edit Container`, and add the corresponding ports.
+> By default, the above method only opens port 6185. If you need to deploy messaging platforms, you need to additionally open the corresponding ports. Click `Container` in the top bar, find the NovaBot container, click `Manage`, click `Edit Container`, and add the corresponding ports.
 >
 > ![image](https://files.bulinbot.app/docs/source/images/btpanel/image-2.png)
 >
@@ -39,7 +39,7 @@ Visit `http://IP:6185` to access the BulinBot dashboard.
 >
 >| Port    | Description | Type
 >| -------- | ------- | ------- |
->| 6185 |  BulinBot WebUI `default` port  | Required |
+>| 6185 |  NovaBot WebUI `default` port  | Required |
 >| 6195 | WeCom `default` port    | Optional |
 >| 6199 | QQ Personal Account(aiocqhttp) `default` port    | Optional |
 >| 6196    | QQ Official API(Webhook) `default` port   | Optional |

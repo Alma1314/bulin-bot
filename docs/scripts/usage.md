@@ -1,7 +1,7 @@
 ```bash
 bash scripts/upload-doc-images-to-r2.sh \
-    --remote bulinbot-docs-s3 \
-    --bucket bulinbot \
+    --remote nova-bot-docs-s3 \
+    --bucket nova-bot \
     --prefix docs \
     --rewrite-markdown \
     --public-base-url https://files.bulinbot.app

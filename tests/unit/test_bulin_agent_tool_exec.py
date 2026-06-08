@@ -3,9 +3,9 @@ from types import SimpleNamespace
 import mcp
 import pytest
 
-from bulinbot.core.agent.run_context import ContextWrapper
-from bulinbot.core.bulin_agent_tool_exec import FunctionToolExecutor
-from bulinbot.core.message.components import Image
+from novabot.core.agent.run_context import ContextWrapper
+from novabot.core.bulin_agent_tool_exec import FunctionToolExecutor
+from novabot.core.message.components import Image
 
 
 class _DummyEvent:
@@ -207,7 +207,7 @@ async def test_execute_handoff_skips_renormalize_when_image_urls_prepared(
     )
 
     monkeypatch.setattr(
-        "bulinbot.core.bulin_agent_tool_exec.normalize_and_dedupe_strings", _boom
+        "novabot.core.bulin_agent_tool_exec.normalize_and_dedupe_strings", _boom
     )
 
     results = []
@@ -229,14 +229,14 @@ async def test_collect_handoff_image_urls_keeps_extensionless_existing_event_fil
     monkeypatch: pytest.MonkeyPatch,
 ):
     async def _fake_convert_to_file_path(self):
-        return "/tmp/bulinbot-handoff-image"
+        return "/tmp/novabot-handoff-image"
 
     monkeypatch.setattr(Image, "convert_to_file_path", _fake_convert_to_file_path)
     monkeypatch.setattr(
-        "bulinbot.core.bulin_agent_tool_exec.get_bulinbot_temp_path", lambda: "/tmp"
+        "novabot.core.bulin_agent_tool_exec.get_novabot_temp_path", lambda: "/tmp"
     )
     monkeypatch.setattr(
-        "bulinbot.core.utils.image_ref_utils.os.path.exists", lambda _: True
+        "novabot.core.utils.image_ref_utils.os.path.exists", lambda _: True
     )
 
     run_context = _build_run_context([Image(file="file:///tmp/original.png")])
@@ -245,7 +245,7 @@ async def test_collect_handoff_image_urls_keeps_extensionless_existing_event_fil
         [],
     )
 
-    assert image_urls == ["/tmp/bulinbot-handoff-image"]
+    assert image_urls == ["/tmp/novabot-handoff-image"]
 
 
 @pytest.mark.asyncio
@@ -253,14 +253,14 @@ async def test_collect_handoff_image_urls_filters_extensionless_missing_event_fi
     monkeypatch: pytest.MonkeyPatch,
 ):
     async def _fake_convert_to_file_path(self):
-        return "/tmp/bulinbot-handoff-missing-image"
+        return "/tmp/novabot-handoff-missing-image"
 
     monkeypatch.setattr(Image, "convert_to_file_path", _fake_convert_to_file_path)
     monkeypatch.setattr(
-        "bulinbot.core.bulin_agent_tool_exec.get_bulinbot_temp_path", lambda: "/tmp"
+        "novabot.core.bulin_agent_tool_exec.get_novabot_temp_path", lambda: "/tmp"
     )
     monkeypatch.setattr(
-        "bulinbot.core.utils.image_ref_utils.os.path.exists", lambda _: False
+        "novabot.core.utils.image_ref_utils.os.path.exists", lambda _: False
     )
 
     run_context = _build_run_context([Image(file="file:///tmp/original.png")])
@@ -326,14 +326,14 @@ async def test_collect_handoff_image_urls_filters_extensionless_file_outside_tem
     monkeypatch: pytest.MonkeyPatch,
 ):
     async def _fake_convert_to_file_path(self):
-        return "/var/tmp/bulinbot-handoff-image"
+        return "/var/tmp/novabot-handoff-image"
 
     monkeypatch.setattr(Image, "convert_to_file_path", _fake_convert_to_file_path)
     monkeypatch.setattr(
-        "bulinbot.core.bulin_agent_tool_exec.get_bulinbot_temp_path", lambda: "/tmp"
+        "novabot.core.bulin_agent_tool_exec.get_novabot_temp_path", lambda: "/tmp"
     )
     monkeypatch.setattr(
-        "bulinbot.core.utils.image_ref_utils.os.path.exists", lambda _: True
+        "novabot.core.utils.image_ref_utils.os.path.exists", lambda _: True
     )
 
     run_context = _build_run_context([Image(file="file:///tmp/original.png")])

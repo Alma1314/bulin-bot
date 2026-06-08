@@ -1,6 +1,6 @@
 # Connecting to Discord
 
-## Create BulinBot Discord Platform Adapter
+## Create NovaBot Discord Platform Adapter
 
 Navigate to the messaging platform, click to add a new adapter, find Discord and click to enter the Discord configuration page.
 
@@ -13,7 +13,7 @@ Navigate to the messaging platform, click to add a new adapter, find Discord and
 - Enable: Check to enable this adapter
 - Bot Token: Token obtained after creating an App in Discord (see below)
 - Discord Proxy Address: If you need to use a proxy to access Discord, you can enter the proxy address here (optional)
-- Auto-register Plugin Commands as Discord Slash Commands: When checked, BulinBot will automatically register commands from installed plugins as Discord slash commands for user convenience.
+- Auto-register Plugin Commands as Discord Slash Commands: When checked, NovaBot will automatically register commands from installed plugins as Discord slash commands for user convenience.
 
 ## Create an App in Discord
 
@@ -73,4 +73,4 @@ In the admin panel's "Configuration" page, find `Platform Specific -> Discord ->
 
 - If you're stuck at the final step and the bot is not online, please ensure your server can directly connect to Discord
 
-If you have any questions, please [submit an Issue](https://github.com/BulinBotDevs/BulinBot/issues).
+If you have any questions, please [submit an Issue](https://github.com/NovaBotDevs/NovaBot/issues).

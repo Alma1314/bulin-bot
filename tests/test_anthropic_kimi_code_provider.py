@@ -2,10 +2,10 @@ import builtins
 
 import pytest
 
-import bulinbot.core.provider.sources.anthropic_source as anthropic_source
-import bulinbot.core.provider.sources.kimi_code_source as kimi_code_source
-from bulinbot.core.exceptions import EmptyModelOutputError
-from bulinbot.core.provider.entities import LLMResponse
+import novabot.core.provider.sources.anthropic_source as anthropic_source
+import novabot.core.provider.sources.kimi_code_source as kimi_code_source
+from novabot.core.exceptions import EmptyModelOutputError
+from novabot.core.provider.entities import LLMResponse
 
 
 class _FakeAsyncAnthropic:
@@ -261,7 +261,7 @@ def test_prepare_payload_merges_consecutive_tool_results_into_single_user_messag
                         "type": "function",
                         "id": "call_00",
                         "function": {
-                            "name": "bulinbot_file_read_tool",
+                            "name": "novabot_file_read_tool",
                             "arguments": '{"path": "/tmp/one.txt"}',
                         },
                     },
@@ -269,7 +269,7 @@ def test_prepare_payload_merges_consecutive_tool_results_into_single_user_messag
                         "type": "function",
                         "id": "call_01",
                         "function": {
-                            "name": "bulinbot_file_read_tool",
+                            "name": "novabot_file_read_tool",
                             "arguments": '{"path": "/tmp/two.txt"}',
                         },
                     },
@@ -309,7 +309,7 @@ def test_prepare_payload_keeps_single_tool_result_as_single_user_message():
                         "type": "function",
                         "id": "call_00",
                         "function": {
-                            "name": "bulinbot_file_read_tool",
+                            "name": "novabot_file_read_tool",
                             "arguments": '{"path": "/tmp/one.txt"}',
                         },
                     }
@@ -345,7 +345,7 @@ def test_prepare_payload_does_not_merge_non_consecutive_tool_results():
                         "type": "function",
                         "id": "call_00",
                         "function": {
-                            "name": "bulinbot_file_read_tool",
+                            "name": "novabot_file_read_tool",
                             "arguments": '{"path": "/tmp/one.txt"}',
                         },
                     }
@@ -364,7 +364,7 @@ def test_prepare_payload_does_not_merge_non_consecutive_tool_results():
                         "type": "function",
                         "id": "call_01",
                         "function": {
-                            "name": "bulinbot_file_read_tool",
+                            "name": "novabot_file_read_tool",
                             "arguments": '{"path": "/tmp/two.txt"}',
                         },
                     }
@@ -385,7 +385,7 @@ def test_prepare_payload_does_not_merge_non_consecutive_tool_results():
                 {"type": "text", "text": "First tool"},
                 {
                     "type": "tool_use",
-                    "name": "bulinbot_file_read_tool",
+                    "name": "novabot_file_read_tool",
                     "input": {"path": "/tmp/one.txt"},
                     "id": "call_00",
                 },
@@ -403,7 +403,7 @@ def test_prepare_payload_does_not_merge_non_consecutive_tool_results():
                 {"type": "text", "text": "Second tool"},
                 {
                     "type": "tool_use",
-                    "name": "bulinbot_file_read_tool",
+                    "name": "novabot_file_read_tool",
                     "input": {"path": "/tmp/two.txt"},
                     "id": "call_01",
                 },

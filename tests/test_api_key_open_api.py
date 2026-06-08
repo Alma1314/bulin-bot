@@ -8,15 +8,15 @@ import pytest_asyncio
 from quart import Quart, g, request
 from werkzeug.datastructures import FileStorage
 
-from bulinbot.core import LogBroker
-from bulinbot.core.core_lifecycle import BulinBotCoreLifecycle
-from bulinbot.core.db.sqlite import SQLiteDatabase
-from bulinbot.core.utils.auth_password import (
+from novabot.core import LogBroker
+from novabot.core.core_lifecycle import NovaBotCoreLifecycle
+from novabot.core.db.sqlite import SQLiteDatabase
+from novabot.core.utils.auth_password import (
     hash_dashboard_password,
     hash_legacy_dashboard_password,
 )
-from bulinbot.dashboard.routes.route import Response
-from bulinbot.dashboard.server import BulinBotDashboard
+from novabot.dashboard.routes.route import Response
+from novabot.dashboard.server import NovaBotDashboard
 
 _TEST_DASHBOARD_PASSWORD = "BulinbotTest123"
 
@@ -58,19 +58,19 @@ async def core_lifecycle_td(tmp_path_factory):
     tmp_db_path = tmp_path_factory.mktemp("data") / "test_data_api_key.db"
     db = SQLiteDatabase(str(tmp_db_path))
     log_broker = LogBroker()
-    core_lifecycle = BulinBotCoreLifecycle(log_broker, db)
+    core_lifecycle = NovaBotCoreLifecycle(log_broker, db)
     await core_lifecycle.initialize()
     generated_password = getattr(
-        core_lifecycle.bulinbot_config,
+        core_lifecycle.novabot_config,
         "_generated_dashboard_password",
         None,
     )
     dashboard_password = generated_password or _TEST_DASHBOARD_PASSWORD
     if not generated_password:
-        core_lifecycle.bulinbot_config["dashboard"]["pbkdf2_password"] = (
+        core_lifecycle.novabot_config["dashboard"]["pbkdf2_password"] = (
             hash_dashboard_password(dashboard_password)
         )
-        core_lifecycle.bulinbot_config["dashboard"]["password"] = (
+        core_lifecycle.novabot_config["dashboard"]["password"] = (
             hash_legacy_dashboard_password(dashboard_password)
         )
     object.__setattr__(
@@ -90,29 +90,29 @@ async def core_lifecycle_td(tmp_path_factory):
 
 
 @pytest.fixture(scope="module")
-def app(core_lifecycle_td: BulinBotCoreLifecycle):
+def app(core_lifecycle_td: NovaBotCoreLifecycle):
     shutdown_event = asyncio.Event()
-    server = BulinBotDashboard(core_lifecycle_td, core_lifecycle_td.db, shutdown_event)
+    server = NovaBotDashboard(core_lifecycle_td, core_lifecycle_td.db, shutdown_event)
     return server.app
 
 
-def _resolve_dashboard_password(core_lifecycle_td: BulinBotCoreLifecycle) -> str:
+def _resolve_dashboard_password(core_lifecycle_td: NovaBotCoreLifecycle) -> str:
     generated_password = getattr(core_lifecycle_td, "_dashboard_plain_password", None)
     if generated_password:
         return generated_password
-    password = core_lifecycle_td.bulinbot_config["dashboard"]["pbkdf2_password"]
+    password = core_lifecycle_td.novabot_config["dashboard"]["pbkdf2_password"]
     if isinstance(password, str) and password.startswith("pbkdf2_sha256$"):
-        return "bulinbot"
+        return "novabot"
     return password
 
 
 @pytest_asyncio.fixture(scope="module")
-async def authenticated_header(app: Quart, core_lifecycle_td: BulinBotCoreLifecycle):
+async def authenticated_header(app: Quart, core_lifecycle_td: NovaBotCoreLifecycle):
     test_client = app.test_client()
     response = await test_client.post(
         "/api/auth/login",
         json={
-            "username": core_lifecycle_td.bulinbot_config["dashboard"]["username"],
+            "username": core_lifecycle_td.novabot_config["dashboard"]["username"],
             "password": _resolve_dashboard_password(core_lifecycle_td),
         },
     )
@@ -204,7 +204,7 @@ async def test_open_send_message_with_api_key(app: Quart, authenticated_header: 
 async def test_open_chat_send_auto_session_id_and_username(
     app: Quart,
     authenticated_header: dict,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
 ):
     test_client = app.test_client()
 
@@ -295,7 +295,7 @@ async def test_open_chat_send_auto_session_id_and_username(
 async def test_open_chat_sessions_pagination(
     app: Quart,
     authenticated_header: dict,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
 ):
     test_client = app.test_client()
 
@@ -434,7 +434,7 @@ async def test_open_api_auth_validation_and_key_carriers(
 async def test_open_chat_send_conversation_alias_and_blank_username(
     app: Quart,
     authenticated_header: dict,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
     monkeypatch: pytest.MonkeyPatch,
 ):
     test_client = app.test_client()
@@ -634,7 +634,7 @@ async def test_open_chat_send_config_resolution(
 async def test_open_chat_sessions_input_validation_and_filtering(
     app: Quart,
     authenticated_header: dict,
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
 ):
     test_client = app.test_client()
     raw_key, _ = await _create_api_key(

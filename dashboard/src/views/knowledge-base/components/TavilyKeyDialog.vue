@@ -89,7 +89,7 @@ const saveKey = async () => {
     currentConfig.provider_settings.websearch_provider = 'tavily'
 
     // 3. 保存整个配置
-    const saveResponse = await axios.post('/api/config/bulinbot/update', {
+    const saveResponse = await axios.post('/api/config/nova-bot/update', {
       conf_id: 'default',
       config: currentConfig
     })

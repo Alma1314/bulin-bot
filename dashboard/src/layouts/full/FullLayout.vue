@@ -12,7 +12,7 @@ import { useRouterLoadingStore } from "@/stores/routerLoading";
 import { useCommonStore } from "@/stores/common";
 import { useI18n } from "@/i18n/composables";
 
-const FIRST_NOTICE_SEEN_KEY = "bulinbot:first_notice_seen:v1";
+const FIRST_NOTICE_SEEN_KEY = "nova-bot:first_notice_seen:v1";
 
 const customizer = useCustomizerStore();
 const commonStore = useCommonStore();
@@ -45,7 +45,7 @@ const checkMigration = async (): Promise<boolean> => {
   try {
     const response = await axios.get("/api/stat/version");
     if (response.data.status === "ok") {
-      commonStore.setBulinBotVersion(
+      commonStore.setNovaBotVersion(
         response.data.data?.version,
         response.data.data?.dashboard_version,
       );

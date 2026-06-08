@@ -2,28 +2,28 @@
 outline: deep
 ---
 
-# 👋 I'm BulinBot
+# 👋 I'm NovaBot
 
 ## Introduction
 
-BulinBot is an open-source, all-in-one Agentic assistant for personal and group chats. It can be deployed across dozens of mainstream instant messaging platforms, such as QQ, Telegram, WeCom, Lark, DingTalk, and Slack. It also includes a lightweight built-in ChatUI (similar to OpenWebUI), providing reliable and extensible conversational AI infrastructure for individuals, developers, and teams. Whether you are building a personal AI companion, an intelligent customer service assistant, an automation bot, or an enterprise knowledge base, BulinBot helps you build AI applications directly inside your IM workflows.
+NovaBot is an open-source, all-in-one Agentic assistant for personal and group chats. It can be deployed across dozens of mainstream instant messaging platforms, such as QQ, Telegram, WeCom, Lark, DingTalk, and Slack. It also includes a lightweight built-in ChatUI (similar to OpenWebUI), providing reliable and extensible conversational AI infrastructure for individuals, developers, and teams. Whether you are building a personal AI companion, an intelligent customer service assistant, an automation bot, or an enterprise knowledge base, NovaBot helps you build AI applications directly inside your IM workflows.
 
 ## Documentation Overview
 
 This documentation is divided into the following sections:
 
-- **Deployment**: multiple ways to quickly deploy BulinBot on local machines or cloud servers.
+- **Deployment**: multiple ways to quickly deploy NovaBot on local machines or cloud servers.
 - **Messaging Platform Integration**: integration guides for 18+ mainstream instant messaging platforms.
-- **AI Provider Integration**: connect to model providers, use BulinBot's built-in Agent Runner, or integrate third-party Agent Runner services such as Dify, Coze, Alibaba Bailian, and DeerFlow.
+- **AI Provider Integration**: connect to model providers, use NovaBot's built-in Agent Runner, or integrate third-party Agent Runner services such as Dify, Coze, Alibaba Bailian, and DeerFlow.
 - **Usage Guides**: practical guides for features such as plugins, tool calling, knowledge base, MCP, Skills, and Agent sandbox.
 
 ## Quick Start
 
-- Deploy BulinBot: Read the Deployment Guide to quickly deploy BulinBot on your local machine or cloud server.
-- Connect to IM platforms: Follow the instructions to connect BulinBot to your preferred IM platforms such as Discord, Telegram, Slack, etc.
-- Configure AI models: BulinBot supports various AI models. See [Connecting Model Services](/en/providers/start)
+- Deploy NovaBot: Read the Deployment Guide to quickly deploy NovaBot on your local machine or cloud server.
+- Connect to IM platforms: Follow the instructions to connect NovaBot to your preferred IM platforms such as Discord, Telegram, Slack, etc.
+- Configure AI models: NovaBot supports various AI models. See [Connecting Model Services](/en/providers/start)
 
 ## Notice
 
-1. BulinBot is a non-profit project under the BulinBotDevs organization, maintained by open-source contributors worldwide, and protected by the [AGPL-v3](https://www.chinasona.org/gnu/agpl-3.0-cn.html) license. If you modify BulinBot and use it to provide commercial network services, you must open-source your modifications. For details, contact [community@bulinbot.app](mailto:community@bulinbot.app).
-2. Before using this project, please read the End User License Agreement (EULA): [End User License Agreement](https://github.com/BulinBotDevs/BulinBot/blob/master/EULA.md). If you do not agree to any terms of the agreement, do not use this project.
+1. NovaBot is a non-profit project under the NovaBotDevs organization, maintained by open-source contributors worldwide, and protected by the [AGPL-v3](https://www.chinasona.org/gnu/agpl-3.0-cn.html) license. If you modify NovaBot and use it to provide commercial network services, you must open-source your modifications. For details, contact [community@nova-bot.app](mailto:community@nova-bot.app).
+2. Before using this project, please read the End User License Agreement (EULA): [End User License Agreement](https://github.com/NovaBotDevs/NovaBot/blob/master/EULA.md). If you do not agree to any terms of the agreement, do not use this project.

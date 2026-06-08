@@ -6,7 +6,7 @@ import { useModuleI18n } from "@/i18n/composables";
 import { usePluginI18n } from "@/utils/pluginI18n";
 import { useCustomizerStore } from "@/stores/customizer";
 
-const BRIDGE_CHANNEL = "bulinbot-plugin-page";
+const BRIDGE_CHANNEL = "novabot-plugin-page";
 
 const route = useRoute();
 const { tm } = useModuleI18n("features/extension");

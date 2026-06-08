@@ -5,17 +5,17 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from bulinbot.core import bulin_main_agent as ama
-from bulinbot.core.agent.mcp_client import MCPTool
-from bulinbot.core.agent.tool import FunctionTool, ToolSet
-from bulinbot.core.conversation_mgr import Conversation
-from bulinbot.core.message.components import File, Image, Plain, Reply, Video
-from bulinbot.core.platform.bulin_message_event import BulinMessageEvent
-from bulinbot.core.platform.platform_metadata import PlatformMetadata
-from bulinbot.core.provider import Provider
-from bulinbot.core.provider.entities import ProviderRequest
-from bulinbot.core.skills.skill_manager import SkillInfo
-from bulinbot.core.star.star import StarMetadata
+from novabot.core import bulin_main_agent as ama
+from novabot.core.agent.mcp_client import MCPTool
+from novabot.core.agent.tool import FunctionTool, ToolSet
+from novabot.core.conversation_mgr import Conversation
+from novabot.core.message.components import File, Image, Plain, Reply, Video
+from novabot.core.platform.bulin_message_event import BulinMessageEvent
+from novabot.core.platform.platform_metadata import PlatformMetadata
+from novabot.core.provider import Provider
+from novabot.core.provider.entities import ProviderRequest
+from novabot.core.skills.skill_manager import SkillInfo
+from novabot.core.star.star import StarMetadata
 
 
 @pytest.fixture
@@ -338,7 +338,7 @@ class TestApplyKb:
         )
 
         with patch(
-            "bulinbot.core.bulin_main_agent.retrieve_knowledge_base",
+            "novabot.core.bulin_main_agent.retrieve_knowledge_base",
             AsyncMock(return_value="KB result"),
         ):
             await module._apply_kb(mock_event, req, mock_context, config)
@@ -381,7 +381,7 @@ class TestApplyKb:
         )
         retrieve = AsyncMock(return_value="KB result")
 
-        with patch("bulinbot.core.bulin_main_agent.retrieve_knowledge_base", retrieve):
+        with patch("novabot.core.bulin_main_agent.retrieve_knowledge_base", retrieve):
             await module._apply_kb(mock_event, req, mock_context, config)
 
         retrieve.assert_not_awaited()
@@ -397,7 +397,7 @@ class TestApplyKb:
         )
 
         with patch(
-            "bulinbot.core.bulin_main_agent.retrieve_knowledge_base",
+            "novabot.core.bulin_main_agent.retrieve_knowledge_base",
             AsyncMock(return_value=None),
         ):
             await module._apply_kb(mock_event, req, mock_context, config)
@@ -509,7 +509,7 @@ class TestApplyFileExtract:
         req = ProviderRequest(prompt="Summarize")
 
         with patch(
-            "bulinbot.core.bulin_main_agent.extract_file_moonshotai"
+            "novabot.core.bulin_main_agent.extract_file_moonshotai"
         ) as mock_extract:
             mock_extract.return_value = "File content"
 
@@ -543,7 +543,7 @@ class TestApplyFileExtract:
         req = ProviderRequest(prompt="Summarize")
 
         with patch(
-            "bulinbot.core.bulin_main_agent.extract_file_moonshotai"
+            "novabot.core.bulin_main_agent.extract_file_moonshotai"
         ) as mock_extract:
             mock_extract.return_value = "Reply content"
 
@@ -563,7 +563,7 @@ class TestApplyFileExtract:
         req = ProviderRequest(prompt=None)
 
         with patch(
-            "bulinbot.core.bulin_main_agent.extract_file_moonshotai"
+            "novabot.core.bulin_main_agent.extract_file_moonshotai"
         ) as mock_extract:
             mock_extract.return_value = "Content"
 
@@ -603,12 +603,12 @@ class TestEnsurePersonaAndSkills:
             [
                 StarMetadata(
                     name="allowed_plugin",
-                    root_dir_name="bulinbot_plugin_allowed",
+                    root_dir_name="novabot_plugin_allowed",
                     activated=True,
                 ),
                 StarMetadata(
                     name="blocked_plugin",
-                    root_dir_name="bulinbot_plugin_blocked",
+                    root_dir_name="novabot_plugin_blocked",
                     activated=True,
                 ),
             ],
@@ -621,7 +621,7 @@ class TestEnsurePersonaAndSkills:
                 path="allowed/SKILL.md",
                 active=True,
                 source_type="plugin",
-                plugin_name="bulinbot_plugin_allowed",
+                plugin_name="novabot_plugin_allowed",
             ),
             SkillInfo(
                 name="blocked-skill",
@@ -629,7 +629,7 @@ class TestEnsurePersonaAndSkills:
                 path="blocked/SKILL.md",
                 active=True,
                 source_type="plugin",
-                plugin_name="bulinbot_plugin_blocked",
+                plugin_name="novabot_plugin_blocked",
             ),
         ]
 
@@ -650,7 +650,7 @@ class TestEnsurePersonaAndSkills:
             [
                 StarMetadata(
                     name="inactive_plugin",
-                    root_dir_name="bulinbot_plugin_inactive",
+                    root_dir_name="novabot_plugin_inactive",
                     activated=False,
                 )
             ],
@@ -662,7 +662,7 @@ class TestEnsurePersonaAndSkills:
                 path="inactive/SKILL.md",
                 active=True,
                 source_type="plugin",
-                plugin_name="bulinbot_plugin_inactive",
+                plugin_name="novabot_plugin_inactive",
             )
         ]
 
@@ -900,7 +900,7 @@ class TestPluginToolFix:
         req = ProviderRequest(func_tool=tool_set)
         mock_event.plugins_name = ["test_plugin"]
 
-        with patch("bulinbot.core.bulin_main_agent.star_map") as mock_star_map:
+        with patch("novabot.core.bulin_main_agent.star_map") as mock_star_map:
             mock_plugin = MagicMock()
             mock_plugin.name = "test_plugin"
             mock_plugin.reserved = False
@@ -924,7 +924,7 @@ class TestPluginToolFix:
         req = ProviderRequest(func_tool=tool_set)
         mock_event.plugins_name = ["other_plugin"]
 
-        with patch("bulinbot.core.bulin_main_agent.star_map"):
+        with patch("novabot.core.bulin_main_agent.star_map"):
             module._plugin_tool_fix(mock_event, req)
 
         assert "mcp_tool" in req.func_tool.names()
@@ -946,7 +946,7 @@ class TestPluginToolFix:
         req = ProviderRequest(func_tool=tool_set)
         mock_event.plugins_name = ["other_plugin"]
 
-        with patch("bulinbot.core.bulin_main_agent.star_map"):
+        with patch("novabot.core.bulin_main_agent.star_map"):
             module._plugin_tool_fix(mock_event, req)
 
         assert "transfer_to_demo_agent" in req.func_tool.names()
@@ -969,8 +969,8 @@ class TestBuildMainAgent:
         _setup_conversation_for_build(conv_mgr)
 
         with (
-            patch("bulinbot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
-            patch("bulinbot.core.bulin_main_agent.BulinAgentContext"),
+            patch("novabot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
+            patch("novabot.core.bulin_main_agent.BulinAgentContext"),
         ):
             mock_runner = MagicMock()
             mock_runner.reset = AsyncMock()
@@ -998,8 +998,8 @@ class TestBuildMainAgent:
         _setup_conversation_for_build(conv_mgr)
 
         with (
-            patch("bulinbot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
-            patch("bulinbot.core.bulin_main_agent.BulinAgentContext"),
+            patch("novabot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
+            patch("novabot.core.bulin_main_agent.BulinAgentContext"),
         ):
             mock_runner = MagicMock()
             mock_runner.reset = AsyncMock()
@@ -1048,8 +1048,8 @@ class TestBuildMainAgent:
         _setup_conversation_for_build(conv_mgr)
 
         with (
-            patch("bulinbot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
-            patch("bulinbot.core.bulin_main_agent.BulinAgentContext"),
+            patch("novabot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
+            patch("novabot.core.bulin_main_agent.BulinAgentContext"),
         ):
             mock_runner = MagicMock()
             mock_runner.reset = AsyncMock()
@@ -1103,8 +1103,8 @@ class TestBuildMainAgent:
         _setup_conversation_for_build(conv_mgr)
 
         with (
-            patch("bulinbot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
-            patch("bulinbot.core.bulin_main_agent.BulinAgentContext"),
+            patch("novabot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
+            patch("novabot.core.bulin_main_agent.BulinAgentContext"),
         ):
             mock_runner = MagicMock()
             mock_runner.reset = AsyncMock()
@@ -1141,8 +1141,8 @@ class TestBuildMainAgent:
         _setup_conversation_for_build(conv_mgr)
 
         with (
-            patch("bulinbot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
-            patch("bulinbot.core.bulin_main_agent.BulinAgentContext"),
+            patch("novabot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
+            patch("novabot.core.bulin_main_agent.BulinAgentContext"),
             patch.object(
                 Image,
                 "convert_to_file_path",
@@ -1206,8 +1206,8 @@ class TestBuildMainAgent:
         mock_context.get_config.return_value = {}
 
         with (
-            patch("bulinbot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
-            patch("bulinbot.core.bulin_main_agent.BulinAgentContext"),
+            patch("novabot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
+            patch("novabot.core.bulin_main_agent.BulinAgentContext"),
         ):
             mock_runner = MagicMock()
             mock_runner.reset = AsyncMock()
@@ -1258,8 +1258,8 @@ class TestBuildMainAgent:
         mock_context.get_config.return_value = {}
 
         with (
-            patch("bulinbot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
-            patch("bulinbot.core.bulin_main_agent.BulinAgentContext"),
+            patch("novabot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
+            patch("novabot.core.bulin_main_agent.BulinAgentContext"),
         ):
             mock_runner = MagicMock()
             mock_runner.reset = AsyncMock()
@@ -1303,8 +1303,8 @@ class TestBuildMainAgent:
         _setup_conversation_for_build(conv_mgr)
 
         with (
-            patch("bulinbot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
-            patch("bulinbot.core.bulin_main_agent.BulinAgentContext"),
+            patch("novabot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
+            patch("novabot.core.bulin_main_agent.BulinAgentContext"),
         ):
             mock_runner = MagicMock()
             mock_runner.reset = AsyncMock()
@@ -1344,8 +1344,8 @@ class TestBuildMainAgent:
         _setup_conversation_for_build(conv_mgr)
 
         with (
-            patch("bulinbot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
-            patch("bulinbot.core.bulin_main_agent.BulinAgentContext"),
+            patch("novabot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
+            patch("novabot.core.bulin_main_agent.BulinAgentContext"),
         ):
             mock_runner = MagicMock()
             mock_runner.reset = AsyncMock()
@@ -1392,9 +1392,9 @@ class TestBuildMainAgent:
             raise RuntimeError("quoted")
 
         with (
-            patch("bulinbot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
-            patch("bulinbot.core.bulin_main_agent.BulinAgentContext"),
-            patch("bulinbot.core.bulin_main_agent.logger") as mock_logger,
+            patch("novabot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
+            patch("novabot.core.bulin_main_agent.BulinAgentContext"),
+            patch("novabot.core.bulin_main_agent.logger") as mock_logger,
             patch.object(
                 Video,
                 "convert_to_file_path",
@@ -1464,8 +1464,8 @@ class TestBuildMainAgent:
         _setup_conversation_for_build(conv_mgr)
 
         with (
-            patch("bulinbot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
-            patch("bulinbot.core.bulin_main_agent.BulinAgentContext"),
+            patch("novabot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
+            patch("novabot.core.bulin_main_agent.BulinAgentContext"),
         ):
             mock_runner = MagicMock()
             mock_runner.reset = AsyncMock()
@@ -1495,8 +1495,8 @@ class TestBuildMainAgent:
         )
 
         with (
-            patch("bulinbot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
-            patch("bulinbot.core.bulin_main_agent.BulinAgentContext"),
+            patch("novabot.core.bulin_main_agent.AgentRunner") as mock_runner_cls,
+            patch("novabot.core.bulin_main_agent.BulinAgentContext"),
         ):
             mock_runner = MagicMock()
             mock_runner.reset = AsyncMock()
@@ -1532,7 +1532,7 @@ class TestHandleWebchat:
         mock_session = MagicMock()
         mock_session.display_name = None
 
-        with patch("bulinbot.core.db_helper") as mock_db:
+        with patch("novabot.core.db_helper") as mock_db:
             mock_db.get_platform_session_by_id = AsyncMock(return_value=mock_session)
             mock_db.update_platform_session = AsyncMock()
 
@@ -1558,7 +1558,7 @@ class TestHandleWebchat:
         mock_session = MagicMock()
         mock_session.display_name = None
 
-        with patch("bulinbot.core.db_helper") as mock_db:
+        with patch("novabot.core.db_helper") as mock_db:
             mock_db.get_platform_session_by_id = AsyncMock(return_value=mock_session)
             await module._handle_webchat(mock_event, req, prov)
 
@@ -1576,7 +1576,7 @@ class TestHandleWebchat:
         mock_session = MagicMock()
         mock_session.display_name = None
 
-        with patch("bulinbot.core.db_helper") as mock_db:
+        with patch("novabot.core.db_helper") as mock_db:
             mock_db.get_platform_session_by_id = AsyncMock(return_value=mock_session)
             await module._handle_webchat(mock_event, req, prov)
 
@@ -1594,7 +1594,7 @@ class TestHandleWebchat:
         mock_session = MagicMock()
         mock_session.display_name = "Existing Title"
 
-        with patch("bulinbot.core.db_helper") as mock_db:
+        with patch("novabot.core.db_helper") as mock_db:
             mock_db.get_platform_session_by_id = AsyncMock(return_value=mock_session)
 
             await module._handle_webchat(mock_event, req, prov)
@@ -1610,7 +1610,7 @@ class TestHandleWebchat:
         req = ProviderRequest(prompt="What is AI?")
         prov = MagicMock(spec=Provider)
 
-        with patch("bulinbot.core.db_helper") as mock_db:
+        with patch("novabot.core.db_helper") as mock_db:
             mock_db.get_platform_session_by_id = AsyncMock(return_value=None)
 
             await module._handle_webchat(mock_event, req, prov)
@@ -1632,7 +1632,7 @@ class TestHandleWebchat:
         mock_session = MagicMock()
         mock_session.display_name = None
 
-        with patch("bulinbot.core.db_helper") as mock_db:
+        with patch("novabot.core.db_helper") as mock_db:
             mock_db.get_platform_session_by_id = AsyncMock(return_value=mock_session)
             mock_db.update_platform_session = AsyncMock()
 
@@ -1655,7 +1655,7 @@ class TestHandleWebchat:
         mock_session = MagicMock()
         mock_session.display_name = None
 
-        with patch("bulinbot.core.db_helper") as mock_db:
+        with patch("novabot.core.db_helper") as mock_db:
             mock_db.get_platform_session_by_id = AsyncMock(return_value=mock_session)
             mock_db.update_platform_session = AsyncMock()
 
@@ -1676,7 +1676,7 @@ class TestHandleWebchat:
         mock_session = MagicMock()
         mock_session.display_name = None
 
-        with patch("bulinbot.core.db_helper") as mock_db:
+        with patch("novabot.core.db_helper") as mock_db:
             mock_db.get_platform_session_by_id = AsyncMock(return_value=mock_session)
             mock_db.update_platform_session = AsyncMock()
 
@@ -1699,7 +1699,7 @@ class TestHandleWebchat:
         mock_session = MagicMock()
         mock_session.display_name = None
 
-        with patch("bulinbot.core.db_helper") as mock_db:
+        with patch("novabot.core.db_helper") as mock_db:
             mock_db.get_platform_session_by_id = AsyncMock(return_value=mock_session)
             mock_db.update_platform_session = AsyncMock()
 
@@ -1722,7 +1722,7 @@ class TestHandleWebchat:
         mock_session = MagicMock()
         mock_session.display_name = None
 
-        with patch("bulinbot.core.db_helper") as mock_db:
+        with patch("novabot.core.db_helper") as mock_db:
             mock_db.get_platform_session_by_id = AsyncMock(return_value=mock_session)
             mock_db.update_platform_session = AsyncMock()
 
@@ -1747,8 +1747,8 @@ class TestHandleWebchat:
         mock_session.display_name = None
 
         with (
-            patch("bulinbot.core.db_helper") as mock_db,
-            patch("bulinbot.core.bulin_main_agent.logger") as mock_logger,
+            patch("novabot.core.db_helper") as mock_db,
+            patch("novabot.core.bulin_main_agent.logger") as mock_logger,
         ):
             mock_db.get_platform_session_by_id = AsyncMock(return_value=mock_session)
             mock_db.update_platform_session = AsyncMock()
@@ -1813,7 +1813,7 @@ class TestApplyLlmSafetyMode:
         )
         req = ProviderRequest(prompt="Test", system_prompt="Original")
 
-        with patch("bulinbot.core.bulin_main_agent.logger") as mock_logger:
+        with patch("novabot.core.bulin_main_agent.logger") as mock_logger:
             module._apply_llm_safety_mode(config, req)
 
         mock_logger.warning.assert_called_once()
@@ -1868,10 +1868,10 @@ class TestApplySandboxTools:
         module._apply_sandbox_tools(config, req, "session-123")
 
         tool_names = req.func_tool.names()
-        assert "bulinbot_execute_shell" in tool_names
-        assert "bulinbot_execute_ipython" in tool_names
-        assert "bulinbot_upload_file" in tool_names
-        assert "bulinbot_download_file" in tool_names
+        assert "novabot_execute_shell" in tool_names
+        assert "novabot_execute_ipython" in tool_names
+        assert "novabot_upload_file" in tool_names
+        assert "novabot_download_file" in tool_names
 
     def test_apply_sandbox_tools_adds_sandbox_prompt(self, mock_context):
         """Test that sandbox mode prompt is added to system_prompt."""
@@ -1901,18 +1901,18 @@ class TestApplySandboxTools:
 
         assert req.func_tool is not None
         tool_names = req.func_tool.names()
-        assert "bulinbot_cua_screenshot" in tool_names
-        assert "bulinbot_cua_mouse_click" in tool_names
-        assert "bulinbot_cua_keyboard_type" in tool_names
-        assert "bulinbot_cua_key_press" not in tool_names
+        assert "novabot_cua_screenshot" in tool_names
+        assert "novabot_cua_mouse_click" in tool_names
+        assert "novabot_cua_keyboard_type" in tool_names
+        assert "novabot_cua_key_press" not in tool_names
 
         assert "Firefox" in req.system_prompt
         assert "background=true" in req.system_prompt
         assert 'firefox "https://example.com"' in req.system_prompt
-        assert "bulinbot_cua_screenshot" in req.system_prompt
-        assert "bulinbot_cua_key_press" not in req.system_prompt
+        assert "novabot_cua_screenshot" in req.system_prompt
+        assert "novabot_cua_key_press" not in req.system_prompt
         assert "return_image_to_llm" in req.system_prompt
-        assert "bulinbot_execute_shell" in req.system_prompt
+        assert "novabot_execute_shell" in req.system_prompt
         assert "\\n" in req.system_prompt
         assert "send_to_user=true" in req.system_prompt
         assert "focused and empty or safe to append" in req.system_prompt
@@ -1953,7 +1953,7 @@ class TestApplySandboxTools:
         )
         req = ProviderRequest(prompt="Test", func_tool=None)
 
-        with patch("bulinbot.core.bulin_main_agent.logger") as mock_logger:
+        with patch("novabot.core.bulin_main_agent.logger") as mock_logger:
             module._apply_sandbox_tools(config, req, "session-123")
 
         mock_logger.error.assert_called_once()
@@ -1976,7 +1976,7 @@ class TestApplySandboxTools:
         )
         req = ProviderRequest(prompt="Test", func_tool=None)
 
-        with patch("bulinbot.core.bulin_main_agent.logger") as mock_logger:
+        with patch("novabot.core.bulin_main_agent.logger") as mock_logger:
             module._apply_sandbox_tools(config, req, "session-123")
 
         mock_logger.error.assert_called_once()
@@ -1998,7 +1998,7 @@ class TestApplySandboxTools:
         module._apply_sandbox_tools(config, req, "session-123")
 
         assert "existing_tool" in req.func_tool.names()
-        assert "bulinbot_execute_shell" in req.func_tool.names()
+        assert "novabot_execute_shell" in req.func_tool.names()
 
     def test_apply_sandbox_tools_appends_to_existing_system_prompt(self, mock_context):
         """Test that sandbox prompt is appended to existing system prompt."""

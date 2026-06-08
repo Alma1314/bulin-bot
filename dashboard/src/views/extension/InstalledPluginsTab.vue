@@ -220,7 +220,7 @@ const togglePinnedExtension = (extension) => {
   <v-tab-item v-show="activeTab === 'installed'">
     <div class="mb-4 pt-4 pb-4">
       <div class="d-flex align-center flex-wrap" style="gap: 12px">
-        <h2 class="text-h2 mb-0">{{ tm("titles.installedBulinBotPlugins") }}</h2>
+        <h2 class="text-h2 mb-0">{{ tm("titles.installedNovaBotPlugins") }}</h2>
 
         <div class="d-flex align-center flex-wrap ml-auto" style="gap: 8px">
           <v-text-field

@@ -1,11 +1,11 @@
 """Tests for EstimateTokenCounter multimodal support."""
 
-from bulinbot.core.agent.context.token_counter import (
+from novabot.core.agent.context.token_counter import (
     AUDIO_TOKEN_ESTIMATE,
     IMAGE_TOKEN_ESTIMATE,
     EstimateTokenCounter,
 )
-from bulinbot.core.agent.message import (
+from novabot.core.agent.message import (
     AudioURLPart,
     ImageURLPart,
     Message,

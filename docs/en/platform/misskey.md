@@ -3,9 +3,9 @@
 > [!WARNING]
 >
 > 1. We recommend that before deploying a bot on a Misskey instance you don't manage, you should review the instance rules or seek approval from the instance administration or moderation team, and enable the `Bot` identifier for the bot account after deployment.
-> 2. This project is strictly prohibited from being used for any illegal purposes. If you intend to use BulinBot for illegal industries or activities, we explicitly oppose and refuse your use of this project.
+> 2. This project is strictly prohibited from being used for any illegal purposes. If you intend to use NovaBot for illegal industries or activities, we explicitly oppose and refuse your use of this project.
 
-## Create BulinBot Misskey Platform Adapter
+## Create NovaBot Misskey Platform Adapter
 
 Navigate to the messaging platform, click to add a new adapter, find Misskey and click to enter the Misskey configuration page.
 
@@ -13,7 +13,7 @@ Navigate to the messaging platform, click to add a new adapter, find Misskey and
 
 ## Configure Platform Adapter Settings
 
-On the BulinBot Misskey platform adapter configuration page, we need to fill in the Misskey connection information and configure some adapter behaviors.
+On the NovaBot Misskey platform adapter configuration page, we need to fill in the Misskey connection information and configure some adapter behaviors.
 
 ::: tip Note
 Don't forget to click `Enable` before saving to activate the Misskey platform adapter!
@@ -37,12 +37,12 @@ This is the frontend address of the Misskey instance where your bot account is l
 
 ![Generate Misskey Account Token](https://files.bulinbot.app/docs/source/images/misskey/pat-2.png)
 
-3. On the access token configuration page that appears, give the token a name, such as `BulinBot`.
+3. On the access token configuration page that appears, give the token a name, such as `NovaBot`.
 
 4. Then we need to configure the relevant permissions for the token to allow the bot to interact with the Misskey instance.
 
 ::: tip Note
-If third-party BulinBot plugins you use require additional permissions, please refer to their documentation to add the corresponding permissions. If you fully trust the bot's deployment environment, you can temporarily enable all permissions to simplify debugging, but we still recommend limiting the bot's permissions in production environments.
+If third-party NovaBot plugins you use require additional permissions, please refer to their documentation to add the corresponding permissions. If you fully trust the bot's deployment environment, you can temporarily enable all permissions to simplify debugging, but we still recommend limiting the bot's permissions in production environments.
 :::
 
 ![Configure Access Token Permissions](https://files.bulinbot.app/docs/source/images/misskey/pat-3.png)
@@ -58,7 +58,7 @@ If third-party BulinBot plugins you use require additional permissions, please r
 | View messages | Read direct messages and chat history | Receive and process user direct messages |
 | View reactions | View replies and reactions to posts | Handle user responses to bot messages |
 
-5. After completing the permission configuration, click "Done" to view the account access token. Copy the obtained token and paste it into the Access Token input box on the BulinBot configuration page.
+5. After completing the permission configuration, click "Done" to view the account access token. Copy the obtained token and paste it into the Access Token input box on the NovaBot configuration page.
 
 ![View Account Token](https://files.bulinbot.app/docs/source/images/misskey/pat-4.png)
 
@@ -88,7 +88,7 @@ Enabled by default. When enabled, the bot will respond to private chat messages 
 
 ## History Records
 
-Conversation history for individual users in chat and posts will be recorded in the BulinBot WebUI console "Conversation History" with the ID `chat:UserID`, while traditional posts will be recorded with the ID `note:UserID`.
+Conversation history for individual users in chat and posts will be recorded in the NovaBot WebUI console "Conversation History" with the ID `chat:UserID`, while traditional posts will be recorded with the ID `note:UserID`.
 
 ::: tip Where is the Misskey user's UserID?
 It can be found on the user's personal page in the `Raw` section. UserID is the unique key identifier for Misskey users within a single instance.

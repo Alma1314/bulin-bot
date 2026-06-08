@@ -7,12 +7,12 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from bulinbot.core.utils import core_constraints as core_constraints_module
-from bulinbot.core.utils import pip_installer as pip_installer_module
-from bulinbot.core.utils import requirements_utils
-from bulinbot.core.utils.pip_installer import PipInstaller
+from novabot.core.utils import core_constraints as core_constraints_module
+from novabot.core.utils import pip_installer as pip_installer_module
+from novabot.core.utils import requirements_utils
+from novabot.core.utils.pip_installer import PipInstaller
 
-WINDOWS_RUNTIME_ROOT = ntpath.join(r"C:\bulinbot-test", "backend", "python")
+WINDOWS_RUNTIME_ROOT = ntpath.join(r"C:\novabot-test", "backend", "python")
 WINDOWS_RUNTIME_EXECUTABLE = ntpath.join(WINDOWS_RUNTIME_ROOT, "python.exe")
 WINDOWS_PACKAGED_RUNTIME_EXECUTABLE = f"\\\\?\\{WINDOWS_RUNTIME_EXECUTABLE}"
 WINDOWS_RUNTIME_INCLUDE_DIR = ntpath.join(WINDOWS_RUNTIME_ROOT, "include")
@@ -80,7 +80,7 @@ def _configure_run_pip_in_process_capture(
         )
 
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer._get_pip_main",
+        "novabot.core.utils.pip_installer._get_pip_main",
         lambda: fake_pip_main,
     )
     return observed_env
@@ -106,15 +106,15 @@ async def test_install_targets_site_packages_for_desktop_client(monkeypatch, tmp
 
     monkeypatch.setattr(PipInstaller, "_run_pip_in_process", run_pip)
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer.get_bulinbot_site_packages_path",
+        "novabot.core.utils.pip_installer.get_novabot_site_packages_path",
         lambda: str(site_packages_path),
     )
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer._prepend_sys_path",
+        "novabot.core.utils.pip_installer._prepend_sys_path",
         lambda path: prepend_sys_path_calls.append(path),
     )
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer._ensure_plugin_dependencies_preferred",
+        "novabot.core.utils.pip_installer._ensure_plugin_dependencies_preferred",
         lambda path, requirements: ensure_preferred_calls.append((path, requirements)),
     )
 
@@ -142,7 +142,7 @@ async def test_install_keeps_target_upgrade_enabled_by_default_for_desktop_clien
 
     monkeypatch.setattr(PipInstaller, "_run_pip_in_process", run_pip)
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer.get_bulinbot_site_packages_path",
+        "novabot.core.utils.pip_installer.get_novabot_site_packages_path",
         lambda: str(site_packages_path),
     )
 
@@ -168,7 +168,7 @@ async def test_install_skips_target_upgrade_when_disabled_for_desktop_client(
 
     monkeypatch.setattr(PipInstaller, "_run_pip_in_process", run_pip)
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer.get_bulinbot_site_packages_path",
+        "novabot.core.utils.pip_installer.get_novabot_site_packages_path",
         lambda: str(site_packages_path),
     )
 
@@ -204,11 +204,11 @@ async def test_run_pip_in_process_streams_output_lines(monkeypatch):
             loop.call_soon_threadsafe(first_line_seen.set)
 
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer._get_pip_main",
+        "novabot.core.utils.pip_installer._get_pip_main",
         lambda: fake_pip_main,
     )
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer.logger.info",
+        "novabot.core.utils.pip_installer.logger.info",
         record_log,
     )
 
@@ -242,11 +242,11 @@ async def test_run_pip_in_process_preserves_shared_stream_order(monkeypatch):
         return 0
 
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer._get_pip_main",
+        "novabot.core.utils.pip_installer._get_pip_main",
         lambda: fake_pip_main,
     )
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer.logger.info",
+        "novabot.core.utils.pip_installer.logger.info",
         lambda line, *args: logged_lines.append(line % args if args else line),
     )
 
@@ -269,11 +269,11 @@ async def test_run_pip_in_process_preserves_blank_lines(monkeypatch):
         return 0
 
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer._get_pip_main",
+        "novabot.core.utils.pip_installer._get_pip_main",
         lambda: fake_pip_main,
     )
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer.logger.info",
+        "novabot.core.utils.pip_installer.logger.info",
         lambda line, *args: logged_lines.append(line % args if args else line),
     )
 
@@ -300,11 +300,11 @@ async def test_run_pip_in_process_preserves_trailing_blank_line_on_flush(monkeyp
         return 0
 
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer._get_pip_main",
+        "novabot.core.utils.pip_installer._get_pip_main",
         lambda: fake_pip_main,
     )
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer.logger.info",
+        "novabot.core.utils.pip_installer.logger.info",
         lambda line, *args: logged_lines.append(line % args if args else line),
     )
 
@@ -330,11 +330,11 @@ async def test_run_pip_in_process_normalizes_crlf_without_extra_blank_lines(
         return 0
 
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer._get_pip_main",
+        "novabot.core.utils.pip_installer._get_pip_main",
         lambda: fake_pip_main,
     )
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer.logger.info",
+        "novabot.core.utils.pip_installer.logger.info",
         lambda line, *args: logged_lines.append(line % args if args else line),
     )
 
@@ -376,7 +376,7 @@ async def test_run_pip_in_process_normalizes_crlf_without_extra_blank_lines(
             r"\\server\share\include",
         ),
         (
-            "C:/bulinbot-test/backend/python/libs",
+            "C:/novabot-test/backend/python/libs",
             WINDOWS_RUNTIME_LIBS_DIR,
         ),
     ],
@@ -663,16 +663,16 @@ async def test_run_pip_in_process_classifies_nonstandard_conflict_output(monkeyp
     def fake_pip_main(args):
         del args
         print(
-            "Cannot install demo-package and bulinbot-core because these package "
+            "Cannot install demo-package and novabot-core because these package "
             "versions have conflicting dependencies."
         )
         print("The conflict is caused by:")
         print("    demo-package depends on shared-lib>=3.0")
-        print("    BulinBot (constraint) depends on shared-lib==2.0")
+        print("    NovaBot (constraint) depends on shared-lib==2.0")
         return 1
 
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer._get_pip_main",
+        "novabot.core.utils.pip_installer._get_pip_main",
         lambda: fake_pip_main,
     )
 
@@ -683,7 +683,7 @@ async def test_run_pip_in_process_classifies_nonstandard_conflict_output(monkeyp
     assert exc_info.value.is_core_conflict is True
     assert "demo-package" in str(exc_info.value)
     assert "demo-package depends on shared-lib>=3.0" in str(exc_info.value)
-    assert "BulinBot (constraint) depends on shared-lib==2.0" in str(exc_info.value)
+    assert "NovaBot (constraint) depends on shared-lib==2.0" in str(exc_info.value)
     assert "The conflict is caused by:" in exc_info.value.errors
 
 
@@ -726,19 +726,19 @@ async def test_run_pip_in_process_bounds_retained_conflict_lines(monkeypatch):
         for index in range(10):
             print(f"noise-{index}")
         print(
-            "Cannot install demo-package and bulinbot-core because these package "
+            "Cannot install demo-package and novabot-core because these package "
             "versions have conflicting dependencies."
         )
         print("The conflict is caused by:")
         print("    demo-package depends on shared-lib>=3.0")
-        print("    BulinBot (constraint) depends on shared-lib==2.0")
+        print("    NovaBot (constraint) depends on shared-lib==2.0")
         return 1
 
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer._get_pip_main",
+        "novabot.core.utils.pip_installer._get_pip_main",
         lambda: fake_pip_main,
     )
-    monkeypatch.setattr("bulinbot.core.utils.pip_installer._MAX_PIP_OUTPUT_LINES", 4)
+    monkeypatch.setattr("novabot.core.utils.pip_installer._MAX_PIP_OUTPUT_LINES", 4)
 
     installer = PipInstaller("")
     with pytest.raises(pip_installer_module.DependencyConflictError) as exc_info:
@@ -748,7 +748,7 @@ async def test_run_pip_in_process_bounds_retained_conflict_lines(monkeypatch):
     assert exc_info.value.errors[0].startswith("Cannot install demo-package")
     assert (
         exc_info.value.errors[-1]
-        == "    BulinBot (constraint) depends on shared-lib==2.0"
+        == "    NovaBot (constraint) depends on shared-lib==2.0"
     )
 
 
@@ -919,21 +919,21 @@ def test_get_core_constraints_caches_fallback_resolution(monkeypatch):
     distributions_calls = []
 
     class FakeFallbackDistribution:
-        metadata = {"Name": "BulinBot-App"}
+        metadata = {"Name": "NovaBot-App"}
         requires = ["shared-lib>=1.0"]
 
         def read_text(self, name):
             if name == "top_level.txt":
-                return "bulinbot\n"
+                return "novabot\n"
             return ""
 
     fake_distribution = FakeFallbackDistribution()
 
     def mock_distribution(name):
         distribution_calls.append(name)
-        if name == "BulinBot":
+        if name == "NovaBot":
             raise pip_installer_module.importlib_metadata.PackageNotFoundError
-        if name == "BulinBot-App":
+        if name == "NovaBot-App":
             return fake_distribution
         raise pip_installer_module.importlib_metadata.PackageNotFoundError
 
@@ -967,7 +967,7 @@ def test_get_core_constraints_caches_fallback_resolution(monkeypatch):
 
     assert first == ("shared-lib==2.0",)
     assert second == ("shared-lib==2.0",)
-    assert distribution_calls == ["BulinBot", "BulinBot-App"]
+    assert distribution_calls == ["NovaBot", "NovaBot-App"]
     assert distributions_calls == ["scan"]
 
 
@@ -984,21 +984,21 @@ def test_get_core_constraints_skips_distributions_with_unreadable_top_level(
             return ""
 
     class FakeFallbackDistribution:
-        metadata = {"Name": "BulinBot-App"}
+        metadata = {"Name": "NovaBot-App"}
         requires = ["shared-lib>=1.0"]
 
         def read_text(self, name):
             if name == "top_level.txt":
-                return "bulinbot\n"
+                return "novabot\n"
             return ""
 
     broken_distribution = BrokenDistribution()
     fake_distribution = FakeFallbackDistribution()
 
     def mock_distribution(name):
-        if name == "BulinBot":
+        if name == "NovaBot":
             raise pip_installer_module.importlib_metadata.PackageNotFoundError
-        if name == "BulinBot-App":
+        if name == "NovaBot-App":
             return fake_distribution
         raise pip_installer_module.importlib_metadata.PackageNotFoundError
 
@@ -1047,7 +1047,7 @@ def test_core_constraints_file_propagates_inner_conflict_without_fake_warning(
         lambda core_dist_name: ("aiohttp==3.13.3",),
     )
     monkeypatch.setattr(
-        "bulinbot.core.utils.core_constraints.logger.warning",
+        "novabot.core.utils.core_constraints.logger.warning",
         lambda line, *args: warning_logs.append(line % args if args else line),
     )
 
@@ -1055,7 +1055,7 @@ def test_core_constraints_file_propagates_inner_conflict_without_fake_warning(
         pip_installer_module.DependencyConflictError,
         match="core conflict",
     ):
-        provider = core_constraints_module.CoreConstraintsProvider("BulinBot")
+        provider = core_constraints_module.CoreConstraintsProvider("NovaBot")
         with provider.constraints_file() as constraints_path:
             assert constraints_path is not None
             raise conflict
@@ -1099,11 +1099,11 @@ async def test_install_adds_desktop_core_lock_constraints_for_packaged_runtime(
 
     monkeypatch.setattr(PipInstaller, "_run_pip_in_process", capture_pip_args)
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer.get_bulinbot_site_packages_path",
+        "novabot.core.utils.pip_installer.get_novabot_site_packages_path",
         lambda: str(site_packages_path),
     )
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer._ensure_plugin_dependencies_preferred",
+        "novabot.core.utils.pip_installer._ensure_plugin_dependencies_preferred",
         lambda path, requirements: None,
     )
 
@@ -1271,15 +1271,15 @@ async def test_install_tracks_multiline_packages_for_desktop_client(
 
     monkeypatch.setattr(PipInstaller, "_run_pip_in_process", run_pip)
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer.get_bulinbot_site_packages_path",
+        "novabot.core.utils.pip_installer.get_novabot_site_packages_path",
         lambda: str(site_packages_path),
     )
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer._prepend_sys_path",
+        "novabot.core.utils.pip_installer._prepend_sys_path",
         lambda path: None,
     )
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer._ensure_plugin_dependencies_preferred",
+        "novabot.core.utils.pip_installer._ensure_plugin_dependencies_preferred",
         lambda path, requirements: ensure_preferred_calls.append((path, requirements)),
     )
 
@@ -1386,15 +1386,15 @@ async def test_install_tracks_only_real_requirement_names_for_spaced_single_requ
 
     monkeypatch.setattr(PipInstaller, "_run_pip_in_process", run_pip)
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer.get_bulinbot_site_packages_path",
+        "novabot.core.utils.pip_installer.get_novabot_site_packages_path",
         lambda: str(site_packages_path),
     )
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer._prepend_sys_path",
+        "novabot.core.utils.pip_installer._prepend_sys_path",
         lambda path: None,
     )
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer._ensure_plugin_dependencies_preferred",
+        "novabot.core.utils.pip_installer._ensure_plugin_dependencies_preferred",
         lambda path, requirements: ensure_preferred_calls.append((path, requirements)),
     )
 
@@ -1419,15 +1419,15 @@ def test_prefer_installed_dependencies_prefers_modules_for_requirements_in_deskt
     preferred_calls = []
 
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer.get_bulinbot_site_packages_path",
+        "novabot.core.utils.pip_installer.get_novabot_site_packages_path",
         lambda: str(site_packages_path),
     )
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer._prepend_sys_path",
+        "novabot.core.utils.pip_installer._prepend_sys_path",
         lambda path: prepend_calls.append(path),
     )
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer._ensure_plugin_dependencies_preferred",
+        "novabot.core.utils.pip_installer._ensure_plugin_dependencies_preferred",
         lambda path, requirements: preferred_calls.append((path, requirements)),
     )
 
@@ -1532,15 +1532,15 @@ async def test_install_tracks_requirement_name_for_single_line_option_input(
 
     monkeypatch.setattr(PipInstaller, "_run_pip_in_process", run_pip)
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer.get_bulinbot_site_packages_path",
+        "novabot.core.utils.pip_installer.get_novabot_site_packages_path",
         lambda: str(site_packages_path),
     )
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer._prepend_sys_path",
+        "novabot.core.utils.pip_installer._prepend_sys_path",
         lambda path: None,
     )
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer._ensure_plugin_dependencies_preferred",
+        "novabot.core.utils.pip_installer._ensure_plugin_dependencies_preferred",
         lambda path, requirements: ensure_preferred_calls.append((path, requirements)),
     )
 
@@ -1818,7 +1818,7 @@ async def test_install_logs_redacted_pip_argv_when_credentials_present(monkeypat
 
     monkeypatch.setattr(PipInstaller, "_run_pip_in_process", run_pip)
     monkeypatch.setattr(
-        "bulinbot.core.utils.pip_installer.logger.info",
+        "novabot.core.utils.pip_installer.logger.info",
         lambda line, *args: logged_lines.append(line % args if args else line),
     )
 

@@ -1,8 +1,8 @@
 {
   "greeting": {
-    "morning": "Good morning, welcome to BulinBot",
-    "afternoon": "Good afternoon, welcome to BulinBot",
-    "evening": "Good evening, welcome to BulinBot",
+    "morning": "Good morning, welcome to NovaBot",
+    "afternoon": "Good afternoon, welcome to NovaBot",
+    "evening": "Good evening, welcome to NovaBot",
     "newYear": "Happy New Year!"
   },
   "subtitle": "You can complete the basic onboarding first. Platform and chat provider setup can both be skipped.",
@@ -13,14 +13,14 @@
     "title": "Quick Onboarding",
     "subtitle": "Complete initialization directly on the welcome page.",
     "step1Title": "Configure AI Model",
-    "step1Desc": "Configure AI models for BulinBot.",
+    "step1Desc": "Configure AI models for NovaBot.",
     "step2Title": "Configure Platform Bot",
-    "step2Desc": "Connect BulinBot to IM platforms like QQ, Lark, Slack, Telegram, etc.",
+    "step2Desc": "Connect NovaBot to IM platforms like QQ, Lark, Slack, Telegram, etc.",
     "step3Title": "Allow Agent to Use the Computer",
     "step3Desc": "Set whether the Agent can access and use this computer.",
     "step3HelpTitle": "Access Details",
     "step3HelpItem1": "The Agent can access and use the workspace directory, which is isolated for each user, as well as Skills to handle more complex tasks.",
-    "step3HelpItem2": "For BulinBot administrators, the Agent is additionally allowed to execute shell commands, run Python code, and access all local directories on this machine.",
+    "step3HelpItem2": "For NovaBot administrators, the Agent is additionally allowed to execute shell commands, run Python code, and access all local directories on this machine.",
     "step3HelpClose": "Close",
     "step3SelectLabel": "Computer Access",
     "step3Allow": "Allow",
@@ -44,8 +44,8 @@
     "title": "Resources",
     "githubDesc": "Give us a Star!",
     "docsTitle": "Documentation",
-    "docsDesc": "Read the official BulinBot documentation.",
+    "docsDesc": "Read the official NovaBot documentation.",
     "afdianTitle": "Afdian",
-    "afdianDesc": "Support the BulinBot team on Afdian."
+    "afdianDesc": "Support the NovaBot team on Afdian."
   }
 }

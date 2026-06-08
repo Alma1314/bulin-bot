@@ -16,15 +16,15 @@ Proactive message push: Supported.
 
 ## Create and Configure the App
 
-DingTalk supports two setup methods: one-click QR creation in BulinBot, or manually creating an app in DingTalk Open Platform.
+DingTalk supports two setup methods: one-click QR creation in NovaBot, or manually creating an app in DingTalk Open Platform.
 
 ### Option 1: One-click QR Creation
 
-BulinBot version requirement: >= v4.25.0.
+NovaBot version requirement: >= v4.25.0.
 
-Open BulinBot Dashboard -> `Bots` -> `+ Create Bot`, then select `DingTalk`.
+Open NovaBot Dashboard -> `Bots` -> `+ Create Bot`, then select `DingTalk`.
 
-Under `Creation Method`, select `One-click QR setup`, scan the QR code with the DingTalk mobile app, then create or bind a bot on the DingTalk authorization page. After creation succeeds, BulinBot automatically fills in `ClientID` and `ClientSecret`. Click `Save` to finish.
+Under `Creation Method`, select `One-click QR setup`, scan the QR code with the DingTalk mobile app, then create or bind a bot on the DingTalk authorization page. After creation succeeds, NovaBot automatically fills in `ClientID` and `ClientSecret`. Click `Save` to finish.
 
 After QR creation succeeds, continue checking the event subscription, version release, and group installation steps below.
 
@@ -46,11 +46,11 @@ After confirming all settings, click Publish.
 
 Go to Credentials & Basic Information, then copy `ClientID` and `ClientSecret`.
 
-## Connect in BulinBot
+## Connect in NovaBot
 
-Open BulinBot Dashboard -> `Bots` -> `+ Create Bot`, then create a DingTalk adapter.
+Open NovaBot Dashboard -> `Bots` -> `+ Create Bot`, then create a DingTalk adapter.
 
-If you want BulinBot to create the app for you, select `One-click QR setup` and complete the scan. If you already created the app yourself, select `Manual setup`, fill in `ClientID` and `ClientSecret`, then click Save. BulinBot will request authorization from DingTalk Open Platform automatically.
+If you want NovaBot to create the app for you, select `One-click QR setup` and complete the scan. If you already created the app yourself, select `Manual setup`, fill in `ClientID` and `ClientSecret`, then click Save. NovaBot will request authorization from DingTalk Open Platform automatically.
 
 Back in DingTalk Open Platform, open Event Subscriptions, select `Stream mode push`, and click Save. If successful, you will see a connected status.
 

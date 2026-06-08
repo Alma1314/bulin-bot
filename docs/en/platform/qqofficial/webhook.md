@@ -47,9 +47,9 @@ Open `Development -> Development Settings`, find IP whitelist, and add your serv
 
 ![image](https://files.bulinbot.app/docs/source/images/qqofficial/image-3.png)
 
-## Configure in BulinBot
+## Configure in NovaBot
 
-1. Open BulinBot Dashboard.
+1. Open NovaBot Dashboard.
 2. Click `Bots` in the left sidebar.
 3. Click `+ Create Bot`.
 4. Select `qq_official_webhook`.
@@ -67,9 +67,9 @@ Click `Save`.
 
 In `Development -> Callback Configuration`, configure callback URL.
 
-Set request URL to `<your-domain>/bulinbot-qo-webhook/callback`.
+Set request URL to `<your-domain>/nova-bot-qo-webhook/callback`.
 
-Your domain should reverse-proxy traffic to BulinBot port `6196` using `Caddy`, `Nginx`, or `Apache`.
+Your domain should reverse-proxy traffic to NovaBot port `6196` using `Caddy`, `Nginx`, or `Apache`.
 
 Then add callback events and select all four event categories (private, group, channel, etc.).
 
@@ -77,11 +77,11 @@ Then add callback events and select all four event categories (private, group, c
 
 After entering values, move focus out of the input box to trigger validation. If validation passes, the confirm button on the right becomes clickable.
 
-Then restart BulinBot.
+Then restart NovaBot.
 
 ## Done
 
-BulinBot should now be connected. If messages do not respond immediately, wait 1-2 minutes, restart BulinBot, and test again.
+NovaBot should now be connected. If messages do not respond immediately, wait 1-2 minutes, restart NovaBot, and test again.
 
 ## Appendix: Reverse Proxy Setup
 

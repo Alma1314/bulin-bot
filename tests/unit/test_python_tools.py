@@ -1,6 +1,6 @@
 import platform
 
-from bulinbot.core.tools.computer_tools.python import LocalPythonTool, PythonTool
+from novabot.core.tools.computer_tools.python import LocalPythonTool, PythonTool
 
 
 def test_python_tool_description_contains_os():

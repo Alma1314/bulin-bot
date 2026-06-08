@@ -3,9 +3,9 @@
 ## Simple KV Storage
 
 > [!TIP]
-> Requires BulinBot version >= 4.9.2.
+> Requires NovaBot version >= 4.9.2.
 
-Plugins can use BulinBot's simple key-value store to persist configuration or temporary data. The storage is scoped per plugin, so each plugin has its own isolated space.
+Plugins can use NovaBot's simple key-value store to persist configuration or temporary data. The storage is scoped per plugin, so each plugin has its own isolated space.
 
 ```py
 class Main(star.Star):
@@ -26,7 +26,7 @@ You can fetch the plugin data directory with:
 
 ```py
 from pathlib import Path
-from bulinbot.core.utils.bulinbot_path import get_bulinbot_data_path
+from nova-bot.core.utils.nova-bot_path import get_nova-bot_data_path
 
-plugin_data_path = Path(get_bulinbot_data_path()) / "plugin_data" / self.name  # self.name is the plugin name; available in v4.9.2 and above. For lower versions, specify the plugin name yourself.
+plugin_data_path = Path(get_nova-bot_data_path()) / "plugin_data" / self.name  # self.name is the plugin name; available in v4.9.2 and above. For lower versions, specify the plugin name yourself.
 ```

@@ -7,15 +7,15 @@ from typing import Any, cast
 import pytest
 import yaml
 
-from bulinbot.core.star import star_manager as star_manager_module
-from bulinbot.core.star.star_manager import PluginDependencyInstallError, PluginManager
-from bulinbot.core.utils.pip_installer import PipInstallError
-from bulinbot.core.utils.requirements_utils import MissingRequirementsPlan
+from novabot.core.star import star_manager as star_manager_module
+from novabot.core.star.star_manager import PluginDependencyInstallError, PluginManager
+from novabot.core.utils.pip_installer import PipInstallError
+from novabot.core.utils.requirements_utils import MissingRequirementsPlan
 
 # --- Test Data & Helpers ---
 
 TEST_PLUGIN_NAME = "helloworld"
-TEST_PLUGIN_REPO = "https://github.com/BulinBotDevs/bulinbot_plugin_helloworld"
+TEST_PLUGIN_REPO = "https://github.com/NovaBotDevs/novabot_plugin_helloworld"
 TEST_PLUGIN_DIR = "helloworld"
 
 
@@ -35,14 +35,14 @@ def _write_local_test_plugin(plugin_path: Path, repo_url: str, version: str = "1
         "name": TEST_PLUGIN_NAME,
         "repo": repo_url,
         "version": version,
-        "author": "BulinBot Team",
+        "author": "NovaBot Team",
         "desc": "Local test plugin",
         "short_desc": "Local test short description",
     }
     with open(plugin_path / "metadata.yaml", "w", encoding="utf-8") as f:
         yaml.dump(metadata, f)
     with open(plugin_path / "main.py", "w", encoding="utf-8") as f:
-        f.write("from bulinbot.api.star import Star, Context, StarManager\n")
+        f.write("from novabot.api.star import Star, Context, StarManager\n")
         f.write("@StarManager.register\n")
         f.write("class HelloWorld(Star):\n")
         f.write("    def __init__(self, context: Context): ...\n")
@@ -56,7 +56,7 @@ def _write_requirements(plugin_path: Path):
 
 def test_load_plugin_i18n_reads_locale_files(tmp_path: Path):
     plugin_path = tmp_path / "plugin"
-    i18n_path = plugin_path / ".bulinbot-plugin" / "i18n"
+    i18n_path = plugin_path / ".novabot-plugin" / "i18n"
     i18n_path.mkdir(parents=True)
     (i18n_path / "zh-CN.json").write_text(
         json.dumps({"metadata": {"desc": "中文描述"}}, ensure_ascii=False),
@@ -95,7 +95,7 @@ def test_load_plugin_i18n_ignores_legacy_directories(tmp_path: Path):
 def test_load_plugin_metadata_includes_i18n(tmp_path: Path):
     plugin_path = tmp_path / "helloworld"
     _write_local_test_plugin(plugin_path, TEST_PLUGIN_REPO)
-    i18n_path = plugin_path / ".bulinbot-plugin" / "i18n"
+    i18n_path = plugin_path / ".novabot-plugin" / "i18n"
     i18n_path.mkdir(parents=True)
     (i18n_path / "zh-CN.json").write_text(
         json.dumps({"metadata": {"display_name": "你好世界"}}, ensure_ascii=False),
@@ -127,7 +127,7 @@ def test_load_plugin_metadata_includes_pages(tmp_path: Path):
 def test_loaded_metadata_can_copy_i18n_into_existing_star_metadata(tmp_path: Path):
     plugin_path = tmp_path / "helloworld"
     _write_local_test_plugin(plugin_path, TEST_PLUGIN_REPO)
-    i18n_path = plugin_path / ".bulinbot-plugin" / "i18n"
+    i18n_path = plugin_path / ".novabot-plugin" / "i18n"
     i18n_path.mkdir(parents=True)
     (i18n_path / "zh-CN.json").write_text(
         json.dumps({"metadata": {"desc": "中文描述"}}, ensure_ascii=False),
@@ -219,7 +219,7 @@ def _mock_missing_requirements_plan(
     fallback_reason: str | None = None,
 ):
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.plan_missing_requirements_install",
+        "novabot.core.star.star_manager.plan_missing_requirements_install",
         lambda requirements_path: MissingRequirementsPlan(
             missing_names=frozenset(missing_names),
             version_mismatch_names=frozenset(version_mismatch_names),
@@ -231,7 +231,7 @@ def _mock_missing_requirements_plan(
 
 def _mock_precheck_fails(monkeypatch):
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.plan_missing_requirements_install",
+        "novabot.core.star.star_manager.plan_missing_requirements_install",
         lambda requirements_path: None,
     )
 
@@ -268,7 +268,7 @@ def plugin_manager_pm(tmp_path, monkeypatch):
     # Clear module cache before setup to ensure isolation
     _clear_module_cache()
 
-    plugin_dir = tmp_path / "bulinbot_root" / "data" / "plugins"
+    plugin_dir = tmp_path / "novabot_root" / "data" / "plugins"
     plugin_dir.mkdir(parents=True, exist_ok=True)
 
     class MockContext:
@@ -291,7 +291,7 @@ def plugin_manager_pm(tmp_path, monkeypatch):
     # Patch paths to use tmp_path
     monkeypatch.setattr(pm, "plugin_store_path", str(plugin_dir))
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.get_bulinbot_plugin_path",
+        "novabot.core.star.star_manager.get_novabot_plugin_path",
         lambda: str(plugin_dir),
     )
 
@@ -326,7 +326,7 @@ async def test_install_plugin_dependency_install_flow(
 
     monkeypatch.setattr(plugin_manager_pm.updator, "install", mock_install)
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.pip_installer.install",
+        "novabot.core.star.star_manager.pip_installer.install",
         _build_dependency_install_mock(events, dependency_install_fails),
     )
 
@@ -377,7 +377,7 @@ async def test_install_plugin_from_file_dependency_install_flow(
 
     monkeypatch.setattr(plugin_manager_pm.updator, "unzip_file", mock_unzip_file)
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.pip_installer.install",
+        "novabot.core.star.star_manager.pip_installer.install",
         _build_dependency_install_mock(events, dependency_install_fails),
     )
 
@@ -446,7 +446,7 @@ async def test_reload_failed_plugin_dependency_install_flow(
     _mock_missing_requirements(monkeypatch, {"networkx"})
 
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.pip_installer.install",
+        "novabot.core.star.star_manager.pip_installer.install",
         _build_dependency_install_mock(events, dependency_install_fails),
     )
 
@@ -540,7 +540,7 @@ async def test_load_reports_unregistered_plugin_without_index_error(
         yaml.dump(
             {
                 "name": plugin_name,
-                "author": "BulinBot Team",
+                "author": "NovaBot Team",
                 "desc": "Broken test plugin",
                 "version": "1.0.0",
             }
@@ -588,7 +588,7 @@ async def test_ensure_plugin_requirements_reraises_cancelled_error(
         raise asyncio.CancelledError()
 
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.pip_installer.install",
+        "novabot.core.star.star_manager.pip_installer.install",
         mock_install_requirements,
     )
 
@@ -610,7 +610,7 @@ async def test_ensure_plugin_requirements_wraps_generic_dependency_install_failu
         raise RuntimeError("pip failed")
 
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.pip_installer.install",
+        "novabot.core.star.star_manager.pip_installer.install",
         mock_install_requirements,
     )
 
@@ -636,7 +636,7 @@ async def test_ensure_plugin_requirements_wraps_pip_install_error(
         raise PipInstallError("install failed", code=2)
 
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.pip_installer.install",
+        "novabot.core.star.star_manager.pip_installer.install",
         mock_install_requirements,
     )
 
@@ -663,11 +663,11 @@ async def test_ensure_plugin_requirements_logs_requirements_file_install_for_mis
         return None
 
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.pip_installer.install",
+        "novabot.core.star.star_manager.pip_installer.install",
         mock_install_requirements,
     )
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.logger.info",
+        "novabot.core.star.star_manager.logger.info",
         lambda line, *args: logged_lines.append(line % args if args else line),
     )
 
@@ -707,7 +707,7 @@ async def test_ensure_plugin_requirements_sets_target_upgrade_based_on_version_m
         observed_calls.append(kwargs)
 
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.pip_installer.install",
+        "novabot.core.star.star_manager.pip_installer.install",
         mock_install_requirements,
     )
 
@@ -730,11 +730,11 @@ async def test_import_plugin_prefers_installed_dependencies_before_first_import(
     sentinel_module = object()
 
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.pip_installer.prefer_installed_dependencies",
+        "novabot.core.star.star_manager.pip_installer.prefer_installed_dependencies",
         lambda *, requirements_path: events.append(("prefer", requirements_path)),
     )
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.plan_missing_requirements_install",
+        "novabot.core.star.star_manager.plan_missing_requirements_install",
         lambda requirements_path: MissingRequirementsPlan(
             missing_names=frozenset(),
             install_lines=(),
@@ -773,7 +773,7 @@ async def test_import_reserved_plugin_skips_preloading_user_site_dependencies(
     sentinel_module = object()
 
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.pip_installer.prefer_installed_dependencies",
+        "novabot.core.star.star_manager.pip_installer.prefer_installed_dependencies",
         lambda *, requirements_path: events.append(("prefer", requirements_path)),
     )
 
@@ -785,7 +785,7 @@ async def test_import_reserved_plugin_skips_preloading_user_site_dependencies(
     monkeypatch.setattr(star_manager_module, "__import__", fake_import, raising=False)
 
     imported_module = await plugin_manager_pm._import_plugin_with_dependency_recovery(
-        path="bulinbot.builtin_stars.web_searcher.main",
+        path="novabot.builtin_stars.web_searcher.main",
         module_str="main",
         root_dir_name="web_searcher",
         requirements_path=str(requirements_path),
@@ -794,7 +794,7 @@ async def test_import_reserved_plugin_skips_preloading_user_site_dependencies(
 
     assert imported_module is sentinel_module
     assert events == [
-        ("import", "bulinbot.builtin_stars.web_searcher.main", ("main",)),
+        ("import", "novabot.builtin_stars.web_searcher.main", ("main",)),
     ]
 
 
@@ -808,11 +808,11 @@ async def test_import_plugin_skips_preloading_when_requirements_version_mismatch
     sentinel_module = object()
 
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.pip_installer.prefer_installed_dependencies",
+        "novabot.core.star.star_manager.pip_installer.prefer_installed_dependencies",
         lambda *, requirements_path: events.append(("prefer", requirements_path)),
     )
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.plan_missing_requirements_install",
+        "novabot.core.star.star_manager.plan_missing_requirements_install",
         lambda requirements_path: MissingRequirementsPlan(
             missing_names=frozenset({"networkx"}),
             install_lines=("networkx>=3",),
@@ -851,11 +851,11 @@ async def test_import_plugin_reinstalls_when_version_mismatch_import_fails(
     import_attempts = {"count": 0}
 
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.pip_installer.prefer_installed_dependencies",
+        "novabot.core.star.star_manager.pip_installer.prefer_installed_dependencies",
         lambda *, requirements_path: events.append(("prefer", requirements_path)),
     )
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.plan_missing_requirements_install",
+        "novabot.core.star.star_manager.plan_missing_requirements_install",
         lambda requirements_path: MissingRequirementsPlan(
             missing_names=frozenset({"networkx"}),
             install_lines=("networkx>=3",),
@@ -907,11 +907,11 @@ async def test_import_plugin_skips_preloading_when_requirement_precheck_is_unava
     sentinel_module = object()
 
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.pip_installer.prefer_installed_dependencies",
+        "novabot.core.star.star_manager.pip_installer.prefer_installed_dependencies",
         lambda *, requirements_path: events.append(("prefer", requirements_path)),
     )
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.plan_missing_requirements_install",
+        "novabot.core.star.star_manager.plan_missing_requirements_install",
         lambda requirements_path: None,
     )
 
@@ -946,11 +946,11 @@ async def test_import_plugin_attempts_dependency_recovery_when_precheck_is_unava
     import_attempts = {"count": 0}
 
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.pip_installer.prefer_installed_dependencies",
+        "novabot.core.star.star_manager.pip_installer.prefer_installed_dependencies",
         lambda *, requirements_path: events.append(("prefer", requirements_path)),
     )
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.plan_missing_requirements_install",
+        "novabot.core.star.star_manager.plan_missing_requirements_install",
         lambda requirements_path: None,
     )
 
@@ -997,11 +997,11 @@ async def test_import_plugin_does_not_recover_from_plain_import_error(
     events = []
 
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.pip_installer.prefer_installed_dependencies",
+        "novabot.core.star.star_manager.pip_installer.prefer_installed_dependencies",
         lambda *, requirements_path: events.append(("prefer", requirements_path)),
     )
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.plan_missing_requirements_install",
+        "novabot.core.star.star_manager.plan_missing_requirements_install",
         lambda requirements_path: MissingRequirementsPlan(
             missing_names=frozenset(),
             install_lines=(),
@@ -1052,11 +1052,11 @@ async def test_import_plugin_surfaces_unexpected_recovery_errors(
         raise RuntimeError("unexpected recovery failure")
 
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.pip_installer.prefer_installed_dependencies",
+        "novabot.core.star.star_manager.pip_installer.prefer_installed_dependencies",
         raising_prefer_installed_dependencies,
     )
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.plan_missing_requirements_install",
+        "novabot.core.star.star_manager.plan_missing_requirements_install",
         lambda requirements_path: None,
     )
 
@@ -1111,7 +1111,7 @@ async def test_update_plugin_dependency_install_flow(
 
     monkeypatch.setattr(plugin_manager_pm.updator, "update", mock_update)
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.pip_installer.install",
+        "novabot.core.star.star_manager.pip_installer.install",
         _build_dependency_install_mock(events, dependency_install_fails),
     )
     monkeypatch.setattr(plugin_manager_pm, "reload", _build_reload_mock(events))
@@ -1151,7 +1151,7 @@ async def test_install_plugin_skips_dependency_install_when_no_requirements_miss
 
     monkeypatch.setattr(plugin_manager_pm.updator, "install", mock_install)
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.pip_installer.install",
+        "novabot.core.star.star_manager.pip_installer.install",
         _build_dependency_install_mock(events, False),
     )
 
@@ -1182,7 +1182,7 @@ async def test_install_plugin_runs_dependency_install_when_precheck_fails(
     _mock_precheck_fails(monkeypatch)
     monkeypatch.setattr(plugin_manager_pm.updator, "install", mock_install)
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.pip_installer.install",
+        "novabot.core.star.star_manager.pip_installer.install",
         _build_dependency_install_mock(events, False),
     )
 
@@ -1217,7 +1217,7 @@ async def test_ensure_plugin_requirements_installs_only_missing_requirement_line
     )
 
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.pip_installer.install",
+        "novabot.core.star.star_manager.pip_installer.install",
         _build_dependency_install_mock(events, False, capture_content=True),
     )
 
@@ -1245,11 +1245,11 @@ async def test_ensure_plugin_requirements_creates_temp_dir_before_filtered_insta
     _mock_missing_requirements_plan(monkeypatch, {"boto3"}, ["boto3"])
 
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.get_bulinbot_temp_path",
+        "novabot.core.star.star_manager.get_novabot_temp_path",
         lambda: str(temp_dir),
     )
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.pip_installer.install",
+        "novabot.core.star.star_manager.pip_installer.install",
         _build_dependency_install_mock(events, False, capture_content=True),
     )
 
@@ -1271,7 +1271,7 @@ async def test_ensure_plugin_requirements_falls_back_when_missing_names_have_no_
     events = []
 
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.plan_missing_requirements_install",
+        "novabot.core.star.star_manager.plan_missing_requirements_install",
         lambda path: MissingRequirementsPlan(
             missing_names=frozenset({"botocore"}),
             install_lines=(),
@@ -1279,7 +1279,7 @@ async def test_ensure_plugin_requirements_falls_back_when_missing_names_have_no_
         ),
     )
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.pip_installer.install",
+        "novabot.core.star.star_manager.pip_installer.install",
         _build_dependency_install_mock(events, False),
     )
 
@@ -1300,7 +1300,7 @@ async def test_ensure_plugin_requirements_fallback_full_install_keeps_upgrade_fo
     observed_calls = []
 
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.plan_missing_requirements_install",
+        "novabot.core.star.star_manager.plan_missing_requirements_install",
         lambda path: MissingRequirementsPlan(
             missing_names=frozenset({"boto3"}),
             install_lines=(),
@@ -1313,7 +1313,7 @@ async def test_ensure_plugin_requirements_fallback_full_install_keeps_upgrade_fo
         observed_calls.append(kwargs)
 
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.pip_installer.install",
+        "novabot.core.star.star_manager.pip_installer.install",
         mock_install_requirements,
     )
 
@@ -1351,16 +1351,16 @@ async def test_ensure_plugin_requirements_does_not_mask_install_error_when_clean
         return original_remove(path)
 
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.get_bulinbot_temp_path",
+        "novabot.core.star.star_manager.get_novabot_temp_path",
         lambda: str(temp_dir),
     )
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.pip_installer.install",
+        "novabot.core.star.star_manager.pip_installer.install",
         mock_install_requirements,
     )
-    monkeypatch.setattr("bulinbot.core.star.star_manager.os.remove", flaky_remove)
+    monkeypatch.setattr("novabot.core.star.star_manager.os.remove", flaky_remove)
     monkeypatch.setattr(
-        "bulinbot.core.star.star_manager.logger.warning",
+        "novabot.core.star.star_manager.logger.warning",
         lambda line, *args: warning_logs.append(line % args if args else line),
     )
 

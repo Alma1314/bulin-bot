@@ -5,11 +5,11 @@
 > v3.4.34 后
 
 ```python
-from bulinbot.api.event import filter, BulinMessageEvent
+from nova-bot.api.event import filter, BulinMessageEvent
 
 @filter.command("test")
 async def test_(self, event: BulinMessageEvent):
-    from bulinbot.core.platform.sources.aiocqhttp.aiocqhttp_platform_adapter import AiocqhttpAdapter # 其他平台同理
+    from nova-bot.core.platform.sources.aiocqhttp.aiocqhttp_platform_adapter import AiocqhttpAdapter # 其他平台同理
     # >= v4.0.0 使用：
     platform_id = event.get_platform_id()
     platform = self.context.get_platform_inst(platform_id)
@@ -26,7 +26,7 @@ async def test_(self, event: BulinMessageEvent):
 async def helloworld(self, event: BulinMessageEvent):
     if event.get_platform_name() == "aiocqhttp":
         # qq
-        from bulinbot.core.platform.sources.aiocqhttp.aiocqhttp_message_event import AiocqhttpMessageEvent
+        from nova-bot.core.platform.sources.aiocqhttp.aiocqhttp_message_event import AiocqhttpMessageEvent
         assert isinstance(event, AiocqhttpMessageEvent)
         client = event.bot # 得到 client
         payloads = {
@@ -51,6 +51,6 @@ plugins = self.context.get_all_stars() # 返回 StarMetadata 包含了插件类�
 ## 获取加载的所有平台
 
 ```py
-from bulinbot.api.platform import Platform
+from nova-bot.api.platform import Platform
 platforms = self.context.platform_manager.get_insts() # List[Platform]
 ```

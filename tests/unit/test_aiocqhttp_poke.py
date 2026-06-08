@@ -2,10 +2,10 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-import bulinbot.core.message.components as Comp
-from bulinbot.core.message.message_event_result import MessageChain
-from bulinbot.core.pipeline.respond.stage import RespondStage
-from bulinbot.core.platform.sources.aiocqhttp.aiocqhttp_message_event import (
+import novabot.core.message.components as Comp
+from novabot.core.message.message_event_result import MessageChain
+from novabot.core.pipeline.respond.stage import RespondStage
+from novabot.core.platform.sources.aiocqhttp.aiocqhttp_message_event import (
     AiocqhttpMessageEvent,
 )
 

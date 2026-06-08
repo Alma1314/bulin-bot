@@ -52,7 +52,7 @@
               <div class="provider-section-head">
                 <div class="provider-section-title">{{ tm('providers.settings') }}</div>
               </div>
-              <BulinBotConfig
+              <NovaBotConfig
                 v-if="basicSourceConfig"
                 :iterable="basicSourceConfig"
                 :metadata="providerSourceSchema"
@@ -67,7 +67,7 @@
               <div class="provider-section-head">
                 <div class="provider-section-title">{{ tm('providerSources.advancedConfig') }}</div>
               </div>
-              <BulinBotConfig
+              <NovaBotConfig
                 :iterable="advancedSourceConfig"
                 :metadata="providerSourceSchema"
                 metadataKey="provider"
@@ -142,7 +142,7 @@
     <v-dialog v-model="showProviderEditDialog" width="800">
       <v-card :title="providerEditDialogTitle">
         <v-card-text class="py-4">
-          <BulinBotConfig
+          <NovaBotConfig
             v-if="providerEditData"
             :iterable="providerEditData"
             :metadata="providerModelConfigSchema"
@@ -179,7 +179,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useModuleI18n } from '@/i18n/composables'
-import BulinBotConfig from '@/components/shared/BulinBotConfig.vue'
+import NovaBotConfig from '@/components/shared/NovaBotConfig.vue'
 import ProviderModelsPanel from '@/components/provider/ProviderModelsPanel.vue'
 import ProviderSourcesPanel from '@/components/provider/ProviderSourcesPanel.vue'
 import { useProviderModelConfigDialog } from '@/composables/useProviderModelConfigDialog'

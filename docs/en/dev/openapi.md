@@ -2,9 +2,9 @@
 outline: deep
 ---
 
-# BulinBot HTTP API
+# NovaBot HTTP API
 
-Starting from v4.18.0, BulinBot provides API Key based HTTP APIs for programmatic access.
+Starting from v4.18.0, NovaBot provides API Key based HTTP APIs for programmatic access.
 
 ## Quick Start
 
@@ -43,7 +43,7 @@ If the API Key does not include the required scope for the target endpoint, the 
 
 **Chat**
 
-Interact with BulinBot's built-in Agent. Supports plugin calls, tool calls, and other capabilities — consistent with IM-side chat.
+Interact with NovaBot's built-in Agent. Supports plugin calls, tool calls, and other capabilities — consistent with IM-side chat.
 
 - `POST /api/v1/chat`: send chat message (SSE stream, server generates UUID when `session_id` is omitted)
 - `GET /api/v1/chat/sessions`: list sessions for a specific `username` with pagination

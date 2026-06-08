@@ -5,7 +5,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-import bulinbot.api.message_components as Comp
+import novabot.api.message_components as Comp
 from tests.fixtures.helpers import (
     NoopAwaitable,
     create_mock_file,
@@ -57,7 +57,7 @@ def _load_telegram_adapter():
     if _TELEGRAM_PLATFORM_ADAPTER is not None:
         return _TELEGRAM_PLATFORM_ADAPTER
 
-    module = _load_telegram_module("bulinbot.core.platform.sources.telegram.tg_adapter")
+    module = _load_telegram_module("novabot.core.platform.sources.telegram.tg_adapter")
     _TELEGRAM_PLATFORM_ADAPTER = module.TelegramPlatformAdapter
     return _TELEGRAM_PLATFORM_ADAPTER
 
@@ -67,7 +67,7 @@ def _load_telegram_platform_event():
     if _TELEGRAM_PLATFORM_EVENT is not None:
         return _TELEGRAM_PLATFORM_EVENT
 
-    module = _load_telegram_module("bulinbot.core.platform.sources.telegram.tg_event")
+    module = _load_telegram_module("novabot.core.platform.sources.telegram.tg_event")
     _TELEGRAM_PLATFORM_EVENT = module.TelegramPlatformEvent
     return _TELEGRAM_PLATFORM_EVENT
 
@@ -158,7 +158,7 @@ async def test_telegram_voice_message_creates_record_component(tmp_path):
     with patch.dict(
         convert_message_globals,
         {
-            "get_bulinbot_temp_path": MagicMock(return_value=str(tmp_path)),
+            "get_novabot_temp_path": MagicMock(return_value=str(tmp_path)),
             "download_file": AsyncMock(),
             "convert_audio_to_wav": AsyncMock(return_value=str(wav_path)),
         },
@@ -205,7 +205,7 @@ async def test_telegram_final_segment_splits_long_plaintext_when_markdown_fails(
     payload = {"chat_id": "123456"}
 
     with patch(
-        "bulinbot.core.platform.sources.telegram.tg_event.telegramify_markdown.markdownify",
+        "novabot.core.platform.sources.telegram.tg_event.telegramify_markdown.markdownify",
         side_effect=Exception("boom"),
     ):
         await event._send_final_segment(delta, payload)

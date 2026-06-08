@@ -1,8 +1,8 @@
 # AI
 
-BulinBot provides built-in support for multiple Large Language Model (LLM) providers and offers a unified interface, making it convenient for plugin developers to access various LLM services.
+NovaBot provides built-in support for multiple Large Language Model (LLM) providers and offers a unified interface, making it convenient for plugin developers to access various LLM services.
 
-You can use the LLM / Agent interfaces provided by BulinBot to implement your own intelligent agents.
+You can use the LLM / Agent interfaces provided by NovaBot to implement your own intelligent agents.
 
 Starting from version `v4.5.7`, we've made significant improvements to the way LLM providers are invoked. We recommend using the new approach, which is more concise and supports additional features. The legacy invocation method remains documented in the previous Chinese-only guide.
 
@@ -38,9 +38,9 @@ Tools enable large language models to invoke external capabilities.
 from pydantic import Field
 from pydantic.dataclasses import dataclass
 
-from bulinbot.core.agent.run_context import ContextWrapper
-from bulinbot.core.agent.tool import FunctionTool, ToolExecResult
-from bulinbot.core.bulin_agent_context import BulinAgentContext
+from nova-bot.core.agent.run_context import ContextWrapper
+from nova-bot.core.agent.tool import FunctionTool, ToolExecResult
+from nova-bot.core.bulin_agent_context import BulinAgentContext
 
 
 @dataclass
@@ -63,10 +63,10 @@ class BilibiliTool(FunctionTool[BulinAgentContext]):
     async def call(
         self, context: ContextWrapper[BulinAgentContext], **kwargs
     ) -> ToolExecResult:
-        return "1. Video Title: How to Use BulinBot\nVideo Link: xxxxxx"
+        return "1. Video Title: How to Use NovaBot\nVideo Link: xxxxxx"
 ```
 
-## Registering Tools with BulinBot
+## Registering Tools with NovaBot
 
 Once a Tool is defined, if you want it to be automatically invoked during user conversations, register it in your plugin's `__init__` method:
 
@@ -93,7 +93,7 @@ class MyPlugin(Star):
 
 ### Registering Tools via Decorator
 
-Alternatively, you can use the `@filter.llm_tool` decorator to define and register a tool in one step. Make sure to follow the exact format below, including the docstring — BulinBot parses the docstring to generate the parameter schema:
+Alternatively, you can use the `@filter.llm_tool` decorator to define and register a tool in one step. Make sure to follow the exact format below, including the docstring — NovaBot parses the docstring to generate the parameter schema:
 
 ```py{3,4,5,6,7}
 @filter.llm_tool(name="get_weather")  # If name is omitted, the function name is used
@@ -132,7 +132,7 @@ After defining the Tool above, you can invoke an Agent as follows:
 llm_resp = await self.context.tool_loop_agent(
     event=event,
     chat_provider_id=prov_id,
-    prompt="Search for videos related to BulinBot on Bilibili.",
+    prompt="Search for videos related to NovaBot on Bilibili.",
     tools=ToolSet([BilibiliTool()]),
     max_steps=30, # Maximum agent execution steps
     tool_call_timeout=120, # Tool invocation timeout
@@ -157,10 +157,10 @@ In the example below, we define a Main Agent responsible for delegating tasks to
 Define Tools:
 
 ```py
-from bulinbot.api import logger
-from bulinbot.core.agent.run_context import ContextWrapper
-from bulinbot.core.agent.tool import FunctionTool, ToolExecResult, ToolSet
-from bulinbot.core.bulin_agent_context import BulinAgentContext
+from nova-bot.api import logger
+from nova-bot.core.agent.run_context import ContextWrapper
+from nova-bot.core.agent.tool import FunctionTool, ToolExecResult, ToolSet
+from nova-bot.core.bulin_agent_context import BulinAgentContext
 from pydantic import Field
 from pydantic.dataclasses import dataclass
 
@@ -308,7 +308,7 @@ async def test(self, event: BulinMessageEvent):
 ### Getting the Current LLM Conversation History for a Session
 
 ```py
-from bulinbot.core.conversation_mgr import Conversation
+from nova-bot.core.conversation_mgr import Conversation
 
 uid = event.unified_msg_origin
 conv_mgr = self.context.conversation_manager
@@ -324,7 +324,7 @@ class Conversation:
     """The conversation entity representing a chat session."""
 
     platform_id: str
-    """The platform ID in BulinBot"""
+    """The platform ID in NovaBot"""
     user_id: str
     """The user ID associated with the conversation."""
     cid: str
@@ -346,7 +346,7 @@ class Conversation:
 ### Quickly Adding LLM Records to a Conversation `add_message_pair`
 
 ```py
-from bulinbot.core.agent.message import (
+from nova-bot.core.agent.message import (
     AssistantMessageSegment,
     UserMessageSegment,
     TextPart,
@@ -449,7 +449,7 @@ await conv_mgr.add_message_pair(
 
 ## Persona Manager
 
-`PersonaManager` is responsible for unified loading, caching, and providing CRUD interfaces for all Personas, while maintaining compatibility with the legacy persona format (v3) from before BulinBot 4.x.  
+`PersonaManager` is responsible for unified loading, caching, and providing CRUD interfaces for all Personas, while maintaining compatibility with the legacy persona format (v3) from before NovaBot 4.x.  
 During initialization, it automatically reads all personas from the database and generates v3-compatible data for seamless use with legacy code.
 
 ```py

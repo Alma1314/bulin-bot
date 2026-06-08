@@ -1,6 +1,6 @@
 """Tests for upload filename sanitization."""
 
-from bulinbot.dashboard.routes.chat import _sanitize_upload_filename
+from novabot.dashboard.routes.chat import _sanitize_upload_filename
 
 
 def test_sanitize_upload_filename_strips_posix_traversal():

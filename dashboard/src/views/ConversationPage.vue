@@ -757,7 +757,7 @@ export default {
                     }
 
                     // 添加排除条件
-                    params.exclude_ids = 'bulinbot';
+                    params.exclude_ids = 'nova-bot';
                     params.exclude_platforms = 'webchat';
 
                     const response = await axios.get('/api/conversation/list', {

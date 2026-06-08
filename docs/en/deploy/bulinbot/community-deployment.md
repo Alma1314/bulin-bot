@@ -1,27 +1,27 @@
 # Community-Provided Deployment Methods
 
 > [!WARNING]
-> BulinBot official does not guarantee the security and stability of these deployment methods.
+> NovaBot official does not guarantee the security and stability of these deployment methods.
 
 ## Linux One-Click Deployment Script
 
 Use `curl` to download the script and execute it using `bash`:
 
 ```bash
-bash <(curl -sSL https://raw.githubusercontent.com/zhende1113/Antlia/refs/heads/main/Script/BulinBot/Antlia.sh)
+bash <(curl -sSL https://raw.githubusercontent.com/zhende1113/Antlia/refs/heads/main/Script/NovaBot/Antlia.sh)
 ```
 
 If your system does not have `curl`, you can use `wget`:
 
 ```bash
-wget -qO- https://raw.githubusercontent.com/zhende1113/Antlia/refs/heads/main/Script/BulinBot/Antlia.sh | bash
+wget -qO- https://raw.githubusercontent.com/zhende1113/Antlia/refs/heads/main/Script/NovaBot/Antlia.sh | bash
 ```
 
 Repository Address: [zhende1113/Antlia](https://github.com/zhende1113/Antlia/)
 
 ## Linux One-Click Deployment Script (Based on Docker)
 
-Supports BulinBot / NapCat.
+Supports NovaBot / NapCat.
 
 > [!TIP]
 > Use `sudo` for elevated permissions if you have insufficient privileges.
@@ -47,6 +47,6 @@ sudo ./AstrbotScript.sh
 
 __Repository Address: [railgun19457/AstrbotScript](https://github.com/railgun19457/AstrbotScript)__
 
-## BulinBot Android Deployment
+## NovaBot Android Deployment
 
-Refer to [zz6zz666/BulinBot-Android-App](https://github.com/zz6zz666/BulinBot-Android-App)
+Refer to [zz6zz666/NovaBot-Android-App](https://github.com/zz6zz666/NovaBot-Android-App)

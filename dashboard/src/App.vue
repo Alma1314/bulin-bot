@@ -31,7 +31,7 @@ const snackbarShow = computed({
 })
 
 onMounted(() => {
-  const desktopBridge = window.bulinbotDesktop
+  const desktopBridge = window.nova-botDesktop
   if (!desktopBridge?.onTrayRestartBackend) {
     return
   }

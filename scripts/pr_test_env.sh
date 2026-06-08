@@ -121,7 +121,7 @@ run_smoke_test() {
 
   local smoke_port="6185"
   local smoke_log
-  smoke_log="$(mktemp -t bulinbot-smoke.XXXXXX.log)"
+  smoke_log="$(mktemp -t nova-bot-smoke.XXXXXX.log)"
 
   echo "==> Starting smoke test on http://localhost:${smoke_port}"
   uv run main.py >"$smoke_log" 2>&1 &
@@ -137,7 +137,7 @@ run_smoke_test() {
     fi
 
     if ! kill -0 "$app_pid" 2>/dev/null; then
-      echo "BulinBot process exited before becoming healthy." >&2
+      echo "NovaBot process exited before becoming healthy." >&2
       tail -n 60 "$smoke_log" || true
       rm -f "$smoke_log"
       return 1

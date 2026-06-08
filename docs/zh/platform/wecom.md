@@ -1,6 +1,6 @@
-# BulinBot 接入企业微信
+# NovaBot 接入企业微信
 
-BulinBot 支持接入企业微信应用和微信客服。
+NovaBot 支持接入企业微信应用和微信客服。
 
 ## 支持的基本消息类型
 
@@ -20,7 +20,7 @@ BulinBot 支持接入企业微信应用和微信客服。
 
 步骤：
 
-1. 进入 BulinBot 的管理面板
+1. 进入 NovaBot 的管理面板
 2. 点击左边栏 `机器人`
 3. 然后在右边的界面中，点击 `+ 创建机器人` 
 4. 选择 `wecom`
@@ -36,9 +36,9 @@ BulinBot 支持接入企业微信应用和微信客服。
 
 1. 进入 [微信客服后台](https://kf.weixin.qq.com/)，使用企业微信扫码登录。
 
-2. **得到客服账号名。** 在 `客服账号` 中创建一个客服账号，记录下名称，填入 BulinBot 配置的 `微信客服账号名` 中（不是账号 ID）。
+2. **得到客服账号名。** 在 `客服账号` 中创建一个客服账号，记录下名称，填入 NovaBot 配置的 `微信客服账号名` 中（不是账号 ID）。
 
-3. **得到企业 ID。** 在 [企业微信 - 企业信息](https://work.weixin.qq.com/wework_admin/frame#profile) 得到企业 ID（`Corpid`），复制到 BulinBot 配置的 `corpid` 处。
+3. **得到企业 ID。** 在 [企业微信 - 企业信息](https://work.weixin.qq.com/wework_admin/frame#profile) 得到企业 ID（`Corpid`），复制到 NovaBot 配置的 `corpid` 处。
 
 4. **回调服务器验证。** 如果您之前没有使用过微信客服机器人，那么请在 `开发配置` 中点击企业内部接入右侧的 `开始使用` 按钮，您应该会看到回调配置的页面。
 
@@ -46,24 +46,24 @@ BulinBot 支持接入企业微信应用和微信客服。
 
 如果您之前使用过微信客服机器人，那么在 `开发配置` 中直接找到 `回调配置`，点击修改。
 
-点击下方的两个随机获取，得到 `Token` 和 `EncodingAESKey`，复制到 BulinBot 配置的 `token` 和 `encoding_aes_key` 处。请保持 `统一 Webhook 模式 (unified_webhook_mode)` 为开启状态。然后点击保存配置，等待适配器加载完成。
+点击下方的两个随机获取，得到 `Token` 和 `EncodingAESKey`，复制到 NovaBot 配置的 `token` 和 `encoding_aes_key` 处。请保持 `统一 Webhook 模式 (unified_webhook_mode)` 为开启状态。然后点击保存配置，等待适配器加载完成。
 
 回调 URL 填写：
 
-- 如果开启了 `统一 Webhook 模式`，点击保存之后，BulinBot 将会自动为你生成唯一的 Webhook 回调链接，你可以在日志中或者 WebUI 的机器人页的卡片上找到，将该链接填入回调 URL 处。
+- 如果开启了 `统一 Webhook 模式`，点击保存之后，NovaBot 将会自动为你生成唯一的 Webhook 回调链接，你可以在日志中或者 WebUI 的机器人页的卡片上找到，将该链接填入回调 URL 处。
 
 ![unified_webhook](https://files.bulinbot.app/docs/source/images/use/unified-webhook.png)
 
 - 如果没有开启 `统一 Webhook 模式`，填写 `http://你的带公网地址的服务器ip:6195/callback/command`。
 
-> 请注意放行端口。如果开启了统一 Webhook 模式，需要将请求转发到 BulinBot 所在服务器的 `6185` 端口；如果没有开启，则转发到配置指定的端口（默认 `6195`）。
+> 请注意放行端口。如果开启了统一 Webhook 模式，需要将请求转发到 NovaBot 所在服务器的 `6185` 端口；如果没有开启，则转发到配置指定的端口（默认 `6195`）。
 
 回到微信客服 `回调配置`，点击 `完成`。如果一切无误，将会显示 `已完成`（否则会显示类似 `openapi 回调不通过` 类似的文本）。
 
 1. **获取 Secret。** 之后，在 `开发配置` 中得到 Secret，找到复制到刚刚创建的企业微信适配器，点击编辑，然后修改配置中的 `secret`。然后再次保存配置，等待适配器加载完成。
 
 > [!TIP]
-> 根据 [#571](https://github.com/Soulter/BulinBot/issues/571) 的反馈，对于新注册的企业，`corp_id` 可能要注册一段时间后才生效（前后大概过了半个小时）。
+> 根据 [#571](https://github.com/Soulter/NovaBot/issues/571) 的反馈，对于新注册的企业，`corp_id` 可能要注册一段时间后才生效（前后大概过了半个小时）。
 
 然后，打开 `控制台` 页，你应该会看到如下日志：
 
@@ -79,16 +79,16 @@ BulinBot 支持接入企业微信应用和微信客服。
 
 进入 https://work.weixin.qq.com/wework_admin/frame#apps
 
-点击 `我的企业`，查看并得到企业 ID（`Corpid`），复制到 BulinBot 配置的 `corpid` 处。
+点击 `我的企业`，查看并得到企业 ID（`Corpid`），复制到 NovaBot 配置的 `corpid` 处。
 
 > [!TIP]
-> 根据 [#571](https://github.com/Soulter/BulinBot/issues/571) 的反馈，对于新注册的企业，`corp_id` 可能要注册一段时间后才生效（前后大概过了半个小时）。
+> 根据 [#571](https://github.com/Soulter/NovaBot/issues/571) 的反馈，对于新注册的企业，`corp_id` 可能要注册一段时间后才生效（前后大概过了半个小时）。
 
 ![image](https://files.bulinbot.app/docs/source/images/wecom/image-5.png)
 
 点击下面的 `自建应用`，然后点击 `创建应用`，填写好应用名称、头像、应用可见范围等信息。
 
-进入应用，查看并得到机器人的 `Secret`，复制到 BulinBot 配置的 `secret` 处。
+进入应用，查看并得到机器人的 `Secret`，复制到 NovaBot 配置的 `secret` 处。
 
 ![image](https://files.bulinbot.app/docs/source/images/wecom/image-4.png)
 
@@ -98,19 +98,19 @@ BulinBot 支持接入企业微信应用和微信客服。
 
 ![image](https://files.bulinbot.app/docs/source/images/wecom/image-9.png)
 
-并且点击下方的两个随机获取，得到 `Token` 和 `EncodingAESKey`，复制到 BulinBot 配置的 `token` 和 `encoding_aes_key` 处。建议保持 `统一 Webhook 模式 (unified_webhook_mode)` 为开启状态。
+并且点击下方的两个随机获取，得到 `Token` 和 `EncodingAESKey`，复制到 NovaBot 配置的 `token` 和 `encoding_aes_key` 处。建议保持 `统一 Webhook 模式 (unified_webhook_mode)` 为开启状态。
 
-现在应该已经填完 BulinBot 连接到企业微信的所有配置项。点击 BulinBot 配置页右下角保存，等待 BulinBot 重启。
+现在应该已经填完 NovaBot 连接到企业微信的所有配置项。点击 NovaBot 配置页右下角保存，等待 NovaBot 重启。
 
 在 URL 处填入回调地址：
 
-- 如果开启了 `统一 Webhook 模式`，点击保存之后，BulinBot 将会自动为你生成唯一的 Webhook 回调链接，你可以在日志中或者 WebUI 的机器人页的卡片上找到，将该链接填入 URL 处。
+- 如果开启了 `统一 Webhook 模式`，点击保存之后，NovaBot 将会自动为你生成唯一的 Webhook 回调链接，你可以在日志中或者 WebUI 的机器人页的卡片上找到，将该链接填入 URL 处。
 
 ![unified_webhook](https://files.bulinbot.app/docs/source/images/use/unified-webhook.png)
 
 - 如果没有开启 `统一 Webhook 模式`，填入 `http://你的带公网地址的服务器ip:6195/callback/command`。
 
-> 请注意放行端口。如果开启了统一 Webhook 模式，需要将请求转发到 BulinBot 所在服务器的 `6185` 端口；如果没有开启，则转发到配置指定的端口（默认 `6195`）。
+> 请注意放行端口。如果开启了统一 Webhook 模式，需要将请求转发到 NovaBot 所在服务器的 `6185` 端口；如果没有开启，则转发到配置指定的端口（默认 `6195`）。
 
 接下来配置企业可信 IP。
 
@@ -121,17 +121,17 @@ BulinBot 支持接入企业微信应用和微信客服。
 
 重启成功后，回到API 接收页面，点击下面的保存，看是否能够保存成功。如果出现 `openapi 请求回调地址不通过` 说明配置有问题，请检查四个配置项是否填写正确。
 
-如果能够保存成功，BulinBot 就已经能够接收信息。
+如果能够保存成功，NovaBot 就已经能够接收信息。
 
 ## 测试
 
-在企业微信-工作台中，找到刚刚创建的应用，发送 `/help`，看看 BulinBot 是否能够回复。
+在企业微信-工作台中，找到刚刚创建的应用，发送 `/help`，看看 NovaBot 是否能够回复。
 
 ![image](https://files.bulinbot.app/docs/source/images/wecom/3dc9fa61145ab0dd8f56a10295affec8_720.png)
 
 ## 反向代理(自定义 API BASE)
 
-BulinBot 支持自定义企业微信的终结点以适应家庭 ip 没有固定的公网 IP 问题。
+NovaBot 支持自定义企业微信的终结点以适应家庭 ip 没有固定的公网 IP 问题。
 
 只需要将您的自定义地址填入 `api_base_url` 即可。
 

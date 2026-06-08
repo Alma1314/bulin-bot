@@ -26,7 +26,7 @@
         variant="text"
         size="small"
         color="grey"
-        href="https://docs.bulinbot.app/use/knowledge-base.html"
+        href="https://docs.nova-bot.app/use/knowledge-base.html"
         target="_blank"
       />
     </div>

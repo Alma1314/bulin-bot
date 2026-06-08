@@ -2,8 +2,8 @@ import json
 
 import pytest
 
-from bulinbot.cli.commands import cmd_init
-from bulinbot.core.utils.auth_password import verify_dashboard_password
+from novabot.cli.commands import cmd_init
+from novabot.core.utils.auth_password import verify_dashboard_password
 
 
 @pytest.mark.asyncio
@@ -16,9 +16,9 @@ async def test_init_without_initial_password_env_does_not_create_config(
 
     monkeypatch.delenv(cmd_init.DASHBOARD_INITIAL_PASSWORD_ENV, raising=False)
     monkeypatch.setattr(cmd_init, "check_dashboard", fake_check_dashboard)
-    (tmp_path / ".bulinbot").touch()
+    (tmp_path / ".novabot").touch()
 
-    await cmd_init.initialize_bulinbot(tmp_path)
+    await cmd_init.initialize_novabot(tmp_path)
 
     assert not (tmp_path / "data" / "cmd_config.json").exists()
 
@@ -31,12 +31,12 @@ async def test_init_uses_initial_password_env_to_create_config(
     async def fake_check_dashboard(_data_path):
         return None
 
-    initial_password = "BulinBotInitialPassword123"
+    initial_password = "NovaBotInitialPassword123"
     monkeypatch.setenv(cmd_init.DASHBOARD_INITIAL_PASSWORD_ENV, initial_password)
     monkeypatch.setattr(cmd_init, "check_dashboard", fake_check_dashboard)
-    (tmp_path / ".bulinbot").touch()
+    (tmp_path / ".novabot").touch()
 
-    await cmd_init.initialize_bulinbot(tmp_path)
+    await cmd_init.initialize_novabot(tmp_path)
 
     config_path = tmp_path / "data" / "cmd_config.json"
     config = json.loads(config_path.read_text(encoding="utf-8-sig"))

@@ -52,9 +52,9 @@
 
 ![image](https://files.bulinbot.app/docs/source/images/qqofficial/image-3.png)
 
-## 在 BulinBot 配置
+## 在 NovaBot 配置
 
-1. 进入 BulinBot 的管理面板
+1. 进入 NovaBot 的管理面板
 2. 点击左边栏 `机器人`
 3. 然后在右边的界面中，点击 `+ 创建机器人`
 4. 选择 `qq_official_webhook`
@@ -71,20 +71,20 @@
 
 ## 反向代理
 
-保存之后，请根据你的服务器环境，配置域名 DNS 解析和反向代理，将请求转发到 BulinBot 所在服务器的 `6185` 端口 (如果没有开启统一 Webhook 模式，将请求转发到上一步配置指定的端口)。
+保存之后，请根据你的服务器环境，配置域名 DNS 解析和反向代理，将请求转发到 NovaBot 所在服务器的 `6185` 端口 (如果没有开启统一 Webhook 模式，将请求转发到上一步配置指定的端口)。
 
 ## 设置回调地址
 
 在 `开发->回调配置` 处，配置回调地址。
 
-上一步点击保存之后，BulinBot 将会自动为你生成唯一的 Webhook 回调链接，你可以在日志中或者 WebUI 的机器人页的卡片上找到。
+上一步点击保存之后，NovaBot 将会自动为你生成唯一的 Webhook 回调链接，你可以在日志中或者 WebUI 的机器人页的卡片上找到。
 
 ![unified_webhook](https://files.bulinbot.app/docs/source/images/use/unified-webhook.png)
 
 将请求地址填写为该地址。
 
 > [!TIP]
-> v4.8.0 之前没有 `统一 Webhook 模式`，则请求地址填写 `<你的域名>/bulinbot-qo-webhook/callback`。
+> v4.8.0 之前没有 `统一 Webhook 模式`，则请求地址填写 `<你的域名>/nova-bot-qo-webhook/callback`。
 
 填写好之后，添加事件，四个事件类型都全选：单聊事件、群事件、频道事件等，如下图。
 
@@ -92,11 +92,11 @@
 
 输入完成后，将光标挪出输入框，将会发送一次验证请求。如果没问题，右边的确定配置按钮将可点击，点击即可。
 
-接着重启 BulinBot。
+接着重启 NovaBot。
 
 ## 🎉 大功告成
 
-此时，你的 BulinBot 应该已经连接成功。如果发送消息没有反应，请等待一两分钟后重启 BulinBot 再进行确认（测试时发现回调地址不会立即生效）。
+此时，你的 NovaBot 应该已经连接成功。如果发送消息没有反应，请等待一两分钟后重启 NovaBot 再进行确认（测试时发现回调地址不会立即生效）。
 
 ## 附录：如何配置反向代理
 

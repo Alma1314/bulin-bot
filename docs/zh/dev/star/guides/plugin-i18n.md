@@ -1,6 +1,6 @@
 # 插件国际化
 
-插件可以在自己的目录下提供 `.bulinbot-plugin/i18n/*.json`，让 WebUI 根据当前语言显示插件名称、描述和配置项文案。
+插件可以在自己的目录下提供 `.nova-bot-plugin/i18n/*.json`，让 WebUI 根据当前语言显示插件名称、描述和配置项文案。
 
 ## 目录结构
 
@@ -8,7 +8,7 @@
 your_plugin/
   metadata.yaml
   _conf_schema.json
-  .bulinbot-plugin/
+  .nova-bot-plugin/
     i18n/
       zh-CN.json
       en-US.json
@@ -16,7 +16,7 @@ your_plugin/
 
 语言文件名使用 WebUI 的 locale，例如 `zh-CN.json`、`en-US.json`。文件内容必须是 JSON object。
 
-当当前语言没有对应翻译、某个字段缺失，或语言文件不存在时，BulinBot 会回退到默认文案：
+当当前语言没有对应翻译、某个字段缺失，或语言文件不存在时，NovaBot 会回退到默认文案：
 
 - 插件名称、卡片短描述和描述回退到 `metadata.yaml` 中的 `display_name`、`short_desc`、`desc`。
 - 配置项文案回退到 `_conf_schema.json` 中的 `description`、`hint`、`labels`。
@@ -59,7 +59,7 @@ your_plugin/
 }
 ```
 
-对应 `.bulinbot-plugin/i18n/zh-CN.json`：
+对应 `.nova-bot-plugin/i18n/zh-CN.json`：
 
 ```json
 {
@@ -90,7 +90,7 @@ pages/
     index.html
 ```
 
-对应 `.bulinbot-plugin/i18n/zh-CN.json`：
+对应 `.nova-bot-plugin/i18n/zh-CN.json`：
 
 ```json
 {
@@ -108,7 +108,7 @@ pages/
 `title` 会用于 WebUI 外壳标题和插件详情页中的 Page 组件名称，`description` 会用于插件详情页中的 Page 组件描述。其他字段由页面通过 bridge 自行读取：
 
 ```js
-const bridge = window.BulinBotPluginPage;
+const bridge = window.NovaBotPluginPage;
 
 function render() {
   document.getElementById("save").textContent = bridge.t(
@@ -190,4 +190,4 @@ bridge.onContext(render);
 
 ## 约束
 
-插件国际化只读取 `.bulinbot-plugin/i18n` 目录。语言文件必须使用嵌套 JSON 结构，不支持点号扁平 key。
+插件国际化只读取 `.nova-bot-plugin/i18n` 目录。语言文件必须使用嵌套 JSON 结构，不支持点号扁平 key。

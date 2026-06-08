@@ -25,11 +25,11 @@ Matrix 是一个 IM 协议，有着丰富的服务端实现。
 
 \*: 会持久化到本地，插件会按配置清理，在发送前会进行上传操作，超过服务器允许大小的上传将会失败
 
-## 安装 bulinbot_plugin_matrix_adapter 插件
+## 安装 nova-bot_plugin_matrix_adapter 插件
 
-进入 BulinBot WebUI 的插件市场，搜索 `bulinbot_plugin_matrix_adapter`，点击安装。
+进入 NovaBot WebUI 的插件市场，搜索 `nova-bot_plugin_matrix_adapter`，点击安装。
 
-安装完成后，前往 机器人（旧版本为 `消息平台`） → 新增适配器 → 选择 Matrix（若选项缺失，尝试重启 BulinBot 或检查插件安装状态）。
+安装完成后，前往 机器人（旧版本为 `消息平台`） → 新增适配器 → 选择 Matrix（若选项缺失，尝试重启 NovaBot 或检查插件安装状态）。
 
 在弹出的配置对话框中点击 `启用`。
 
@@ -37,10 +37,10 @@ Matrix 是一个 IM 协议，有着丰富的服务端实现。
 
 - **`matrix_homeserver` (必填)**: 你的 matrix 服务器实例的完整URL地址,支持域名委托自动探测。例如官方实例`https://matrix.org`
 - **`matrix_user_id`**: 你的 matrix 完整用户名。如 `@username:homeserver.com`
-- **`matrix_auth_method` (必填)** : 你的登陆方式，可选`password`,`token`,`oauth2`,`qr`推荐使用`password`或`oauth2/qr`模式 (oauth2/qr 模式下请确保用于认证/扫码的设备回调可以访问到 bulinbot 配置的公开地址)
+- **`matrix_auth_method` (必填)** : 你的登陆方式，可选`password`,`token`,`oauth2`,`qr`推荐使用`password`或`oauth2/qr`模式 (oauth2/qr 模式下请确保用于认证/扫码的设备回调可以访问到 nova-bot 配置的公开地址)
 
-更多请参考该仓库的 [README.md](https://github.com/stevessr/bulinbot_plugin_matrix_adapter?tab=readme-ov-file#bulinbot-matrix-adapter-%E6%8F%92%E4%BB%B6) 进行配置。
+更多请参考该仓库的 [README.md](https://github.com/stevessr/nova-bot_plugin_matrix_adapter?tab=readme-ov-file#nova-bot-matrix-adapter-%E6%8F%92%E4%BB%B6) 进行配置。
 
 ## 问题提交
 
-如有疑问，请提交 issue 至[插件仓库](https://github.com/stevessr/bulinbot_plugin_matrix_adapter/issues)。
+如有疑问，请提交 issue 至[插件仓库](https://github.com/stevessr/nova-bot_plugin_matrix_adapter/issues)。

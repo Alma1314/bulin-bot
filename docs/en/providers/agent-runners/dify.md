@@ -4,7 +4,7 @@
 
 If you haven't installed Dify yet, please refer to the [Dify Installation Documentation](https://docs.dify.ai/getting-started/install-self-hosted) to install it.
 
-## Configure Dify in BulinBot
+## Configure Dify in NovaBot
 
 In the WebUI, click "Model Provider" -> "Add Provider", select "Agent Runner", select "Dify", and enter the Dify configuration page.
 
@@ -19,7 +19,7 @@ According to the current Dify project, there are three types:
 - workflow
 
 >[!TIP]
->Please ensure that the APP type you set in BulinBot matches the application type created in Dify.
+>Please ensure that the APP type you set in NovaBot matches the application type created in Dify.
 >![image](https://files.bulinbot.app/docs/source/images/dify/image-3.png)
 
 
@@ -41,16 +41,16 @@ Workflow applications receive input variables, execute the workflow, and output 
 
 ![image](https://files.bulinbot.app/docs/source/images/dify/workflow-io-key.png)
 
-For Workflow applications, BulinBot will attach two variables with each request:
+For Workflow applications, NovaBot will attach two variables with each request:
 
-- `bulinbot_text_query`: Input variable name. This is the text content entered by the user.
-- `bulinbot_session_id`: Session ID
+- `nova-bot_text_query`: Input variable name. This is the text content entered by the user.
+- `nova-bot_session_id`: Session ID
 
 You can customize the input variable name in the configuration, which is the "Prompt Input Variable Name" shown in the figure above.
 
-You need to modify the input variable name of your Workflow to adapt to BulinBot's input.
+You need to modify the input variable name of your Workflow to adapt to NovaBot's input.
 
-Finally, the Workflow will output a result. You can customize the variable name of this result, which is the "Dify Workflow Output Variable Name" in the configuration above, with a default value of `bulinbot_wf_output`. You need to configure this variable name in the output node of the Dify Workflow, otherwise BulinBot cannot parse it correctly.
+Finally, the Workflow will output a result. You can customize the variable name of this result, which is the "Dify Workflow Output Variable Name" in the configuration above, with a default value of `nova-bot_wf_output`. You need to configure this variable name in the output node of the Dify Workflow, otherwise NovaBot cannot parse it correctly.
 
 #### Create API Key
 
@@ -72,7 +72,7 @@ You can use the `/set` command to dynamically set input variables, as shown in t
 
 ![alt text](https://files.bulinbot.app/docs/source/images/dify/image-5.png)
 
-After setting variables, BulinBot will attach the variables you set in the next request to Dify, flexibly adapting to your Workflow.
+After setting variables, NovaBot will attach the variables you set in the next request to Dify, flexibly adapting to your Workflow.
 
 ![alt text](https://files.bulinbot.app/docs/source/images/dify/image-4.png)
 

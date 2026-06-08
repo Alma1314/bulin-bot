@@ -1,25 +1,25 @@
-# Deploy BulinBot with BulinBot Launcher
+# Deploy NovaBot with NovaBot Launcher
 
-## Recommended Method 1: BulinBot One-Click Launcher
+## Recommended Method 1: NovaBot One-Click Launcher
 
-BulinBot One-Click Launcher supports Windows, macOS, and Linux.
+NovaBot One-Click Launcher supports Windows, macOS, and Linux.
 
-0. Open [BulinBotDevs/bulinbot-launcher](https://github.com/BulinBotDevs/bulinbot-launcher)
-1. **Optional but recommended**: give this project a [**Star ⭐**](https://github.com/BulinBotDevs/bulinbot-launcher). Your support helps maintainers keep improving it.
+0. Open [NovaBotDevs/nova-bot-launcher](https://github.com/NovaBotDevs/nova-bot-launcher)
+1. **Optional but recommended**: give this project a [**Star ⭐**](https://github.com/NovaBotDevs/nova-bot-launcher). Your support helps maintainers keep improving it.
 2. Find **Releases** on the right, open the latest release, then download the installer for your system from **Assets**.
 
 For example:
 
-- Windows x86 users: `BulinBot.Launcher_0.2.1_x64-setup.exe`
-- Windows on Arm users: `BulinBot.Launcher_0.2.1_arm64-setup.exe`
-- macOS Apple Silicon users: `BulinBot.Launcher_0.2.1_aarch64.dmg`
+- Windows x86 users: `NovaBot.Launcher_0.2.1_x64-setup.exe`
+- Windows on Arm users: `NovaBot.Launcher_0.2.1_arm64-setup.exe`
+- macOS Apple Silicon users: `NovaBot.Launcher_0.2.1_aarch64.dmg`
 
 For macOS users, if you see "damaged and can't be opened", it is caused by macOS security restrictions on unsigned apps. Fix it with:
 
 1. Open Terminal.
 2. Run:
-   `xattr -dr com.apple.quarantine /Applications/BulinBot\ Launcher.app`
-3. Reopen BulinBot Launcher.
+   `xattr -dr com.apple.quarantine /Applications/NovaBot\ Launcher.app`
+3. Reopen NovaBot Launcher.
 
 ## Method 2: Legacy Windows Installer
 
@@ -35,7 +35,7 @@ The legacy installer is a `PowerShell` script, very small (<20KB). It requires `
 
 ## Download the Legacy Installer
 
-Open <https://github.com/BulinBotDevs/BulinBotLauncher/releases/latest>
+Open <https://github.com/NovaBotDevs/NovaBotLauncher/releases/latest>
 
 Download `Source code (zip)` and extract it.
 
@@ -49,29 +49,29 @@ Type `PowerShell` in the address bar and press Enter:
 
 ![image](https://files.bulinbot.app/docs/source/images/windows/image-4.png)
 
-Drag `launcher_bulinbot_en.bat` into the PowerShell window and press Enter.
+Drag `launcher_nova-bot_en.bat` into the PowerShell window and press Enter.
 
 > [!WARNING]
 > - The script is safe. If you see `Windows protected your PC`, click `More info` and then `Run anyway`.
-> - By default, it uses `python`. If you want to specify another interpreter path/command, edit `launcher_bulinbot_en.bat`, find `set PYTHON_CMD=python`, and replace `python` with your own command/path.
+> - By default, it uses `python`. If you want to specify another interpreter path/command, edit `launcher_nova-bot_en.bat`, find `set PYTHON_CMD=python`, and replace `python` with your own command/path.
 
 If Python is not detected, the script exits with a prompt.
 
-The script checks whether an `BulinBot` folder exists. If not, it downloads the latest BulinBot source from [GitHub](https://github.com/BulinBotDevs/BulinBot/releases/latest), installs dependencies, and runs it automatically.
+The script checks whether an `NovaBot` folder exists. If not, it downloads the latest NovaBot source from [GitHub](https://github.com/NovaBotDevs/NovaBot/releases/latest), installs dependencies, and runs it automatically.
 
 ## Done
 
-If everything works, you will see BulinBot logs.
+If everything works, you will see NovaBot logs.
 
-Without errors, you should see a log like `🌈 Management panel started, accessible at` with several URLs. Open one URL to access BulinBot WebUI.
+Without errors, you should see a log like `🌈 Management panel started, accessible at` with several URLs. Open one URL to access NovaBot WebUI.
 
 > [!TIP]
-> First-time logins use the random password generated on startup and printed to logs. Use that password (and the username shown in the logs, usually `bulinbot`) to log in, then change it immediately.
+> First-time logins use the random password generated on startup and printed to logs. Use that password (and the username shown in the logs, usually `nova-bot`) to log in, then change it immediately.
 >
 > If WebUI returns 404:
-> Download `dist.zip` from [release](https://github.com/BulinBotDevs/BulinBot/releases), extract it into `BulinBot/data`, then restart the computer if needed.
+> Download `dist.zip` from [release](https://github.com/NovaBotDevs/NovaBot/releases), extract it into `NovaBot/data`, then restart the computer if needed.
 
-Then deploy at least one messaging platform adapter to start using BulinBot in IM apps.
+Then deploy at least one messaging platform adapter to start using NovaBot in IM apps.
 
 ## Error: Python is not installed
 
@@ -91,7 +91,7 @@ Copy the file path:
 
 ![image](https://files.bulinbot.app/docs/source/images/windows/image-2.png)
 
-Edit `launcher_bulinbot_en.bat` in Notepad, find `set PYTHON_CMD=python`, and replace `python` with your interpreter command/path. Keep quotes if your path contains spaces.
+Edit `launcher_nova-bot_en.bat` in Notepad, find `set PYTHON_CMD=python`, and replace `python` with your interpreter command/path. Keep quotes if your path contains spaces.
 
 **Method 2**
 

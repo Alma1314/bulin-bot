@@ -229,7 +229,7 @@
 
 <script>
 import axios from 'axios';
-import BulinBotConfig from '@/components/shared/BulinBotConfig.vue';
+import NovaBotConfig from '@/components/shared/NovaBotConfig.vue';
 import WaitingForRestart from '@/components/shared/WaitingForRestart.vue';
 import ConsoleDisplayer from '@/components/shared/ConsoleDisplayer.vue';
 import ItemCard from '@/components/shared/ItemCard.vue';
@@ -247,7 +247,7 @@ import { copyToClipboard } from '@/utils/clipboard';
 export default {
   name: 'PlatformPage',
   components: {
-    BulinBotConfig,
+    NovaBotConfig,
     WaitingForRestart,
     ConsoleDisplayer,
     ItemCard,
@@ -327,7 +327,7 @@ export default {
     }, 5000);
     
     // 监听语言切换事件，重新加载配置以获取插件的 i18n 数据
-    window.addEventListener('bulinbot-locale-changed', this.handleLocaleChange);
+    window.addEventListener('novabot-locale-changed', this.handleLocaleChange);
   },
 
   beforeUnmount() {
@@ -335,7 +335,7 @@ export default {
       clearInterval(this.statsRefreshInterval);
     }
     // 移除语言切换事件监听器
-    window.removeEventListener('bulinbot-locale-changed', this.handleLocaleChange);
+    window.removeEventListener('novabot-locale-changed', this.handleLocaleChange);
   },
 
   methods: {

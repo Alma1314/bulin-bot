@@ -1,5 +1,5 @@
 // Utility for managing sidebar customization in localStorage
-const STORAGE_KEY = 'bulinbot_sidebar_customization';
+const STORAGE_KEY = 'nova-bot_sidebar_customization';
 
 /**
  * Get the customized sidebar configuration from localStorage

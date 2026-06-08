@@ -3,9 +3,9 @@
 The `main.py` file in the plugin template is a minimal plugin instance.
 
 ```python
-from bulinbot.api.event import filter, BulinMessageEvent, MessageEventResult
-from bulinbot.api.star import Context, Star
-from bulinbot.api import logger # Use the logger interface provided by BulinBot
+from nova-bot.api.event import filter, BulinMessageEvent, MessageEventResult
+from nova-bot.api.star import Context, Star
+from nova-bot.api import logger # Use the logger interface provided by NovaBot
 
 class MyPlugin(Star):
     def __init__(self, context: Context):
@@ -27,10 +27,10 @@ class MyPlugin(Star):
 Explanation:
 
 - Plugins must inherit from the `Star` class.
-- The `Context` class is used for plugin interaction with BulinBot Core, allowing you to call various APIs provided by BulinBot Core.
+- The `Context` class is used for plugin interaction with NovaBot Core, allowing you to call various APIs provided by NovaBot Core.
 - Specific handler functions are defined within the plugin class, such as the `helloworld` function here.
-- `BulinMessageEvent` is BulinBot's message event object, which stores information about the message sender, message content, etc.
-- `BulinBotMessage` is BulinBot's message object, which stores the specific content of messages delivered by the messaging platform. It can be accessed via `event.message_obj`.
+- `BulinMessageEvent` is NovaBot's message event object, which stores information about the message sender, message content, etc.
+- `NovaBotMessage` is NovaBot's message object, which stores the specific content of messages delivered by the messaging platform. It can be accessed via `event.message_obj`.
 
 > [!TIP]
 >

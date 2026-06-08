@@ -1,12 +1,12 @@
 export type DesktopRuntimeInfo = {
-  bridge: Window['bulinbotDesktop'] | undefined
+  bridge: Window['nova-botDesktop'] | undefined
   hasDesktopRuntimeProbe: boolean
   hasDesktopRestartCapability: boolean
   isDesktopRuntime: boolean
 }
 
 export async function getDesktopRuntimeInfo(): Promise<DesktopRuntimeInfo> {
-  const bridge = window.bulinbotDesktop
+  const bridge = window.nova-botDesktop
   const hasDesktopRuntimeProbe =
     !!bridge && typeof bridge.isDesktopRuntime === 'function'
   const hasDesktopRestartCapability =

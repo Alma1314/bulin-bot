@@ -1,6 +1,6 @@
 # 接入 Discord
 
-## 创建 BulinBot Discord 平台适配器
+## 创建 NovaBot Discord 平台适配器
 
 进入机器人，点击新增适配器，找到 Discord 并点击进入 Discord 配置页。
 > 旧版本`机器人`为`消息平台`
@@ -13,7 +13,7 @@
 - 启用：勾选后启用该适配器
 - Bot Token：在 Discord 创建 App 后获取的 Token（见下文）
 - Discord 代理地址：如果你需要使用代理访问 Discord，可以在这里填写代理地址（可选）
-- 是否自动将插件指令注册为 Discord 斜杠指令：勾选后，BulinBot 会自动将已安装插件中的指令注册为 Discord 斜杠指令，方便用户使用。
+- 是否自动将插件指令注册为 Discord 斜杠指令：勾选后，NovaBot 会自动将已安装插件中的指令注册为 Discord 斜杠指令，方便用户使用。
 
 ## 在 Discord 创建 App
 
@@ -71,4 +71,4 @@ Discord 支持预回应表情功能。启用后，机器人在处理消息时会
 
 - 如果卡在最后的步骤，机器人不在线请确定自己的服务器可以直接连接discord
 
-如果有疑问，请[提交 Issue](https://github.com/BulinBotDevs/BulinBot/issues)。
+如果有疑问，请[提交 Issue](https://github.com/NovaBotDevs/NovaBot/issues)。

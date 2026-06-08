@@ -74,8 +74,8 @@ const totpSecret = computed(() => props.configRoot?.dashboard?.totp?.secret || '
 
 const totpProvisioningUri = computed(() => {
   if (!totpSecret.value) return ''
-  const label = encodeURIComponent(props.configRoot?.dashboard?.username || 'BulinBot')
-  const issuer = encodeURIComponent('BulinBot')
+  const label = encodeURIComponent(props.configRoot?.dashboard?.username || 'NovaBot')
+  const issuer = encodeURIComponent('NovaBot')
   return `otpauth://totp/${label}?secret=${encodeURIComponent(totpSecret.value)}&issuer=${issuer}`
 })
 </script>

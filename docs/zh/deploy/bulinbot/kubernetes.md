@@ -1,9 +1,9 @@
-# 使用 Kubernetes 部署 BulinBot
+# 使用 Kubernetes 部署 NovaBot
 
 > [!WARNING]
-> 通过 Kubernetes (K8s) 可以将 BulinBot 以高可用的方式部署在集群环境中，当出现故障时可以自动拉起恢复。
+> 通过 Kubernetes (K8s) 可以将 NovaBot 以高可用的方式部署在集群环境中，当出现故障时可以自动拉起恢复。
 >
-> 由于 BulinBot 当前使用 SQLite 数据库，此部署方案不支持多副本水平扩展。同时，若采用 Sidecar 模式，NapCat 的登录状态持久化需要您特别关注。
+> 由于 NovaBot 当前使用 SQLite 数据库，此部署方案不支持多副本水平扩展。同时，若采用 Sidecar 模式，NapCat 的登录状态持久化需要您特别关注。
 >
 > 以下教程默认您的环境已安装并配置好 `kubectl`，且能够连接到您的 K8s 集群。
 
@@ -18,28 +18,28 @@
 
 我们提供两种部署方案：
 
-*   **集成部署 (Sidecar 模式)**：将 BulinBot 和 NapCat 部署在同一个 Pod 中，推荐用于 QQ 个人号。
-*   **独立部署**：只部署 BulinBot，适用于其他平台或您希望独立管理 NapCat 的场景。
+*   **集成部署 (Sidecar 模式)**：将 NovaBot 和 NapCat 部署在同一个 Pod 中，推荐用于 QQ 个人号。
+*   **独立部署**：只部署 NovaBot，适用于其他平台或您希望独立管理 NapCat 的场景。
 
 ---
 
 ### 方式一：和 NapCatQQ 一起部署 (Sidecar)
 
-此方式位于 `k8s/bulinbot_with_napcat` 目录。
+此方式位于 `k8s/nova-bot_with_napcat` 目录。
 
 #### 1. 部署
 
 ```bash
 # 1. 创建命名空间
-kubectl apply -f k8s/bulinbot_with_napcat/00-namespace.yaml
+kubectl apply -f k8s/nova-bot_with_napcat/00-namespace.yaml
 
 # 2. 创建持久化存储卷
-# 注意：bulinbot-data-shared-pvc 需要 ReadWriteMany (RWX) 访问模式。
+# 注意：nova-bot-data-shared-pvc 需要 ReadWriteMany (RWX) 访问模式。
 # 如果您的集群不支持 RWX，您需要配置 NFS 等共享存储，并修改 01-pvc.yaml 中的 storageClassName。
-kubectl apply -f k8s/bulinbot_with_napcat/01-pvc.yaml
+kubectl apply -f k8s/nova-bot_with_napcat/01-pvc.yaml
 
 # 3. 部署应用
-kubectl apply -f k8s/bulinbot_with_napcat/02-deployment.yaml
+kubectl apply -f k8s/nova-bot_with_napcat/02-deployment.yaml
 ```
 
 #### 2. 暴露服务 (二选一)
@@ -47,33 +47,33 @@ kubectl apply -f k8s/bulinbot_with_napcat/02-deployment.yaml
 *   **方式 A: NodePort**
 
     ```bash
-    kubectl apply -f k8s/bulinbot_with_napcat/03-service-nodeport.yaml
+    kubectl apply -f k8s/nova-bot_with_napcat/03-service-nodeport.yaml
     ```
 
     服务将通过节点 IP 和一个由 Kubernetes 自动分配的端口暴露。您可以通过以下命令查看端口：
 
     ```bash
-    kubectl get svc -n bulinbot-ns
+    kubectl get svc -n nova-bot-ns
     ```
 
-    在输出中找到 `bulinbot-webui-svc` 和 `napcat-web-svc` 的 `PORT(S)` 列，格式为 `<内部端口>:<NodePort端口>/TCP`。例如 `8080:30185/TCP`，则访问地址为 `http://<NodeIP>:30185`。
+    在输出中找到 `nova-bot-webui-svc` 和 `napcat-web-svc` 的 `PORT(S)` 列，格式为 `<内部端口>:<NodePort端口>/TCP`。例如 `8080:30185/TCP`，则访问地址为 `http://<NodeIP>:30185`。
 
 *   **方式 B: LoadBalancer**
 
     如果您的集群支持 `LoadBalancer` 类型的服务 (通常在云厂商的 K8s 服务中提供)，可以使用此方式。
 
     ```bash
-    kubectl apply -f k8s/bulinbot_with_napcat/04-service-loadbalancer.yaml
+    kubectl apply -f k8s/nova-bot_with_napcat/04-service-loadbalancer.yaml
     ```
 
-    执行后，通过 `kubectl get svc -n bulinbot-ns` 查看分配到的外部 IP (EXTERNAL-IP)。
+    执行后，通过 `kubectl get svc -n nova-bot-ns` 查看分配到的外部 IP (EXTERNAL-IP)。
 
 #### 3. 配置连接
 
-由于 BulinBot 和 NapCat 在同一个 Pod 中，它们可以通过 `localhost` 直接通信。
+由于 NovaBot 和 NapCat 在同一个 Pod 中，它们可以通过 `localhost` 直接通信。
 
-1.  **在 BulinBot 中添加消息平台：**
-    *   进入 BulinBot WebUI，选择 `机器人` -> `添加`。
+1.  **在 NovaBot 中添加消息平台：**
+    *   进入 NovaBot WebUI，选择 `机器人` -> `添加`。
     *   **选择消息平台类别**: `aiocqhttp`
     *   **机器人名称**: `napcat` (或自定义)
     *   **反向 Websocket 主机**: `0.0.0.0`
@@ -91,21 +91,21 @@ kubectl apply -f k8s/bulinbot_with_napcat/02-deployment.yaml
 
 ---
 
-### 方式二：只部署 BulinBot (通用方式)
+### 方式二：只部署 NovaBot (通用方式)
 
-此方式位于 `k8s/bulinbot` 目录。
+此方式位于 `k8s/nova-bot` 目录。
 
 #### 1. 部署
 
 ```bash
 # 1. 创建命名空间
-kubectl apply -f k8s/bulinbot/00-namespace.yaml
+kubectl apply -f k8s/nova-bot/00-namespace.yaml
 
 # 2. 创建持久化存储卷
-kubectl apply -f k8s/bulinbot/01-pvc.yaml
+kubectl apply -f k8s/nova-bot/01-pvc.yaml
 
 # 3. 部署应用
-kubectl apply -f k8s/bulinbot/02-deployment.yaml
+kubectl apply -f k8s/nova-bot/02-deployment.yaml
 ```
 
 #### 2. 暴露服务 (二选一)
@@ -113,24 +113,24 @@ kubectl apply -f k8s/bulinbot/02-deployment.yaml
 *   **方式 A: NodePort**
 
     ```bash
-    kubectl apply -f k8s/bulinbot/03-service-nodeport.yaml
+    kubectl apply -f k8s/nova-bot/03-service-nodeport.yaml
     ```
 
     服务将通过节点 IP 和一个由 Kubernetes 自动分配的端口暴露。您可以通过以下命令查看端口：
 
     ```bash
-    kubectl get svc -n bulinbot-standalone-ns
+    kubectl get svc -n nova-bot-standalone-ns
     ```
 
-    在输出中找到 `bulinbot-webui-svc` 的 `PORT(S)` 列，格式为 `<内部端口>:<NodePort端口>/TCP`。例如 `8080:30185/TCP`，则访问地址为 `http://<NodeIP>:30185`。
+    在输出中找到 `nova-bot-webui-svc` 的 `PORT(S)` 列，格式为 `<内部端口>:<NodePort端口>/TCP`。例如 `8080:30185/TCP`，则访问地址为 `http://<NodeIP>:30185`。
 
 *   **方式 B: LoadBalancer**
 
     ```bash
-    kubectl apply -f k8s/bulinbot/04-service-loadbalancer.yaml
+    kubectl apply -f k8s/nova-bot/04-service-loadbalancer.yaml
     ```
 
-    执行后，通过 `kubectl get svc -n bulinbot-standalone-ns` 查看分配到的外部 IP (EXTERNAL-IP)。
+    执行后，通过 `kubectl get svc -n nova-bot-standalone-ns` 查看分配到的外部 IP (EXTERNAL-IP)。
 
 ---
 
@@ -153,7 +153,7 @@ image: m.daocloud.io/docker.io/soulter/bulinbot:latest
 
 编辑 `02-deployment.yaml` 文件，在 `spec.template.spec` 下添加 `volumes` 和 `volumeMounts`：
 
-1.  **在 `bulinbot` 容器的 `volumeMounts` 列表下添加以下内容：**
+1.  **在 `nova-bot` 容器的 `volumeMounts` 列表下添加以下内容：**
 
     ```yaml
     - name: docker-sock
@@ -177,21 +177,21 @@ image: m.daocloud.io/docker.io/soulter/bulinbot:latest
 *   **Sidecar 部署模式:**
 
     ```bash
-    # 查看 BulinBot 日志
-    kubectl logs -f -n bulinbot-ns deployment/bulinbot-stack -c bulinbot
+    # 查看 NovaBot 日志
+    kubectl logs -f -n nova-bot-ns deployment/nova-bot-stack -c nova-bot
 
     # 查看 NapCat 日志
-    kubectl logs -f -n bulinbot-ns deployment/bulinbot-stack -c napcat
+    kubectl logs -f -n nova-bot-ns deployment/nova-bot-stack -c napcat
     ```
 
 *   **独立部署模式:**
 
     ```bash
-    kubectl logs -f -n bulinbot-standalone-ns deployment/bulinbot-standalone
+    kubectl logs -f -n nova-bot-standalone-ns deployment/nova-bot-standalone
     ```
 
 ## 🎉 大功告成
 
-部署并暴露服务后，您就可以通过相应的 IP 和端口访问 BulinBot 管理面板了。
+部署并暴露服务后，您就可以通过相应的 IP 和端口访问 NovaBot 管理面板了。
 
-> 首次登录请使用启动日志中打印的随机初始密码（用户名通常为 `bulinbot`）。登录后请立即修改密码。
+> 首次登录请使用启动日志中打印的随机初始密码（用户名通常为 `nova-bot`）。登录后请立即修改密码。

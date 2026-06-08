@@ -218,7 +218,7 @@
                             <v-alert type="info" variant="tonal" class="mb-4">
                                 {{ t('features.settings.backup.import.restartRequired') }}
                             </v-alert>
-                            <v-btn color="primary" @click="restartBulinBot" class="mr-2">
+                            <v-btn color="primary" @click="restartNovaBot" class="mr-2">
                                 <v-icon class="mr-2">mdi-restart</v-icon>
                                 {{ t('features.settings.backup.import.restartNow') }}
                             </v-btn>
@@ -265,7 +265,7 @@
                                 <v-list-item-subtitle>
                                     {{ formatFileSize(backup.size) }} · {{ formatDate(backup.created_at) }}
                                     <v-chip size="x-small" color="primary" variant="tonal" class="ml-2">
-                                        v{{ backup.bulinbot_version }}
+                                        v{{ backup.nova-bot_version }}
                                     </v-chip>
                                     <v-chip v-if="backup.type === 'uploaded'" size="x-small" color="orange" variant="tonal" class="ml-1">
                                         {{ t('features.settings.backup.list.uploaded') }}
@@ -371,7 +371,7 @@ import { ref, computed, watch } from 'vue'
 import axios from 'axios'
 import { useI18n } from '@/i18n/composables'
 import { askForConfirmation, useConfirmDialog } from '@/utils/confirmDialog'
-import { restartBulinBot as restartBulinBotRuntime } from '@/utils/restartBulinBot'
+import { restartNovaBot as restartNovaBotRuntime } from '@/utils/restartNovaBot'
 import WaitingForRestart from './WaitingForRestart.vue'
 
 const { t } = useI18n()
@@ -948,10 +948,10 @@ const formatISODate = (isoString) => {
     }
 }
 
-// 重启 BulinBot
-const restartBulinBot = async () => {
+// 重启 NovaBot
+const restartNovaBot = async () => {
     try {
-        await restartBulinBotRuntime(wfr.value)
+        await restartNovaBotRuntime(wfr.value)
     } catch (error) {
         console.error(error)
     }

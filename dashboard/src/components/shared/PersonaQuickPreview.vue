@@ -223,11 +223,11 @@ loadToolsMeta()
 loadSkillsMeta()
 
 onMounted(() => {
-  window.addEventListener('bulinbot:persona-saved', handlePersonaSaved)
+  window.addEventListener('nova-bot:persona-saved', handlePersonaSaved)
 })
 
 onBeforeUnmount(() => {
-  window.removeEventListener('bulinbot:persona-saved', handlePersonaSaved)
+  window.removeEventListener('nova-bot:persona-saved', handlePersonaSaved)
 })
 </script>
 

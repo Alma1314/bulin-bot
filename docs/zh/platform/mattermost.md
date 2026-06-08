@@ -1,8 +1,8 @@
 # 接入 Mattermost
 
-Mattermost 适配器通过 Bot Token 和 WebSocket 连接到 Mattermost 服务器。完成下面两部分配置后，BulinBot 就可以在 Mattermost 频道和私聊中收发消息。
+Mattermost 适配器通过 Bot Token 和 WebSocket 连接到 Mattermost 服务器。完成下面两部分配置后，NovaBot 就可以在 Mattermost 频道和私聊中收发消息。
 
-## 创建 BulinBot Mattermost 平台适配器
+## 创建 NovaBot Mattermost 平台适配器
 
 进入 `机器人` 页面，点击 `+ 创建机器人`，选择 `Mattermost`。
 
@@ -86,11 +86,11 @@ docker compose -f docker-compose.yml -f docker-compose.nginx.yml up -d
 - `Display Name`
 - `Description`
 
-创建完成后复制生成的 Bot Token。这个 Token 只会展示一次，随后填写到 BulinBot 的 `Mattermost Bot Token` 中。
+创建完成后复制生成的 Bot Token。这个 Token 只会展示一次，随后填写到 NovaBot 的 `Mattermost Bot Token` 中。
 
 ### 3. 将 Bot 加入频道
 
-把刚创建的 Bot 添加到你准备让 BulinBot 工作的频道中，否则机器人无法在该频道正常收发消息。
+把刚创建的 Bot 添加到你准备让 NovaBot 工作的频道中，否则机器人无法在该频道正常收发消息。
 
 ## Mattermost URL 如何填写
 
@@ -106,15 +106,15 @@ https://chat.example.com
 http://127.0.0.1:8065
 ```
 
-如果 BulinBot 和 Mattermost 都在 Docker 中运行，请优先填写 BulinBot 容器可访问到的地址，例如同一 Docker 网络中的服务名地址。
+如果 NovaBot 和 Mattermost 都在 Docker 中运行，请优先填写 NovaBot 容器可访问到的地址，例如同一 Docker 网络中的服务名地址。
 
 ## 启动并验证
 
-保存 BulinBot 平台适配器配置后：
+保存 NovaBot 平台适配器配置后：
 
-1. 确保 BulinBot 日志中没有出现 Mattermost 认证失败或 WebSocket 连接失败。
+1. 确保 NovaBot 日志中没有出现 Mattermost 认证失败或 WebSocket 连接失败。
 2. 在 Mattermost 中向 Bot 所在频道发送消息，或直接给 Bot 发私聊。
-3. 如果 BulinBot 正常回复，说明接入成功。
+3. 如果 NovaBot 正常回复，说明接入成功。
 
 ## 常见问题
 
@@ -131,9 +131,9 @@ http://127.0.0.1:8065
 优先检查：
 
 - Bot 是否已经加入目标频道
-- Mattermost URL 是否填写为 BulinBot 实际可访问的地址
+- Mattermost URL 是否填写为 NovaBot 实际可访问的地址
 - Mattermost 反向代理是否正确转发了 WebSocket 请求
 
-### 本机部署能打开页面，但 BulinBot 连接不到
+### 本机部署能打开页面，但 NovaBot 连接不到
 
-如果 BulinBot 运行在容器里，而 Mattermost URL 填的是 `localhost` 或 `127.0.0.1`，那么 BulinBot 实际连接到的是它自己的容器，而不是 Mattermost。此时应改为 Docker 网络内可访问的地址。
+如果 NovaBot 运行在容器里，而 Mattermost URL 填的是 `localhost` 或 `127.0.0.1`，那么 NovaBot 实际连接到的是它自己的容器，而不是 Mattermost。此时应改为 Docker 网络内可访问的地址。

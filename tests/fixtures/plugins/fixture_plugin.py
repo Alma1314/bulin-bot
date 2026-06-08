@@ -4,11 +4,11 @@
 这是一个最小化的测试插件，用于验证插件系统的功能。
 """
 
-from bulinbot.api import llm_tool, star
-from bulinbot.api.event import BulinMessageEvent, MessageEventResult, filter
+from novabot.api import llm_tool, star
+from novabot.api.event import BulinMessageEvent, MessageEventResult, filter
 
 
-@star.register("test_plugin", "BulinBot Team", "测试插件 - 用于插件系统测试", "1.0.0")
+@star.register("test_plugin", "NovaBot Team", "测试插件 - 用于插件系统测试", "1.0.0")
 class TestPlugin(star.Star):
     """测试插件类"""
 

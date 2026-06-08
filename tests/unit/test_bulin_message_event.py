@@ -5,7 +5,7 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 
-from bulinbot.core.message.components import (
+from novabot.core.message.components import (
     At,
     AtAll,
     Face,
@@ -14,11 +14,11 @@ from bulinbot.core.message.components import (
     Plain,
     Reply,
 )
-from bulinbot.core.message.message_event_result import MessageEventResult
-from bulinbot.core.platform.bulin_message_event import BulinMessageEvent
-from bulinbot.core.platform.bulinbot_message import BulinBotMessage, MessageMember
-from bulinbot.core.platform.message_type import MessageType
-from bulinbot.core.platform.platform_metadata import PlatformMetadata
+from novabot.core.message.message_event_result import MessageEventResult
+from novabot.core.platform.bulin_message_event import BulinMessageEvent
+from novabot.core.platform.novabot_message import NovaBotMessage, MessageMember
+from novabot.core.platform.message_type import MessageType
+from novabot.core.platform.platform_metadata import PlatformMetadata
 
 
 class ConcreteBulinMessageEvent(BulinMessageEvent):
@@ -46,9 +46,9 @@ def message_member():
 
 
 @pytest.fixture
-def bulinbot_message(message_member):
-    """Create an BulinBotMessage for testing."""
-    message = BulinBotMessage()
+def novabot_message(message_member):
+    """Create an NovaBotMessage for testing."""
+    message = NovaBotMessage()
     message.type = MessageType.FRIEND_MESSAGE
     message.self_id = "bot123"
     message.session_id = "session123"
@@ -61,11 +61,11 @@ def bulinbot_message(message_member):
 
 
 @pytest.fixture
-def bulin_message_event(platform_meta, bulinbot_message):
+def bulin_message_event(platform_meta, novabot_message):
     """Create an BulinMessageEvent instance for testing."""
     return ConcreteBulinMessageEvent(
         message_str="Hello world",
-        message_obj=bulinbot_message,
+        message_obj=novabot_message,
         platform_meta=platform_meta,
         session_id="session123",
     )
@@ -155,12 +155,12 @@ class TestGetMessageInfo:
         """Test get_message_str method."""
         assert bulin_message_event.get_message_str() == "Hello world"
 
-    def test_get_message_str_none(self, platform_meta, bulinbot_message):
+    def test_get_message_str_none(self, platform_meta, novabot_message):
         """Test get_message_str keeps None when source message_str is None."""
-        bulinbot_message.message_str = None
+        novabot_message.message_str = None
         event = ConcreteBulinMessageEvent(
             message_str=None,
-            message_obj=bulinbot_message,
+            message_obj=novabot_message,
             platform_meta=platform_meta,
             session_id="session123",
         )
@@ -197,24 +197,24 @@ class TestGetMessageInfo:
         """Test get_sender_name method."""
         assert bulin_message_event.get_sender_name() == "TestUser"
 
-    def test_get_sender_name_empty_when_none(self, platform_meta, bulinbot_message):
+    def test_get_sender_name_empty_when_none(self, platform_meta, novabot_message):
         """Test get_sender_name returns empty string when nickname is None."""
-        bulinbot_message.sender = MessageMember(user_id="user123", nickname=None)
+        novabot_message.sender = MessageMember(user_id="user123", nickname=None)
         event = ConcreteBulinMessageEvent(
             message_str="test",
-            message_obj=bulinbot_message,
+            message_obj=novabot_message,
             platform_meta=platform_meta,
             session_id="session123",
         )
         assert event.get_sender_name() == ""
 
-    def test_get_sender_name_coerces_non_string(self, platform_meta, bulinbot_message):
+    def test_get_sender_name_coerces_non_string(self, platform_meta, novabot_message):
         """Test get_sender_name stringifies non-string nickname values."""
-        bulinbot_message.sender = MessageMember(user_id="user123", nickname=None)
-        bulinbot_message.sender.nickname = 12345
+        novabot_message.sender = MessageMember(user_id="user123", nickname=None)
+        novabot_message.sender.nickname = 12345
         event = ConcreteBulinMessageEvent(
             message_str="test",
-            message_obj=bulinbot_message,
+            message_obj=novabot_message,
             platform_meta=platform_meta,
             session_id="session123",
         )
@@ -229,15 +229,15 @@ class TestGetMessageOutline:
         outline = bulin_message_event.get_message_outline()
         assert "Hello world" in outline
 
-    def test_outline_with_image(self, platform_meta, bulinbot_message):
+    def test_outline_with_image(self, platform_meta, novabot_message):
         """Test outline with image component."""
-        bulinbot_message.message = [
+        novabot_message.message = [
             Plain(text="Look at this"),
             Image(file="http://example.com/img.jpg"),
         ]
         event = ConcreteBulinMessageEvent(
             message_str="Look at this",
-            message_obj=bulinbot_message,
+            message_obj=novabot_message,
             platform_meta=platform_meta,
             session_id="session123",
         )
@@ -245,24 +245,24 @@ class TestGetMessageOutline:
         assert "Look at this" in outline
         assert "[图片]" in outline
 
-    def test_outline_with_at(self, platform_meta, bulinbot_message):
+    def test_outline_with_at(self, platform_meta, novabot_message):
         """Test outline with At component."""
-        bulinbot_message.message = [At(qq="12345"), Plain(text=" hello")]
+        novabot_message.message = [At(qq="12345"), Plain(text=" hello")]
         event = ConcreteBulinMessageEvent(
             message_str=" hello",
-            message_obj=bulinbot_message,
+            message_obj=novabot_message,
             platform_meta=platform_meta,
             session_id="session123",
         )
         outline = event.get_message_outline()
         assert "[At:12345]" in outline
 
-    def test_outline_with_at_all(self, platform_meta, bulinbot_message):
+    def test_outline_with_at_all(self, platform_meta, novabot_message):
         """Test outline with AtAll component."""
-        bulinbot_message.message = [AtAll()]
+        novabot_message.message = [AtAll()]
         event = ConcreteBulinMessageEvent(
             message_str="",
-            message_obj=bulinbot_message,
+            message_obj=novabot_message,
             platform_meta=platform_meta,
             session_id="session123",
         )
@@ -270,81 +270,81 @@ class TestGetMessageOutline:
         # AtAll format is "[At:all]" in the actual implementation
         assert "[At:" in outline and "all" in outline.lower()
 
-    def test_outline_with_face(self, platform_meta, bulinbot_message):
+    def test_outline_with_face(self, platform_meta, novabot_message):
         """Test outline with Face component."""
-        bulinbot_message.message = [Face(id="123")]
+        novabot_message.message = [Face(id="123")]
         event = ConcreteBulinMessageEvent(
             message_str="",
-            message_obj=bulinbot_message,
+            message_obj=novabot_message,
             platform_meta=platform_meta,
             session_id="session123",
         )
         outline = event.get_message_outline()
         assert "[表情:123]" in outline
 
-    def test_outline_with_forward(self, platform_meta, bulinbot_message):
+    def test_outline_with_forward(self, platform_meta, novabot_message):
         """Test outline with Forward component."""
         # Forward requires an id parameter
-        bulinbot_message.message = [Forward(id="test_forward_id")]
+        novabot_message.message = [Forward(id="test_forward_id")]
         event = ConcreteBulinMessageEvent(
             message_str="",
-            message_obj=bulinbot_message,
+            message_obj=novabot_message,
             platform_meta=platform_meta,
             session_id="session123",
         )
         outline = event.get_message_outline()
         assert "[转发消息]" in outline
 
-    def test_outline_with_reply(self, platform_meta, bulinbot_message):
+    def test_outline_with_reply(self, platform_meta, novabot_message):
         """Test outline with Reply component."""
         # Reply requires an id parameter
         reply = Reply(id="test_reply_id")
         reply.message_str = "Original message"
         reply.sender_nickname = "Sender"
-        bulinbot_message.message = [reply, Plain(text=" reply")]
+        novabot_message.message = [reply, Plain(text=" reply")]
         event = ConcreteBulinMessageEvent(
             message_str=" reply",
-            message_obj=bulinbot_message,
+            message_obj=novabot_message,
             platform_meta=platform_meta,
             session_id="session123",
         )
         outline = event.get_message_outline()
         assert "[引用消息(Sender: Original message)]" in outline
 
-    def test_outline_with_reply_no_message(self, platform_meta, bulinbot_message):
+    def test_outline_with_reply_no_message(self, platform_meta, novabot_message):
         """Test outline with Reply component without message_str."""
         # Reply requires an id parameter
         reply = Reply(id="test_reply_id")
         reply.message_str = None
-        bulinbot_message.message = [reply]
+        novabot_message.message = [reply]
         event = ConcreteBulinMessageEvent(
             message_str="",
-            message_obj=bulinbot_message,
+            message_obj=novabot_message,
             platform_meta=platform_meta,
             session_id="session123",
         )
         outline = event.get_message_outline()
         assert "[引用消息]" in outline
 
-    def test_outline_empty_chain(self, platform_meta, bulinbot_message):
+    def test_outline_empty_chain(self, platform_meta, novabot_message):
         """Test outline with empty message chain."""
-        bulinbot_message.message = []
+        novabot_message.message = []
         event = ConcreteBulinMessageEvent(
             message_str="",
-            message_obj=bulinbot_message,
+            message_obj=novabot_message,
             platform_meta=platform_meta,
             session_id="session123",
         )
         outline = event.get_message_outline()
         assert outline == ""
 
-    def test_outline_very_long_plain_text(self, platform_meta, bulinbot_message):
+    def test_outline_very_long_plain_text(self, platform_meta, novabot_message):
         """Test outline generation for very long plain text content."""
         long_text = "A" * 20000
-        bulinbot_message.message = [Plain(text=long_text)]
+        novabot_message.message = [Plain(text=long_text)]
         event = ConcreteBulinMessageEvent(
             message_str=long_text,
-            message_obj=bulinbot_message,
+            message_obj=novabot_message,
             platform_meta=platform_meta,
             session_id="session123",
         )
@@ -456,12 +456,12 @@ class TestIsPrivateChat:
         """Test is_private_chat returns True for friend message."""
         assert bulin_message_event.is_private_chat() is True
 
-    def test_is_private_chat_false(self, platform_meta, bulinbot_message):
+    def test_is_private_chat_false(self, platform_meta, novabot_message):
         """Test is_private_chat returns False for group message."""
-        bulinbot_message.type = MessageType.GROUP_MESSAGE
+        novabot_message.type = MessageType.GROUP_MESSAGE
         event = ConcreteBulinMessageEvent(
             message_str="test",
-            message_obj=bulinbot_message,
+            message_obj=novabot_message,
             platform_meta=platform_meta,
             session_id="session123",
         )
@@ -633,7 +633,7 @@ class TestSendStreaming:
             yield MessageEventResult().message("Test")
 
         with patch(
-            "bulinbot.core.platform.bulin_message_event.Metric.upload",
+            "novabot.core.platform.bulin_message_event.Metric.upload",
             new_callable=AsyncMock,
         ):
             await bulin_message_event.send_streaming(generator())
@@ -701,7 +701,7 @@ class TestMessageTypeHandling:
 
     def test_message_type_from_valid_string(self, platform_meta):
         """Valid MessageType string should be converted correctly."""
-        message = BulinBotMessage()
+        message = NovaBotMessage()
         message.type = "FRIEND_MESSAGE"
         message.message = []
         event = ConcreteBulinMessageEvent(
@@ -715,7 +715,7 @@ class TestMessageTypeHandling:
 
     def test_message_type_from_invalid_string_defaults_to_friend(self, platform_meta):
         """Invalid message type should default to FRIEND_MESSAGE."""
-        message = BulinBotMessage()
+        message = NovaBotMessage()
         message.type = "InvalidMessageType"
         message.message = []
         event = ConcreteBulinMessageEvent(
@@ -729,7 +729,7 @@ class TestMessageTypeHandling:
 
     def test_message_type_from_none_defaults_to_friend(self, platform_meta):
         """None message type should default to FRIEND_MESSAGE."""
-        message = BulinBotMessage()
+        message = NovaBotMessage()
         message.type = None
         message.message = []
         event = ConcreteBulinMessageEvent(
@@ -743,7 +743,7 @@ class TestMessageTypeHandling:
 
     def test_message_type_from_integer_defaults_to_friend(self, platform_meta):
         """Integer message type should default to FRIEND_MESSAGE."""
-        message = BulinBotMessage()
+        message = NovaBotMessage()
         message.type = 123
         message.message = []
         event = ConcreteBulinMessageEvent(

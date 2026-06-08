@@ -4,7 +4,7 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from bulinbot.core.provider.sources.whisper_api_source import ProviderOpenAIWhisperAPI
+from novabot.core.provider.sources.whisper_api_source import ProviderOpenAIWhisperAPI
 
 
 def _make_provider() -> ProviderOpenAIWhisperAPI:
@@ -45,11 +45,11 @@ async def test_get_text_converts_opus_files_to_wav_before_transcription(
         return output_path
 
     monkeypatch.setattr(
-        "bulinbot.core.provider.sources.whisper_api_source.get_bulinbot_temp_path",
+        "novabot.core.provider.sources.whisper_api_source.get_novabot_temp_path",
         lambda: str(tmp_path),
     )
     monkeypatch.setattr(
-        "bulinbot.core.provider.sources.whisper_api_source.convert_audio_to_wav",
+        "novabot.core.provider.sources.whisper_api_source.convert_audio_to_wav",
         fake_convert_audio_to_wav,
     )
 

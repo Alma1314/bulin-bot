@@ -61,8 +61,8 @@ const supportPlatforms = computed(() => {
   return platforms.filter((item) => typeof item === "string");
 });
 
-const bulinbotVersionRequirement = computed(() => {
-  const versionSpec = props.extension?.bulinbot_version;
+const nova-botVersionRequirement = computed(() => {
+  const versionSpec = props.extension?.nova-bot_version;
   return typeof versionSpec === "string" && versionSpec.trim().length
     ? versionSpec.trim()
     : "";
@@ -279,13 +279,13 @@ const openWebui = () => {
             </v-chip>
             <PluginPlatformChip :platforms="supportPlatforms" />
             <v-chip
-              v-if="bulinbotVersionRequirement"
+              v-if="nova-botVersionRequirement"
               color="secondary"
               variant="outlined"
               label
               size="small"
             >
-              BulinBot: {{ bulinbotVersionRequirement }}
+              NovaBot: {{ nova-botVersionRequirement }}
             </v-chip>
           </div>
 

@@ -1,7 +1,7 @@
 # Connect server-satori (Koishi)
 
 > [!TIP]
-> `server-satori` is a Koishi plugin that exposes Koishi as a Satori server, so BulinBot can connect to Koishi through Satori.
+> `server-satori` is a Koishi plugin that exposes Koishi as a Satori server, so NovaBot can connect to Koishi through Satori.
 
 ## Preparation
 
@@ -22,9 +22,9 @@ After enabling, `server-satori` serves Satori API under `/satori`.
 
 ![image](https://files.bulinbot.app/docs/source/images/satori/2025-09-07_17-14-55.png)
 
-## Configure Satori Adapter in BulinBot
+## Configure Satori Adapter in NovaBot
 
-1. Open BulinBot Dashboard.
+1. Open NovaBot Dashboard.
 2. Click `Bots`.
 3. Click `+ Create Bot`.
 4. Select `satori`.
@@ -49,9 +49,9 @@ Click `Save`.
 
 ## Done
 
-BulinBot should now be connected to Koishi via `server-satori`.
+NovaBot should now be connected to Koishi via `server-satori`.
 
-Test by sending an BulinBot command (for example `/help`) in Koishi sandbox.
+Test by sending an NovaBot command (for example `/help`) in Koishi sandbox.
 
 ![image](https://files.bulinbot.app/docs/source/images/satori/2025-09-07_17-19-04.png)
 

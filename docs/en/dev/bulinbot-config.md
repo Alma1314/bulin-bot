@@ -2,15 +2,15 @@
 outline: deep
 ---
 
-# BulinBot Configuration File
+# NovaBot Configuration File
 
 ## data/cmd_config.json
 
-BulinBot's configuration file is a JSON format file. BulinBot reads this file at startup and initializes based on the settings within. Its path is `data/cmd_config.json`.
+NovaBot's configuration file is a JSON format file. NovaBot reads this file at startup and initializes based on the settings within. Its path is `data/cmd_config.json`.
 
-> Since BulinBot v4.0.0, we introduced the concept of [multiple configuration files](https://blog.bulinbot.app/posts/what-is-changed-in-4.0.0/#%E5%A4%9A%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6). `data/cmd_config.json` serves as the default configuration `default`. Other configuration files you create in the WebUI are stored in the `data/config/` directory, starting with `abconf_`.
+> Since NovaBot v4.0.0, we introduced the concept of [multiple configuration files](https://blog.nova-bot.app/posts/what-is-changed-in-4.0.0/#%E5%A4%9A%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6). `data/cmd_config.json` serves as the default configuration `default`. Other configuration files you create in the WebUI are stored in the `data/config/` directory, starting with `abconf_`.
 
-The default BulinBot configuration is as follows:
+The default NovaBot configuration is as follows:
 
 ```jsonc
 {
@@ -104,7 +104,7 @@ The default BulinBot configuration is as follows:
         "internal_keywords": {"enable": True, "extra_keywords": []},
         "baidu_aip": {"enable": False, "app_id": "", "api_key": "", "secret_key": ""},
     },
-    "admins_id": ["bulinbot"],
+    "admins_id": ["nova-bot"],
     "t2i": False,
     "t2i_word_threshold": 150,
     "t2i_strategy": "remote",
@@ -115,7 +115,7 @@ The default BulinBot configuration is as follows:
     "no_proxy": ["localhost", "127.0.0.1", "::1"],
     "dashboard": {
         "enable": True,
-        "username": "bulinbot",
+        "username": "nova-bot",
         "password": "<your_password_md5>",
         "jwt_secret": "",
         "host": "0.0.0.0",
@@ -183,7 +183,7 @@ Whether to enable the ID whitelist. Default is `true`. When enabled, only messag
 
 ID whitelist. If filled, only message events from the specified IDs will be processed. Empty means the whitelist filter is not enabled. You can use the `/sid` command to get the session ID on a platform.
 
-Session IDs can also be found in BulinBot logs; when a message fails the whitelist, an INFO level log is output, e.g., `aiocqhttp:GroupMessage:547540978`.
+Session IDs can also be found in NovaBot logs; when a message fails the whitelist, an INFO level log is output, e.g., `aiocqhttp:GroupMessage:547540978`.
 
 #### `platform_settings.id_whitelist_log`
 
@@ -248,7 +248,7 @@ Whether to ignore @all messages. Default is `false`. When enabled, the bot won't
 
 ### `provider`
 
-> This item only takes effect in `data/cmd_config.json`; BulinBot does not read this from configuration files in the `data/config/` directory.
+> This item only takes effect in `data/cmd_config.json`; NovaBot does not read this from configuration files in the `data/config/` directory.
 
 List of configured model service provider settings.
 
@@ -268,7 +268,7 @@ Default conversation model provider ID. Must be a provider ID already configured
 
 Default image captioning model provider ID. Must be a provider ID already configured in the `provider` list. If empty, image captioning is disabled.
 
-This means when a user sends an image, BulinBot uses this provider to generate a text description, which is then used as part of the conversation context. This is useful when the conversation model doesn't support multimodal input.
+This means when a user sends an image, NovaBot uses this provider to generate a text description, which is then used as part of the conversation context. This is useful when the conversation model doesn't support multimodal input.
 
 #### `provider_settings.image_caption_prompt`
 
@@ -284,7 +284,7 @@ Extra trigger condition for LLM chat. For example, if `chat` is filled, messages
 
 #### `provider_settings.web_search`
 
-Whether to enable BulinBot's built-in web search capability. Default is `false`. When enabled, the LLM may automatically search the web and answer based on the content.
+Whether to enable NovaBot's built-in web search capability. Default is `false`. When enabled, the LLM may automatically search the web and answer based on the content.
 
 #### `provider_settings.websearch_provider`
 
@@ -469,12 +469,12 @@ Character threshold for T2I. Default is `150`. When a message exceeds this count
 
 Rendering strategy for T2I. Options are `local` and `remote`. Default is `remote`.
 
-- `local`: Uses BulinBot's local T2I service for rendering. Lower quality but doesn't depend on external services.
-- `remote`: Uses a remote T2I service for rendering. Uses the official BulinBot service by default, which offers better quality.
+- `local`: Uses NovaBot's local T2I service for rendering. Lower quality but doesn't depend on external services.
+- `remote`: Uses a remote T2I service for rendering. Uses the official NovaBot service by default, which offers better quality.
 
 ### `t2i_endpoint`
 
-BulinBot API address. Used for rendering Markdown images. Effective when `t2i_strategy` is `remote`. Default is empty, meaning the official BulinBot service is used.
+NovaBot API address. Used for rendering Markdown images. Effective when `t2i_strategy` is `remote`. Default is empty, meaning the official NovaBot service is used.
 
 ### `t2i_use_file_service`
 
@@ -490,22 +490,22 @@ List of addresses that bypass the proxy. E.g., `["localhost", "127.0.0.1"]`.
 
 ### `dashboard`
 
-BulinBot WebUI configuration.
+NovaBot WebUI configuration.
 
 Please do not change the `password` value arbitrarily. It is an `md5` encoded password generated from the random initial password. Check the startup logs for that initial password on first run, then change it in the control panel.
 
-- `enable`: Whether to enable the BulinBot WebUI. Default is `true`.
-- `username`: Username for the BulinBot WebUI.
-- `password`: Password for the BulinBot WebUI. It is initialized from a random password generated on first startup (logged at startup). Do not modify directly unless you know what you are doing.
-- `jwt_secret`: JWT secret key. BulinBot generates this randomly at initialization. Do not modify unless you know what you are doing.
-- `host`: Address the BulinBot WebUI listens on. Default is `0.0.0.0`.
-- `port`: Port the BulinBot WebUI listens on. Default is `6185`.
+- `enable`: Whether to enable the NovaBot WebUI. Default is `true`.
+- `username`: Username for the NovaBot WebUI.
+- `password`: Password for the NovaBot WebUI. It is initialized from a random password generated on first startup (logged at startup). Do not modify directly unless you know what you are doing.
+- `jwt_secret`: JWT secret key. NovaBot generates this randomly at initialization. Do not modify unless you know what you are doing.
+- `host`: Address the NovaBot WebUI listens on. Default is `0.0.0.0`.
+- `port`: Port the NovaBot WebUI listens on. Default is `6185`.
 
 ### `platform`
 
-> This item only takes effect in `data/cmd_config.json`; BulinBot does not read this from configuration files in the `data/config/` directory.
+> This item only takes effect in `data/cmd_config.json`; NovaBot does not read this from configuration files in the `data/config/` directory.
 
-List of configured BulinBot message platform adapter settings.
+List of configured NovaBot message platform adapter settings.
 
 ### `platform_specific`
 
@@ -513,7 +513,7 @@ Platform-specific settings. Categorized by platform, then by feature group.
 
 #### `platform_specific.<platform>.pre_ack_emoji`
 
-When enabled, BulinBot sends a pre-reply emoji before requesting the LLM to inform the user that the request is being processed. This currently only takes effect in the Lark and Telegram platform adapters.
+When enabled, NovaBot sends a pre-reply emoji before requesting the LLM to inform the user that the request is being processed. This currently only takes effect in the Lark and Telegram platform adapters.
 
 ##### lark
 
@@ -532,10 +532,10 @@ When enabled, BulinBot sends a pre-reply emoji before requesting the LLM to info
 
 ### `wake_prefix`
 
-Wake prefix. Default is `/`. When a message starts with `/`, BulinBot is awakened.
+Wake prefix. Default is `/`. When a message starts with `/`, NovaBot is awakened.
 
 > [!TIP]
-> If the awakened session is not in the ID whitelist, BulinBot will not respond.
+> If the awakened session is not in the ID whitelist, NovaBot will not respond.
 
 ### `log_level`
 
@@ -543,7 +543,7 @@ Log level. Default is `INFO`. Can be set to `DEBUG`, `INFO`, `WARNING`, `ERROR`,
 
 ### `trace_enable`
 
-Whether to enable trace recording. Default is `false`. When enabled, BulinBot records execution traces, which can be viewed on the Trace page of the admin panel.
+Whether to enable trace recording. Default is `false`. When enabled, NovaBot records execution traces, which can be viewed on the Trace page of the admin panel.
 
 ### `pip_install_arg`
 
@@ -565,7 +565,7 @@ Timezone setting. Please fill in an IANA timezone name, such as Asia/Shanghai. I
 
 ### `callback_api_base`
 
-Base address for the BulinBot API. Used for file services, plugin callbacks, etc. E.g., `http://example.com:6185`. Default is empty, meaning file services and plugin callbacks are disabled.
+Base address for the NovaBot API. Used for file services, plugin callbacks, etc. E.g., `http://example.com:6185`. Default is empty, meaning file services and plugin callbacks are disabled.
 
 ### `default_kb_collection`
 

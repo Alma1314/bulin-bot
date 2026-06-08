@@ -3,9 +3,9 @@
 ## 简单 KV 存储
 
 > [!TIP]
-> 该功能需要 BulinBot 版本 >= 4.9.2。
+> 该功能需要 NovaBot 版本 >= 4.9.2。
 
-插件可以使用 BulinBot 提供的简单 KV 存储功能来存储一些配置信息或临时数据。该存储是基于插件维度的，每个插件有独立的存储空间，互不干扰。
+插件可以使用 NovaBot 提供的简单 KV 存储功能来存储一些配置信息或临时数据。该存储是基于插件维度的，每个插件有独立的存储空间，互不干扰。
 
 ```py
 class Main(star.Star):
@@ -26,7 +26,7 @@ class Main(star.Star):
 
 ```py
 from pathlib import Path
-from bulinbot.core.utils.bulinbot_path import get_bulinbot_data_path
+from nova-bot.core.utils.nova-bot_path import get_nova-bot_data_path
 
-plugin_data_path = Path(get_bulinbot_data_path()) / "plugin_data" / self.name # self.name 为插件名称，在 v4.9.2 及以上版本可用，低于此版本请自行指定插件名称
+plugin_data_path = Path(get_nova-bot_data_path()) / "plugin_data" / self.name # self.name 为插件名称，在 v4.9.2 及以上版本可用，低于此版本请自行指定插件名称
 ```

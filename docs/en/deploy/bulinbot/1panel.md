@@ -1,8 +1,8 @@
-# Deploy BulinBot on 1Panel
+# Deploy NovaBot on 1Panel
 
 [1Panel](https://1panel.cn/) is an open-source next-generation Linux server operation and management panel.
 
-BulinBot has been published to the [1Panel App Store](https://apps.fit2cloud.com/1panel) by the 1Panel team, allowing users to quickly deploy and use it directly through 1Panel.
+NovaBot has been published to the [1Panel App Store](https://apps.fit2cloud.com/1panel) by the 1Panel team, allowing users to quickly deploy and use it directly through 1Panel.
 
 ## Install 1Panel
 
@@ -10,18 +10,18 @@ If you haven't installed 1Panel yet, please refer to the [1Panel official websit
 
 > International users can refer to the [1Panel official site](https://github.com/1Panel-dev/1Panel) for tutorials.
 
-## Install BulinBot
+## Install NovaBot
 
-Open the 1Panel panel, go to the 1Panel App Store, and search for `BulinBot`, as shown below.
+Open the 1Panel panel, go to the 1Panel App Store, and search for `NovaBot`, as shown below.
 
 ![image](https://files.bulinbot.app/docs/source/images/1panel/image.png)
 
 Click `Install` and wait for the installation to complete.
 
-After successful installation, open the corresponding BulinBot port (default is 6185) in the 1Panel System-Firewall page.
+After successful installation, open the corresponding NovaBot port (default is 6185) in the 1Panel System-Firewall page.
 
 If you are using cloud servers from providers like AWS, Alibaba Cloud, Tencent Cloud, etc., make sure their security groups also allow port 6185.
 
-## Access BulinBot
+## Access NovaBot
 
-Visit `http://IP:6185` to access the BulinBot dashboard.
+Visit `http://IP:6185` to access the NovaBot dashboard.

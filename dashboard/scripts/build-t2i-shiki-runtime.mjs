@@ -12,7 +12,7 @@ const dashboardRoot = path.resolve(__dirname, "..");
 const runtimeOutputFile = path.resolve(
   dashboardRoot,
   "..",
-  "bulinbot",
+  "novabot",
   "core",
   "utils",
   "t2i",
@@ -188,7 +188,7 @@ window.BulinBotT2IShiki = Object.freeze({
 }
 
 async function main() {
-  const tempDir = mkdtempSync(path.join(tmpdir(), "bulinbot-t2i-shiki-runtime-"));
+  const tempDir = mkdtempSync(path.join(tmpdir(), "novabot-t2i-shiki-runtime-"));
   const entryPath = path.join(tempDir, "entry.mjs");
 
   writeFileSync(entryPath, buildVirtualSource(), "utf-8");

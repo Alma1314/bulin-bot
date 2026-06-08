@@ -45,7 +45,7 @@
     "cancelButton": "Cancel"
   },
   "restart": {
-    "waiting": "Waiting for BulinBot to restart...",
+    "waiting": "Waiting for NovaBot to restart...",
     "maxRetriesReached": "Maximum retry attempts reached, please check manually."
   },
   "readme": {

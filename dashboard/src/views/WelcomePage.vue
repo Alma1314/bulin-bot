@@ -105,7 +105,7 @@
               <v-col cols="12" sm="4">
                 <!-- GitHub Card -->
                 <v-card variant="outlined" class="h-100 pa-4 d-flex flex-column"
-                  href="https://github.com/BulinBotDevs/BulinBot/" target="_blank">
+                  href="https://github.com/NovaBotDevs/NovaBot/" target="_blank">
                   <div class="d-flex align-center mb-3">
                     <v-icon size="32" class="mr-3">mdi-github</v-icon>
                     <span class="text-h6 font-weight-bold">GitHub</span>
@@ -118,7 +118,7 @@
 
               <v-col cols="12" sm="4">
                 <!-- Docs Card -->
-                <v-card variant="outlined" class="h-100 pa-4 d-flex flex-column" href="https://docs.bulinbot.app"
+                <v-card variant="outlined" class="h-100 pa-4 d-flex flex-column" href="https://docs.nova-bot.app"
                   target="_blank">
                   <div class="d-flex align-center mb-3">
                     <v-icon size="32" class="mr-3">mdi-book-open-variant</v-icon>
@@ -133,7 +133,7 @@
               <v-col cols="12" sm="4">
                 <!-- Afdian Card -->
                 <v-card variant="outlined" class="h-100 pa-4 d-flex flex-column"
-                  href="https://afdian.com/a/bulinbot_team" target="_blank">
+                  href="https://afdian.com/a/nova-bot_team" target="_blank">
                   <div class="d-flex align-center mb-3">
                     <v-icon size="32" class="mr-3">mdi-hand-heart</v-icon>
                     <span class="text-h6 font-weight-bold">{{ tm('resources.afdianTitle') }}</span>
@@ -386,7 +386,7 @@ async function syncDefaultConfigProviderIfNeeded() {
 
   configData.provider_settings.default_provider_id = targetProviderId;
 
-  const updateRes = await axios.post('/api/config/bulinbot/update', {
+  const updateRes = await axios.post('/api/config/nova-bot/update', {
     conf_id: 'default',
     config: configData
   });
@@ -429,7 +429,7 @@ async function saveComputerAccessRuntime() {
 
     configData.provider_settings.computer_use_runtime = computerAccessRuntime.value;
 
-    const updateRes = await axios.post('/api/config/bulinbot/update', {
+    const updateRes = await axios.post('/api/config/nova-bot/update', {
       conf_id: 'default',
       config: configData
     });
@@ -455,7 +455,7 @@ async function saveComputerAccessRuntime() {
 
 async function loadWelcomeAnnouncement() {
   try {
-    const res = await axios.get('https://cloud.bulinbot.app/api/v1/announcement');
+    const res = await axios.get('https://cloud.nova-bot.app/api/v1/announcement');
     welcomeAnnouncementRaw.value = res?.data?.data?.notice?.welcome_page ?? null;
   } catch (e) {
     welcomeAnnouncementRaw.value = null;

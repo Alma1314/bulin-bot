@@ -1,8 +1,8 @@
 # Connect to Alibaba Cloud Bailian Application
 
-Since v3.4.30, BulinBot supports connecting to Alibaba Cloud Bailian Application.
+Since v3.4.30, NovaBot supports connecting to Alibaba Cloud Bailian Application.
 
-## Configure Alibaba Cloud Bailian Application in BulinBot
+## Configure Alibaba Cloud Bailian Application in NovaBot
 
 On the [Alibaba Cloud Bailian Application](https://bailian.console.aliyun.com/app-center#/app-center) website, click to add a new application. Create an agent application, workflow application, or agent orchestration application according to your needs, and build the agent or workflow as required.
 
@@ -24,9 +24,9 @@ According to Alibaba Cloud Bailian Application, there are four application types
 - Agent Orchestration Application (agent-arrange)
 
 > [!TIP]
-> Multi-turn conversations are only supported for agent applications and dialog workflow applications. BulinBot will automatically attach conversation history for these two types of applications to support multi-turn conversations.
+> Multi-turn conversations are only supported for agent applications and dialog workflow applications. NovaBot will automatically attach conversation history for these two types of applications to support multi-turn conversations.
 
-Please ensure that the `Application Type` configured in BulinBot matches the application type created in Alibaba Cloud Bailian Application.
+Please ensure that the `Application Type` configured in NovaBot matches the application type created in Alibaba Cloud Bailian Application.
 
 Then fill in the Application ID in `dashscope_app_id` and the API KEY in `dashscope_api_key`.
 
@@ -44,7 +44,7 @@ Use the `/set` command to dynamically set input variables, as shown in the figur
 
 ![alt text](https://files.bulinbot.app/docs/source/images/dify/image-5.png)
 
-After setting variables, BulinBot will attach the variables you set in the next request to Alibaba Cloud Bailian Application, flexibly adapting to your Workflow.
+After setting variables, NovaBot will attach the variables you set in the next request to Alibaba Cloud Bailian Application, flexibly adapting to your Workflow.
 
 Of course, you can use the `/unset` command to cancel the variables you set. For example, `/unset name`
 

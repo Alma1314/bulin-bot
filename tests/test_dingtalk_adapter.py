@@ -3,8 +3,8 @@ import threading
 
 import pytest
 
-from bulinbot.core.platform.sources.dingtalk import dingtalk_adapter
-from bulinbot.core.platform.sources.dingtalk.dingtalk_adapter import (
+from novabot.core.platform.sources.dingtalk import dingtalk_adapter
+from novabot.core.platform.sources.dingtalk.dingtalk_adapter import (
     DINGTALK_RECONNECT_INITIAL_DELAY,
     DINGTALK_RECONNECT_MAX_DELAY,
     DingtalkPlatformAdapter,

@@ -1,4 +1,4 @@
-# 在 CasaOS 部署 BulinBot
+# 在 CasaOS 部署 NovaBot
 
 ## 安装 CasaOS
 
@@ -18,11 +18,11 @@ https://play.cuse.eu.org/Cp0204-AppStore-Play.zip
 
 并添加，等待添加完成。
 
-如果您的网络环境在国内，请先搜索并添加 `dkTurbo`，否则可能无法拉取 BulinBot 镜像。
+如果您的网络环境在国内，请先搜索并添加 `dkTurbo`，否则可能无法拉取 NovaBot 镜像。
 
 ![image](https://files.bulinbot.app/docs/source/images/casaos/image-1.png)
 
-输入 `Bulinbot` 即可找到 BulinBot。
+输入 `Bulinbot` 即可找到 NovaBot。
 
 ![image](https://files.bulinbot.app/docs/source/images/casaos/image-2.png)
 
@@ -36,4 +36,4 @@ https://play.cuse.eu.org/Cp0204-AppStore-Play.zip
 
 然后点击`安装`开始安装。
 
-安装完成后，主界面会出现 BulinBot APP，点击即可打开管理面板。
+安装完成后，主界面会出现 NovaBot APP，点击即可打开管理面板。

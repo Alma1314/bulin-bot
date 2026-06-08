@@ -4,8 +4,8 @@ import asyncio
 from pathlib import Path
 from typing import cast
 
-from bulinbot.core.computer import computer_client
-from bulinbot.core.computer.booters.base import ComputerBooter
+from novabot.core.computer import computer_client
+from novabot.core.computer.booters.base import ComputerBooter
 
 
 def _extract_embedded_python(command: str) -> str:
@@ -63,19 +63,19 @@ def test_sync_skills_keeps_builtin_skills_when_local_is_empty(
         captured["skills"] = skills
 
     monkeypatch.setattr(
-        "bulinbot.core.computer.computer_client.get_bulinbot_skills_path",
+        "novabot.core.computer.computer_client.get_novabot_skills_path",
         lambda: str(skills_root),
     )
     monkeypatch.setattr(
-        "bulinbot.core.skills.skill_manager.get_bulinbot_plugin_path",
+        "novabot.core.skills.skill_manager.get_novabot_plugin_path",
         lambda: str(plugins_root),
     )
     monkeypatch.setattr(
-        "bulinbot.core.computer.computer_client.get_bulinbot_temp_path",
+        "novabot.core.computer.computer_client.get_novabot_temp_path",
         lambda: str(temp_root),
     )
     monkeypatch.setattr(
-        "bulinbot.core.computer.computer_client.SkillManager.set_sandbox_skills_cache",
+        "novabot.core.computer.computer_client.SkillManager.set_sandbox_skills_cache",
         _fake_set_cache,
     )
 
@@ -112,15 +112,15 @@ def test_sync_skills_uses_managed_strategy_instead_of_wiping_all(
         captured["skills"] = skills
 
     monkeypatch.setattr(
-        "bulinbot.core.computer.computer_client.get_bulinbot_skills_path",
+        "novabot.core.computer.computer_client.get_novabot_skills_path",
         lambda: str(skills_root),
     )
     monkeypatch.setattr(
-        "bulinbot.core.computer.computer_client.get_bulinbot_temp_path",
+        "novabot.core.computer.computer_client.get_novabot_temp_path",
         lambda: str(temp_root),
     )
     monkeypatch.setattr(
-        "bulinbot.core.computer.computer_client.SkillManager.set_sandbox_skills_cache",
+        "novabot.core.computer.computer_client.SkillManager.set_sandbox_skills_cache",
         _fake_set_cache,
     )
 
@@ -152,7 +152,7 @@ def test_sync_skills_includes_plugin_provided_skills(
     temp_root = tmp_path / "temp"
     skills_root.mkdir(parents=True, exist_ok=True)
     temp_root.mkdir(parents=True, exist_ok=True)
-    plugin_skill_dir = plugins_root / "bulinbot_plugin_demo" / "skills" / "demo-skill"
+    plugin_skill_dir = plugins_root / "novabot_plugin_demo" / "skills" / "demo-skill"
     plugin_skill_dir.mkdir(parents=True)
     plugin_skill_dir.joinpath("SKILL.md").write_text("# demo", encoding="utf-8")
 
@@ -162,19 +162,19 @@ def test_sync_skills_includes_plugin_provided_skills(
         captured["skills"] = skills
 
     monkeypatch.setattr(
-        "bulinbot.core.computer.computer_client.get_bulinbot_skills_path",
+        "novabot.core.computer.computer_client.get_novabot_skills_path",
         lambda: str(skills_root),
     )
     monkeypatch.setattr(
-        "bulinbot.core.skills.skill_manager.get_bulinbot_plugin_path",
+        "novabot.core.skills.skill_manager.get_novabot_plugin_path",
         lambda: str(plugins_root),
     )
     monkeypatch.setattr(
-        "bulinbot.core.computer.computer_client.get_bulinbot_temp_path",
+        "novabot.core.computer.computer_client.get_novabot_temp_path",
         lambda: str(temp_root),
     )
     monkeypatch.setattr(
-        "bulinbot.core.computer.computer_client.SkillManager.set_sandbox_skills_cache",
+        "novabot.core.computer.computer_client.SkillManager.set_sandbox_skills_cache",
         _fake_set_cache,
     )
 

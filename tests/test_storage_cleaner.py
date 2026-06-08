@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from bulinbot.core.utils.storage_cleaner import StorageCleaner
+from novabot.core.utils.storage_cleaner import StorageCleaner
 
 
 def _write_bytes(path: Path, size: int) -> None:
@@ -16,13 +16,13 @@ def test_storage_cleaner_status_includes_logs_and_cache(tmp_path):
     _write_bytes(temp_dir / "audio" / "temp.wav", 128)
     _write_bytes(data_dir / "plugins.json", 64)
     _write_bytes(data_dir / "sandbox_skills_cache.json", 32)
-    _write_bytes(logs_dir / "bulinbot.log", 256)
-    _write_bytes(logs_dir / "bulinbot.2026-03-22.log", 128)
+    _write_bytes(logs_dir / "novabot.log", 256)
+    _write_bytes(logs_dir / "novabot.2026-03-22.log", 128)
 
     cleaner = StorageCleaner(
         {
             "log_file_enable": True,
-            "log_file_path": "logs/bulinbot.log",
+            "log_file_path": "logs/novabot.log",
             "trace_log_enable": False,
         },
         data_dir=data_dir,
@@ -42,9 +42,9 @@ def test_storage_cleaner_cleanup_truncates_active_log_and_removes_cache(tmp_path
     data_dir = tmp_path / "data"
     temp_dir = data_dir / "temp"
     logs_dir = data_dir / "logs"
-    active_log = logs_dir / "bulinbot.log"
-    rotated_log = logs_dir / "bulinbot.2026-03-22.log"
-    trace_log = logs_dir / "bulinbot.trace.log"
+    active_log = logs_dir / "novabot.log"
+    rotated_log = logs_dir / "novabot.2026-03-22.log"
+    trace_log = logs_dir / "novabot.trace.log"
     temp_file = temp_dir / "nested" / "voice.wav"
     registry_cache = data_dir / "plugins_custom_abc.json"
 
@@ -57,9 +57,9 @@ def test_storage_cleaner_cleanup_truncates_active_log_and_removes_cache(tmp_path
     cleaner = StorageCleaner(
         {
             "log_file_enable": True,
-            "log_file_path": "logs/bulinbot.log",
+            "log_file_path": "logs/novabot.log",
             "trace_log_enable": True,
-            "trace_log_path": "logs/bulinbot.trace.log",
+            "trace_log_path": "logs/novabot.trace.log",
         },
         data_dir=data_dir,
         temp_dir=temp_dir,

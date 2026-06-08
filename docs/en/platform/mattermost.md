@@ -1,8 +1,8 @@
 # Connecting to Mattermost
 
-The Mattermost adapter connects to your Mattermost server through a Bot Token and WebSocket. After finishing the two parts below, BulinBot can send and receive messages in Mattermost channels and direct messages.
+The Mattermost adapter connects to your Mattermost server through a Bot Token and WebSocket. After finishing the two parts below, NovaBot can send and receive messages in Mattermost channels and direct messages.
 
-## Create the BulinBot Mattermost Platform Adapter
+## Create the NovaBot Mattermost Platform Adapter
 
 Go to the `Bots` page, click `+ Create Bot`, and choose `Mattermost`.
 
@@ -10,7 +10,7 @@ On the configuration page, enable it first, then fill in:
 
 - `Mattermost URL`: your Mattermost server URL, for example `https://chat.example.com`
 - `Mattermost Bot Token`: the access token generated after creating a bot account in Mattermost
-- `Mattermost Reconnect Delay`: how long BulinBot waits before reconnecting after a WebSocket disconnect, default `5`
+- `Mattermost Reconnect Delay`: how long NovaBot waits before reconnecting after a WebSocket disconnect, default `5`
 
 Then click save.
 
@@ -86,11 +86,11 @@ Click `Add Bot Account` and fill in:
 - `Display Name`
 - `Description`
 
-After creation, copy the generated Bot Token. It is shown only once. Paste it into BulinBot's `Mattermost Bot Token` field.
+After creation, copy the generated Bot Token. It is shown only once. Paste it into NovaBot's `Mattermost Bot Token` field.
 
 ### 3. Add the Bot to a Channel
 
-Add the bot to the channel where BulinBot should work. Otherwise the bot will not be able to properly receive and send messages in that channel.
+Add the bot to the channel where NovaBot should work. Otherwise the bot will not be able to properly receive and send messages in that channel.
 
 ## How to Fill in Mattermost URL
 
@@ -106,15 +106,15 @@ If you are only testing locally, you can also use:
 http://127.0.0.1:8065
 ```
 
-If both BulinBot and Mattermost run in containers, prefer an address reachable from the BulinBot container, such as the Mattermost service name on the same Docker network.
+If both NovaBot and Mattermost run in containers, prefer an address reachable from the NovaBot container, such as the Mattermost service name on the same Docker network.
 
 ## Start and Verify
 
-After saving the BulinBot platform adapter configuration:
+After saving the NovaBot platform adapter configuration:
 
-1. Make sure the BulinBot logs do not show Mattermost authentication or WebSocket connection errors.
+1. Make sure the NovaBot logs do not show Mattermost authentication or WebSocket connection errors.
 2. Send a message in a channel that includes the bot, or send the bot a direct message.
-3. If BulinBot replies normally, the integration is working.
+3. If NovaBot replies normally, the integration is working.
 
 ## Common Issues
 
@@ -131,9 +131,9 @@ Usually one of these:
 Check these first:
 
 - The bot has been added to the target channel
-- `Mattermost URL` points to an address BulinBot can actually reach
+- `Mattermost URL` points to an address NovaBot can actually reach
 - Your Mattermost reverse proxy forwards WebSocket traffic correctly
 
-### Mattermost Opens in Browser but BulinBot Still Cannot Connect
+### Mattermost Opens in Browser but NovaBot Still Cannot Connect
 
-If BulinBot runs in a container while `Mattermost URL` is set to `localhost` or `127.0.0.1`, BulinBot will connect to itself instead of the Mattermost service. In that case, switch to an address reachable inside the Docker network.
+If NovaBot runs in a container while `Mattermost URL` is set to `localhost` or `127.0.0.1`, NovaBot will connect to itself instead of the Mattermost service. In that case, switch to an address reachable inside the Docker network.

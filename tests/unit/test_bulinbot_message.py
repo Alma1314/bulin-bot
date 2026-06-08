@@ -1,11 +1,11 @@
-"""Tests for BulinBotMessage and MessageMember classes."""
+"""Tests for NovaBotMessage and MessageMember classes."""
 
 import time
 from unittest.mock import patch
 
-from bulinbot.core.message.components import Image, Plain
-from bulinbot.core.platform.bulinbot_message import BulinBotMessage, Group, MessageMember
-from bulinbot.core.platform.message_type import MessageType
+from novabot.core.message.components import Image, Plain
+from novabot.core.platform.novabot_message import NovaBotMessage, Group, MessageMember
+from novabot.core.platform.message_type import MessageType
 
 
 class TestMessageMember:
@@ -109,26 +109,26 @@ class TestGroup:
         assert "First Member: N/A" in result
 
 
-class TestBulinBotMessage:
-    """Tests for BulinBotMessage class."""
+class TestNovaBotMessage:
+    """Tests for NovaBotMessage class."""
 
-    def test_bulinbot_message_creation(self):
-        """Test creating an BulinBotMessage."""
-        message = BulinBotMessage()
+    def test_novabot_message_creation(self):
+        """Test creating an NovaBotMessage."""
+        message = NovaBotMessage()
 
         assert message.group is None
         assert message.timestamp is not None
         assert isinstance(message.timestamp, int)
 
-    def test_bulinbot_message_timestamp(self):
+    def test_novabot_message_timestamp(self):
         """Test timestamp is set on creation."""
         with patch.object(time, "time", return_value=1234567890):
-            message = BulinBotMessage()
+            message = NovaBotMessage()
             assert message.timestamp == 1234567890
 
-    def test_bulinbot_message_all_attributes(self):
-        """Test setting all attributes on BulinBotMessage."""
-        message = BulinBotMessage()
+    def test_novabot_message_all_attributes(self):
+        """Test setting all attributes on NovaBotMessage."""
+        message = NovaBotMessage()
         message.type = MessageType.FRIEND_MESSAGE
         message.self_id = "bot123"
         message.session_id = "session123"
@@ -147,9 +147,9 @@ class TestBulinBotMessage:
         assert message.message_str == "Hello"
         assert message.raw_message == {"raw": "data"}
 
-    def test_bulinbot_message_str(self):
+    def test_novabot_message_str(self):
         """Test __str__ method."""
-        message = BulinBotMessage()
+        message = NovaBotMessage()
         message.type = MessageType.FRIEND_MESSAGE
         message.self_id = "bot123"
 
@@ -158,24 +158,24 @@ class TestBulinBotMessage:
         assert "'self_id'" in result
 
 
-class TestBulinBotMessageGroupId:
-    """Tests for BulinBotMessage group_id property."""
+class TestNovaBotMessageGroupId:
+    """Tests for NovaBotMessage group_id property."""
 
     def test_group_id_returns_empty_when_no_group(self):
         """Test group_id returns empty string when group is None."""
-        message = BulinBotMessage()
+        message = NovaBotMessage()
         assert message.group_id == ""
 
     def test_group_id_returns_group_id_when_group_exists(self):
         """Test group_id returns the group's id when group exists."""
-        message = BulinBotMessage()
+        message = NovaBotMessage()
         message.group = Group(group_id="group123")
 
         assert message.group_id == "group123"
 
     def test_group_id_setter_creates_new_group(self):
         """Test group_id setter creates a new group if none exists."""
-        message = BulinBotMessage()
+        message = NovaBotMessage()
         message.group_id = "new_group123"
 
         assert message.group is not None
@@ -183,7 +183,7 @@ class TestBulinBotMessageGroupId:
 
     def test_group_id_setter_updates_existing_group(self):
         """Test group_id setter updates existing group's id."""
-        message = BulinBotMessage()
+        message = NovaBotMessage()
         message.group = Group(group_id="old_group")
         message.group_id = "new_group"
 
@@ -191,7 +191,7 @@ class TestBulinBotMessageGroupId:
 
     def test_group_id_setter_with_none_removes_group(self):
         """Test group_id setter with None removes the group."""
-        message = BulinBotMessage()
+        message = NovaBotMessage()
         message.group = Group(group_id="group123")
         message.group_id = None
 
@@ -199,47 +199,47 @@ class TestBulinBotMessageGroupId:
 
     def test_group_id_setter_with_empty_string_removes_group(self):
         """Test group_id setter with empty string removes the group."""
-        message = BulinBotMessage()
+        message = NovaBotMessage()
         message.group = Group(group_id="group123")
         message.group_id = ""
 
         assert message.group is None
 
 
-class TestBulinBotMessageTypes:
-    """Tests for BulinBotMessage with different message types."""
+class TestNovaBotMessageTypes:
+    """Tests for NovaBotMessage with different message types."""
 
     def test_friend_message_type(self):
-        """Test BulinBotMessage with FRIEND_MESSAGE type."""
-        message = BulinBotMessage()
+        """Test NovaBotMessage with FRIEND_MESSAGE type."""
+        message = NovaBotMessage()
         message.type = MessageType.FRIEND_MESSAGE
 
         assert message.type == MessageType.FRIEND_MESSAGE
         assert message.type.value == "FriendMessage"
 
     def test_group_message_type(self):
-        """Test BulinBotMessage with GROUP_MESSAGE type."""
-        message = BulinBotMessage()
+        """Test NovaBotMessage with GROUP_MESSAGE type."""
+        message = NovaBotMessage()
         message.type = MessageType.GROUP_MESSAGE
 
         assert message.type == MessageType.GROUP_MESSAGE
         assert message.type.value == "GroupMessage"
 
     def test_other_message_type(self):
-        """Test BulinBotMessage with OTHER_MESSAGE type."""
-        message = BulinBotMessage()
+        """Test NovaBotMessage with OTHER_MESSAGE type."""
+        message = NovaBotMessage()
         message.type = MessageType.OTHER_MESSAGE
 
         assert message.type == MessageType.OTHER_MESSAGE
         assert message.type.value == "OtherMessage"
 
 
-class TestBulinBotMessageChain:
-    """Tests for BulinBotMessage message chain."""
+class TestNovaBotMessageChain:
+    """Tests for NovaBotMessage message chain."""
 
     def test_message_chain_with_plain_text(self):
         """Test message chain with plain text."""
-        message = BulinBotMessage()
+        message = NovaBotMessage()
         message.message = [Plain(text="Hello world")]
 
         assert len(message.message) == 1
@@ -248,7 +248,7 @@ class TestBulinBotMessageChain:
 
     def test_message_chain_with_multiple_components(self):
         """Test message chain with multiple components."""
-        message = BulinBotMessage()
+        message = NovaBotMessage()
         message.message = [
             Plain(text="Hello "),
             Plain(text="world"),
@@ -262,7 +262,7 @@ class TestBulinBotMessageChain:
 
     def test_message_chain_empty(self):
         """Test empty message chain."""
-        message = BulinBotMessage()
+        message = NovaBotMessage()
         message.message = []
 
         assert len(message.message) == 0

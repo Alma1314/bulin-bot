@@ -14,9 +14,9 @@ The development team behind Satori has long worked on bot development and is fam
 
 Please refer to the deployment documentation of the chosen implementation project.
 
-## 2. Configure Satori protocol in BulinBot
+## 2. Configure Satori protocol in NovaBot
 
-1. Open BulinBot WebUI.
+1. Open NovaBot WebUI.
 2. Click `Bots` in the left sidebar.
 3. In the right panel, click `+ Create Bot`.
 4. Select `satori`.

@@ -14,13 +14,13 @@ User: Keen observation (明察秋毫)
 ...
 ```
 
-BulinBot provides out-of-the-box session control functionality:
+NovaBot provides out-of-the-box session control functionality:
 
 Import:
 
 ```py
-import bulinbot.api.message_components as Comp
-from bulinbot.core.utils.session_waiter import (
+import nova-bot.api.message_components as Comp
+from nova-bot.core.utils.session_waiter import (
     session_waiter,
     SessionController,
 )
@@ -29,7 +29,7 @@ from bulinbot.core.utils.session_waiter import (
 Code within the handler can be written as follows:
 
 ```python
-from bulinbot.api.event import filter, BulinMessageEvent
+from nova-bot.api.event import filter, BulinMessageEvent
 
 @filter.command("idiom-chain")
 async def handle_empty_mention(self, event: BulinMessageEvent):
@@ -54,7 +54,7 @@ async def handle_empty_mention(self, event: BulinMessageEvent):
 
             # ...
             message_result = event.make_result()
-            message_result.chain = [Comp.Plain("Foresight")] # import bulinbot.api.message_components as Comp
+            message_result.chain = [Comp.Plain("Foresight")] # import nova-bot.api.message_components as Comp
             await event.send(message_result) # Send a reply, cannot use yield
 
             controller.keep(timeout=60, reset_timeout=True) # Reset timeout to 60s. If not reset, it will continue the previous timeout countdown.
@@ -88,11 +88,11 @@ Used by developers to control whether a session should end, and to retrieve mess
 
 ## Custom Session ID Filter
 
-By default, the BulinBot session controller uses `sender_id` (the sender's ID) as the identifier for distinguishing different sessions. If you want to treat an entire group as one session, you need to customize the session ID filter.
+By default, the NovaBot session controller uses `sender_id` (the sender's ID) as the identifier for distinguishing different sessions. If you want to treat an entire group as one session, you need to customize the session ID filter.
 
 ```py
-import bulinbot.api.message_components as Comp
-from bulinbot.core.utils.session_waiter import (
+import nova-bot.api.message_components as Comp
+from nova-bot.core.utils.session_waiter import (
     session_waiter,
     SessionFilter,
     SessionController,

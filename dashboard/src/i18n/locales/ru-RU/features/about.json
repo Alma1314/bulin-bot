@@ -1,6 +1,6 @@
 ﻿{
     "hero": {
-        "title": "BulinBot",
+        "title": "NovaBot",
         "subtitle": "Проект, рожденный из интереса и любви ❤️",
         "starButton": "Star этот проект! 🌟",
         "issueButton": "Сообщить об ошибке"
@@ -12,6 +12,6 @@
     },
     "stats": {
         "title": "Глобальное развертывание",
-        "license": "BulinBot распространяется по лицензии AGPL v3"
+        "license": "NovaBot распространяется по лицензии AGPL v3"
     }
 }

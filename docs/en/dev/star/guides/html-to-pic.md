@@ -2,11 +2,11 @@
 # Text to Image
 
 > [!TIP]
-> For easier development, you can use the [BulinBot Text2Image Playground](https://t2i-playground.bulinbot.app/) for online visual editing and testing of HTML templates.
+> For easier development, you can use the [NovaBot Text2Image Playground](https://t2i-playground.nova-bot.app/) for online visual editing and testing of HTML templates.
 
 ## Basic Usage
 
-BulinBot supports rendering text into images.
+NovaBot supports rendering text into images.
 
 ```python
 @filter.command("image") # Register an /image command that accepts a text parameter.
@@ -23,7 +23,7 @@ async def on_aiocqhttp(self, event: BulinMessageEvent, text: str):
 
 If you find the default rendered images insufficiently aesthetic, you can use custom HTML templates to render images.
 
-BulinBot supports rendering text-to-image templates using `HTML + Jinja2`.
+NovaBot supports rendering text-to-image templates using `HTML + Jinja2`.
 
 ```py{7}
 # Custom Jinja2 template with CSS support

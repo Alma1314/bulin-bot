@@ -2,7 +2,7 @@ import asyncio
 
 import pytest
 
-from bulinbot.dashboard.routes.chat import _poll_webchat_stream_result
+from novabot.dashboard.routes.chat import _poll_webchat_stream_result
 
 
 class _QueueThatRaises:

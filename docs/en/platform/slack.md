@@ -1,6 +1,6 @@
 # Connecting to Slack
 
-## Create BulinBot Slack Platform Adapter
+## Create NovaBot Slack Platform Adapter
 
 Navigate to the `Bots` page, click `+ Create Bot`, find Slack and click to enter the Slack configuration page.
 
@@ -18,7 +18,7 @@ Slack supports two connection methods: `Webhook` and `Socket`. If you don't have
 
 ![image](https://files.bulinbot.app/docs/source/images/slack/image.png)
 
-4. In the Basic Information page on the left sidebar, find App-Level Tokens and click "Generate Token and Scopes". Enter any Token Name, click Add Scope, select `connections:write`, then click "Generate". Click Copy and paste the result into the app_token field on the BulinBot configuration page.
+4. In the Basic Information page on the left sidebar, find App-Level Tokens and click "Generate Token and Scopes". Enter any Token Name, click Add Scope, select `connections:write`, then click "Generate". Click Copy and paste the result into the app_token field on the NovaBot configuration page.
 
 ![image](https://files.bulinbot.app/docs/source/images/slack/image-2.png)
 
@@ -64,14 +64,14 @@ After successfully creating the platform adapter, return to the Slack settings. 
 
 If you're using Webhook mode:
 
-- If `Unified Webhook Mode` is enabled, after clicking save, BulinBot will automatically generate a unique Webhook callback URL for you. You can find it in the logs or on the bot card in the WebUI's Bots page. Enter this URL in the `Request URL` field.
+- If `Unified Webhook Mode` is enabled, after clicking save, NovaBot will automatically generate a unique Webhook callback URL for you. You can find it in the logs or on the bot card in the WebUI's Bots page. Enter this URL in the `Request URL` field.
 
 ![unified_webhook](https://files.bulinbot.app/docs/source/images/use/unified-webhook.png)
 
-- If `Unified Webhook Mode` is not enabled, enter `https://your-domain/bulinbot-slack-webhook/callback` in the `Request URL` field.
+- If `Unified Webhook Mode` is not enabled, enter `https://your-domain/nova-bot-slack-webhook/callback` in the `Request URL` field.
 
 > [!TIP]
-> In Webhook mode, you need to first set up your domain with your DNS provider, then use reverse proxy software to forward requests to port `6185` on the BulinBot server (if Unified Webhook Mode is enabled) or the port specified in your configuration (if Unified Webhook Mode is not enabled). Alternatively, you can use Cloudflare Tunnel. For detailed tutorials, please refer to online resources; this tutorial will not cover these in detail.
+> In Webhook mode, you need to first set up your domain with your DNS provider, then use reverse proxy software to forward requests to port `6185` on the NovaBot server (if Unified Webhook Mode is enabled) or the port specified in your configuration (if Unified Webhook Mode is not enabled). Alternatively, you can use Cloudflare Tunnel. For detailed tutorials, please refer to online resources; this tutorial will not cover these in detail.
 
 After enabling, under Subscribe to bot events below, click Add Bot User Event and add the following events:
 
@@ -91,4 +91,4 @@ After enabling, under Subscribe to bot events below, click Add Bot User Event an
 
 Enter the Slack workspace you just added, navigate to the channel where you want to use the bot, then @ mention the app you just created. Click the Add button in the message subsequently sent by Slackbot to add it to the workspace. Then, @ mention the app and type `/help`. If it responds successfully, the test is successful.
 
-If you have any questions, please [submit an Issue](https://github.com/BulinBotDevs/BulinBot/issues).
+If you have any questions, please [submit an Issue](https://github.com/NovaBotDevs/NovaBot/issues).

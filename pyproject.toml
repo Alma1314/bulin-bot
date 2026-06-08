@@ -1,12 +1,12 @@
 [project]
-name = "bulinbot"
+name = "novabot"
 version = "0.1.0"
 description = "Easy-to-use multi-platform LLM chatbot and development framework"
 readme = "README.md"
 license = { text = "AGPL-3.0-or-later" }
 requires-python = ">=3.13"
 
-keywords = ["BuLinBot", "Agent", "bulinbot", "IM"]
+keywords = ["NovaBot", "Agent", "novabot", "IM"]
 
 dependencies = [
   "aiocqhttp>=1.4.4",
@@ -78,13 +78,13 @@ dev = [
 ]
 
 [project.scripts]
-bulinbot = "bulinbot.cli.__main__:cli"
+novabot = "novabot.cli.__main__:cli"
 
 [project.urls]
-Repository = "https://github.com/BulinBotDevs/BulinBot"
+Repository = "https://github.com/NovaBotDevs/NovaBot"
 
 [tool.ruff]
-exclude = ["bulinbot/core/utils/t2i/local_strategy.py", "bulinbot/api/all.py", "tests"]
+exclude = ["novabot/core/utils/t2i/local_strategy.py", "novabot/api/all.py", "tests"]
 line-length = 88
 target-version = "py312"
 
@@ -104,8 +104,8 @@ ignore = [
   "F403",
   "F405",
   "E501",
-  "ASYNC230", # TODO: handle ASYNC230 in BulinBot
-  "ASYNC240", # TODO: handle ASYNC240 in BulinBot
+  "ASYNC230", # TODO: handle ASYNC230 in NovaBot
+  "ASYNC240", # TODO: handle ASYNC240 in NovaBot
 ]
 
 [tool.pyright]
@@ -113,7 +113,7 @@ typeCheckingMode = "basic"
 pythonVersion = "3.12"
 reportMissingTypeStubs = false
 reportMissingImports = false
-include = ["bulinbot"]
+include = ["novabot"]
 exclude = ["dashboard", "node_modules", "dist", "data", "tests"]
 
 [tool.hatch.metadata]
@@ -121,8 +121,8 @@ allow-direct-references = true
 
 # Include bundled dashboard dist even though it is not tracked by VCS.
 [tool.hatch.build.targets.wheel]
-packages = ["bulinbot"]
-artifacts = ["bulinbot/dashboard/dist/**"]
+packages = ["novabot"]
+artifacts = ["novabot/dashboard/dist/**"]
 
 # Custom build hook: builds the Vue dashboard and copies dist into the package.
 [tool.hatch.build.hooks.custom]

@@ -21,7 +21,7 @@ Runs on `http://localhost:3000` by default.
 
 ## Pre-commit setup
 
-BulinBot uses [pre-commit](https://pre-commit.com/) hooks to automatically format and lint Python code before each commit. The hooks run `ruff check`, `ruff format`, and `pyupgrade` (see [`.pre-commit-config.yaml`](.pre-commit-config.yaml) for details).
+NovaBot uses [pre-commit](https://pre-commit.com/) hooks to automatically format and lint Python code before each commit. The hooks run `ruff check`, `ruff format`, and `pyupgrade` (see [`.pre-commit-config.yaml`](.pre-commit-config.yaml) for details).
 
 To set it up:
 
@@ -46,7 +46,7 @@ ruff check .
 3. After finishing, use `ruff format .` and `ruff check .` to format and check the code.
 4. When committing, ensure to use conventional commits messages, such as `feat: add new agent for data analysis` or `fix: resolve bug in provider manager`.
 5. Use English for all new comments.
-6. For path handling, use `pathlib.Path` instead of string paths, and use `bulinbot.core.utils.path_utils` to get the BulinBot data and temp directory.
+6. For path handling, use `pathlib.Path` instead of string paths, and use `novabot.core.utils.path_utils` to get the NovaBot data and temp directory.
 
 ## PR instructions
 

@@ -1,6 +1,6 @@
 # Agent Handoff and SubAgent
 
-SubAgent Orchestration is an advanced agent organization method provided by BulinBot. It allows you to decompose complex tasks into multiple specialized SubAgents, reducing the Main Agent's prompt length and improving task execution success rates.
+SubAgent Orchestration is an advanced agent organization method provided by NovaBot. It allows you to decompose complex tasks into multiple specialized SubAgents, reducing the Main Agent's prompt length and improving task execution success rates.
 
 v4.14.0 introduced this feature, which is currently an **experimental feature** and not yet stable.
 
@@ -26,7 +26,7 @@ With SubAgent Orchestration, the Main Agent is only responsible for user interac
 
 ## Configuration
 
-In the BulinBot WebUI, click **SubAgents** in the left navigation bar.
+In the NovaBot WebUI, click **SubAgents** in the left navigation bar.
 
 ### 1. Enable SubAgent Mode
 

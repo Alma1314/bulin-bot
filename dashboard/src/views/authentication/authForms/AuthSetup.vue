@@ -6,7 +6,7 @@ import { useAuthStore } from '@/stores/auth';
 
 const { tm: t } = useModuleI18n('features/auth');
 
-const username = ref('bulinbot');
+const username = ref('nova-bot');
 const password = ref('');
 const confirmPassword = ref('');
 const showPassword = ref(false);

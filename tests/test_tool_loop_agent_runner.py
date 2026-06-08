@@ -11,17 +11,17 @@ import pytest
 # 将项目根目录添加到 sys.path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from bulinbot.core.agent.agent import Agent
-from bulinbot.core.agent.handoff import HandoffTool
-from bulinbot.core.agent.hooks import BaseAgentRunHooks
-from bulinbot.core.agent.message import ImageURLPart, Message, TextPart
-from bulinbot.core.agent.run_context import ContextWrapper
-from bulinbot.core.agent.runners.tool_loop_agent_runner import ToolLoopAgentRunner
-from bulinbot.core.agent.tool import FunctionTool, ToolSet
-from bulinbot.core.bulin_agent_tool_exec import FunctionToolExecutor
-from bulinbot.core.exceptions import EmptyModelOutputError
-from bulinbot.core.provider.entities import LLMResponse, ProviderRequest, TokenUsage
-from bulinbot.core.provider.provider import Provider
+from novabot.core.agent.agent import Agent
+from novabot.core.agent.handoff import HandoffTool
+from novabot.core.agent.hooks import BaseAgentRunHooks
+from novabot.core.agent.message import ImageURLPart, Message, TextPart
+from novabot.core.agent.run_context import ContextWrapper
+from novabot.core.agent.runners.tool_loop_agent_runner import ToolLoopAgentRunner
+from novabot.core.agent.tool import FunctionTool, ToolSet
+from novabot.core.bulin_agent_tool_exec import FunctionToolExecutor
+from novabot.core.exceptions import EmptyModelOutputError
+from novabot.core.provider.entities import LLMResponse, ProviderRequest, TokenUsage
+from novabot.core.provider.provider import Provider
 
 
 class MockProvider(Provider):
@@ -670,7 +670,7 @@ async def test_tool_result_includes_all_calltoolresult_content(
 ):
     """工具返回多个 content 项时，tool result 应包含全部内容。"""
 
-    from bulinbot.core.agent.tool_image_cache import tool_image_cache
+    from novabot.core.agent.tool_image_cache import tool_image_cache
 
     mock_provider.should_call_tools = True
     mock_provider.max_calls_before_normal_response = 1
@@ -1286,7 +1286,7 @@ async def test_follow_up_ticket_not_consumed_when_no_next_tool_call(
 @pytest.mark.asyncio
 async def test_skills_like_requery_passes_extra_user_content_parts():
     """skills-like 模式 re-query 时应传递 extra_user_content_parts（如 image_caption）"""
-    from bulinbot.core.agent.message import TextPart
+    from novabot.core.agent.message import TextPart
 
     captured_kwargs = {}
 
@@ -1391,7 +1391,7 @@ async def test_large_tool_result_is_spilled_to_file_and_replaced_with_read_notic
         handler=AsyncMock(),
     )
     read_tool = FunctionTool(
-        name="bulinbot_file_read_tool",
+        name="novabot_file_read_tool",
         description="read file",
         parameters={"type": "object", "properties": {"path": {"type": "string"}}},
         handler=AsyncMock(),
@@ -1425,8 +1425,8 @@ async def test_large_tool_result_is_spilled_to_file_and_replaced_with_read_notic
     assert "xxxxxxxxxx" in tool_message_content
     assert "Truncated tool output preview shown above." in tool_message_content
     assert "The tool output was too large to include directly" in tool_message_content
-    assert "`bulinbot_file_read_tool`" in tool_message_content
-    assert "Use `bulinbot_file_read_tool` to inspect it." in tool_message_content
+    assert "`novabot_file_read_tool`" in tool_message_content
+    assert "Use `novabot_file_read_tool` to inspect it." in tool_message_content
 
     overflow_files = list(Path(tmp_path).glob("call_large_result_*.txt"))
     assert len(overflow_files) == 1
@@ -1451,7 +1451,7 @@ async def test_large_tool_result_keeps_preview_when_spill_fails(
         handler=AsyncMock(),
     )
     read_tool = FunctionTool(
-        name="bulinbot_file_read_tool",
+        name="novabot_file_read_tool",
         description="read file",
         parameters={"type": "object", "properties": {"path": {"type": "string"}}},
         handler=AsyncMock(),

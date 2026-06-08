@@ -1,8 +1,8 @@
 import pyotp
 import pytest
 
-from bulinbot.core.db.sqlite import SQLiteDatabase
-from bulinbot.core.utils.totp import (
+from novabot.core.db.sqlite import SQLiteDatabase
+from novabot.core.utils.totp import (
     consume_totp_code,
     generate_recovery_code,
     is_totp_enabled,

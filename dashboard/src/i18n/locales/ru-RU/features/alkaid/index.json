@@ -4,7 +4,7 @@
     "comingSoon": "Этот мир еще впереди, заходите позже!",
     "page": {
         "title": "Проект Alkaid.",
-        "subtitle": "BulinBot Alpha Project",
+        "subtitle": "NovaBot Alpha Project",
         "navigation": {
             "knowledgeBase": "База знаний (Плагин)",
             "longTermMemory": "Долгосрочная память",
@@ -24,7 +24,7 @@
         "deprecated": "Устарело"
     },
     "sigma": {
-        "subtitle": "Экспериментальный проект BulinBot",
+        "subtitle": "Экспериментальный проект NovaBot",
         "visualization": "Визуализация",
         "filterUserId": "Фильтр по User ID",
         "filter": "Фильтр",

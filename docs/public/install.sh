@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# deploy-cli.sh - Install bulinbot with uv on Linux / macOS / WSL.
+# deploy-cli.sh - Install nova-bot with uv on Linux / macOS / WSL.
 
 set -euo pipefail
 
@@ -64,5 +64,5 @@ fi
 
 ok "$("$UV_BIN" --version)"
 info "Installing BulinBot with Python 3.12..."
-"$UV_BIN" tool install --python 3.12 bulinbot
+"$UV_BIN" tool install --python 3.12 nova-bot
 ok "BulinBot has been installed."

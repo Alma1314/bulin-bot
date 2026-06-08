@@ -5,7 +5,7 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from bulinbot.core.tools.message_tools import SendMessageToUserTool
+from novabot.core.tools.message_tools import SendMessageToUserTool
 
 
 def _make_context(
@@ -147,7 +147,7 @@ async def test_send_message_missing_image_path_stops_before_send(tmp_path, monke
         raise RuntimeError("sandbox unavailable")
 
     monkeypatch.setattr(
-        "bulinbot.core.tools.message_tools.get_booter",
+        "novabot.core.tools.message_tools.get_booter",
         mock_get_booter,
     )
 

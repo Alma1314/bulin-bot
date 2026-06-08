@@ -86,7 +86,7 @@ function refreshSidebarMenu() {
 
 // Apply customization on mount and listen for storage changes
 const handleStorageChange = (e) => {
-  if (e.key === 'bulinbot_sidebar_customization') {
+  if (e.key === 'nova-bot_sidebar_customization') {
     refreshSidebarMenu();
   }
 };
@@ -175,15 +175,15 @@ function toggleIframe() {
 
 function openIframeLink(url) {
   if (typeof window !== 'undefined') {
-    let url_ = url || "https://docs.bulinbot.app";
+    let url_ = url || "https://docs.nova-bot.app";
     window.open(url_, "_blank");
   }
 }
 
 function openFaqLink() {
   const faqUrl = locale.value === 'en-US'
-    ? 'https://docs.bulinbot.app/en/faq.html'
-    : 'https://docs.bulinbot.app/faq.html';
+    ? 'https://docs.nova-bot.app/en/faq.html'
+    : 'https://docs.nova-bot.app/faq.html';
   openIframeLink(faqUrl);
 }
 
@@ -297,7 +297,7 @@ function formatNumber(num) {
 
 async function fetchStarCount() {
   try {
-    const response = await fetch('https://cloud.bulinbot.app/api/v1/github/repo-info');
+    const response = await fetch('https://cloud.nova-bot.app/api/v1/github/repo-info');
     const data = await response.json();
     if (data.data && data.data.stargazers_count) {
       starCount.value = data.data.stargazers_count;
@@ -351,7 +351,7 @@ function openChangelogDialog() {
           {{ t('core.navigation.faq') }}
         </v-btn>
         <v-btn class="sidebar-footer-btn" size="small" variant="text" prepend-icon="mdi-github"
-          @click="openIframeLink('https://github.com/BulinBotDevs/BulinBot')">
+          @click="openIframeLink('https://github.com/NovaBotDevs/NovaBot')">
           {{ t('core.navigation.github') }}
            <v-chip
             v-if="starCount"
@@ -387,7 +387,7 @@ function openChangelogDialog() {
       <div style="display: flex; gap: 8px;">
         <v-btn
           icon
-          @click.stop="openIframeLink('https://docs.bulinbot.app')"
+          @click.stop="openIframeLink('https://docs.nova-bot.app')"
           @mousedown.stop
           :style="{ borderRadius: '8px', border: frameBorder }"
         >
@@ -404,7 +404,7 @@ function openChangelogDialog() {
       </div>
     </div>
     <iframe
-      src="https://docs.bulinbot.app"
+      src="https://docs.nova-bot.app"
       :style="iframeInnerStyle"
       ></iframe>
   </div>

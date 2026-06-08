@@ -14,13 +14,13 @@
 ...
 ```
 
-BulinBot 提供了开箱即用的会话控制功能：
+NovaBot 提供了开箱即用的会话控制功能：
 
 导入：
 
 ```py
-import bulinbot.api.message_components as Comp
-from bulinbot.core.utils.session_waiter import (
+import nova-bot.api.message_components as Comp
+from nova-bot.core.utils.session_waiter import (
     session_waiter,
     SessionController,
 )
@@ -29,7 +29,7 @@ from bulinbot.core.utils.session_waiter import (
 handler 内的代码可以如下：
 
 ```python
-from bulinbot.api.event import filter, BulinMessageEvent
+from nova-bot.api.event import filter, BulinMessageEvent
 
 @filter.command("成语接龙")
 async def handle_empty_mention(self, event: BulinMessageEvent):
@@ -54,7 +54,7 @@ async def handle_empty_mention(self, event: BulinMessageEvent):
 
             # ...
             message_result = event.make_result()
-            message_result.chain = [Comp.Plain("先见之明")] # import bulinbot.api.message_components as Comp
+            message_result.chain = [Comp.Plain("先见之明")] # import nova-bot.api.message_components as Comp
             await event.send(message_result) # 发送回复，不能使用 yield
 
             controller.keep(timeout=60, reset_timeout=True) # 重置超时时间为 60s，如果不重置，则会继续之前的超时时间计时。
@@ -88,11 +88,11 @@ async def handle_empty_mention(self, event: BulinMessageEvent):
 
 ## 自定义会话 ID 算子
 
-默认情况下，BulinBot 会话控制器会将基于 `sender_id` （发送人的 ID）作为识别不同会话的标识，如果想将一整个群作为一个会话，则需要自定义会话 ID 算子。
+默认情况下，NovaBot 会话控制器会将基于 `sender_id` （发送人的 ID）作为识别不同会话的标识，如果想将一整个群作为一个会话，则需要自定义会话 ID 算子。
 
 ```py
-import bulinbot.api.message_components as Comp
-from bulinbot.core.utils.session_waiter import (
+import nova-bot.api.message_components as Comp
+from nova-bot.core.utils.session_waiter import (
     session_waiter,
     SessionFilter,
     SessionController,

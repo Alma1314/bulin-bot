@@ -1,6 +1,6 @@
 # 统一 Webhook 模式
 
-在 v4.8.0 版本开始，BulinBot 支持统一 Webhook 模式 (unified_webhook_mode)。开启该模式后，所有支持该模式的平台适配器都将使用同一个 Webhook 回调接口，从而简化了反向代理和域名配置，不再需要给每一个机器人适配器单独配置端口、域名和反向代理。
+在 v4.8.0 版本开始，NovaBot 支持统一 Webhook 模式 (unified_webhook_mode)。开启该模式后，所有支持该模式的平台适配器都将使用同一个 Webhook 回调接口，从而简化了反向代理和域名配置，不再需要给每一个机器人适配器单独配置端口、域名和反向代理。
 
 支持统一 Webhook 模式的平台适配器包括：
 
@@ -15,9 +15,9 @@
 ## 如何使用统一 Webhook 模式
 
 1. 拥有一个域名（如 example.com）和公网 IP 服务器
-2. 配置 DNS 解析（如 bulinbot.example.com）
-3. 配置反向代理，将域名的 80 或 443 端口请求转发到 BulinBot 的 WebUI 端口（默认为 6185）
-4. 前往 BulinBot `配置文件` 页，点击 `系统`，将 `对外可达的回调接口地址` 填写为配置的 URL 地址。（如 https://bulinbot.example.com），点击保存，等待重启。
+2. 配置 DNS 解析（如 nova-bot.example.com）
+3. 配置反向代理，将域名的 80 或 443 端口请求转发到 NovaBot 的 WebUI 端口（默认为 6185）
+4. 前往 NovaBot `配置文件` 页，点击 `系统`，将 `对外可达的回调接口地址` 填写为配置的 URL 地址。（如 https://nova-bot.example.com），点击保存，等待重启。
 
 
 在之后配置各个平台适配器时，选择开启 `统一 Webhook 模式 (unified_webhook_mode)`。
@@ -27,6 +27,6 @@
 
 ![unified_webhook](https://files.bulinbot.app/docs/source/images/use/unified-webhook-config.png)
 
-开启该模式后，BulinBot 会为你生成一个唯一的 Webhook 回调链接，你只需要将该链接填写到各个平台的回调地址处即可。
+开启该模式后，NovaBot 会为你生成一个唯一的 Webhook 回调链接，你只需要将该链接填写到各个平台的回调地址处即可。
 
 ![unified_webhook](https://files.bulinbot.app/docs/source/images/use/unified-webhook.png)

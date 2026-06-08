@@ -304,7 +304,7 @@ const previewData = computed(() => ({
 }))
 
 const injectShikiRuntime = (content) => {
-  if (content.includes('bulinbot-t2i-shiki-runtime')) {
+  if (content.includes('nova-bot-t2i-shiki-runtime')) {
     return content
   }
 
@@ -317,7 +317,7 @@ const injectShikiRuntime = (content) => {
   return `${runtimeScript}\n${content}`
 }
 
-const getShikiRuntimeScript = () => '<script id="bulinbot-t2i-shiki-runtime" src="/t2i/shiki_runtime.iife.js"></scr' + 'ipt>'
+const getShikiRuntimeScript = () => '<script id="nova-bot-t2i-shiki-runtime" src="/t2i/shiki_runtime.iife.js"></scr' + 'ipt>'
 
 const hasMarkdownSource = (content) => /<[^>]+\bid=["']markdown-source["']/i.test(content)
 

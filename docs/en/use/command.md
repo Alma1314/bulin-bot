@@ -1,6 +1,6 @@
 # Built-in Commands
 
-BulinBot commands are registered through the plugin system. To keep the core lightweight, only a small set of basic commands are loaded with BulinBot itself. Other management and extended commands have been moved into a separate plugin.
+NovaBot commands are registered through the plugin system. To keep the core lightweight, only a small set of basic commands are loaded with NovaBot itself. Other management and extended commands have been moved into a separate plugin.
 
 Use `/help` to view currently enabled commands.
 
@@ -10,22 +10,22 @@ Use `/help` to view currently enabled commands.
 
 ## Core Built-in Commands
 
-The following commands are shipped with BulinBot and loaded by default:
+The following commands are shipped with NovaBot and loaded by default:
 
-- `/help`: View currently enabled commands and BulinBot version information.
+- `/help`: View currently enabled commands and NovaBot version information.
 - `/sid`: View current message source information, including UMO, user ID, platform ID, message type, and session ID. This is commonly used when configuring admins, allowlists, or routing rules.
 - `/name`: Set a display alias for the current UMO, which means one concrete group or private-chat message source on a platform, so it is easier to recognize in WebUI. This command requires admin permission.
 - `/reset`: Reset the current conversation's LLM context.
 - `/stop`: Stop Agent tasks currently running in the current session.
 - `/new`: Create and switch to a new conversation.
-- `/dashboard_update`: Update BulinBot WebUI. This command requires admin permission.
+- `/dashboard_update`: Update NovaBot WebUI. This command requires admin permission.
 - `/set`: Set a session variable, commonly used for Agent Runner input variables such as Dify, Coze, or DashScope.
 - `/unset`: Remove a session variable.
 
 These commands are located in:
 
 ```text
-bulinbot/builtin_stars/builtin_commands
+nova-bot/builtin_stars/builtin_commands
 ```
 
 ## Core Command Details
@@ -35,7 +35,7 @@ bulinbot/builtin_stars/builtin_commands
 `/sid` shows information about the current message source. It mainly returns:
 
 - `UMO`: The unified message origin of the current message. It is commonly used for allowlists and per-session config routing.
-- `UID`: The sender's user ID. It is commonly used when adding BulinBot admins.
+- `UID`: The sender's user ID. It is commonly used when adding NovaBot admins.
 - `Bot ID`: The platform instance ID of the current bot.
 - `Message Type`: The message type, such as private chat or group chat.
 - `Session ID`: The platform-side session ID.
@@ -52,7 +52,7 @@ Common uses:
 
 `/name` sets a human-readable display alias for the current UMO. UMO stands for Unified Message Origin. It identifies one concrete message source in the form `platform ID:message type:session ID`, such as a QQ group, a Telegram group, or a private chat on a specific platform.
 
-Raw UMOs are often long and are not always easy to recognize at a glance. After setting `/name`, BulinBot shows this alias first in WebUI UMO lists, session source selectors, cron delivery targets, conversation data, and other places where administrators need to identify or select a target session. This reduces the chance of choosing the wrong source when configuring routing rules, cron delivery targets, or per-session rules.
+Raw UMOs are often long and are not always easy to recognize at a glance. After setting `/name`, NovaBot shows this alias first in WebUI UMO lists, session source selectors, cron delivery targets, conversation data, and other places where administrators need to identify or select a target session. This reduces the chance of choosing the wrong source when configuring routing rules, cron delivery targets, or per-session rules.
 
 `/name` also records the readable auto name provided by the current platform when available, such as a group name in group chats or a sender nickname/ID in private chats. This lets WebUI show a readable name even when no manual alias has been set.
 
@@ -63,9 +63,9 @@ Usage:
 
 Display rules:
 
-- If both alias and auto name exist, BulinBot displays `alias (auto name)`.
-- If only the auto name exists, BulinBot displays the auto name.
-- If neither exists, BulinBot displays the raw UMO.
+- If both alias and auto name exist, NovaBot displays `alias (auto name)`.
+- If only the auto name exists, NovaBot displays the auto name.
+- If neither exists, NovaBot displays the raw UMO.
 
 `/name` requires admin permission.
 
@@ -73,7 +73,7 @@ Display rules:
 
 `/reset` resets the LLM context of the current session.
 
-For BulinBot's built-in Agent Runner, it:
+For NovaBot's built-in Agent Runner, it:
 
 - Stops running tasks in the current session.
 - Clears the context messages of the current conversation.
@@ -100,13 +100,13 @@ It does not clear conversation history and does not create a new conversation. I
 For the built-in Agent Runner, `/stop` asks the Agent Runner to stop the current task.  
 For third-party Agent Runners such as `dify`, `coze`, `dashscope`, and `deerflow`, `/stop` directly stops registered running tasks in the current session.
 
-If there are no running tasks in the current session, BulinBot will report that no task is running.
+If there are no running tasks in the current session, NovaBot will report that no task is running.
 
 ## Built-in Commands Extension
 
 Other commands that were previously shipped with the core have been moved to a separate plugin:
 
-- [builtin_commands_extension](https://github.com/BulinBotDevs/builtin_commands_extension)
+- [builtin_commands_extension](https://github.com/NovaBotDevs/builtin_commands_extension)
 
 This plugin provides extended commands for plugin management, Provider management, model switching, Persona management, and conversation management. Examples include:
 
@@ -127,6 +127,6 @@ Install or enable the `builtin_commands_extension` plugin if you need these exte
 
 ## Permission Notes
 
-Some commands require BulinBot admin permission, such as `/dashboard_update`, `/name`, `/op`, `/deop`, `/provider`, `/model`, and `/persona`.
+Some commands require NovaBot admin permission, such as `/dashboard_update`, `/name`, `/op`, `/deop`, `/provider`, `/model`, and `/persona`.
 
 You can use `/sid` to get a user ID, then add it in WebUI under `Config -> Other Config -> Admin ID`.

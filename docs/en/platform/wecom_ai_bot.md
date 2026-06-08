@@ -2,7 +2,7 @@
 
 WeCom AI Bot is an official AI-friendly bot platform by WeCom. It can be used directly in one-on-one chats and internal group chats, and supports streaming responses.
 
-BulinBot supports this platform since v4.3.5.
+NovaBot supports this platform since v4.3.5.
 
 ## Supported Basic Message Types
 
@@ -28,13 +28,13 @@ Generate `Token` and `EncodingAESKey` using random generation, but do not click 
 
 ![Create AI Bot Account](https://files.bulinbot.app/docs/source/images/wecom_ai_bot/image.png)
 
-## Configure BulinBot
+## Configure NovaBot
 
-1. Open BulinBot Dashboard, click `Messaging Platforms`, then click `+ Add Adapter`, choose `WeCom AI Bot`.
+1. Open NovaBot Dashboard, click `Messaging Platforms`, then click `+ Add Adapter`, choose `WeCom AI Bot`.
 
 ![Add Adapter](https://files.bulinbot.app/docs/source/images/wecom_ai_bot/image-2.png)
 
-2. Fill BulinBot fields with values from the WeCom AI Bot create page:
+2. Fill NovaBot fields with values from the WeCom AI Bot create page:
 
 - Bot name
 - `token`
@@ -46,7 +46,7 @@ Keep `Unified Webhook Mode (unified_webhook_mode)` enabled and click `Save`.
 
 3. Return to WeCom AI Bot create page and set `URL`:
 
-- If unified mode is enabled, BulinBot generates a unique callback URL after save. Copy it from logs or bot card in WebUI.
+- If unified mode is enabled, NovaBot generates a unique callback URL after save. Copy it from logs or bot card in WebUI.
 - If unified mode is disabled, use `http://IP:port/webhook/wecom-ai-bot`.
 
 ![unified_webhook](https://files.bulinbot.app/docs/source/images/use/unified-webhook.png)
@@ -54,7 +54,7 @@ Keep `Unified Webhook Mode (unified_webhook_mode)` enabled and click `Save`.
 > It is recommended to use a domain + reverse proxy + HTTPS. You can also use [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/tunnel-guide/).
 
 4. Click `Create`. If successful, you will enter bot details page.
-If you see `Service did not respond correctly`, re-check BulinBot config and firewall rules.
+If you see `Service did not respond correctly`, re-check NovaBot config and firewall rules.
 
 ![Bot Details](https://files.bulinbot.app/docs/source/images/wecom_ai_bot/image-3.png)
 
@@ -78,10 +78,10 @@ In WeCom client internal group chat, click Add Member -> AI Bot, select the bot 
 
 Send a message in private chat or group chat to talk to the bot.
 
-If you need typing-like streaming effect, enable `Streaming Reply` in BulinBot.
+If you need typing-like streaming effect, enable `Streaming Reply` in NovaBot.
 
 ![Streaming Reply](https://files.bulinbot.app/docs/source/images/wecom_ai_bot/image-6.png)
 
 ## Help & Support
 
-If you have issues during setup/use or need enterprise support, contact: [community@bulinbot.app](mailto:community@bulinbot.app).
+If you have issues during setup/use or need enterprise support, contact: [community@nova-bot.app](mailto:community@nova-bot.app).

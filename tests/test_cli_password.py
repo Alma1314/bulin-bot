@@ -3,14 +3,14 @@ import json
 
 from click.testing import CliRunner
 
-from bulinbot.cli.commands.cmd_conf import conf
-from bulinbot.cli.commands.cmd_password import password
-from bulinbot.core.config.default import DEFAULT_CONFIG
-from bulinbot.core.utils.auth_password import verify_dashboard_password
+from novabot.cli.commands.cmd_conf import conf
+from novabot.cli.commands.cmd_password import password
+from novabot.core.config.default import DEFAULT_CONFIG
+from novabot.core.utils.auth_password import verify_dashboard_password
 
 
 def _write_config(root):
-    (root / ".bulinbot").touch()
+    (root / ".novabot").touch()
     data_dir = root / "data"
     data_dir.mkdir()
     config = copy.deepcopy(DEFAULT_CONFIG)
@@ -60,13 +60,13 @@ def test_password_command_can_update_dashboard_username(monkeypatch, tmp_path):
     runner = CliRunner()
     result = runner.invoke(
         password,
-        ["--username", "bulinbot-admin"],
+        ["--username", "novabot-admin"],
         input="BulinbotChanged123\nBulinbotChanged123\n",
     )
 
     assert result.exit_code == 0
     config = _read_config(config_path)
-    assert config["dashboard"]["username"] == "bulinbot-admin"
+    assert config["dashboard"]["username"] == "novabot-admin"
 
 
 def test_conf_set_dashboard_password_updates_password_state(monkeypatch, tmp_path):

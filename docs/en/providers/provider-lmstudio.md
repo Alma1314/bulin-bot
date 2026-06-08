@@ -16,9 +16,9 @@ Follow the LM Studio instructions to download and run your desired model, e.g. `
 lms get deepseek-r1-qwen-7b
 ```
 
-### Configure BulinBot
+### Configure NovaBot
 
-In BulinBot:
+In NovaBot:
 
 Go to **Configuration → Service Providers → + → OpenAI**
 
@@ -26,12 +26,12 @@ Set `API Base URL` to `http://localhost:1234/v1`
 
 Set `API Key` to `lm-studio`
 
-> For users deploying BulinBot via Docker Desktop on Mac or Windows, set `API Base URL` to `http://host.docker.internal:1234/v1`.
+> For users deploying NovaBot via Docker Desktop on Mac or Windows, set `API Base URL` to `http://host.docker.internal:1234/v1`.
 >
-> For users deploying BulinBot via Docker on Linux, set `API Base URL` to `http://172.17.0.1:1234/v1`, or replace `172.17.0.1` with your server's public IP (make sure port 1234 is open on the host).
+> For users deploying NovaBot via Docker on Linux, set `API Base URL` to `http://172.17.0.1:1234/v1`, or replace `172.17.0.1` with your server's public IP (make sure port 1234 is open on the host).
 
 If LM Studio itself is deployed in Docker, ensure port 1234 is mapped to the host.
 
 Set the model name to the one you selected in the previous step, then save the configuration.
 
-> Run `/provider` to view the models configured in BulinBot.
+> Run `/provider` to view the models configured in NovaBot.

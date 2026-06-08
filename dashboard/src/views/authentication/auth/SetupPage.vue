@@ -46,7 +46,7 @@ onMounted(async () => {
       <v-card-title>
         <div class="setup-header">
           <div class="setup-brand">
-            <img width="80" src="@/assets/images/plugin_icon.png" alt="BulinBot Logo">
+            <img width="80" src="@/assets/images/plugin_icon.png" alt="NovaBot Logo">
           </div>
           <div class="d-flex align-center gap-1">
             <LanguageSwitcher />

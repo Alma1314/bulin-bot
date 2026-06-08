@@ -4,16 +4,16 @@ layout: home
 
 hero:
   name: >-
-    <a href="https://trendshift.io/repositories/21369" target="_blank"><img src="https://trendshift.io/api/badge/repositories/21369" alt="BulinBotDevs%2FBulinBot | Trendshift" style="width: 250px; height: 55px; margin-bottom: 16px;" width="250" height="55"/></a>
+    <a href="https://trendshift.io/repositories/21369" target="_blank"><img src="https://trendshift.io/api/badge/repositories/21369" alt="NovaBotDevs%2FNovaBot | Trendshift" style="width: 250px; height: 55px; margin-bottom: 16px;" width="250" height="55"/></a>
   text: "Agentic AI assistant for personal and group chats"
   tagline: Connect any IM / 1000+ plugins / General Agent Orchestration
   actions:
     - theme: brand
       text: Quick Start
-      link: /en/what-is-bulinbot
+      link: /en/what-is-nova-bot
     - theme: alt
       text: GitHub Repository
-      link: https://github.com/BulinBotDevs/BulinBot
+      link: https://github.com/NovaBotDevs/NovaBot
 
 features:
   - icon: ✨

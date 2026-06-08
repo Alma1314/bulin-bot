@@ -3,9 +3,9 @@ from types import SimpleNamespace
 
 import pytest
 
-from bulinbot.core.agent.run_context import ContextWrapper
-from bulinbot.core.tools.computer_tools.shipyard_neo.browser import BrowserExecTool
-from bulinbot.core.tools.computer_tools.shipyard_neo.neo_skills import (
+from novabot.core.agent.run_context import ContextWrapper
+from novabot.core.tools.computer_tools.shipyard_neo.browser import BrowserExecTool
+from novabot.core.tools.computer_tools.shipyard_neo.neo_skills import (
     GetExecutionHistoryTool,
 )
 
@@ -51,7 +51,7 @@ async def test_browser_tool_allows_non_admin_when_admin_requirement_disabled(
         return SimpleNamespace(browser=_FakeBrowser())
 
     monkeypatch.setattr(
-        "bulinbot.core.tools.computer_tools.shipyard_neo.browser.get_booter",
+        "novabot.core.tools.computer_tools.shipyard_neo.browser.get_booter",
         _fake_get_booter,
     )
 
@@ -74,7 +74,7 @@ async def test_neo_skill_tool_allows_non_admin_when_admin_requirement_disabled(
         )
 
     monkeypatch.setattr(
-        "bulinbot.core.tools.computer_tools.shipyard_neo.neo_skills.get_booter",
+        "novabot.core.tools.computer_tools.shipyard_neo.neo_skills.get_booter",
         _fake_get_booter,
     )
 

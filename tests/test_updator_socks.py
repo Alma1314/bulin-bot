@@ -8,8 +8,8 @@ import certifi
 import httpx
 import pytest
 
-from bulinbot.core.star.updator import PluginUpdator
-from bulinbot.core.zip_updator import RepoZipUpdator
+from novabot.core.star.updator import PluginUpdator
+from novabot.core.zip_updator import RepoZipUpdator
 
 
 class _FakeJSONResponse:
@@ -291,15 +291,15 @@ async def test_fetch_release_info_uses_httpx_client_with_env_proxy_support(
     monkeypatch: pytest.MonkeyPatch,
     fake_async_client_state: _FakeAsyncClientState,
 ) -> None:
-    import bulinbot.core.zip_updator as zip_updator_module
+    import novabot.core.zip_updator as zip_updator_module
 
     fake_async_client_state.json_payload = [
         {
-            "name": "BulinBot v4.23.2",
+            "name": "NovaBot v4.23.2",
             "published_at": "2026-04-16T00:00:00Z",
             "body": "fix updater socks proxy support",
             "tag_name": "v4.23.2",
-            "zipball_url": "https://example.com/bulinbot.zip",
+            "zipball_url": "https://example.com/novabot.zip",
         }
     ]
 
@@ -328,11 +328,11 @@ async def test_fetch_release_info_uses_httpx_client_with_env_proxy_support(
 
     assert release_info == [
         {
-            "version": "BulinBot v4.23.2",
+            "version": "NovaBot v4.23.2",
             "published_at": "2026-04-16T00:00:00Z",
             "body": "fix updater socks proxy support",
             "tag_name": "v4.23.2",
-            "zipball_url": "https://example.com/bulinbot.zip",
+            "zipball_url": "https://example.com/novabot.zip",
         }
     ]
     assert fake_async_client_state.requested_urls == [
@@ -351,14 +351,14 @@ async def test_download_from_repo_url_uses_httpx_stream_for_zip_download(
     tmp_path: Path,
     fake_async_client_state: _FakeAsyncClientState,
 ) -> None:
-    import bulinbot.core.zip_updator as zip_updator_module
+    import novabot.core.zip_updator as zip_updator_module
 
     fake_async_client_state.stream_payload = b"zip-data"
 
     async def fake_fetch_release_info(self, url: str, latest: bool = True):  # noqa: ARG001
         return [
             {
-                "version": "BulinBot v4.23.2",
+                "version": "NovaBot v4.23.2",
                 "published_at": "2026-04-16T00:00:00Z",
                 "body": "fix updater socks proxy support",
                 "tag_name": "v4.23.2",
@@ -384,13 +384,13 @@ async def test_download_from_repo_url_uses_httpx_stream_for_zip_download(
         raising=False,
     )
 
-    target_path = tmp_path / "BulinBot"
+    target_path = tmp_path / "NovaBot"
     await RepoZipUpdator().download_from_repo_url(
         str(target_path),
-        "https://github.com/BulinBotDevs/BulinBot",
+        "https://github.com/NovaBotDevs/NovaBot",
     )
 
-    assert (tmp_path / "BulinBot.zip").read_bytes() == b"zip-data"
+    assert (tmp_path / "NovaBot.zip").read_bytes() == b"zip-data"
     assert fake_async_client_state.stream_urls == ["https://example.com/archive.zip"]
     assert fake_async_client_state.init_kwargs is not None
     assert fake_async_client_state.init_kwargs["follow_redirects"] is True
@@ -403,7 +403,7 @@ def test_create_httpx_client_uses_custom_verify_setting(
     monkeypatch: pytest.MonkeyPatch,
     fake_async_client_state: _FakeAsyncClientState,
 ) -> None:
-    import bulinbot.core.zip_updator as zip_updator_module
+    import novabot.core.zip_updator as zip_updator_module
 
     custom_verify = "/tmp/custom-ca.pem"
 
@@ -427,7 +427,7 @@ def test_create_httpx_client_uses_custom_verify_setting(
 async def test_fetch_release_info_logs_status_code_and_truncated_body_on_http_error(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    import bulinbot.core.zip_updator as zip_updator_module
+    import novabot.core.zip_updator as zip_updator_module
 
     url = "https://api.soulter.top/releases"
     body = "x" * 1005
@@ -485,7 +485,7 @@ async def test_download_file_logs_url_and_target_path_on_failure(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
 ) -> None:
-    import bulinbot.core.zip_updator as zip_updator_module
+    import novabot.core.zip_updator as zip_updator_module
 
     url = "https://example.com/archive.zip"
     target_path = tmp_path / "logged-partial.zip"
@@ -514,8 +514,8 @@ async def test_download_file_logs_url_and_target_path_on_failure(
 @pytest.mark.parametrize(
     "archive_root",
     [
-        "BulinBotDevs-BulinBot-39386ee/",
-        "BulinBotDevs-BulinBot-39386ee",
+        "NovaBotDevs-NovaBot-39386ee/",
+        "NovaBotDevs-NovaBot-39386ee",
         "owner-repo-branch/subdir/",
         ".",
     ],
@@ -524,9 +524,9 @@ def test_repo_unzip_file_normalizes_windows_extended_length_paths(
     monkeypatch: pytest.MonkeyPatch,
     archive_root: str,
 ) -> None:
-    import bulinbot.core.zip_updator as zip_updator_module
+    import novabot.core.zip_updator as zip_updator_module
 
-    target_dir = r"\\?\C:\Users\admin\AppData\Local\BulinBot\backend\app"
+    target_dir = r"\\?\C:\Users\admin\AppData\Local\NovaBot\backend\app"
     captured = _exercise_unzip_file_windows_path_normalization(
         monkeypatch,
         updater_module=zip_updator_module,
@@ -545,8 +545,8 @@ def test_repo_unzip_file_normalizes_windows_extended_length_paths(
 @pytest.mark.parametrize(
     "archive_root",
     [
-        "BulinBotDevs-demo-39386ee/",
-        "BulinBotDevs-demo-39386ee",
+        "NovaBotDevs-demo-39386ee/",
+        "NovaBotDevs-demo-39386ee",
         "owner-repo-branch/subdir/",
         ".",
     ],
@@ -555,10 +555,10 @@ def test_plugin_unzip_file_normalizes_windows_extended_length_paths(
     monkeypatch: pytest.MonkeyPatch,
     archive_root: str,
 ) -> None:
-    import bulinbot.core.star.updator as plugin_updator_module
-    import bulinbot.core.zip_updator as zip_updator_module
+    import novabot.core.star.updator as plugin_updator_module
+    import novabot.core.zip_updator as zip_updator_module
 
-    target_dir = r"\\?\C:\Users\admin\AppData\Local\BulinBot\data\plugins\demo"
+    target_dir = r"\\?\C:\Users\admin\AppData\Local\NovaBot\data\plugins\demo"
     captured = _exercise_unzip_file_windows_path_normalization(
         monkeypatch,
         updater_module=plugin_updator_module,
@@ -586,7 +586,7 @@ def test_repo_unzip_file_rejects_archive_roots_outside_target_dir(
     archive_root: str,
     expected_error: str,
 ) -> None:
-    import bulinbot.core.zip_updator as zip_updator_module
+    import novabot.core.zip_updator as zip_updator_module
 
     monkeypatch.setattr(
         zip_updator_module.os, "makedirs", lambda path, exist_ok=True: None
@@ -607,9 +607,9 @@ def test_repo_unzip_file_rejects_archive_roots_outside_target_dir(
 def test_repo_unzip_file_handles_archives_without_explicit_root_dir_entry(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    import bulinbot.core.zip_updator as zip_updator_module
+    import novabot.core.zip_updator as zip_updator_module
 
-    target_dir = r"\\?\C:\Users\admin\AppData\Local\BulinBot\backend\app"
+    target_dir = r"\\?\C:\Users\admin\AppData\Local\NovaBot\backend\app"
     archive_root = "repo-root"
     expected_root = ntpath.join(target_dir, archive_root)
     expected_file = ntpath.join(expected_root, "README.md")

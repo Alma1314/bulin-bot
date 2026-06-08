@@ -1,6 +1,6 @@
 # Connect to Coze
 
-BulinBot v4.2.1 and later versions support connecting to [Coze](https://www.coze.cn/) Agent service.
+NovaBot v4.2.1 and later versions support connecting to [Coze](https://www.coze.cn/) Agent service.
 
 ## Preparation: Get API Key
 
@@ -44,11 +44,11 @@ Then the `bot_id` is the string of numbers after `bot/` in the URL: `75532486748
 
 We need to record the `bot_id` for later use.
 
-## Configure Coze in BulinBot
+## Configure Coze in NovaBot
 
-After completing all the preparation work, we can now configure Coze in BulinBot.
+After completing all the preparation work, we can now configure Coze in NovaBot.
 
-Go to BulinBot Admin Panel -> Service Provider -> Add Service Provider -> Coze to enter the configuration page.
+Go to NovaBot Admin Panel -> Service Provider -> Add Service Provider -> Coze to enter the configuration page.
 
 ![Coze Provider](https://files.bulinbot.app/docs/source/images/coze/image_8.png)
 

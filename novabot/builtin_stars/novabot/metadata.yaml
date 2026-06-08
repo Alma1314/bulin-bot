@@ -1,0 +1,4 @@
+name: novabot
+desc: NovaBot's internal plugin, providing some basic capabilities.
+author: NovaBot Team
+version: 4.1.0

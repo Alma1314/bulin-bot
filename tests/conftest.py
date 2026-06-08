@@ -1,5 +1,5 @@
 """
-BulinBot 测试配置
+NovaBot 测试配置
 
 提供共享的 pytest fixtures 和测试工具。
 """
@@ -196,7 +196,7 @@ def mock_platform():
 @pytest.fixture
 def mock_conversation():
     """创建模拟的 Conversation。"""
-    from bulinbot.core.db.po import ConversationV2
+    from novabot.core.db.po import ConversationV2
 
     return ConversationV2(
         conversation_id="test-conv-id",
@@ -238,11 +238,11 @@ def mock_event():
 
 
 @pytest.fixture
-def bulinbot_config(temp_config_file: Path):
-    """创建 BulinBotConfig 实例。"""
-    from bulinbot.core.config.bulinbot_config import BulinBotConfig
+def novabot_config(temp_config_file: Path):
+    """创建 NovaBotConfig 实例。"""
+    from novabot.core.config.novabot_config import NovaBotConfig
 
-    config = BulinBotConfig()
+    config = NovaBotConfig()
     config._config_path = str(temp_config_file)  # noqa: SLF001
     return config
 
@@ -250,7 +250,7 @@ def bulinbot_config(temp_config_file: Path):
 @pytest.fixture
 def main_agent_build_config():
     """创建 MainAgentBuildConfig 实例。"""
-    from bulinbot.core.bulin_main_agent import MainAgentBuildConfig
+    from novabot.core.bulin_main_agent import MainAgentBuildConfig
 
     return MainAgentBuildConfig(
         tool_call_timeout=60,
@@ -275,7 +275,7 @@ def main_agent_build_config():
 @pytest_asyncio.fixture
 async def temp_db(temp_db_file: Path):
     """创建临时数据库实例。"""
-    from bulinbot.core.db.sqlite import SQLiteDatabase
+    from novabot.core.db.sqlite import SQLiteDatabase
 
     db = SQLiteDatabase(str(temp_db_file))
     try:
@@ -293,7 +293,7 @@ async def temp_db(temp_db_file: Path):
 
 @pytest_asyncio.fixture
 async def mock_context(
-    bulinbot_config,
+    novabot_config,
     temp_db,
     mock_provider,
     mock_platform,
@@ -301,7 +301,7 @@ async def mock_context(
     """创建模拟的插件上下文。"""
     from asyncio import Queue
 
-    from bulinbot.core.star.context import Context
+    from novabot.core.star.context import Context
 
     event_queue = Queue()
 
@@ -314,21 +314,21 @@ async def mock_context(
     message_history_manager = MagicMock()
     persona_manager = MagicMock()
     persona_manager.personas_v3 = []
-    bulinbot_config_mgr = MagicMock()
+    novabot_config_mgr = MagicMock()
     knowledge_base_manager = MagicMock()
     cron_manager = MagicMock()
     subagent_orchestrator = None
 
     context = Context(
         event_queue,
-        bulinbot_config,
+        novabot_config,
         temp_db,
         provider_manager,
         platform_manager,
         conversation_manager,
         message_history_manager,
         persona_manager,
-        bulinbot_config_mgr,
+        novabot_config_mgr,
         knowledge_base_manager,
         cron_manager,
         subagent_orchestrator,
@@ -345,7 +345,7 @@ async def mock_context(
 @pytest.fixture
 def provider_request():
     """创建 ProviderRequest 实例。"""
-    from bulinbot.core.provider.entities import ProviderRequest
+    from novabot.core.provider.entities import ProviderRequest
 
     return ProviderRequest(
         prompt="Hello",

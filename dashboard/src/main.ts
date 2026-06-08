@@ -121,7 +121,7 @@ axios.interceptors.request.use((config) => {
   if (token) {
     config.headers['Authorization'] = `Bearer ${token}`;
   }
-  const locale = localStorage.getItem('bulinbot-locale');
+  const locale = localStorage.getItem('novabot-locale');
   if (locale) {
     config.headers['Accept-Language'] = locale;
   }
@@ -149,7 +149,7 @@ window.fetch = (input: RequestInfo | URL, init?: RequestInit) => {
   if (!headers.has('Authorization')) {
     headers.set('Authorization', `Bearer ${token}`);
   }
-  const locale = localStorage.getItem('bulinbot-locale');
+  const locale = localStorage.getItem('novabot-locale');
   if (locale && !headers.has('Accept-Language')) {
     headers.set('Accept-Language', locale);
   }

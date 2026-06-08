@@ -5,9 +5,9 @@ import zipfile
 
 import pytest
 
-from bulinbot.core.knowledge_base.parsers.epub_parser import EpubParser
-from bulinbot.core.knowledge_base.parsers.markitdown_parser import MarkitdownParser
-from bulinbot.core.knowledge_base.parsers.util import select_parser
+from novabot.core.knowledge_base.parsers.epub_parser import EpubParser
+from novabot.core.knowledge_base.parsers.markitdown_parser import MarkitdownParser
+from novabot.core.knowledge_base.parsers.util import select_parser
 
 
 def _make_epub_bytes() -> bytes:

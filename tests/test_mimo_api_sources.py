@@ -3,9 +3,9 @@ from types import SimpleNamespace
 
 import pytest
 
-from bulinbot.core.provider.sources.mimo_api_common import MiMoAPIError, build_headers
-from bulinbot.core.provider.sources.mimo_stt_api_source import ProviderMiMoSTTAPI
-from bulinbot.core.provider.sources.mimo_tts_api_source import ProviderMiMoTTSAPI
+from novabot.core.provider.sources.mimo_api_common import MiMoAPIError, build_headers
+from novabot.core.provider.sources.mimo_stt_api_source import ProviderMiMoSTTAPI
+from novabot.core.provider.sources.mimo_tts_api_source import ProviderMiMoTTSAPI
 
 
 def _make_tts_provider(overrides: dict | None = None) -> ProviderMiMoTTSAPI:
@@ -219,7 +219,7 @@ async def test_mimo_stt_payload_includes_audio_and_prompt(monkeypatch):
         return _Response()
 
     monkeypatch.setattr(
-        "bulinbot.core.provider.sources.mimo_stt_api_source.prepare_audio_input",
+        "novabot.core.provider.sources.mimo_stt_api_source.prepare_audio_input",
         fake_prepare_audio_input,
     )
     provider.client = SimpleNamespace(post=fake_post)
@@ -254,7 +254,7 @@ async def test_mimo_stt_get_text_handles_empty_choices(monkeypatch):
             return {"choices": []}
 
     monkeypatch.setattr(
-        "bulinbot.core.provider.sources.mimo_stt_api_source.prepare_audio_input",
+        "novabot.core.provider.sources.mimo_stt_api_source.prepare_audio_input",
         fake_prepare_audio_input,
     )
     provider.client = SimpleNamespace(post=_fake_post(_Response()))

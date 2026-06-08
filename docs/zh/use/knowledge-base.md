@@ -1,9 +1,9 @@
-# BulinBot 知识库
+# NovaBot 知识库
 
 > [!TIP]
-> 需要 BulinBot 版本 >= 4.5.0。
+> 需要 NovaBot 版本 >= 4.5.0。
 >
-> 我们在 4.5.0 版本中重新设计了全新的知识库系统，BulinBot 将原生支持知识库功能。下文介绍的是新版知识库的使用方法。如果您使用的是之前的版本，请参考[旧版知识库使用文档](/use/knowledge-base-old.html)，我们建议您升级到最新版以获得更好的体验。
+> 我们在 4.5.0 版本中重新设计了全新的知识库系统，NovaBot 将原生支持知识库功能。下文介绍的是新版知识库的使用方法。如果您使用的是之前的版本，请参考[旧版知识库使用文档](/use/knowledge-base-old.html)，我们建议您升级到最新版以获得更好的体验。
 
 ![知识库预览](https://files.bulinbot.app/docs/zh/use/image-3.png)
 
@@ -11,7 +11,7 @@
 
 打开服务提供商页面，点击新增服务提供商，选择 Embedding。
 
-目前 BulinBot 支持兼容 OpenAI API 和 Gemini API 的嵌入向量服务。
+目前 NovaBot 支持兼容 OpenAI API 和 Gemini API 的嵌入向量服务。
 
 点击上面的提供商卡片进入配置页面，填写配置。
 
@@ -25,7 +25,7 @@
 
 ## 创建知识库
 
-BulinBot 支持多知识库管理。在聊天时，您可以**自由指定知识库**。
+NovaBot 支持多知识库管理。在聊天时，您可以**自由指定知识库**。
 
 进入知识库页面，点击创建知识库，如下图所示：
 
@@ -54,7 +54,7 @@ BulinBot 支持多知识库管理。在聊天时，您可以**自由指定知识
 
 1. 打开 [硅基流动官网](https://cloud.siliconflow.cn/i/zMCYMSt2)，注册账户并完成实名认证。
 2. 打开 [API 密钥](https://cloud.siliconflow.cn/me/account/ak)。
-5. 填写 BulinBot OpenAI Embedding 模型提供商配置：
+5. 填写 NovaBot OpenAI Embedding 模型提供商配置：
    1. API Key 为刚刚申请的硅基流动的 API Key
    2. embedding api base 填写 `https://api.siliconflow.cn/v1`
    3. model 填写你选择的模型，此例子中为 `BAAI/bge-m3`。

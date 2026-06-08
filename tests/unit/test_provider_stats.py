@@ -5,10 +5,10 @@ import pytest
 from sqlalchemy.exc import OperationalError
 from sqlmodel import select
 
-from bulinbot.core.agent.response import AgentStats
-from bulinbot.core.db.po import ProviderStat
-from bulinbot.core.pipeline.process_stage.method.agent_sub_stages import internal
-from bulinbot.core.provider.entities import ProviderRequest, TokenUsage
+from novabot.core.agent.response import AgentStats
+from novabot.core.db.po import ProviderStat
+from novabot.core.pipeline.process_stage.method.agent_sub_stages import internal
+from novabot.core.provider.entities import ProviderRequest, TokenUsage
 
 
 @pytest.mark.asyncio

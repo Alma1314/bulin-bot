@@ -1,4 +1,4 @@
-"""Cross-platform startup smoke check for BulinBot."""
+"""Cross-platform startup smoke check for NovaBot."""
 
 from __future__ import annotations
 
@@ -54,13 +54,13 @@ def main() -> int:
     env.setdefault("PYTHONUTF8", "1")
     env.setdefault("TESTING", "true")
 
-    smoke_root = Path(tempfile.mkdtemp(prefix="bulinbot-smoke-root-"))
+    smoke_root = Path(tempfile.mkdtemp(prefix="novabot-smoke-root-"))
     env["BULINBOT_ROOT"] = str(smoke_root)
     log_path = smoke_root / "smoke.log"
     webui_dir = smoke_root / "webui"
     webui_dir.mkdir()
     (webui_dir / "index.html").write_text(
-        "<!doctype html><title>BulinBot</title>",
+        "<!doctype html><title>NovaBot</title>",
         encoding="utf-8",
     )
 
@@ -89,7 +89,7 @@ def main() -> int:
             return_code = proc.poll()
             if return_code is not None:
                 print(
-                    f"BulinBot exited before becoming healthy. Exit code: {return_code}",
+                    f"NovaBot exited before becoming healthy. Exit code: {return_code}",
                     file=sys.stderr,
                 )
                 print(_tail(log_path), file=sys.stderr)

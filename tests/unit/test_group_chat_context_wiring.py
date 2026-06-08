@@ -3,8 +3,8 @@ from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
-from bulinbot.api.message_components import Plain
-from bulinbot.builtin_stars.bulinbot.main import Main
+from novabot.api.message_components import Plain
+from novabot.builtin_stars.novabot.main import Main
 
 
 def make_main_with_conversation_manager(conv_mgr):
@@ -157,7 +157,7 @@ async def test_on_message_skips_recording_when_command_handler_matched():
         handle_message=AsyncMock(),
     )
     event = make_event(
-        handlers_parsed_params={"bulinbot.builtin_stars.builtin_commands.main_reset": {}},
+        handlers_parsed_params={"novabot.builtin_stars.builtin_commands.main_reset": {}},
     )
 
     async for _ in main.on_message(event):

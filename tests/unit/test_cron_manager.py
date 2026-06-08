@@ -5,8 +5,8 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from bulinbot.core.cron.manager import CronJobManager, CronJobSchedulingError
-from bulinbot.core.db.po import CronJob
+from novabot.core.cron.manager import CronJobManager, CronJobSchedulingError
+from novabot.core.db.po import CronJob
 
 
 @pytest.fixture
@@ -322,7 +322,7 @@ class TestSyncFromDb:
         """Test that sync warns for basic jobs without handlers."""
         mock_db.list_cron_jobs.return_value = [sample_cron_job]
 
-        with patch("bulinbot.core.cron.manager.logger") as mock_logger:
+        with patch("novabot.core.cron.manager.logger") as mock_logger:
             await cron_manager.sync_from_db()
 
         mock_logger.warning.assert_called()
@@ -393,7 +393,7 @@ class TestScheduleJob:
         mock_db.list_cron_jobs = AsyncMock(return_value=[])
         mock_db.update_cron_job = AsyncMock()
 
-        with patch("bulinbot.core.cron.manager.logger") as mock_logger:
+        with patch("novabot.core.cron.manager.logger") as mock_logger:
             await cron_manager.start(mock_context)
             cron_manager._schedule_job(sample_cron_job)
 

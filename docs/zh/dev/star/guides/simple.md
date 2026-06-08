@@ -3,9 +3,9 @@
 插件模版中的 `main.py` 是一个最小的插件实例。
 
 ```python
-from bulinbot.api.event import filter, BulinMessageEvent, MessageEventResult
-from bulinbot.api.star import Context, Star
-from bulinbot.api import logger # 使用 bulinbot 提供的 logger 接口
+from nova-bot.api.event import filter, BulinMessageEvent, MessageEventResult
+from nova-bot.api.star import Context, Star
+from nova-bot.api import logger # 使用 nova-bot 提供的 logger 接口
 
 class MyPlugin(Star):
     def __init__(self, context: Context):
@@ -27,10 +27,10 @@ class MyPlugin(Star):
 解释如下：
 
 - 插件需要继承 `Star` 类。
-- `Context` 类用于插件与 BulinBot Core 交互，可以由此调用 BulinBot Core 提供的各种 API。
+- `Context` 类用于插件与 NovaBot Core 交互，可以由此调用 NovaBot Core 提供的各种 API。
 - 具体的处理函数 `Handler` 在插件类中定义，如这里的 `helloworld` 函数。
-- `BulinMessageEvent` 是 BulinBot 的消息事件对象，存储了消息发送者、消息内容等信息。
-- `BulinBotMessage` 是 BulinBot 的消息对象，存储了消息平台下发的消息的具体内容。可以通过 `event.message_obj` 获取。
+- `BulinMessageEvent` 是 NovaBot 的消息事件对象，存储了消息发送者、消息内容等信息。
+- `NovaBotMessage` 是 NovaBot 的消息对象，存储了消息平台下发的消息的具体内容。可以通过 `event.message_obj` 获取。
 
 > [!TIP]
 >

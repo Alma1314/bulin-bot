@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Any
 from unittest.mock import AsyncMock, MagicMock
 
-from bulinbot.core.message.components import BaseMessageComponent
+from novabot.core.message.components import BaseMessageComponent
 
 
 class NoopAwaitable:
@@ -51,7 +51,7 @@ def make_platform_config(platform_type: str, **kwargs) -> dict:
             "telegram_command_register_interval": 300,
             "telegram_media_group_timeout": 2.5,
             "telegram_media_group_max_wait": 10.0,
-            "start_message": "Welcome to BulinBot!",
+            "start_message": "Welcome to NovaBot!",
         },
         "discord": {
             "id": "test_discord",
@@ -59,7 +59,7 @@ def make_platform_config(platform_type: str, **kwargs) -> dict:
             "discord_proxy": None,
             "discord_command_register": True,
             "discord_guild_id_for_debug": None,
-            "discord_activity_name": "Playing BulinBot",
+            "discord_activity_name": "Playing NovaBot",
         },
         "aiocqhttp": {
             "id": "test_aiocqhttp",
@@ -288,7 +288,7 @@ def create_mock_message_component(
     Returns:
         BaseMessageComponent: 消息组件实例
     """
-    from bulinbot.core.message import components as Comp
+    from novabot.core.message import components as Comp
 
     component_map = {
         "plain": Comp.Plain,
@@ -324,7 +324,7 @@ def create_mock_llm_response(
     Returns:
         LLMResponse: 模拟的 LLM 响应
     """
-    from bulinbot.core.provider.entities import LLMResponse, TokenUsage
+    from novabot.core.provider.entities import LLMResponse, TokenUsage
 
     return LLMResponse(
         role=role,
@@ -372,7 +372,7 @@ class MockPluginConfig:
 
 # 默认的插件主代码模板
 DEFAULT_PLUGIN_MAIN_TEMPLATE = '''
-from bulinbot.api import star
+from novabot.api import star
 
 class Main(star.Star):
     """测试插件主类。"""

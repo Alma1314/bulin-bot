@@ -23,9 +23,9 @@ After successful creation, `BotFather` will provide you with a `token`. Please k
 
 If you need to use the bot in group chats, you must disable the bot's [Privacy mode](https://core.telegram.org/bots/features#privacy-mode). Send the `/setprivacy` command to `BotFather`, select your bot, and then choose `Disable`.
 
-## 2. Configure BulinBot
+## 2. Configure NovaBot
 
-1. Enter the BulinBot admin panel
+1. Enter the NovaBot admin panel
 2. Click `Bots` in the left sidebar
 3. In the interface on the right, click `+ Create Bot`
 4. Select `telegram`
@@ -44,11 +44,11 @@ The Telegram platform supports streaming output. Enable the "Streaming Output" s
 
 ### Private Chat Streaming
 
-In private chats, BulinBot uses the `sendMessageDraft` API (added in Telegram Bot API v9.3) for streaming output. This displays a "typing" draft preview animation in the chat interface, creating a more natural "typewriter" effect. It avoids issues with the traditional approach such as message flickering, push notification interference, and API edit frequency limits.
+In private chats, NovaBot uses the `sendMessageDraft` API (added in Telegram Bot API v9.3) for streaming output. This displays a "typing" draft preview animation in the chat interface, creating a more natural "typewriter" effect. It avoids issues with the traditional approach such as message flickering, push notification interference, and API edit frequency limits.
 
 ### Group Chat Streaming
 
-In group chats, since the `sendMessageDraft` API only supports private chats, BulinBot automatically falls back to the traditional `send_message` + `edit_message_text` approach.
+In group chats, since the `sendMessageDraft` API only supports private chats, NovaBot automatically falls back to the traditional `send_message` + `edit_message_text` approach.
 
 :::warning
 `sendMessageDraft` requires `python-telegram-bot>=22.6`.

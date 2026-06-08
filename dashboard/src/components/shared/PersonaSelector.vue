@@ -195,7 +195,7 @@ async function handlePersonaSaved(message: string) {
   // 刷新当前文件夹的人格列表
   await loadPersonasInFolder(currentFolderId.value)
   window.dispatchEvent(
-    new CustomEvent('bulinbot:persona-saved', {
+    new CustomEvent('nova-bot:persona-saved', {
       detail: { persona_id: savedPersonaId }
     })
   )

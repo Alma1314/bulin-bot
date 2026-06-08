@@ -2,9 +2,9 @@
 outline: deep
 ---
 
-# BulinBot HTTP API
+# NovaBot HTTP API
 
-从 v4.18.0 开始，BulinBot 提供基于 API Key 的 HTTP API，开发者可以通过标准 HTTP 请求访问核心能力。
+从 v4.18.0 开始，NovaBot 提供基于 API Key 的 HTTP API，开发者可以通过标准 HTTP 请求访问核心能力。
 
 ## 快速开始
 
@@ -43,7 +43,7 @@ X-API-Key: abk_xxx
 
 **对话类**
 
-调用 BulinBot 内建的 Agent 进行对话交互。支持插件调用、工具调用等能力，与 IM 端对话能力一致。
+调用 NovaBot 内建的 Agent 进行对话交互。支持插件调用、工具调用等能力，与 IM 端对话能力一致。
 
 - `POST /api/v1/chat`：发送对话消息（SSE 流式返回，不传 `session_id` 会自动创建 UUID）
 - `GET /api/v1/chat/sessions`：分页获取指定 `username` 的会话

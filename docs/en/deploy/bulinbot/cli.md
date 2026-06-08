@@ -1,4 +1,4 @@
-# Deploy BulinBot from Source Code
+# Deploy NovaBot from Source Code
 
 > [!WARNING]
 > You are deploying this project directly from source code. This tutorial requires you to have some technical background.
@@ -11,10 +11,10 @@
 If you have `git` installed on your computer, you can download the source code with the following command:
 
 ```bash
-git clone https://github.com/BulinBotDevs/BulinBot.git
+git clone https://github.com/NovaBotDevs/NovaBot.git
 # The above code will pull the latest commit of the source code, if you need to pull the latest stable release version of the source code, you can use the following command:
-# git clone --depth=1 --branch $(git ls-remote --tags --sort='-v:refname' https://github.com/BulinBotDevs/BulinBot.git | head -n1 | awk -F/ '{print $3}') https://github.com/BulinBotDevs/BulinBot.git
-cd BulinBot
+# git clone --depth=1 --branch $(git ls-remote --tags --sort='-v:refname' https://github.com/NovaBotDevs/NovaBot.git | head -n1 | awk -F/ '{print $3}') https://github.com/NovaBotDevs/NovaBot.git
+cd NovaBot
 ```
 
 If you don't have `git` installed, please download and install it first.
@@ -29,7 +29,7 @@ Alternatively, download the source code directly from GitHub and extract it:
 
 > If `uv` is not installed, please refer to [Installing uv](https://docs.astral.sh/uv/getting-started/installation/) for installation.
 
-2. Execute in terminal (in the BulinBot directory)
+2. Execute in terminal (in the NovaBot directory)
 ```bash
 uv sync
 uv run main.py
@@ -44,7 +44,7 @@ uv run --no-sync main.py
 
 ::: details Install Dependencies with Python Built-in venv
 
-In the BulinBot source code directory, run the following command in the terminal:
+In the NovaBot source code directory, run the following command in the terminal:
 
 > If on Windows and you downloaded and extracted the source code directly, please open the extracted folder and enter in the address bar:
 > ![image](https://files.bulinbot.app/docs/source/images/cli/image-1.png)
@@ -79,14 +79,14 @@ python main.py
 
 ## 🎉 All Done!
 
-If everything goes well, you will see logs printed by BulinBot.
+If everything goes well, you will see logs printed by NovaBot.
 
-If there are no errors, you will see a log message similar to `🌈 Dashboard started, accessible at` with several links. Open one of the links to access the BulinBot dashboard. The link is `http://localhost:6185`.
+If there are no errors, you will see a log message similar to `🌈 Dashboard started, accessible at` with several links. Open one of the links to access the NovaBot dashboard. The link is `http://localhost:6185`.
 
 > [!TIP]
-> If you are deploying BulinBot on a server, you need to replace `localhost` with your server's IP address.
+> If you are deploying NovaBot on a server, you need to replace `localhost` with your server's IP address.
 >
-> New users must use the random password printed in the startup logs to log in for the first time. Use the username shown in the logs (usually `bulinbot`) and change it after first login.
+> New users must use the random password printed in the startup logs to log in for the first time. Use the username shown in the logs (usually `nova-bot`) and change it after first login.
 
 
-Next, you need to deploy any messaging platform to use BulinBot on that platform.
+Next, you need to deploy any messaging platform to use NovaBot on that platform.

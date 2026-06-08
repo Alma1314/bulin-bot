@@ -6,15 +6,15 @@ import subprocess
 import sys
 from pathlib import Path
 
-from bulinbot.core.pipeline.bootstrap import ensure_builtin_stages_registered
-from bulinbot.core.pipeline.process_stage.method.agent_sub_stages.internal import (
+from novabot.core.pipeline.bootstrap import ensure_builtin_stages_registered
+from novabot.core.pipeline.process_stage.method.agent_sub_stages.internal import (
     InternalAgentSubStage,
 )
-from bulinbot.core.pipeline.process_stage.method.agent_sub_stages.third_party import (
+from novabot.core.pipeline.process_stage.method.agent_sub_stages.third_party import (
     ThirdPartyAgentSubStage,
 )
-from bulinbot.core.pipeline.stage import Stage, registered_stages
-from bulinbot.core.pipeline.stage_order import STAGES_ORDER
+from novabot.core.pipeline.stage import Stage, registered_stages
+from novabot.core.pipeline.stage_order import STAGES_ORDER
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
@@ -36,11 +36,11 @@ def test_smoke_critical_imports_in_fresh_interpreter() -> None:
     code = (
         "import importlib;"
         "mods=["
-        "'bulinbot.core.core_lifecycle',"
-        "'bulinbot.core.bulin_main_agent',"
-        "'bulinbot.core.pipeline.scheduler',"
-        "'bulinbot.core.pipeline.process_stage.method.agent_sub_stages.internal',"
-        "'bulinbot.core.pipeline.process_stage.method.agent_sub_stages.third_party'"
+        "'novabot.core.core_lifecycle',"
+        "'novabot.core.bulin_main_agent',"
+        "'novabot.core.pipeline.scheduler',"
+        "'novabot.core.pipeline.process_stage.method.agent_sub_stages.internal',"
+        "'novabot.core.pipeline.process_stage.method.agent_sub_stages.third_party'"
         "];"
         "[importlib.import_module(m) for m in mods]"
     )
@@ -61,7 +61,7 @@ def test_smoke_agent_sub_stages_are_stage_subclasses() -> None:
 
 
 def test_pipeline_package_exports_remain_compatible() -> None:
-    import bulinbot.core.pipeline as pipeline
+    import novabot.core.pipeline as pipeline
 
     assert pipeline.ProcessStage is not None
     assert pipeline.RespondStage is not None
@@ -111,7 +111,7 @@ def test_pipeline_import_is_stable_with_mocked_apscheduler() -> None:
         "sys.modules['apscheduler.triggers'] = mock_apscheduler.triggers;"
         "sys.modules['apscheduler.triggers.cron'] = mock_apscheduler.triggers.cron;"
         "sys.modules['apscheduler.triggers.date'] = mock_apscheduler.triggers.date;"
-        "import bulinbot.core.pipeline as pipeline;"
+        "import novabot.core.pipeline as pipeline;"
         "assert pipeline.ProcessStage is not None;"
         "assert pipeline.RespondStage is not None"
     )

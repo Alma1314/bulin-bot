@@ -21,7 +21,7 @@ Active messages refer to the bot proactively pushing messages. Some platforms ma
 For scheduled tasks or when you don't want to send messages immediately, you can use `event.unified_msg_origin` to get a string and store it, then use `self.context.send_message(unified_msg_origin, chains)` to send messages when needed.
 
 ```python
-from bulinbot.api.event import MessageChain
+from nova-bot.api.event import MessageChain
 
 @filter.command("helloworld")
 async def helloworld(self, event: BulinMessageEvent):
@@ -34,14 +34,14 @@ With this feature, you can store the `unified_msg_origin` and send messages when
 
 > [!TIP]
 > About unified_msg_origin.
-> `unified_msg_origin` is a string that records the unique ID of a session. BulinBot uses it to identify which messaging platform and which session it belongs to. This allows messages to be sent to the correct session when using `send_message`. For more about MessageChain, see the next section.
+> `unified_msg_origin` is a string that records the unique ID of a session. NovaBot uses it to identify which messaging platform and which session it belongs to. This allows messages to be sent to the correct session when using `send_message`. For more about MessageChain, see the next section.
 
 ## Rich Media Messages
 
-BulinBot supports sending rich media messages such as images, audio, videos, etc. Use `MessageChain` to construct messages.
+NovaBot supports sending rich media messages such as images, audio, videos, etc. Use `MessageChain` to construct messages.
 
 ```python
-import bulinbot.api.message_components as Comp
+import nova-bot.api.message_components as Comp
 
 @filter.command("helloworld")
 async def helloworld(self, event: BulinMessageEvent):
@@ -86,11 +86,11 @@ Comp.Video.fromURL(url="https://example.com/video.mp4")
 ## Sending Video Messages
 
 ```python
-from bulinbot.api.event import filter, BulinMessageEvent
+from nova-bot.api.event import filter, BulinMessageEvent
 
 @filter.command("test")
 async def test(self, event: BulinMessageEvent):
-    from bulinbot.api.message_components import Video
+    from nova-bot.api.message_components import Video
     # fromFileSystem requires the user's protocol client and bot to be on the same system.
     video = Video.fromFileSystem(
         path="test.mp4"
@@ -111,11 +111,11 @@ async def test(self, event: BulinMessageEvent):
 You can send group forward messages as follows.
 
 ```py
-from bulinbot.api.event import filter, BulinMessageEvent
+from nova-bot.api.event import filter, BulinMessageEvent
 
 @filter.command("test")
 async def test(self, event: BulinMessageEvent):
-    from bulinbot.api.message_components import Node, Plain, Image
+    from nova-bot.api.message_components import Node, Plain, Image
     node = Node(
         uin=905617992,
         name="Soulter",

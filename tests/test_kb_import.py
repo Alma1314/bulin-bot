@@ -5,18 +5,18 @@ import pytest
 import pytest_asyncio
 from quart import Quart
 
-from bulinbot.core import LogBroker
-from bulinbot.core.core_lifecycle import BulinBotCoreLifecycle
-from bulinbot.core.db.sqlite import SQLiteDatabase
-from bulinbot.core.exceptions import KnowledgeBaseUploadError
-from bulinbot.core.knowledge_base.kb_helper import KBHelper
-from bulinbot.core.knowledge_base.models import KBDocument
-from bulinbot.core.utils.auth_password import (
+from novabot.core import LogBroker
+from novabot.core.core_lifecycle import NovaBotCoreLifecycle
+from novabot.core.db.sqlite import SQLiteDatabase
+from novabot.core.exceptions import KnowledgeBaseUploadError
+from novabot.core.knowledge_base.kb_helper import KBHelper
+from novabot.core.knowledge_base.models import KBDocument
+from novabot.core.utils.auth_password import (
     hash_dashboard_password,
     hash_legacy_dashboard_password,
 )
-from bulinbot.dashboard.routes.knowledge_base import KnowledgeBaseRoute
-from bulinbot.dashboard.server import BulinBotDashboard
+from novabot.dashboard.routes.knowledge_base import KnowledgeBaseRoute
+from novabot.dashboard.server import NovaBotDashboard
 
 _TEST_DASHBOARD_PASSWORD = "BulinbotTest123"
 
@@ -27,7 +27,7 @@ async def core_lifecycle_td(tmp_path_factory):
     tmp_db_path = tmp_path_factory.mktemp("data") / "test_data_kb.db"
     db = SQLiteDatabase(str(tmp_db_path))
     log_broker = LogBroker()
-    core_lifecycle = BulinBotCoreLifecycle(log_broker, db)
+    core_lifecycle = NovaBotCoreLifecycle(log_broker, db)
     await core_lifecycle.initialize()
 
     # Mock kb_manager and kb_helper
@@ -53,16 +53,16 @@ async def core_lifecycle_td(tmp_path_factory):
     # kb_manager.get_kb.return_value = kb_helper # Removed this line as it's handled above
     core_lifecycle.kb_manager = kb_manager
     generated_password = getattr(
-        core_lifecycle.bulinbot_config,
+        core_lifecycle.novabot_config,
         "_generated_dashboard_password",
         None,
     )
     dashboard_password = generated_password or _TEST_DASHBOARD_PASSWORD
     if not generated_password:
-        core_lifecycle.bulinbot_config["dashboard"]["pbkdf2_password"] = (
+        core_lifecycle.novabot_config["dashboard"]["pbkdf2_password"] = (
             hash_dashboard_password(dashboard_password)
         )
-        core_lifecycle.bulinbot_config["dashboard"]["password"] = (
+        core_lifecycle.novabot_config["dashboard"]["password"] = (
             hash_legacy_dashboard_password(dashboard_password)
         )
     object.__setattr__(
@@ -83,31 +83,31 @@ async def core_lifecycle_td(tmp_path_factory):
 
 
 @pytest.fixture(scope="module")
-def app(core_lifecycle_td: BulinBotCoreLifecycle):
+def app(core_lifecycle_td: NovaBotCoreLifecycle):
     """Creates a Quart app instance for testing."""
     shutdown_event = asyncio.Event()
-    server = BulinBotDashboard(core_lifecycle_td, core_lifecycle_td.db, shutdown_event)
+    server = NovaBotDashboard(core_lifecycle_td, core_lifecycle_td.db, shutdown_event)
     return server.app
 
 
-def _resolve_dashboard_password(core_lifecycle_td: BulinBotCoreLifecycle) -> str:
+def _resolve_dashboard_password(core_lifecycle_td: NovaBotCoreLifecycle) -> str:
     generated_password = getattr(core_lifecycle_td, "_dashboard_plain_password", None)
     if generated_password:
         return generated_password
-    password = core_lifecycle_td.bulinbot_config["dashboard"]["pbkdf2_password"]
+    password = core_lifecycle_td.novabot_config["dashboard"]["pbkdf2_password"]
     if isinstance(password, str) and password.startswith("pbkdf2_sha256$"):
-        return "bulinbot"
+        return "novabot"
     return password
 
 
 @pytest_asyncio.fixture(scope="module")
-async def authenticated_header(app: Quart, core_lifecycle_td: BulinBotCoreLifecycle):
+async def authenticated_header(app: Quart, core_lifecycle_td: NovaBotCoreLifecycle):
     """Handles login and returns an authenticated header."""
     test_client = app.test_client()
     response = await test_client.post(
         "/api/auth/login",
         json={
-            "username": core_lifecycle_td.bulinbot_config["dashboard"]["username"],
+            "username": core_lifecycle_td.novabot_config["dashboard"]["username"],
             "password": _resolve_dashboard_password(core_lifecycle_td),
         },
     )
@@ -119,7 +119,7 @@ async def authenticated_header(app: Quart, core_lifecycle_td: BulinBotCoreLifecy
 
 @pytest.mark.asyncio
 async def test_import_documents(
-    app: Quart, authenticated_header: dict, core_lifecycle_td: BulinBotCoreLifecycle
+    app: Quart, authenticated_header: dict, core_lifecycle_td: NovaBotCoreLifecycle
 ):
     """Tests the import documents functionality."""
     test_client = app.test_client()
@@ -186,7 +186,7 @@ async def test_import_documents(
 
 @pytest.mark.asyncio
 async def test_import_documents_returns_friendly_failure_message(
-    core_lifecycle_td: BulinBotCoreLifecycle,
+    core_lifecycle_td: NovaBotCoreLifecycle,
 ):
     kb_helper = await core_lifecycle_td.kb_manager.get_kb("test_kb_id")
     kb_helper.upload_document.reset_mock()

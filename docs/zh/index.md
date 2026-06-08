@@ -4,16 +4,16 @@ layout: home
 
 hero:
   name: >-
-    <a href="https://trendshift.io/repositories/21369" target="_blank"><img src="https://trendshift.io/api/badge/repositories/21369" alt="BulinBotDevs%2FBulinBot | Trendshift" style="width: 250px; height: 55px; margin-bottom: 16px;" width="250" height="55"/></a>
+    <a href="https://trendshift.io/repositories/21369" target="_blank"><img src="https://trendshift.io/api/badge/repositories/21369" alt="NovaBotDevs%2FNovaBot | Trendshift" style="width: 250px; height: 55px; margin-bottom: 16px;" width="250" height="55"/></a>
   text: "Agentic AI 助手，服务个人与群聊"
   tagline: 连接 IM / 1000+ 插件扩展 / 通用 Agent 能力编排
   actions:
     - theme: brand
       text: 快速开始
-      link: /what-is-bulinbot
+      link: /what-is-nova-bot
     - theme: alt
       text: GitHub 仓库
-      link: https://github.com/BulinBotDevs/BulinBot
+      link: https://github.com/NovaBotDevs/NovaBot
 
 features:
   - icon: ✨

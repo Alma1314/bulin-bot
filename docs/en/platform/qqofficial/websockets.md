@@ -21,7 +21,7 @@ Proactive message push: Supported.
 1. Open [QQ Open Platform](https://q.qq.com/qqbot/openclaw/). Register an account if you don't have one.
 2. Click the `Create Bot` button on the right.
 3. Obtain your `AppID` and `AppSecret`.
-4. In BulinBot WebUI, click `Bots` in the left sidebar, then click `+ Create Bot`, select `QQ Official Bot (WebSocket)`, paste the `AppID` and `AppSecret` into the form, click `Enable`, then click `Save`.
+4. In NovaBot WebUI, click `Bots` in the left sidebar, then click `+ Create Bot`, select `QQ Official Bot (WebSocket)`, paste the `AppID` and `AppSecret` into the form, click `Enable`, then click `Save`.
 5. Back on the QQ Open Platform page, click `Scan QR Code to Chat` next to your bot, then scan with your mobile QQ to start chatting.
 
 To use the bot in group chats, refer to the `Allow Bot in Channel / Group / Private Chat` section below.
@@ -66,9 +66,9 @@ Open `Development -> Development Settings`, find IP whitelist, and add your serv
 >
 > In NAT environments without a public IP, the observed IP may change depending on your carrier. Use proxy/tunnel if needed.
 
-## Configure in BulinBot
+## Configure in NovaBot
 
-1. Open BulinBot Dashboard.
+1. Open NovaBot Dashboard.
 2. Click `Bots` in the left sidebar.
 3. Click `+ Create Bot`.
 4. Select `qq_official`.
@@ -84,4 +84,4 @@ Click `Save`.
 
 ## Done
 
-BulinBot should now be connected. Send `/help` to the bot in QQ private chat to verify.
+NovaBot should now be connected. Send `/help` to the bot in QQ private chat to verify.

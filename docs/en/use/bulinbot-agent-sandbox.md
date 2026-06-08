@@ -1,20 +1,20 @@
 # Agent Sandbox Environment ⛵️
 
 > [!TIP]
-> This feature is currently in technical preview and may have some bugs. If you encounter any issues, please submit an issue on [GitHub](https://github.com/BulinBotDevs/BulinBot/issues).
+> This feature is currently in technical preview and may have some bugs. If you encounter any issues, please submit an issue on [GitHub](https://github.com/NovaBotDevs/NovaBot/issues).
 
-Starting from version `v4.12.0`, BulinBot introduced the Agent sandbox environment to replace the previous code executor functionality. The sandbox environment provides Agents with safer and more flexible code execution and automation capabilities.
+Starting from version `v4.12.0`, NovaBot introduced the Agent sandbox environment to replace the previous code executor functionality. The sandbox environment provides Agents with safer and more flexible code execution and automation capabilities.
 
-![](https://files.bulinbot.app/docs/source/images/bulinbot-agent-sandbox/image.png)
+![](https://files.bulinbot.app/docs/source/images/nova-bot-agent-sandbox/image.png)
 
 ## Enabling the Sandbox Environment
 
-BulinBot currently supports the following sandbox drivers:
+NovaBot currently supports the following sandbox drivers:
 
 - `Shipyard Neo` (recommended)
 - `Shipyard` (legacy option, still supported)
 
-In the current BulinBot console, go to **AI Settings** -> **Agent Computer Use** and select:
+In the current NovaBot console, go to **AI Settings** -> **Agent Computer Use** and select:
 
 - `Computer Use Runtime` = `sandbox`
 - `Sandbox Driver` = `Shipyard Neo` or `Shipyard`
@@ -25,14 +25,14 @@ In the current BulinBot console, go to **AI Settings** -> **Agent Computer Use**
 - **Ship**: provides Python / Shell / filesystem capabilities
 - **Gull**: provides browser automation capabilities
 
-For `Shipyard Neo`, the workspace root is fixed at `/workspace`. When using filesystem tools in BulinBot, you should pass **paths relative to the workspace root**, for example `reports/result.txt`, not `/workspace/reports/result.txt`.
+For `Shipyard Neo`, the workspace root is fixed at `/workspace`. When using filesystem tools in NovaBot, you should pass **paths relative to the workspace root**, for example `reports/result.txt`, not `/workspace/reports/result.txt`.
 
 > [!TIP]
-> Browser capability is not available in every `Shipyard Neo` profile. BulinBot only mounts browser-related tools when the selected profile supports the `browser` capability. A typical example is `browser-python`.
+> Browser capability is not available in every `Shipyard Neo` profile. NovaBot only mounts browser-related tools when the selected profile supports the `browser` capability. A typical example is `browser-python`.
 
 ## Performance Requirements
 
-BulinBot limits each sandbox instance to at most 1 CPU and 512 MB of memory.
+NovaBot limits each sandbox instance to at most 1 CPU and 512 MB of memory.
 
 We recommend that your host machine have at least 2 CPUs, 4 GB of memory, and swap enabled, so multiple sandbox instances can run more reliably.
 
@@ -40,14 +40,14 @@ We recommend that your host machine have at least 2 CPUs, 4 GB of memory, and sw
 
 ### Deploy Shipyard Neo Separately (Recommended)
 
-If you plan to use `Shipyard Neo` for the long term, it is generally better to **deploy it separately on a machine with more resources**, such as your homelab, a LAN server, or a dedicated cloud host, and then let BulinBot connect to Bay remotely.
+If you plan to use `Shipyard Neo` for the long term, it is generally better to **deploy it separately on a machine with more resources**, such as your homelab, a LAN server, or a dedicated cloud host, and then let NovaBot connect to Bay remotely.
 
-The reason is that `Shipyard Neo` can become fairly resource-heavy when browser capability is enabled, because it needs to run a full browser runtime. On resource-constrained cloud servers, deploying BulinBot and `Shipyard Neo` on the same machine usually puts significant pressure on CPU and memory, which can negatively affect both stability and overall experience.
+The reason is that `Shipyard Neo` can become fairly resource-heavy when browser capability is enabled, because it needs to run a full browser runtime. On resource-constrained cloud servers, deploying NovaBot and `Shipyard Neo` on the same machine usually puts significant pressure on CPU and memory, which can negatively affect both stability and overall experience.
 
 A basic deployment flow looks like this:
 
 ```bash
-git clone https://github.com/BulinBotDevs/shipyard-neo
+git clone https://github.com/NovaBotDevs/shipyard-neo
 cd shipyard-neo/deploy/docker
 # Modify the key settings in config.yaml, such as security.api_key
 docker compose up -d
@@ -56,13 +56,13 @@ docker compose up -d
 After deployment:
 
 - Bay listens on `http://<your-host>:8114` by default
-- In the BulinBot console, choose the `Shipyard Neo` driver
+- In the NovaBot console, choose the `Shipyard Neo` driver
 - Set `Shipyard Neo API Endpoint` to the corresponding address, for example `http://<your-host>:8114`
-- Set `Shipyard Neo Access Token` to the Bay API key; if BulinBot can access Bay's `credentials.json`, you may also leave it empty and let BulinBot auto-discover it
+- Set `Shipyard Neo Access Token` to the Bay API key; if NovaBot can access Bay's `credentials.json`, you may also leave it empty and let NovaBot auto-discover it
 
 ### Reference: Full `config.yaml` Example (with Notes)
 
-If you want to customize the deployment parameters of `Shipyard Neo`, you can refer to the complete example below, adapted from [`deploy/docker/config.yaml`](https://github.com/BulinBotDevs/shipyard-neo/blob/main/deploy/docker/config.yaml). It keeps the default structure and adds explanatory notes to make each option easier to understand.
+If you want to customize the deployment parameters of `Shipyard Neo`, you can refer to the complete example below, adapted from [`deploy/docker/config.yaml`](https://github.com/NovaBotDevs/shipyard-neo/blob/main/deploy/docker/config.yaml). It keeps the default structure and adds explanatory notes to make each option easier to understand.
 
 > [!TIP]
 > The minimum required change is `security.api_key`. If you are not sure what the other options do, it is usually best to keep the defaults first and only adjust profiles, resource limits, and warm pool settings as needed.
@@ -119,7 +119,7 @@ cargo:
   root_path: "/var/lib/bay/cargos"
   # Default workspace size limit (MB)
   default_size_limit_mb: 1024
-  # Path mounted inside the sandbox. This is BulinBot/Neo's workspace root.
+  # Path mounted inside the sandbox. This is NovaBot/Neo's workspace root.
   mount_path: "/workspace"
 
 security:
@@ -157,7 +157,7 @@ profiles:
   # ── Standard Python sandbox ────────────────────────
   - id: python-default
     description: "Standard Python sandbox with filesystem and shell access"
-    image: "ghcr.io/bulinbotdevs/shipyard-neo-ship:latest"
+    image: "ghcr.io/nova-botdevs/shipyard-neo-ship:latest"
     runtime_type: ship
     runtime_port: 8123
     resources:
@@ -179,7 +179,7 @@ profiles:
   # ── Data-science sandbox (more resources) ──────────
   - id: python-data
     description: "Data science sandbox with extra CPU and memory"
-    image: "ghcr.io/bulinbotdevs/shipyard-neo-ship:latest"
+    image: "ghcr.io/nova-botdevs/shipyard-neo-ship:latest"
     runtime_type: ship
     runtime_port: 8123
     resources:
@@ -198,7 +198,7 @@ profiles:
     description: "Browser automation with Python backend"
     containers:
       - name: ship
-        image: "ghcr.io/bulinbotdevs/shipyard-neo-ship:latest"
+        image: "ghcr.io/nova-botdevs/shipyard-neo-ship:latest"
         runtime_type: ship
         runtime_port: 8123
         resources:
@@ -215,7 +215,7 @@ profiles:
           - shell
         env: {}
       - name: browser
-        image: "ghcr.io/bulinbotdevs/shipyard-neo-gull:latest"
+        image: "ghcr.io/nova-botdevs/shipyard-neo-gull:latest"
         runtime_type: gull
         runtime_port: 8115
         resources:
@@ -265,7 +265,7 @@ A practical way to think about this file:
 - **Session**: the actual running container session, which may be stopped or rebuilt
 - **Cargo**: the persistent workspace volume mounted at `/workspace`
 
-From BulinBot's perspective, the current implementation caches the sandbox booter by request `session_id`; in the default main-agent flow, this `session_id` usually equals the message-session identifier `unified_msg_origin`. As a result, follow-up requests from the same message session will usually continue using the same Neo sandbox; if the sandbox becomes unavailable, it will be rebuilt automatically.
+From NovaBot's perspective, the current implementation caches the sandbox booter by request `session_id`; in the default main-agent flow, this `session_id` usually equals the message-session identifier `unified_msg_origin`. As a result, follow-up requests from the same message session will usually continue using the same Neo sandbox; if the sandbox becomes unavailable, it will be rebuilt automatically.
 
 For more detailed explanations of TTL and persistence behavior, see the later sections on “`Shipyard Neo Sandbox TTL`” and “Data Persistence in the Sandbox Environment”.
 
@@ -273,28 +273,28 @@ For more detailed explanations of TTL and persistence behavior, see the later se
 
 The following content describes the older `Shipyard` driver. It is kept for compatibility with existing legacy deployments.
 
-### Deploying BulinBot and Shipyard with Docker Compose
+### Deploying NovaBot and Shipyard with Docker Compose
 
-If you have not deployed BulinBot yet, or want to use the older recommended deployment method with sandbox support, you can still deploy BulinBot with Docker Compose using the following commands:
+If you have not deployed NovaBot yet, or want to use the older recommended deployment method with sandbox support, you can still deploy NovaBot with Docker Compose using the following commands:
 
 ```bash
-git clone https://github.com/BulinBotDevs/BulinBot
-cd BulinBot
+git clone https://github.com/NovaBotDevs/NovaBot
+cd NovaBot
 # Modify the environment variables in compose-with-shipyard.yml, such as the Shipyard access token
 docker compose -f compose-with-shipyard.yml up -d
 docker pull soulter/shipyard-ship:latest
 ```
 
-This starts a Docker Compose stack containing the BulinBot main program and the sandbox environment.
+This starts a Docker Compose stack containing the NovaBot main program and the sandbox environment.
 
 ### Deploying Shipyard Separately
 
-If BulinBot is already deployed but the sandbox environment is not, you can deploy Shipyard separately.
+If NovaBot is already deployed but the sandbox environment is not, you can deploy Shipyard separately.
 
 ```bash
-mkdir bulinbot-shipyard
-cd bulinbot-shipyard
-wget https://raw.githubusercontent.com/BulinBotDevs/shipyard/refs/heads/main/pkgs/bay/docker-compose.yml -O docker-compose.yml
+mkdir nova-bot-shipyard
+cd nova-bot-shipyard
+wget https://raw.githubusercontent.com/NovaBotDevs/shipyard/refs/heads/main/pkgs/bay/docker-compose.yml -O docker-compose.yml
 # Modify the environment variables in docker-compose.yml, such as the Shipyard access token
 docker compose -f docker-compose.yml up -d
 docker pull soulter/shipyard-ship:latest
@@ -303,14 +303,14 @@ docker pull soulter/shipyard-ship:latest
 After successful deployment, Shipyard listens on `http://<your-host>:8156` by default.
 
 > [!TIP]
-> If you deploy BulinBot with Docker, you can also place Shipyard on the same Docker network as BulinBot so you do not need to expose Shipyard's port to the host.
+> If you deploy NovaBot with Docker, you can also place Shipyard on the same Docker network as NovaBot so you do not need to expose Shipyard's port to the host.
 
-## Configuring BulinBot to Use the Sandbox Environment
+## Configuring NovaBot to Use the Sandbox Environment
 
 > [!TIP]
-> Please make sure your BulinBot version is `v4.12.0` or later.
+> Please make sure your NovaBot version is `v4.12.0` or later.
 
-In the BulinBot console, go to **AI Settings** -> **Agent Computer Use**.
+In the NovaBot console, go to **AI Settings** -> **Agent Computer Use**.
 
 1. Set `Computer Use Runtime` to `sandbox`
 2. Select `Shipyard Neo` or `Shipyard` as the sandbox driver
@@ -325,10 +325,10 @@ If you choose `Shipyard Neo`, the main configuration items are:
   - For a separated deployment, use the actual address, such as `http://<your-host>:8114`
 - `Shipyard Neo Access Token`
   - Fill in the Bay API key
-  - If BulinBot can access Bay's `credentials.json`, you may leave it empty and let BulinBot auto-discover it
+  - If NovaBot can access Bay's `credentials.json`, you may leave it empty and let NovaBot auto-discover it
 - `Shipyard Neo Profile`
   - For example `python-default` or `browser-python`
-  - If left empty, BulinBot will try to choose a profile with richer capabilities, preferring one that includes the `browser` capability, and fall back to `python-default` if needed
+  - If left empty, NovaBot will try to choose a profile with richer capabilities, preferring one that includes the `browser` capability, and fall back to `python-default` if needed
 - `Shipyard Neo Sandbox TTL`
   - The upper lifetime limit of the sandbox, defaulting to 3600 seconds (1 hour)
 
@@ -352,7 +352,7 @@ In `Shipyard Neo`:
 
 - TTL represents the upper lifetime bound of the sandbox
 - The selected profile also defines a separate idle timeout (`idle_timeout`)
-- Capability calls from BulinBot usually refresh the idle timeout, rather than directly extending the TTL
+- Capability calls from NovaBot usually refresh the idle timeout, rather than directly extending the TTL
 - `keepalive` only extends the idle timeout; it does not automatically start a new session and does not extend the TTL
 
 ## About `Shipyard Ship Lifetime (seconds)`

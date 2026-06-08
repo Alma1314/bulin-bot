@@ -3,7 +3,7 @@
 
 As plugin functionality grows, you may need to define configurations to allow users to customize plugin behavior.
 
-BulinBot provides "powerful" configuration parsing and visualization features. Users can configure plugins directly in the management panel without modifying code.
+NovaBot provides "powerful" configuration parsing and visualization features. Users can configure plugins directly in the management panel without modifying code.
 
 ## Configuration Definition
 
@@ -51,10 +51,10 @@ The file content is a `Schema` that represents the configuration. The Schema is 
 - `items`: Optional. If the configuration type is `object`, the `items` field needs to be added. The content of `items` is the sub-Schema of this configuration item. Theoretically, it can be nested infinitely, but excessive nesting is not recommended.
 - `invisible`: Optional. Whether the configuration is hidden. Default is `false`. If set to `true`, it will not be displayed in the management panel.
 - `options`: Optional. A list, such as `"options": ["chat", "agent", "workflow"]`. Provides dropdown list options.
-- `editor_mode`: Optional. Whether to enable code editor mode. Requires BulinBot >= `v3.5.10`. Versions below this won't report errors but won't take effect. Default is false.
+- `editor_mode`: Optional. Whether to enable code editor mode. Requires NovaBot >= `v3.5.10`. Versions below this won't report errors but won't take effect. Default is false.
 - `editor_language`: Optional. The code language for the code editor, defaults to `json`.
 - `editor_theme`: Optional. The theme for the code editor. Options are `vs-light` (default) and `vs-dark`.
-- `_special`: Optional. Used to call BulinBot's visualization features for provider selection, persona selection, knowledge base selection, etc. See details below.
+- `_special`: Optional. Used to call NovaBot's visualization features for provider selection, persona selection, knowledge base selection, etc. See details below.
 
 ### Configuration Internationalization (Optional)
 
@@ -72,7 +72,7 @@ The **_special** field is only available after v4.0.0. Common values include `se
 - `select_knowledgebase` returns a `list` and supports multiple selection, so the corresponding config item should use `type: list` with a default value of `[]`.
 
 > [!NOTE]
-> For reference, BulinBot Core also uses other internal `_special` values, such as `select_providers`, `provider_pool`, `persona_pool`, `select_plugin_set`, `t2i_template`, `get_embedding_dim`, and `select_agent_runner_provider:*` (where `*` is a placeholder for the runner type). These are internal implementations and may change at any time — please avoid using them in plugins.
+> For reference, NovaBot Core also uses other internal `_special` values, such as `select_providers`, `provider_pool`, `persona_pool`, `select_plugin_set`, `t2i_template`, `get_embedding_dim`, and `select_agent_runner_provider:*` (where `*` is a placeholder for the runner type). These are internal implementations and may change at any time — please avoid using them in plugins.
 
 Using `select_provider` as an example, it will display as follows:
 
@@ -95,7 +95,7 @@ Introduced in v4.13.0, this allows plugins to define file-upload configuration i
 
 ### `dict` type schema
 
-Used to visualize editing a Python `dict` type configuration. For example, BulinBot Core's custom extra body parameter configuration:
+Used to visualize editing a Python `dict` type configuration. For example, NovaBot Core's custom extra body parameter configuration:
 
 ```py
 "custom_extra_body": {
@@ -134,7 +134,7 @@ Used to visualize editing a Python `dict` type configuration. For example, Bulin
 ### `template_list` type schema
 
 > [!NOTE]
-> Introduced in v4.10.4. For more details see: [#4208](https://github.com/BulinBotDevs/BulinBot/pull/4208)
+> Introduced in v4.10.4. For more details see: [#4208](https://github.com/NovaBotDevs/NovaBot/pull/4208)
 
 Plugin developers can add a template-style configuration to `_conf_schema` in the following format (somewhat similar to nested configs):
 
@@ -216,13 +216,13 @@ Templates also support these optional fields:
 
 ## Using Configuration in Plugins
 
-When loading plugins, BulinBot will check if there's a `_conf_schema.json` file in the plugin directory. If it exists, it will automatically parse the configuration and save it under `data/config/<plugin_name>_config.json` (a configuration file entity created according to the Schema), and pass it to `__init__()` when instantiating the plugin class.
+When loading plugins, NovaBot will check if there's a `_conf_schema.json` file in the plugin directory. If it exists, it will automatically parse the configuration and save it under `data/config/<plugin_name>_config.json` (a configuration file entity created according to the Schema), and pass it to `__init__()` when instantiating the plugin class.
 
 ```py
-from bulinbot.api import BulinBotConfig
+from nova-bot.api import NovaBotConfig
 
 class ConfigPlugin(Star):
-    def __init__(self, context: Context, config: BulinBotConfig): # BulinBotConfig inherits from Dict and has all dictionary methods
+    def __init__(self, context: Context, config: NovaBotConfig): # NovaBotConfig inherits from Dict and has all dictionary methods
         super().__init__(context)
         self.config = config
         print(self.config)
@@ -233,4 +233,4 @@ class ConfigPlugin(Star):
 
 ## Configuration Updates
 
-When you update the Schema across different versions, BulinBot will recursively inspect the configuration items in the Schema, automatically adding default values for missing items and removing those that no longer exist.
+When you update the Schema across different versions, NovaBot will recursively inspect the configuration items in the Schema, automatically adding default values for missing items and removing those that no longer exist.

@@ -1,6 +1,6 @@
 # Messaging Platforms
 
-BulinBot supports integration with many mainstream instant messaging platforms, so you can use BulinBot on the IM platform your team already uses.
+NovaBot supports integration with many mainstream instant messaging platforms, so you can use NovaBot on the IM platform your team already uses.
 
 In WebUI, click **Bots** in the left sidebar to open the messaging platform integration page.  
 Then click **Create Bot** in the top-right corner, choose the platform you want to connect, and follow the platform-specific guide in the left sidebar of this documentation.

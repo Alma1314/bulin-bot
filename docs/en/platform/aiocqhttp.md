@@ -2,7 +2,7 @@
 
 OneBot is a standardized bot application interface designed to unify bot development across different chat platforms, so developers can write business logic once and use it on multiple platforms.
 
-BulinBot supports all client implementations that implement OneBot v11 reverse WebSocket (BulinBot acts as the server).
+NovaBot supports all client implementations that implement OneBot v11 reverse WebSocket (NovaBot acts as the server).
 
 Common OneBot v11 implementation projects are listed below:
 
@@ -14,7 +14,7 @@ Please refer to each implementation project's deployment documentation.
 
 ## 1. Configure OneBot v11
 
-1. Open BulinBot's WebUI
+1. Open NovaBot's WebUI
 2. Click `Bots` in the left sidebar
 3. In the right panel, click `+ Create Bot`
 4. Select `OneBot v11`
@@ -35,10 +35,10 @@ Please refer to each protocol implementation project's deployment documentation.
 
 Notes:
 
-1. The implementation must support `Reverse WebSocket`, with BulinBot acting as the server and the implementation client as the client.
+1. The implementation must support `Reverse WebSocket`, with NovaBot acting as the server and the implementation client as the client.
 2. The reverse WebSocket URL is `ws(s)://<your-host>:6199/ws`.
 
 ## 3. Verify
 
-Go to BulinBot WebUI `Console`. If a blue log appears saying `aiocqhttp(OneBot v11) adapter connected.`, the connection is successful.
+Go to NovaBot WebUI `Console`. If a blue log appears saying `aiocqhttp(OneBot v11) adapter connected.`, the connection is successful.
 If after a few seconds you see `aiocqhttp adapter has been closed`, it means the connection timed out (failed). Please double-check your configuration.

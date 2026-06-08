@@ -2,9 +2,9 @@
 outline: deep
 ---
 
-# BulinBot Plugin Development Guide 🌠
+# NovaBot Plugin Development Guide 🌠
 
-Welcome to the BulinBot Plugin Development Guide! This section will guide you through developing BulinBot plugins. Before we begin, we hope you have the following foundational knowledge:
+Welcome to the NovaBot Plugin Development Guide! This section will guide you through developing NovaBot plugins. Before we begin, we hope you have the following foundational knowledge:
 
 1. Some experience with Python programming.
 2. Some experience with Git and GitHub.
@@ -13,11 +13,11 @@ Welcome to the BulinBot Plugin Development Guide! This section will guide you th
 
 ### Obtain the Plugin Template
 
-1. Open the BulinBot plugin template: [helloworld](https://github.com/Soulter/helloworld)
+1. Open the NovaBot plugin template: [helloworld](https://github.com/Soulter/helloworld)
 2. Click `Use this template` in the upper right corner
 3. Then click `Create new repository`.
 4. Fill in your plugin name in the `Repository name` field. Plugin naming conventions:
-   - Recommended to start with `bulinbot_plugin_`;
+   - Recommended to start with `nova-bot_plugin_`;
    - Must not contain spaces;
    - Keep all letters lowercase;
    - Keep it concise.
@@ -25,21 +25,21 @@ Welcome to the BulinBot Plugin Development Guide! This section will guide you th
 
 ### Clone the Project Locally
 
-Clone both the BulinBot main project and the plugin repository you just created to your local machine.
+Clone both the NovaBot main project and the plugin repository you just created to your local machine.
 
 ```bash
-git clone https://github.com/BulinBotDevs/BulinBot
-mkdir -p BulinBot/data/plugins
-cd BulinBot/data/plugins
+git clone https://github.com/NovaBotDevs/NovaBot
+mkdir -p NovaBot/data/plugins
+cd NovaBot/data/plugins
 git clone <your-plugin-repository-url>
 ```
 
-Then, use `VSCode` to open the `BulinBot` project. Navigate to the `data/plugins/<your-plugin-name>` directory.
+Then, use `VSCode` to open the `NovaBot` project. Navigate to the `data/plugins/<your-plugin-name>` directory.
 
 Update the `metadata.yaml` file with your plugin's metadata information.
 
 > [!WARNING]
-> Please make sure to modify this file, as BulinBot relies on the `metadata.yaml` file to recognize plugin metadata.
+> Please make sure to modify this file, as NovaBot relies on the `metadata.yaml` file to recognize plugin metadata.
 
 ### Set Plugin Logo (Optional)
 
@@ -63,7 +63,7 @@ short_desc: A one-line summary of your plugin.
 
 ### Bundle Skills with a Plugin (Optional)
 
-Plugins can provide a `skills/` directory. After BulinBot loads the plugin, valid Skills inside that directory are automatically included in the Skill Manager, with their source shown as the plugin.
+Plugins can provide a `skills/` directory. After NovaBot loads the plugin, valid Skills inside that directory are automatically included in the Skill Manager, with their source shown as the plugin.
 
 For multiple Skills, use this structure:
 
@@ -120,12 +120,12 @@ The values in `support_platforms` must be keys from `ADAPTER_NAME_2_TYPE`. Curre
 - `matrix`
 - `mattermost`
 
-### Declare BulinBot Version Range (Optional)
+### Declare NovaBot Version Range (Optional)
 
-You can add an `bulinbot_version` field in `metadata.yaml` to declare the required BulinBot version range for your plugin. The format follows dependency specifiers in `pyproject.toml` (PEP 440), and must not include a `v` prefix.
+You can add an `nova-bot_version` field in `metadata.yaml` to declare the required NovaBot version range for your plugin. The format follows dependency specifiers in `pyproject.toml` (PEP 440), and must not include a `v` prefix.
 
 ```yaml
-bulinbot_version: ">=4.16,<5"
+nova-bot_version: ">=4.16,<5"
 ```
 
 Examples:
@@ -138,28 +138,28 @@ If you only want to declare a minimum version, use:
 
 - `>=4.17.0`
 
-If the current BulinBot version does not satisfy this range, the plugin will be blocked from loading with a compatibility error.
+If the current NovaBot version does not satisfy this range, the plugin will be blocked from loading with a compatibility error.
 In the WebUI installation flow, you can choose to "Ignore Warning and Install" to bypass this check.
 
 ### Debugging Plugins
 
-BulinBot uses a runtime plugin injection mechanism. Therefore, when debugging plugins, you need to start the BulinBot main application.
+NovaBot uses a runtime plugin injection mechanism. Therefore, when debugging plugins, you need to start the NovaBot main application.
 
-You can use BulinBot's hot reload feature to streamline the development process.
+You can use NovaBot's hot reload feature to streamline the development process.
 
-After modifying the plugin code, you can find your plugin in the BulinBot WebUI's plugin management section, click the `...` button in the upper right corner, and select `Reload Plugin`.
+After modifying the plugin code, you can find your plugin in the NovaBot WebUI's plugin management section, click the `...` button in the upper right corner, and select `Reload Plugin`.
 
 If the plugin fails to load due to code errors or other reasons, you can also click **"Try one-click reload fix"** in the error prompt on the admin panel to reload it.
 
 ### Plugin Dependency Management
 
-Currently, BulinBot manages plugin dependencies using pip's built-in `requirements.txt` file. If your plugin requires third-party libraries, please be sure to create a `requirements.txt` file in the plugin directory and list the dependencies used, to prevent Module Not Found errors when users install your plugin.
+Currently, NovaBot manages plugin dependencies using pip's built-in `requirements.txt` file. If your plugin requires third-party libraries, please be sure to create a `requirements.txt` file in the plugin directory and list the dependencies used, to prevent Module Not Found errors when users install your plugin.
 
 > For the complete format of `requirements.txt`, please refer to the [pip official documentation](https://pip.pypa.io/en/stable/reference/requirements-file-format/).
 
 ## Development Principles
 
-Thank you for contributing to the BulinBot ecosystem. Please follow these principles when developing plugins, which are also good programming practices:
+Thank you for contributing to the NovaBot ecosystem. Please follow these principles when developing plugins, which are also good programming practices:
 
 - Features must be tested.
 - Include comprehensive comments.

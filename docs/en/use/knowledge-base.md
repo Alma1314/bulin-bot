@@ -1,8 +1,8 @@
 
-# BulinBot Knowledge Base
+# NovaBot Knowledge Base
 
 > [!TIP]
-> Requires BulinBot version >= 4.5.0.
+> Requires NovaBot version >= 4.5.0.
 
 ![Knowledge Base Preview](https://files.bulinbot.app/docs/en/use/image-3.png)
 
@@ -10,7 +10,7 @@
 
 Open the service provider page, click "Add Service Provider", and select Embedding.
 
-Currently, BulinBot supports embedding vector services compatible with OpenAI API and Gemini API.
+Currently, NovaBot supports embedding vector services compatible with OpenAI API and Gemini API.
 
 Click on the provider card above to enter the configuration page and fill in the configuration.
 
@@ -24,7 +24,7 @@ Similar to configuring the embedding model, open the service provider page, clic
 
 ## Creating a Knowledge Base
 
-BulinBot supports multiple knowledge base management. During chat, you can **freely specify which knowledge base to use**.
+NovaBot supports multiple knowledge base management. During chat, you can **freely specify which knowledge base to use**.
 
 Enter the knowledge base page and click "Create Knowledge Base", as shown below:
 

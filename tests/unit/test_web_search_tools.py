@@ -3,7 +3,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from bulinbot.core.tools import web_search_tools as tools
+from novabot.core.tools import web_search_tools as tools
 
 
 class _FakeConfig(dict):
@@ -31,14 +31,14 @@ async def test_firecrawl_search_maps_web_results(monkeypatch):
     async def fake_firecrawl_search(provider_settings, payload):
         assert provider_settings["websearch_firecrawl_key"] == ["firecrawl-key"]
         assert payload == {
-            "query": "BulinBot",
+            "query": "NovaBot",
             "limit": 3,
             "sources": ["web"],
             "country": "US",
         }
         return [
             tools.SearchResult(
-                title="BulinBot",
+                title="NovaBot",
                 url="https://example.com",
                 snippet="Search result",
             )
@@ -50,11 +50,11 @@ async def test_firecrawl_search_maps_web_results(monkeypatch):
         {"websearch_firecrawl_key": ["firecrawl-key"]}
     )
 
-    result = await tool.call(context, query="BulinBot", limit=3, country="US")
+    result = await tool.call(context, query="NovaBot", limit=3, country="US")
 
     assert json.loads(result)["results"] == [
         {
-            "title": "BulinBot",
+            "title": "NovaBot",
             "url": "https://example.com",
             "snippet": "Search result",
             "index": json.loads(result)["results"][0]["index"],
@@ -71,7 +71,7 @@ async def test_firecrawl_search_maps_v2_data_list(monkeypatch):
                 "success": True,
                 "data": [
                     {
-                        "title": "BulinBot",
+                        "title": "NovaBot",
                         "url": "https://example.com",
                         "description": "Search result",
                     }
@@ -88,12 +88,12 @@ async def test_firecrawl_search_maps_v2_data_list(monkeypatch):
 
     results = await tools._firecrawl_search(
         {"websearch_firecrawl_key": ["firecrawl-key"]},
-        {"query": "BulinBot", "limit": 5, "sources": ["web"]},
+        {"query": "NovaBot", "limit": 5, "sources": ["web"]},
     )
 
     assert session.posted == {
         "url": "https://api.firecrawl.dev/v2/search",
-        "json": {"query": "BulinBot", "limit": 5, "sources": ["web"]},
+        "json": {"query": "NovaBot", "limit": 5, "sources": ["web"]},
         "headers": {
             "Authorization": "Bearer firecrawl-key",
             "Content-Type": "application/json",
@@ -101,7 +101,7 @@ async def test_firecrawl_search_maps_v2_data_list(monkeypatch):
     }
     assert results == [
         tools.SearchResult(
-            title="BulinBot", url="https://example.com", snippet="Search result"
+            title="NovaBot", url="https://example.com", snippet="Search result"
         )
     ]
 
@@ -116,7 +116,7 @@ async def test_firecrawl_search_maps_v2_grouped_web_data(monkeypatch):
                 "data": {
                     "web": [
                         {
-                            "title": "BulinBot",
+                            "title": "NovaBot",
                             "url": "https://example.com",
                             "description": "Search result",
                         }
@@ -134,12 +134,12 @@ async def test_firecrawl_search_maps_v2_grouped_web_data(monkeypatch):
 
     results = await tools._firecrawl_search(
         {"websearch_firecrawl_key": ["firecrawl-key"]},
-        {"query": "BulinBot", "limit": 5, "sources": ["web"]},
+        {"query": "NovaBot", "limit": 5, "sources": ["web"]},
     )
 
     assert results == [
         tools.SearchResult(
-            title="BulinBot", url="https://example.com", snippet="Search result"
+            title="NovaBot", url="https://example.com", snippet="Search result"
         )
     ]
 
@@ -148,14 +148,14 @@ async def test_firecrawl_search_maps_v2_grouped_web_data(monkeypatch):
 async def test_firecrawl_search_payload_omits_tbs_and_uses_default_limit(monkeypatch):
     async def fake_firecrawl_search(provider_settings, payload):
         assert payload == {
-            "query": "BulinBot",
+            "query": "NovaBot",
             "limit": 5,
             "sources": ["web"],
             "country": "US",
         }
         return [
             tools.SearchResult(
-                title="BulinBot",
+                title="NovaBot",
                 url="https://example.com",
                 snippet="Search result",
             )
@@ -169,7 +169,7 @@ async def test_firecrawl_search_payload_omits_tbs_and_uses_default_limit(monkeyp
 
     result = await tool.call(
         context,
-        query="BulinBot",
+        query="NovaBot",
         tbs="qdr:d",
         country="US",
     )
@@ -209,7 +209,7 @@ async def test_firecrawl_search_uses_session_context(monkeypatch):
                 "success": True,
                 "data": [
                     {
-                        "title": "BulinBot",
+                        "title": "NovaBot",
                         "url": "https://example.com",
                         "description": "Search result",
                     }
@@ -226,7 +226,7 @@ async def test_firecrawl_search_uses_session_context(monkeypatch):
 
     await tools._firecrawl_search(
         {"websearch_firecrawl_key": ["firecrawl-key"]},
-        {"query": "BulinBot"},
+        {"query": "NovaBot"},
     )
 
     assert session.trust_env is True
@@ -234,7 +234,7 @@ async def test_firecrawl_search_uses_session_context(monkeypatch):
     assert session.exited is True
     assert session.posted == {
         "url": "https://api.firecrawl.dev/v2/search",
-        "json": {"query": "BulinBot"},
+        "json": {"query": "NovaBot"},
         "headers": {
             "Authorization": "Bearer firecrawl-key",
             "Content-Type": "application/json",
@@ -260,7 +260,7 @@ async def test_firecrawl_search_raises_error_for_http_errors(monkeypatch):
     ):
         await tools._firecrawl_search(
             {"websearch_firecrawl_key": ["firecrawl-key"]},
-            {"query": "BulinBot"},
+            {"query": "NovaBot"},
         )
 
     assert session.trust_env is True

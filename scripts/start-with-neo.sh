@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ──────────────────────────────────────────────────────────────
-# start-with-neo.sh — 一键启动 Shipyard Neo Bay + BulinBot
+# start-with-neo.sh — 一键启动 Shipyard Neo Bay + NovaBot
 #
 # Usage:
 #   bash scripts/start-with-neo.sh            # 默认 Bay :8114
@@ -10,9 +10,9 @@ set -euo pipefail
 
 # ── 路径 ──────────────────────────────────────────────────────
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-BULINBOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-# shipyard-neo mono-repo root is one level above BulinBot
-NEO_ROOT="$(cd "$BULINBOT_DIR/.." && pwd)"
+NOVABOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+# shipyard-neo mono-repo root is one level above NovaBot
+NEO_ROOT="$(cd "$NOVABOT_DIR/.." && pwd)"
 BAY_DIR="$NEO_ROOT/pkgs/bay"
 
 BAY_PORT="${BAY_PORT:-8114}"
@@ -126,7 +126,7 @@ security:
 profiles:
   - id: python-default
     description: "Standard Python sandbox"
-    image: "ghcr.io/bulinbotdevs/shipyard-neo-ship:latest"
+    image: "ghcr.io/novabotdevs/shipyard-neo-ship:latest"
     runtime_type: ship
     runtime_port: 8123
     resources:
@@ -158,7 +158,7 @@ BAYCONFIG
 
 # ── 拉取 Ship 镜像 ───────────────────────────────────────────
 ensure_ship_image() {
-    local image="ghcr.io/bulinbotdevs/shipyard-neo-ship:latest"
+    local image="ghcr.io/novabotdevs/shipyard-neo-ship:latest"
     log "Checking Ship image: $image ..."
 
     if docker image inspect "$image" &>/dev/null 2>&1 || \
@@ -245,8 +245,8 @@ except Exception:
     fi
 }
 
-# ── 打印 BulinBot 配置提示 ────────────────────────────────────
-print_bulinbot_config_hint() {
+# ── 打印 NovaBot 配置提示 ────────────────────────────────────
+print_nova-bot_config_hint() {
     echo ""
     echo -e "${GREEN}════════════════════════════════════════════════════════════${NC}"
     echo -e "${GREEN}  Shipyard Neo Bay is running at http://127.0.0.1:$BAY_PORT ${NC}"
@@ -257,7 +257,7 @@ print_bulinbot_config_hint() {
         echo -e "  ${YELLOW}$BAY_API_KEY${NC}"
         echo ""
     fi
-    echo -e "  ${CYAN}BulinBot Dashboard 配置指引：${NC}"
+    echo -e "  ${CYAN}NovaBot Dashboard 配置指引：${NC}"
     echo -e "  1. AI 配置 → Agent Computer Use"
     echo -e "     • Computer Use Runtime → ${YELLOW}沙箱${NC}"
     echo -e "     • 沙箱环境驱动器        → ${YELLOW}Shipyard Neo${NC}"
@@ -271,10 +271,10 @@ print_bulinbot_config_hint() {
     echo ""
 }
 
-# ── 启动 BulinBot ──────────────────────────────────────────────
-start_bulinbot() {
-    log "Starting BulinBot..."
-    cd "$BULINBOT_DIR"
+# ── 启动 NovaBot ──────────────────────────────────────────────
+start_nova-bot() {
+    log "Starting NovaBot..."
+    cd "$NOVABOT_DIR"
     uv run main.py
 }
 
@@ -282,7 +282,7 @@ start_bulinbot() {
 main() {
     echo ""
     echo -e "${CYAN}╔══════════════════════════════════════════╗${NC}"
-    echo -e "${CYAN}║   Shipyard Neo + BulinBot Quick Start    ║${NC}"
+    echo -e "${CYAN}║   Shipyard Neo + NovaBot Quick Start    ║${NC}"
     echo -e "${CYAN}╚══════════════════════════════════════════╝${NC}"
     echo ""
 
@@ -291,8 +291,8 @@ main() {
     ensure_ship_image
     start_bay
     read_bay_credentials
-    print_bulinbot_config_hint
-    start_bulinbot
+    print_nova-bot_config_hint
+    start_nova-bot
 }
 
 main "$@"

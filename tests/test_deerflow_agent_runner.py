@@ -1,4 +1,4 @@
-from bulinbot.core.agent.runners.deerflow.deerflow_agent_runner import (
+from novabot.core.agent.runners.deerflow.deerflow_agent_runner import (
     DeerFlowAgentRunner,
 )
 
